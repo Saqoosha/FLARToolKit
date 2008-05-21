@@ -19,7 +19,6 @@ package {
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	
-	import sandy.core.scenegraph.Camera3D;
 	
 	[Event(name="init",type="flash.events.Event")]
 	[Event(name="init",type="flash.events.Event")]
