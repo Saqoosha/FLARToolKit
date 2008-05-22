@@ -1,14 +1,12 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the original ARToolKit developed by
- *   Hirokazu Kato
- *   Mark Billinghurst
- *   HITLab, University of Washington, Seattle
- * http://www.hitl.washington.edu/artoolkit/
+ * This work is based on the NyARToolKit developed by
+ *   R.Iizuka (nyatla)
+ * http://nyatla.jp/nyatoolkit/
  *
- * The NyARToolkit is Java version ARToolkit class library.
- * Copyright (C)2008 R.Iizuka
+ * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
+ * Copyright (C)2008 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,10 +23,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  * For further information please contact.
- *	http://nyatla.jp/nyatoolkit/
- *	<airmail(at)ebony.plala.or.jp>
+ *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
+ *	<saq(at)saqoosha.net>
  * 
  */
+
 package com.libspark.flartoolkit.core.match {
 	
 	import com.libspark.flartoolkit.core.FLARCode;
@@ -48,24 +47,24 @@ package com.libspark.flartoolkit.core.match {
 	    private var cf:Number = 0;
 	    private var dir:int =0;
 	    private var ave:int;
-	    private var input:Array;// = ArrayUtil.createMultidimensionalArray(height, width, 3);//new int[height][width][3];
+	    private var input:Array;
 	    
 	    public function setPatt(i_target_patt:IFLARColorPatt):Boolean {
 			width = i_target_patt.getWidth();
 			height = i_target_patt.getHeight();
 			var data:Array = i_target_patt.getPatArray(); 	
-			input = ArrayUtil.createMultidimensionalArray(height, width, 3);//new int[height][width][3];
+			input = ArrayUtil.createMultidimensionalArray(height, width, 3);
 	 
 	        var sum:int = ave = 0;
-	        for (var i:int = 0; i < height; i++) {//for (int i=0;i<Config.AR_PATT_SIZE_Y;i++) {
-	            for (var i2:int = 0; i2 < width; i2++) {//for (int i2=0;i2<Config.AR_PATT_SIZE_X;i2++) {
+	        for (var i:int = 0; i < height; i++) {
+	            for (var i2:int = 0; i2 < width; i2++) {
 	                ave += (255 - data[i][i2][0]) + (255 - data[i][i2][1]) + (255 - data[i][i2][2]);
 	            }
 	        }
 	        ave /= (height * width * 3);
 	
-	        for (i = 0; i < height; i++) {//for (int i=0;i<Config.AR_PATT_SIZE_Y;i++) {
-	            for (i2 = 0; i2 < width; i2++) {//for (int i2=0;i2<Config.AR_PATT_SIZE_X;i2++) {
+	        for (i = 0; i < height; i++) {
+	            for (i2 = 0; i2 < width; i2++) {
 	                input[i][i2][0] = ((255 - data[i][i2][0]) + (255 - data[i][i2][1]) + (255 - data[i][i2][2])) / 3 - ave;
 	                sum += input[i][i2][0] * input[i][i2][0];
 	            }
@@ -73,10 +72,7 @@ package com.libspark.flartoolkit.core.match {
 	        
 	        datapow = Math.sqrt(sum);
 	        if (datapow == 0.0) {
-	            return false;//            throw new FLARException();
-	//            dir.set(0);//*dir  = 0;
-	//            cf.set(-1.0);//*cf   = -1.0;
-	//            return -1;
+	            return false;
 	        }
 	        return true;
 	    }
@@ -90,8 +86,8 @@ package com.libspark.flartoolkit.core.match {
 	    }
 	    
 	    public function evaluate(i_code:FLARCode):void {
-			var patBW:Array = i_code.getPatBW();//static int    patBW[AR_PATT_NUM_MAX][4][AR_PATT_SIZE_Y*AR_PATT_SIZE_X*3];
-			var patpowBW:Array = i_code.getPatPowBW();//static double patpowBW[AR_PATT_NUM_MAX][4];
+			var patBW:Array = i_code.getPatBW();
+			var patpowBW:Array = i_code.getPatPowBW();
 		
 			var max:Number = 0.0;
 			var res:int = -1;
@@ -100,7 +96,7 @@ package com.libspark.flartoolkit.core.match {
 	            var sum:int = 0;
 	            for (var i:int = 0; i < height; i++) {
 	                for (var i2:int = 0; i2 < width; i2++) {
-	            	sum += input[i][i2][0] * patBW[j][i][i2];
+	            		sum += input[i][i2][0] * patBW[j][i][i2];
 	                }
 	            }
 	            var sum2:Number = sum / patpowBW[j] / datapow;
