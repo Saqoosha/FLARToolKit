@@ -3,7 +3,7 @@ package {
 	import com.libspark.flartoolkit.core.FLARCode;
 	import com.libspark.flartoolkit.core.FLARParam;
 	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
-	import com.libspark.flartoolkit.detector.FLARSingleDetectMarker;
+	import com.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -37,7 +37,7 @@ package {
 		protected var _param:FLARParam;
 		protected var _code:FLARCode;
 		protected var _raster:FLARBitmapData;
-		protected var _detector:FLARSingleDetectMarker;
+		protected var _detector:FLARSingleMarkerDetector;
 		
 		protected var _webcam:Camera;
 		protected var _video:Video;
@@ -95,7 +95,7 @@ package {
 			
 			// setup ARToolkit
 			this._raster = new FLARBitmapData(this._capture.bitmapData);
-			this._detector = new FLARSingleDetectMarker(this._param, this._code, this._codeWidth);
+			this._detector = new FLARSingleMarkerDetector(this._param, this._code, this._codeWidth);
 			
 			this.dispatchEvent(new Event(Event.INIT));
 		}

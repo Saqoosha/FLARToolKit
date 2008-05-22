@@ -52,7 +52,7 @@ package com.libspark.flartoolkit.detector {
 	 * 1個のマーカーに対する変換行列を計算するクラスです。
 	 *
 	 */
-	public class FLARSingleDetectMarker {
+	public class FLARSingleMarkerDetector {
 		
 	    private static const AR_SQUARE_MAX:int = 100;
 	    private var is_continue:Boolean = false;
@@ -68,7 +68,7 @@ package com.libspark.flartoolkit.detector {
 	    private var detected_square:FLARSquare;
 	    private var patt:IFLARColorPatt;
 	    
-	    public function FLARSingleDetectMarker(i_param:FLARParam, i_code:FLARCode, i_marker_width:Number) {
+	    public function FLARSingleMarkerDetector(i_param:FLARParam, i_code:FLARCode, i_marker_width:Number) {
 			//解析オブジェクトを作る
 			this.square = new FLARDetectSquare(i_param);
 			this.transmat = new FLARTransMat_O2(i_param);
