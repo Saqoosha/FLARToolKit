@@ -1,26 +1,15 @@
 package {
 	
-	import caurina.transitions.Equations;
-	import caurina.transitions.Tweener;
-	
 	import com.libspark.flartoolkit.core.FLARTransMatResult;
-	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
 	import com.libspark.flartoolkit.scene.FLARCamera3D;
 	
-	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
-	import mx.core.BitmapAsset;
-	
-	import org.papervision3d.cameras.Camera3D;
-	import org.papervision3d.cameras.FrustumCamera3D;
-	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.core.proto.CameraObject3D;
-	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.materials.shadematerials.FlatShadeMaterial;
@@ -40,7 +29,8 @@ package {
 		private static const PATTERN_FILE:String = "Data/patt.hiro";
 		private static const CAMERA_FILE:String = "Data/camera_para.dat";
 		
-		private var _scene:Scene3D;;
+		private var _base:Sprite;
+		private var _scene:Scene3D;
 		private var _camera3d:FLARCamera3D;
 		private var _viewport:Viewport3D;
 		private var _renderer:LazyRenderEngine;
@@ -51,9 +41,11 @@ package {
 		
 		private var _resultMat:FLARTransMatResult = new FLARTransMatResult();
 		
+		private var _isMirror:Boolean = false;
+		
 		
 		public function FLARToolKitTest2() {
-			this.stage.scaleMode = StageScaleMode.NO_SCALE;
+			this.stage.scaleMode = StageScaleMode.SHOW_ALL;
 			this.stage.quality = StageQuality.LOW;
 			
 			this.addEventListener(Event.INIT, this._onInit);
@@ -63,16 +55,16 @@ package {
 		private function _onInit(e:Event):void {
 			this.removeEventListener(Event.INIT, this._onInit);
 			
+			this._base = this.addChild(new Sprite()) as Sprite;
+			
 			this._capture.width = 640;
 			this._capture.height = 480;
-			this._capture.scaleX *= -1;
-			this._capture.x = 640;
-			this.addChild(this._capture);
+			this._base.addChild(this._capture);
 			
-			this._viewport = this.addChild(new Viewport3D(320, 240, false, false, false, false)) as Viewport3D;
-			this._viewport.scaleX = -2;
-			this._viewport.scaleY = 2;
-			this._viewport.x = 644; // +4pix ???
+			this._viewport = this._base.addChild(new Viewport3D(320, 240, false, false, false, false)) as Viewport3D;
+			this._viewport.scaleX = 640 / 320;
+			this._viewport.scaleY = 480 / 240;
+			this._viewport.x = -4; // 4pix ???
 			
 			this._camera3d = new FLARCamera3D(this._viewport, this._param);
 			
@@ -83,19 +75,20 @@ package {
 				this._basePlane = new Plane(wmat, 80, 80);
 			this._transGrp.addChild(this._basePlane);
 				var light:PointLight3D = new PointLight3D();
+				light.x = 1000;
+				light.y = 1000;
 				light.z = -1000;
 				var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xff22aa, 0x0);
-				fmat.opposite = true;
 				this._cube = new Cube(new MaterialsList({ all: fmat }), 40, 40, 40);
 				this._cube.z += 20;
 			this._transGrp.addChild(this._cube);
 			
 			this._renderer = new LazyRenderEngine(this._scene, this._camera3d, this._viewport);
 			
-			this.addEventListener(Event.ENTER_FRAME, this._onEnterFrame);
-			this._onEnterFrame();
-			
 			this.addChild(new FPSMeter());
+			
+			this.addEventListener(Event.ENTER_FRAME, this._onEnterFrame);
+			this.stage.addEventListener(MouseEvent.CLICK, this._onClick);
 		}
 		
 		private function _onEnterFrame(e:Event = null):void {
@@ -103,11 +96,22 @@ package {
 			if (this._detector.detectMarkerLite(this._raster, 80)) {
 				this._detector.getTranslationMatrix(this._resultMat);
 				var a:Array = this._resultMat.getArray();
-				var mtx:Matrix3D = this._transGrp.transform;;
-				mtx.n11 =  a[0][0];	mtx.n12 =  a[0][1];	mtx.n13 =  a[0][2];	mtx.n14 =  a[0][3];
-				mtx.n21 = -a[1][0];	mtx.n22 = -a[1][1];	mtx.n23 = -a[1][2];	mtx.n24 = -a[1][3];
-				mtx.n31 =  a[2][0];	mtx.n32 =  a[2][1];	mtx.n33 =  a[2][2];	mtx.n34 =  a[2][3];
+				var mtx:Matrix3D = this._transGrp.transform;
+				mtx.n11 =  a[0][1];	mtx.n12 =  a[0][0];	mtx.n13 =  a[0][2];	mtx.n14 =  a[0][3];
+				mtx.n21 = -a[1][1];	mtx.n22 = -a[1][0];	mtx.n23 = -a[1][2];	mtx.n24 = -a[1][3];
+				mtx.n31 =  a[2][1];	mtx.n32 =  a[2][0];	mtx.n33 =  a[2][2];	mtx.n34 =  a[2][3];
 				this._renderer.render();
+			}
+		}
+		
+		private function _onClick(e:MouseEvent):void {
+			this._isMirror = !this._isMirror;
+			if (this._isMirror) {
+				this._base.scaleX = -1;
+				this._base.x = 640;
+			} else {
+				this._base.scaleX = 1;
+				this._base.x = 0;
 			}
 		}
 		
