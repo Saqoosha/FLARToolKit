@@ -1,14 +1,12 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the original ARToolKit developed by
- *   Hirokazu Kato
- *   Mark Billinghurst
- *   HITLab, University of Washington, Seattle
- * http://www.hitl.washington.edu/artoolkit/
+ * This work is based on the NyARToolKit developed by
+ *   R.Iizuka (nyatla)
+ * http://nyatla.jp/nyatoolkit/
  *
- * The NyARToolkit is Java version ARToolkit class library.
- * Copyright (C)2008 R.Iizuka
+ * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
+ * Copyright (C)2008 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,10 +23,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  * For further information please contact.
- *	http://nyatla.jp/nyatoolkit/
- *	<airmail(at)ebony.plala.or.jp>
+ *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
+ *	<saq(at)saqoosha.net>
  * 
  */
+
 package com.libspark.flartoolkit.core {
 	
 	import com.libspark.flartoolkit.FLARException;
@@ -49,18 +48,13 @@ package com.libspark.flartoolkit.core {
 	[Event(name="ioError",type="flash.events.IOErrorEvent")]
 	[Event(name="securityError",type="flash.events.SecurityErrorEvent")]
 	
-	/*typedef struct {
-	    int      xsize, ysize;
-	    double   mat[3][4];
-	    double   dist_factor[4];
-	} ARParam;*/
 	public class FLARParam extends EventDispatcher {
 		
 	    private static const SIZE_OF_PARAM_SET:int = 4+4+(3*4*8)+(4*8);
 	    private static const PD_LOOP:int = 3;
 	    protected var xsize:int;
 	    protected var ysize:int;
-	    private var array34:Array = new Array(3*4);//Double2dArray	mat=new Double2dArray(3,4);
+	    private var array34:Array = new Array(3*4);
 	    private var dist_factor:Array = new Array(4);
 	    
 	    public function FLARParam() {
