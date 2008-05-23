@@ -42,7 +42,7 @@ package com.libspark.flartoolkit.core {
 	 * ラベリング済みのラスタデータからマーカー位置を検出して、結果を保持します。
 	 *
 	 */
-	public class FLARDetectMarker {
+	public class FLARMarkerDetector {
 		
 	    private static const AR_AREA_MAX:int = 100000;//#define   AR_AREA_MAX      100000
 	    private static const AR_AREA_MIN:int = 70;//#define   AR_AREA_MIN          70
@@ -57,7 +57,7 @@ package com.libspark.flartoolkit.core {
 	     * @param i_width
 	     * @param i_height
 	     */
-	    public function FLARDetectMarker(i_width:int, i_height:int) {
+	    public function FLARMarkerDetector(i_width:int, i_height:int) {
 			this.width =i_width;
 			this.height=i_height;
 		

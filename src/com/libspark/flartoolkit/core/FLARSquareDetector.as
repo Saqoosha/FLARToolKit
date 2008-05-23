@@ -33,24 +33,24 @@ package com.libspark.flartoolkit.core {
 	import com.libspark.flartoolkit.core.raster.IFLARRaster;
 	
 
-	public class FLARDetectSquare {
+	public class FLARSquareDetector {
 		
 	    private var labeling:FLARLabeling;
-	    private var detect:FLARDetectMarker;
+	    private var detect:FLARMarkerDetector;
 	    private var param:FLARParam;
 	
 	    /**
 	     * マーカー抽出インスタンスを作ります。
 	     * @param i_param
 	     */
-	    public function FLARDetectSquare(i_param:FLARParam) {
+	    public function FLARSquareDetector(i_param:FLARParam) {
 			param = i_param;
 			//解析オブジェクトを作る
 			var width:int = i_param.getX();
 			var height:int = i_param.getY();
 		
 			labeling = new FLARLabeling(width, height);
-			detect = new FLARDetectMarker(width, height);
+			detect = new FLARMarkerDetector(width, height);
 	    }
 	    
 	    /**
