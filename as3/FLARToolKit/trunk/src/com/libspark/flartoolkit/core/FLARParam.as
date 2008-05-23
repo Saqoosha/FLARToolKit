@@ -86,33 +86,18 @@ package com.libspark.flartoolkit.core {
 	     * @param i_filename
 	     * @throws FLARException
 	     */
-//	    public function loadFromARFile(String i_filename):void {
-//	        try {
-//	            loadFromARFile(new FileInputStream(i_filename));
-//	        } catch (Exception e) {
-//	            throw new FLARException(e);
-//	        }
-//	    }
-	    
 	    public function loadFromARFile(i_stream:ByteArray):void {
-//	        try {
-	            var new_inst:Array = arParamLoad(i_stream, 1);
-//	            i_stream.close();
-	            xsize = new_inst[0].xsize;
-	            ysize = new_inst[0].ysize;
-	            array34 = new_inst[0].array34;
-	            dist_factor = new_inst[0].dist_factor;
-//	        } catch (Exception e) {
-//	            throw new FLARException(e);
-//	        }
+            var new_inst:Array = arParamLoad(i_stream, 1);
+            xsize = new_inst[0].xsize;
+            ysize = new_inst[0].ysize;
+            array34 = new_inst[0].array34;
+            dist_factor = new_inst[0].dist_factor;
 	    }
 	    
-	    /*static double dot(double a1, double a2, double a3,double b1, double b2, double b3)*/
 	    private static function dot(a1:Number, a2:Number, a3:Number, b1:Number, b2:Number, b3:Number):Number {
 	        return(a1 * b1 + a2 * b2 + a3 * b3);
 	    }
 	    
-	    /*	static double norm(double a, double b, double c)*/
 	    private static function norm(a:Number, b:Number, c:Number):Number {
 	        return Math.sqrt(a*a + b*b + c*c);
 	    }

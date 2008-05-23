@@ -32,7 +32,7 @@ package com.libspark.flartoolkit.detector {
 	
 	import com.libspark.flartoolkit.FLARException;
 	import com.libspark.flartoolkit.core.FLARColorPatt_O3;
-	import com.libspark.flartoolkit.core.FLARDetectSquare;
+	import com.libspark.flartoolkit.core.FLARSquareDetector;
 	import com.libspark.flartoolkit.core.FLARParam;
 	import com.libspark.flartoolkit.core.FLARSquare;
 	import com.libspark.flartoolkit.core.FLARSquareList;
@@ -53,7 +53,7 @@ package com.libspark.flartoolkit.detector {
 	    private static const AR_SQUARE_MAX:int = 300;
 	    private var is_continue:Boolean = false;
 	    private var match_patt:FLARMatchPatt_BlackWhite;
-	    private var square:FLARDetectSquare;
+	    private var square:FLARSquareDetector;
 	    private const square_list:FLARSquareList = new FLARSquareList(AR_SQUARE_MAX);
 	    private var codes:Array;
 	    protected var transmat:IFLARTransMat;
@@ -82,7 +82,7 @@ package com.libspark.flartoolkit.detector {
 	     */
 	    public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Array, i_marker_width:Array) {
 			//解析オブジェクトを作る
-			this.square = new FLARDetectSquare(i_param);
+			this.square = new FLARSquareDetector(i_param);
 			this.transmat = new FLARTransMat_O2(i_param);
 			//比較コードを保存
 			this.codes = i_code;
