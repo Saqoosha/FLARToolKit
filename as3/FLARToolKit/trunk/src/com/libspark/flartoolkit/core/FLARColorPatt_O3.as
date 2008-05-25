@@ -171,8 +171,8 @@ package com.libspark.flartoolkit.core {
 			var x_coord:Array = i_marker.x_coord;
 			var y_coord:Array = i_marker.y_coord;
 			var vertex:Array = i_marker.mkvertex;
-			var local_0:Array = wk_pickFromRaster_local[0];//double    local[4][2];	
-			var local_1:Array = wk_pickFromRaster_local[1];//double    local[4][2];	
+			var local_0:Array = wk_pickFromRaster_local[0];	
+			var local_1:Array = wk_pickFromRaster_local[1];	
 			for (var i:int = 0; i < 4; i++) {
 			    local_0[i] = x_coord[vertex[i]];
 			    local_1[i] = y_coord[vertex[i]];
@@ -185,10 +185,10 @@ package com.libspark.flartoolkit.core {
 			//x計算
 			w1 = local_0[0] - local_0[1];
 			w2 = local_1[0] - local_1[1];
-			l1 = int(w1*w1+w2*w2);
+			l1 = int(w1*w1 + w2*w2);
 			w1 = local_0[2] - local_0[3];
 			w2 = local_1[2] - local_1[3];
-			l2 = int(w1*w1+w2*w2);
+			l2 = int(w1*w1 + w2*w2);
 			if (l2 > l1) {
 			    l1 = l2;
 			}
@@ -204,27 +204,27 @@ package com.libspark.flartoolkit.core {
 			//y計算
 			w1 = local_0[1] - local_0[2];
 			w2 = local_1[1] - local_1[2];
-			l1 = int(w1*w1+ w2*w2);
+			l1 = int(w1*w1 + w2*w2);
 			w1 = local_0[3] - local_0[0];
 			w2 = local_1[3] - local_1[0];
-			l2 = int(w1*w1+ w2*w2);
+			l2 = int(w1*w1 + w2*w2);
 			if (l2 > l1) {
 			    l1 = l2;
 			}
-			ydiv2 =this.height;
+			ydiv2 = this.height;
 			l1 = l1 / 4;
 			while (ydiv2*ydiv2 < l1) {
-			    ydiv2*=2;
+			    ydiv2 *= 2;
 			}
-			if (ydiv2 >AR_PATT_SAMPLE_NUM) {
+			if (ydiv2 > AR_PATT_SAMPLE_NUM) {
 			    ydiv2 = AR_PATT_SAMPLE_NUM;
 			}	
 			
 			//cparaの計算
-			if (!get_cpara(local_0,local_1,cpara)) {
+			if (!get_cpara(local_0, local_1, cpara)) {
 			    return false;
 			}
-			updateExtpat(image,cpara,xdiv2,ydiv2);
+			updateExtpat(image, cpara, xdiv2, ydiv2);
 		
 			return true;
 	    }
@@ -342,7 +342,7 @@ package com.libspark.flartoolkit.core {
 					index_num++;
 			    }
 		//	    //ステップ２．ピクセル配列を取得
-			    image.getPixelSet(x_rgb_index,y_rgb_index,index_num,rgb_buf);
+			    image.getPixelSet(x_rgb_index, y_rgb_index, index_num, rgb_buf);
 		//	    //ピクセル値の計算
 			    for (i = index_num-1; i >= 0; i--) {
 	                extpat_j_i = extpat_j[i_rgb_index[i]];
