@@ -44,12 +44,9 @@ package com.libspark.flartoolkit.core {
 	 */
 	public class FLARMarkerDetector {
 		
-	    private static const AR_AREA_MAX:int = 100000;//#define   AR_AREA_MAX      100000
-	    private static const AR_AREA_MIN:int = 70;//#define   AR_AREA_MIN          70
+	    private static const AR_AREA_MAX:int = 100000;
+	    private static const AR_AREA_MIN:int = 70;
 	
-	//    private final FLARMarker[] marker_holder;	    //マーカーデータの保持配列
-	//    private final FLARMarker[] marker_info2_array;//マーカーデータのインデックス配列
-	//    private int marker_num;
 	    private var width:int;
 	    private var height:int;
 	    /**
@@ -60,20 +57,13 @@ package com.libspark.flartoolkit.core {
 	    public function FLARMarkerDetector(i_width:int, i_height:int) {
 			this.width =i_width;
 			this.height=i_height;
-		
-	//	this.marker_holder=new FLARMarker[i_squre_max];
-	//	this.marker_info2_array=new FLARMarker[i_squre_max];
-	//	//先にマーカーホルダにオブジェクトを作っておく
-	//	for (int i=0;i<i_squre_max;i++) {
-	//	    this.marker_holder[i]=new FLARMarker();
-	//	}
 	    }
 	    
 	    private static const AR_CHAIN_MAX:int = 10000;
 	    private const wk_arGetContour_xdir:Array = [0,  1, 1, 1, 0,-1,-1,-1];
 	    private const wk_arGetContour_ydir:Array = [-1,-1, 0, 1, 1, 1, 0,-1];
-	    private const wk_arGetContour_xcoord:Array = new Array(AR_CHAIN_MAX);//new int[AR_CHAIN_MAX];
-	    private const wk_arGetContour_ycoord:Array = new Array(AR_CHAIN_MAX);//new int[AR_CHAIN_MAX];
+	    private const wk_arGetContour_xcoord:Array = new Array(AR_CHAIN_MAX);
+	    private const wk_arGetContour_ycoord:Array = new Array(AR_CHAIN_MAX);
 	    /**
 	     * int arGetContour(ARInt16 *limage, int *label_ref,int label, int clip[4], ARMarkerInfo2 *marker_info2)
 	     * 関数の代替品
@@ -91,9 +81,8 @@ package com.libspark.flartoolkit.core {
 	    private function arGetContour(o_marker:FLARMarker, limage:BitmapData, i_labelnum:int, i_label:FLARLabel):void {
 			var xcoord:Array = wk_arGetContour_xcoord;
 			var ycoord:Array = wk_arGetContour_ycoord;
-			var xdir:Array = wk_arGetContour_xdir; //static int      xdir[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
-			var ydir:Array = wk_arGetContour_ydir;//static int      ydir[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
-			//ShortPointer p1;//ARInt16         *p1;
+			var xdir:Array = wk_arGetContour_xdir;
+			var ydir:Array = wk_arGetContour_ydir;
 			var coord_num:int;
 			var sx:int = 0, sy:int = 0, dir:int;
 			var dmax:int, d:int, v1:int = 0;
@@ -133,7 +122,7 @@ package com.libspark.flartoolkit.core {
 			var r:int, c:int;
 	        c = xcoord[0];
 	        r = ycoord[0];
-	        dmax=0;
+	        dmax = 0;
 	        //本家はdmaxの作成とxcoordの作成を別のループでやってるけど、非効率なので統合
 			for (;;) {
 			    //xcoord[1]-xcoord[n]までのデータを作る。
@@ -209,20 +198,15 @@ package com.libspark.flartoolkit.core {
 	    	var i:int;
 	    	var xsize:int, ysize:int;
 	    	var labels:Array = i_labeling.getLabel();
-		//	int[] warea  	=i_labeling.getArea();
 			var label_num:int = i_labeling.getLabelNum();
 			var label_img:BitmapData = i_labeling.getLabelImg();
-		//	int[][] wclip	=i_labeling.getClip();
-		//	double[] wpos	=i_labeling.getPos();
-//			var limage:Array = i_labeling.getLabelImg();
-//			var label_ref:Array	= i_labeling.getLabelRef();
 		
 			//マーカーホルダをリセット
 			o_marker_list.reset();
-		//	marker_num=0;
+			//	marker_num=0;
 			xsize = width;
 			ysize = height;
-		//	マーカーをmarker_holderに蓄積する。
+			//	マーカーをmarker_holderに蓄積する。
 			var current_marker:FLARMarker = o_marker_list.getCurrentHolder();
 			var label_pt:FLARLabel;
 			for (i = 0; i < label_num; i++) {
@@ -237,7 +221,6 @@ package com.libspark.flartoolkit.core {
 			    if (label_pt.clip2 == 1 || label_pt.clip3 == ysize-2) {//if (wclip[i*4+2] == 1 || wclip[i*4+3] == ysize-2) {
 					continue;
 			    }
-			    //ret = arGetContour(limage, label_ref, i+1,&(wclip[i*4]), &(marker_info2[marker_num2]));
 			    arGetContour(current_marker, label_img, i+1, label_pt);
 		
 			    if (!current_marker.checkSquare(label_area, i_factor, label_pt.pos_x, label_pt.pos_y)) {
@@ -257,45 +240,6 @@ package com.libspark.flartoolkit.core {
 			}
 			//マーカーリストを整理(重なり処理とかはマーカーリストに責務押し付け)
 			o_marker_list.updateMarkerArray();
-		//	重なり処理かな？
-		//	double[] pos_j,pos_i;
-		//	for (i=0; i < marker_num2; i++) {
-		//	    pos_i=marker_holder[i].pos;
-		//	    for (j=i+1; j < marker_num2; j++) {
-		//		pos_j=marker_holder[j].pos;
-		//		d = (pos_i[0] - pos_j[0])*(pos_i[0] - pos_j[0])+
-		//		(pos_i[1] - pos_j[1])*(pos_i[1] - pos_j[1]);
-		//		if (marker_holder[i].area >marker_holder[j].area) {
-		//		    if (d <marker_holder[i].area / 4) {
-		//			marker_holder[j].area = 0;
-		//		    }
-		//		} else {
-		//		    if (d < marker_holder[j].area / 4) {
-		//			marker_holder[i].area = 0;
-		//		    }
-		//		}
-		//	    }
-		//	}
-		//	みつかったマーカーを整理する。
-		//	エリアが0のマーカーを外した配列を作って、その数もついでに計算
-		//	for (i=0;i<marker_num2;i++) {
-		//	    if (marker_holder[i].area==0.0) {
-		//		continue;
-		//	    }
-		//	    marker_info2_array[marker_num]=marker_holder[i];
-		//	    marker_num++;
-		//	}        
-		//	for (i=0; i < marker_num2; i++) {
-		//	if (marker_info2_array[i].area == 0.0) {
-		//	for (j=i+1; j < marker_num2; j++) {
-		//	marker_info2_array[j-1] = marker_info2_array[j];
-		//	}
-		//	marker_num2--;
-		//	}
-		//	}
-		//	発見したマーカー数をセット
-		//	marker_num=marker_num2;//*marker_num = marker_num2;
-		//	return(&(marker_info2[0]));
 			return;
 	    }
 	
