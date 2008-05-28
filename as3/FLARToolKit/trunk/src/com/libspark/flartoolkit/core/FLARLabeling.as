@@ -122,13 +122,14 @@ package com.libspark.flartoolkit.core {
 		private static const ZERO_POINT:Point = new Point();
 		private static const ONE_POINT:Point = new Point(1, 1);
 //		private static const BLUR_FILTER:BlurFilter = new BlurFilter(2, 2, 1);
+		private static const MONO_FILTER:ColorMatrixFilter = new ColorMatrixFilter([
+			0.2989, 0.5866, 0.1145, 0, 0,
+			0.2989, 0.5866, 0.1145, 0, 0,
+			0.2989, 0.5866, 0.1145, 0, 0,
+			0, 0, 0, 1, 0
+		]);
 		public function labeling(image:FLARBitmapData, thresh:int):void {
-			this.tmp_img.applyFilter(image.bitmapData, image.bitmapData.rect, ZERO_POINT, new ColorMatrixFilter([
-				0.2989, 0.5866, 0.1145, 0, 0,
-				0.2989, 0.5866, 0.1145, 0, 0,
-				0.2989, 0.5866, 0.1145, 0, 0,
-				0, 0, 0, 1, 0
-			]));
+			this.tmp_img.applyFilter(image.bitmapData, image.bitmapData.rect, ZERO_POINT, MONO_FILTER);
 //			this.tmp_img.applyFilter(this.tmp_img, this.tmp_img.rect, ZERO_POINT, BLUR_FILTER);
 			this.label_img.fillRect(this.label_img.rect, 0x0);
 			var rect:Rectangle = this.tmp_img.rect;
