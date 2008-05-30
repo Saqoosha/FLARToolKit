@@ -32,9 +32,9 @@ package com.libspark.flartoolkit.detector {
 	
 	import com.libspark.flartoolkit.FLARException;
 	import com.libspark.flartoolkit.core.FLARColorPatt_O3;
-	import com.libspark.flartoolkit.core.FLARSquareDetector;
 	import com.libspark.flartoolkit.core.FLARParam;
 	import com.libspark.flartoolkit.core.FLARSquare;
+	import com.libspark.flartoolkit.core.FLARSquareDetector;
 	import com.libspark.flartoolkit.core.FLARSquareList;
 	import com.libspark.flartoolkit.core.FLARTransMatResult;
 	import com.libspark.flartoolkit.core.FLARTransMat_O2;
@@ -152,7 +152,7 @@ package com.libspark.flartoolkit.detector {
 		            for (var i2:int = 1; i2 < this.number_of_code; i2++) {
 		                //コードと比較する
 		                match_patt.evaluate(codes[i2]);
-		                var c2:int = match_patt.getConfidence();
+		                var c2:Number = match_patt.getConfidence();
 		                if (confidence > c2) {
 		                    continue;
 		                }
