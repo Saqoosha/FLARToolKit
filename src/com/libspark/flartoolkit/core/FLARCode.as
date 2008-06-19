@@ -162,6 +162,77 @@ package com.libspark.flartoolkit.core {
 	    }
 	    
 		/**
+		 * FLARColorPatt_O3インスタンスからパターンを作る
+		 * @param	pattern
+		 * @see FLARColorPatt_03
+		 */
+		public function fromPattern(pattern:FLARColorPatt_O3):void 
+		{
+			var patArray:Array = pattern.getPatArray();
+			var l:int;
+			var m:int;
+			var mbw:int;
+
+			l = 0;
+			m = 0;
+			mbw = 0;
+
+			//幅・高さのチェック
+			if (this.height != patArray.length || this.width != patArray[0].length) {
+				throw new ArgumentError("パターンの幅・高さが、Codeの幅・高さと異なっています");
+			}
+			if (this.height != this.width) {
+				throw new ArgumentError("正方形のインスタンスのみ有効です。");
+			}
+			for (var y:int = 0; y < this.height; y++) {//y : 行方向の添え字
+				for (var x:int = this.width - 1; x >= 0 ; x--) {//x : 列方向の添え字
+					patBW[0][this.height - 1 - x][y] = 0;
+					patBW[1][this.height - 1 - y][this.width -1 - x] = 0;
+					patBW[2][x][this.width - 1 - y] = 0;
+					patBW[3][y][x] = 0;
+					for (var c:int = 0; c < 3; c++) {//c : 色情報(0:R/1:G/2:B)
+						//傾き情報(0:上/1:左/2:下/3:右)
+						//全方向に1度に値を代入している
+						var j:int = 255 - int(patArray[y][x][c]);
+
+						pat[0][this.height - 1 - x][y][c] = j;
+						pat[1][this.height - 1 - y][this.width - 1 - x][c] = j;
+						pat[2][x][this.width - 1 - y][c] = j;
+						pat[3][y][x][c] = j
+						patBW[0][this.height - 1 - x][y] += j;
+						patBW[1][this.height - 1 - y][this.width -1 - x] += j;
+						patBW[2][x][this.width - 1 - y] += j;
+						patBW[3][y][x] += j;
+						l += j;
+					}
+					patBW[0][this.height - 1 - x][y] /= 3;
+					patBW[1][this.height - 1 - y][this.width -1 - x] /= 3;
+					patBW[2][x][this.width - 1 - y] /= 3;
+					patBW[3][y][x] /= 3;
+				}
+			}
+			l /= (this.width * this.height * 3);
+			for (y = 0; y < this.height; y++) {
+				for (x = 0; x < this.width; x++) {
+					patBW[0][this.height - 1 - x][y] -= l;
+					patBW[1][this.height - 1 - y][this.width - 1 - x] -= l;
+					patBW[2][x][this.width - 1 - y] -= l;
+					patBW[3][y][x] -= l;
+					mbw += (patBW[3][y][x] * patBW[3][y][x]);
+					for (c = 0; c < 3;c++) {
+						pat[0][this.height - 1 - x][y][c] -= l;
+						pat[1][this.height - 1 - y][this.width - 1 - x][c] -= l;
+						pat[2][x][this.width - 1 - y][c] -= l;
+						pat[3][y][x][c] -= l;
+						m += (pat[3][y][x][c] * pat[3][y][x][c]);
+					}
+				}
+			}
+			patpow[0] = patpow[1] = patpow[2] = patpow[3] = m == 0 ? 0.0000001 : Math.sqrt(m);
+			patpowBW[0] = patpowBW[1] = patpowBW[2] = patpowBW[3] = mbw == 0 ? 0.0000001 : Math.sqrt(mbw);
+		}
+		
+		/**
 		 * Load code pattern file from specified URL. 
 		 * @param url Code pattern file's URL.
 		 * 
