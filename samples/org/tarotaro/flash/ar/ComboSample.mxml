@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- コンボボックスでキャラクターを選択可能な、FLARToolKitの利用サンプル -->
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" styleName="plain" applicationComplete="onInit();">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				styleName="plain" 
+				width="640"
+				height="480"
+				applicationComplete="onInit();">
     <mx:Script>
     <![CDATA[
 		import flash.events.Event;
