@@ -155,7 +155,9 @@
 			} catch (e:Error) {
 				trace("remove失敗");
 			}
-			this._transGrp.addChild(model, "model");
+			if (model) {
+				this._transGrp.addChild(model, "model");
+			}
 		}
 	}
 	
