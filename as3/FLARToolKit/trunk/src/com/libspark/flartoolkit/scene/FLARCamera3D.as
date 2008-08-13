@@ -34,24 +34,26 @@ package com.libspark.flartoolkit.scene {
 	import com.libspark.flartoolkit.core.FLARParam;
 	import com.libspark.flartoolkit.util.ArrayUtil;
 	
-	import org.papervision3d.cameras.FrustumCamera3D;
+	import flash.geom.Matrix;
+	
+	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.view.Viewport3D;
 
-	public class FLARCamera3D extends FrustumCamera3D {
+	public class FLARCamera3D extends Camera3D {
 		
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
 		
-		public function FLARCamera3D(viewport3D:Viewport3D, param:FLARParam) {
-			super(viewport3D);
+		public function FLARCamera3D(param:FLARParam) {
+			super();
 			this.z = 0;
 			
-			var m_projection:Array = new Array(16);//new double[16];
+			var m_projection:Array = new Array(16);
 			var trans_mat:FLARMat = new FLARMat(3,4);
 			var icpara_mat:FLARMat = new FLARMat(3,4);
-			var p:Array = ArrayUtil.createMultidimensionalArray(3, 3);//new double[3][3], q=new double[4][4];
+			var p:Array = ArrayUtil.createMultidimensionalArray(3, 3);
 			var q:Array = ArrayUtil.createMultidimensionalArray(4, 4);
 			var width:int;
 			var height:int;
@@ -110,9 +112,22 @@ package com.libspark.flartoolkit.scene {
 					q[i][3];
 			}
 			
+			this.useProjectionMatrix = true;
+			// 巣の GreatWhite のままだと _projection が Camera3D の private プロパティなのでエラる。
+			// ので protected とかにしてください。無理やり。害はない。つーかまーそれ以外に方法がない。
 			this._projection = new Matrix3D(m_projection);
 		}
 		
+		override public function transformView(transform:Matrix3D=null):void {
+			// Camera3D の transformView はいらんことしやがるので super.transformView() しない。
+			// ただし CameraObject3D の transformView は必要なのでそこでやってる処理をここに移植。
+			this.eye.calculateMultiply(this.transform, _flipY );
+			this.eye.invert(); 
+			this.eye.calculateMultiply4x4(this._projection, this.eye);
+		}
+		
+		// これも Camera3D の private になってるのでここにコピー。Camera3D のんを protected とかに変更でもいいけど。
+		static private var _flipY :Matrix3D = Matrix3D.scaleMatrix( 1, -1, 1 );
 	}
 	
 }

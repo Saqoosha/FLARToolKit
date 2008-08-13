@@ -375,16 +375,17 @@ package com.libspark.flartoolkit.core {
 	     * @return
 	     */
 	    public function matrixDisp():int {
-			FLARException.trap("未チェックのパス");
-//			System.out.println(" === matrix ("+row+","+clm+") ===");//printf(" === matrix (%d,%d) ===\n", m->row, m->clm);
-//	        for (int r = 0; r < row; r++) {//for (int r = 0; r < m->row; r++) {
-//		    	System.out.print(" |");//printf(" |");
-//		    	for (int c = 0; c < clm; c++) {//for (int c = 0; c < m->clm; c++) {
-//		    	    System.out.print(" "+m[r][c]);//printf(" %10g", ARELEM0(m, r, c));
-//		    	}
-//		    	System.out.println(" |");//printf(" |\n");
-//	        }
-//	        System.out.println(" ======================");//printf(" ======================\n");
+			var out:String = '';
+			out += " === matrix ("+row+","+clm+") ===\n";
+	        for (var r:int = 0; r < row; r++) {//for (int r = 0; r < m->row; r++) {
+	        	out += ' |';
+		    	for (var c:int = 0; c < clm; c++) {//for (int c = 0; c < m->clm; c++) {
+		    		out += " " + (int(m[r][c] * 1000) / 1000);
+		    	}
+		    	out += " |\n";
+	        }
+			out += " ======================";
+			trace(out);
 	        return 0;
 	    }
 	    
