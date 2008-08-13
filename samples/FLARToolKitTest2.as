@@ -1,26 +1,16 @@
 package {
 	
-	import com.libspark.flartoolkit.core.FLARTransMatResult;
-	import com.libspark.flartoolkit.scene.FLARBaseNode;
-	import com.libspark.flartoolkit.scene.FLARCamera3D;
-	
-	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.materials.shadematerials.FlatShadeMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.primitives.Cube;
 	import org.papervision3d.objects.primitives.Plane;
-	import org.papervision3d.render.LazyRenderEngine;
-	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.view.BasicView;
-	import org.papervision3d.view.Viewport3D;
 	
 
 	[SWF(width=640,height=480,frameRate=120,backgroundColor=0x0)]
