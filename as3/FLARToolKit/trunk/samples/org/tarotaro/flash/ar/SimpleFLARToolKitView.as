@@ -117,7 +117,7 @@
 			this._viewport = this._base.addChild(new Viewport3D(this._capture.width, this._capture.height, false, false, false, false)) as Viewport3D;
 			this._viewport.x = -4; // 4pix ???
 			
-			this._camera3d = new FLARCamera3D(this._viewport, this._param);
+			this._camera3d = new FLARCamera3D(this._param);
 			
 			this._scene = new Scene3D();
 			this._transGrp = this._scene.addChild(new DisplayObject3D()) as DisplayObject3D;
