@@ -135,13 +135,21 @@
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
 			if (this._detector.detectMarkerLite(this._raster, 80)) {
+				if (this._detector.getConfidence() < .5) {
+					trace("confidence:", this._detector.getConfidence());
+					this._viewport.visible = false;
+					return;
+				}
 				this._detector.getTranslationMatrix(this._resultMat);
 				var a:Array = this._resultMat.getArray();
 				var mtx:Matrix3D = this._transGrp.transform;
 				mtx.n11 =  a[0][1];	mtx.n12 =  a[0][0];	mtx.n13 =  a[0][2];	mtx.n14 =  a[0][3];
 				mtx.n21 = -a[1][1];	mtx.n22 = -a[1][0];	mtx.n23 = -a[1][2];	mtx.n24 = -a[1][3];
 				mtx.n31 =  a[2][1];	mtx.n32 =  a[2][0];	mtx.n33 =  a[2][2];	mtx.n34 =  a[2][3];
+				this._viewport.visible = true;
 				this._renderer.render();
+			} else {
+				this._viewport.visible = false;
 			}
 		}
 		

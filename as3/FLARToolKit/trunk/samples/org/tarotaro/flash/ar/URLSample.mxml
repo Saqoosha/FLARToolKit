@@ -53,7 +53,7 @@
 			if (url != null &&url.length > 0) {
 				var mqo:Metasequoia = new Metasequoia();
 				mqo.load(url, 0.3);
-				mqo.rotationX = -90;
+				mqo.rotationX = 90;
 				mqo.rotationZ = -90;
 				mqo.z += 40;
 				grp.addChild(mqo);
