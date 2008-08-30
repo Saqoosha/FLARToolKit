@@ -1,9 +1,9 @@
 package {
 	
-	import com.libspark.flartoolkit.core.FLARCode;
-	import com.libspark.flartoolkit.core.FLARParam;
-	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
-	import com.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.FLARParam;
+	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
