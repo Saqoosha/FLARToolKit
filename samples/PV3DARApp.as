@@ -1,8 +1,8 @@
 package {
 	
-	import com.libspark.flartoolkit.core.FLARTransMatResult;
-	import com.libspark.flartoolkit.scene.FLARBaseNode;
-	import com.libspark.flartoolkit.scene.FLARCamera3D;
+	import org.libspark.flartoolkit.core.FLARTransMatResult;
+	import org.libspark.flartoolkit.scene.FLARBaseNode;
+	import org.libspark.flartoolkit.scene.FLARCamera3D;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
