@@ -8,9 +8,12 @@
 	<mx:Script>
         <![CDATA[
 		import flash.events.Event;
+		import flash.net.URLRequest;
 		import org.libspark.pv3d.Metasequoia;
 		import org.papervision3d.materials.WireframeMaterial;
 		import org.papervision3d.objects.DisplayObject3D;
+		import org.papervision3d.objects.parsers.KMZ;
+		import org.papervision3d.objects.parsers.Sketchup;
 		import org.papervision3d.objects.primitives.Plane;
 		import org.tarotaro.flash.ar.SimpleFLARToolKitView;
 		import mx.core.UIComponent;
@@ -50,13 +53,30 @@
 			wmat.doubleSided = true;
 			var basePlane:Plane = new Plane(wmat, 80, 80);
 			grp.addChild(basePlane);
-			if (url != null &&url.length > 0) {
-				var mqo:Metasequoia = new Metasequoia();
-				mqo.load(url, 0.3);
-				mqo.rotationX = 90;
-				mqo.rotationZ = -90;
-				mqo.z += 40;
-				grp.addChild(mqo);
+			if (url != null && url.length > 0) {
+				var ext:String = url.substring(url.length - 3);
+				switch(ext) {
+					case "mqo":
+						var mqo:Metasequoia = new Metasequoia();
+						mqo.load(url, 0.3);
+						mqo.rotationX = 90;
+						mqo.rotationZ = -90;
+						mqo.z += 40;
+						grp.addChild(mqo);
+						break;
+					//case "skp":
+						//var skp:Sketchup = new Sketchup(url);
+						//skp.rotationX = 90;
+						//skp.rotationZ = -90;
+						//grp.addChild(skp);
+						//break;
+					case "kmz":
+						var kmz:KMZ = new KMZ("model");
+						kmz.load(url);
+						kmz.rotationX = 90;
+						kmz.rotationZ = -90;
+						grp.addChild(kmz);
+				}
 			}
 			ar.model = grp;
 		}
@@ -65,7 +85,7 @@
 		<mx:UIComponent id="arCanvas" x="0" y="0" width="100%" height="100%" />
 		<mx:Panel width="100%" layout="horizontal" title="MetasequoiaファイルのURLを入力" alpha="1">
 			<mx:Label text="URL："/>
-			<mx:TextInput id="urlText" width="100%" text="model/pipe.mqo" />
+			<mx:TextInput id="urlText" width="100%" text="" />
         <mx:Button id="showModel" label="表示" click="loadMetasequoia(urlText.text)" />
     </mx:Panel>
 </mx:Application>
