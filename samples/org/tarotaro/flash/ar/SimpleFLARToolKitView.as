@@ -136,7 +136,7 @@
 			this._capture.bitmapData.draw(this._video);
 			if (this._detector.detectMarkerLite(this._raster, 80)) {
 				if (this._detector.getConfidence() < .5) {
-					trace("confidence:", this._detector.getConfidence());
+					//trace("confidence:", this._detector.getConfidence());
 					this._viewport.visible = false;
 					return;
 				}
