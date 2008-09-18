@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */ 
-org.tarotaro.flash.ar 
+package org.tarotaro.flash.ar 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -89,9 +89,9 @@ org.tarotaro.flash.ar
 				var my:int = Math.min(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
 				var center:Point = new Point((Mx + mx)/2, (My+my)/2);
 
-				this._view.camera.rotationY = (center.x - this._source.getWidth()/2) / 2;
-				this._view.camera.rotationX = -(center.y - this._source.getHeight()/2) / 2;
-				
+				this._view.camera.rotationY = (center.x - this._source.getWidth()/2) * 0.6;
+				this._view.camera.rotationX = -(center.y - this._source.getHeight()/2) * 0.6;
+				trace(this._view.camera.rotationY, this._view.camera.rotationX);
 				//マーカの大きさから、ズームを判定する
 				//900-45000
 				this._view.camera.zoom = 1 + square.area / 9000;
