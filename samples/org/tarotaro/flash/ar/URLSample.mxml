@@ -61,7 +61,7 @@
 						mqo.load(url, 0.3);
 						mqo.rotationX = 90;
 						mqo.rotationZ = -90;
-						mqo.z += 40;
+						//mqo.z += 40;
 						grp.addChild(mqo);
 						break;
 					//case "skp":
