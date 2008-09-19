@@ -42,7 +42,7 @@ package org.tarotaro.flash.ar
 		[Embed(source = '../../../../Data/panorama.jpg')]private var PanoBitmap:Class;
 		private var _capture:Bitmap;
 		private var _video:Video;
-		private var _windowLayer:FLARAnotherWorldWindowLayer;
+		private var _windowLayer:FLARPanoramaSphereLayer;
 		private var _arSprite:Sprite;
 
 		public function FLARAnotherWorldWindow() 
@@ -65,7 +65,7 @@ package org.tarotaro.flash.ar
 
 			var panoBMP:Bitmap = new PanoBitmap() as Bitmap;
 			
-			this._windowLayer = new FLARAnotherWorldWindowLayer(raster, param, code, 80,panoBMP.bitmapData);
+			this._windowLayer = new FLARPanoramaSphereLayer(raster, param, code, 80,panoBMP.bitmapData);
 			this.addChild(this._windowLayer);
 			
 			this._capture.scaleX = this._capture.scaleY = 0.5;
