@@ -9,7 +9,7 @@
         <![CDATA[
 		import flash.events.Event;
 		import flash.net.URLRequest;
-		import org.libspark.pv3d.Metasequoia;
+		import org.tarotaro.flash.pv3d.Metasequoia;
 		import org.papervision3d.materials.WireframeMaterial;
 		import org.papervision3d.objects.DisplayObject3D;
 		import org.papervision3d.objects.parsers.KMZ;

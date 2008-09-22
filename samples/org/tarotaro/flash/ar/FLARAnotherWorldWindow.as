@@ -12,7 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */ 
+ */
 package org.tarotaro.flash.ar 
 {
 	import flash.display.Bitmap;
@@ -26,10 +26,23 @@ package org.tarotaro.flash.ar
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.FLARParam;
 	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.pv3d.Metasequoia;
+	import org.papervision3d.core.culling.FrustumTestMethod;
+	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.lights.PointLight3D;
+	import org.papervision3d.materials.BitmapFileMaterial;
+	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.materials.ColorMaterial;
+	import org.papervision3d.materials.shadematerials.FlatShadeMaterial;
+	import org.papervision3d.materials.utils.MaterialsList;
+	import org.papervision3d.materials.WireframeMaterial;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.primitives.Cube;
+	import org.papervision3d.objects.primitives.Sphere;
 	
 	/**
 	 * ...
-	 * @author 太郎(tarotaro.org)
+	 * @author DefaultUser (Tools -> Custom Arguments...)
 	 */
 	public class FLARAnotherWorldWindow extends Sprite
 	{
@@ -38,12 +51,11 @@ package org.tarotaro.flash.ar
 		private var CParam:Class;
 		[Embed(source = "../../../../Data/patt.hiro", mimeType = "application/octet-stream")]
 		private var CodeData:Class;
-		//panorama.jpgはFlickrなどから調達して、Data以下に格納してください。
 		[Embed(source = '../../../../Data/panorama.jpg')]private var PanoBitmap:Class;
+
 		private var _capture:Bitmap;
 		private var _video:Video;
-		private var _windowLayer:FLARPanoramaSphereLayer;
-		private var _arSprite:Sprite;
+		private var _layer:FLARAnotherWorldWindowLayer;
 
 		public function FLARAnotherWorldWindow() 
 		{
@@ -61,23 +73,36 @@ package org.tarotaro.flash.ar
 			
 			this._video = new Video();
 			this._video.attachCamera(webcam);
-			
 
-			var panoBMP:Bitmap = new PanoBitmap() as Bitmap;
+			var model:DisplayObject3D = new DisplayObject3D();
+			model.frustumTestMethod = FrustumTestMethod.NO_TESTING;
+			var mqo:Metasequoia = new Metasequoia();
+			mqo.load("Data/miku_mahou.mqo", 2);
+			model.addChild(mqo);
 			
-			this._windowLayer = new FLARPanoramaSphereLayer(raster, param, code, 80,panoBMP.bitmapData);
-			this.addChild(this._windowLayer);
+			var mt:MaterialObject3D = new BitmapFileMaterial("Data/tex3.jpg", true);
+			//
+			mt.doubleSided = true;
+			var list:MaterialsList = new MaterialsList();
+			list.addMaterial(mt, "all");
+			var size:int = 2500;
+			var cube:Cube = new Cube(list, size, size * 1.5, size / 2, 1, 1, 4, Cube.ALL, Cube.BACK);
+			cube.frustumTestMethod = FrustumTestMethod.NO_TESTING;
+			model.addChild(cube);
+			this._layer = new FLARAnotherWorldWindowLayer(raster, param, code, 80, model);
+			this.addChild(this._layer);
 			
 			this._capture.scaleX = this._capture.scaleY = 0.5;
 			this.addChild(this._capture);
 
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			}
+
+		}
 
 		private function onEnterFrame(e:Event):void 
 		{
 			this._capture.bitmapData.draw(this._video);
-			this._windowLayer.update();
+			this._layer.update();
 		}
 	}
 	
