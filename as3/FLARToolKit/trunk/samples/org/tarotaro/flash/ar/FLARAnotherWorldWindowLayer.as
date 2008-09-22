@@ -15,6 +15,14 @@
  */ 
 package org.tarotaro.flash.ar 
 {
+	import flash.events.Event;
+	import flash.geom.Point;
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.FLARParam;
+	import org.libspark.flartoolkit.core.FLARSquare;
+	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.papervision3d.cameras.CameraType;
+	import org.papervision3d.core.culling.FrustumTestMethod;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.BasicView;
 	import org.tarotaro.flash.ar.layers.FLARSingleMarkerLayer;
@@ -50,7 +58,9 @@ package org.tarotaro.flash.ar
 			super(src, param, code, markerWidth, thresh);
 
 			//Viewの作成
-			this._view = new BasicView(windowWidth, windowHeight, true, false);
+			this._view = new BasicView(windowWidth, windowHeight, true, false, CameraType.TARGET);
+			model.frustumTestMethod = FrustumTestMethod.NO_TESTING;
+
 			this.addChild(this._view);
 
 			//モデルの配置
@@ -58,13 +68,14 @@ package org.tarotaro.flash.ar
 			this._view.scene.addChild(this._model);
 
 			//カメラのセッティング
-			this._view.camera.focus = 300;
+			this._view.camera.focus = 500;
 			this._view.camera.zoom = 1;
-			this._view.camera.z = -100;
+			this._view.camera.z = -500;
 			
 			//４．レンダリング開始
 			this._view.startRendering();
 		}
+		
 
 		override public function update():void 
 		{
@@ -81,13 +92,18 @@ package org.tarotaro.flash.ar
 				var my:int = Math.min(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
 				var center:Point = new Point((Mx + mx)/2, (My+my)/2);
 
-				this._view.camera.x = (center.x - this._source.getWidth() / 2);
-				this._view.camera.y = (center.y - this._source.getHeight() / 2);
-				this._view.camera.z = -100 - (45000 - square.area);
+				this._view.camera.x = -(center.x - this._source.getWidth() / 2) * 1;
+				this._view.camera.y = -(center.y - this._source.getHeight() / 2) * 1;
+				//this._view.camera.z = -100 - (45000 - square.area);
+				//this._view.camera.zoom = 1 + square.area / 9000;
+				
+				trace(this._view.camera);
 			} else {
 				
 			}
 		}
+		
+		
 
 	}
 	
