@@ -51,7 +51,7 @@ package org.tarotaro.flash.ar
 		private var CParam:Class;
 		[Embed(source = "../../../../Data/patt.hiro", mimeType = "application/octet-stream")]
 		private var CodeData:Class;
-		[Embed(source = '../../../../Data/panorama.jpg')]private var PanoBitmap:Class;
+		[Embed(source = '../../../../Data/tex3.jpg')]private var TexBitmap:Class;
 
 		private var _capture:Bitmap;
 		private var _video:Video;
@@ -77,16 +77,16 @@ package org.tarotaro.flash.ar
 			var model:DisplayObject3D = new DisplayObject3D();
 			model.frustumTestMethod = FrustumTestMethod.NO_TESTING;
 			var mqo:Metasequoia = new Metasequoia();
-			mqo.load("Data/miku_mahou.mqo", 2);
+			mqo.load("../model/negi/miku_mahou.mqo", 2);
 			model.addChild(mqo);
 			
-			var mt:MaterialObject3D = new BitmapFileMaterial("Data/tex3.jpg", true);
-			//
+			var mt:MaterialObject3D = new BitmapMaterial((new TexBitmap() as Bitmap).bitmapData);
+
 			mt.doubleSided = true;
 			var list:MaterialsList = new MaterialsList();
 			list.addMaterial(mt, "all");
-			var size:int = 2500;
-			var cube:Cube = new Cube(list, size, size * 1.5, size / 2, 1, 1, 4, Cube.ALL, Cube.BACK);
+
+			var cube:Cube = new Cube(list,3200,6400,2400, 1, 1, 4, Cube.ALL, Cube.BACK);
 			cube.frustumTestMethod = FrustumTestMethod.NO_TESTING;
 			model.addChild(cube);
 			this._layer = new FLARAnotherWorldWindowLayer(raster, param, code, 80, model);

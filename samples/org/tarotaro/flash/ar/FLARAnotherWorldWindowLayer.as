@@ -68,7 +68,7 @@ package org.tarotaro.flash.ar
 			this._view.scene.addChild(this._model);
 
 			//カメラのセッティング
-			this._view.camera.focus = 500;
+			this._view.camera.focus = 300;
 			this._view.camera.zoom = 1;
 			this._view.camera.z = -500;
 			
@@ -95,9 +95,8 @@ package org.tarotaro.flash.ar
 				this._view.camera.x = -(center.x - this._source.getWidth() / 2) * 1;
 				this._view.camera.y = -(center.y - this._source.getHeight() / 2) * 1;
 				//this._view.camera.z = -100 - (45000 - square.area);
-				//this._view.camera.zoom = 1 + square.area / 9000;
+				this._view.camera.zoom = 1 + square.area / 9000;
 				
-				trace(this._view.camera);
 			} else {
 				
 			}
