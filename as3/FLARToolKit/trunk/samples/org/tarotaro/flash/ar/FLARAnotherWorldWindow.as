@@ -51,6 +51,7 @@ package org.tarotaro.flash.ar
 		private var CParam:Class;
 		[Embed(source = "../../../../Data/patt.hiro", mimeType = "application/octet-stream")]
 		private var CodeData:Class;
+		//箱のテクスチャはFlickrなどから調達して、Data以下に格納してください。
 		[Embed(source = '../../../../Data/tex3.jpg')]private var TexBitmap:Class;
 
 		private var _capture:Bitmap;
