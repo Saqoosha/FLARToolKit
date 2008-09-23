@@ -77,7 +77,8 @@ package org.tarotaro.flash.ar
 			var model:DisplayObject3D = new DisplayObject3D();
 			model.frustumTestMethod = FrustumTestMethod.NO_TESTING;
 			var mqo:Metasequoia = new Metasequoia();
-			mqo.load("../model/negi/miku_mahou.mqo", 2);
+			/* ここに、メタセコモデルのURLを記入 */
+			mqo.load("model/pipe.mqo", 2);
 			model.addChild(mqo);
 			
 			var mt:MaterialObject3D = new BitmapMaterial((new TexBitmap() as Bitmap).bitmapData);
