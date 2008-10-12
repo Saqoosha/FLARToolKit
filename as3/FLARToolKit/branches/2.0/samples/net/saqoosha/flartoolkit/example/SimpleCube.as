@@ -1,7 +1,5 @@
-package {
+package net.saqoosha.flartoolkit.example {
 	
-	import flash.display.StageQuality;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -13,7 +11,7 @@ package {
 	import org.papervision3d.objects.primitives.Plane;
 	
 
-	[SWF(width=640,height=480,frameRate=120,backgroundColor=0x0)]
+	[SWF(width=640,height=480,frameRate=30,backgroundColor=0x0)]
 
 	public class SimpleCube extends PV3DARApp {
 		
@@ -24,9 +22,6 @@ package {
 		private var _cube:Cube;
 		
 		public function SimpleCube() {
-			this.stage.scaleMode = StageScaleMode.SHOW_ALL;
-			this.stage.quality = StageQuality.LOW;
-			
 			this.addEventListener(Event.INIT, this._onInit);
 			this.init(CAMERA_FILE, PATTERN_FILE);
 		}
@@ -44,7 +39,7 @@ package {
 			light.y = 1000;
 			light.z = -1000;
 			var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xff22aa, 0x0);
-			this._cube = new Cube(new MaterialsList({ all: fmat }), 40, 40, 40);
+			this._cube = new Cube(new MaterialsList({all: fmat}), 40, 40, 40);
 			this._cube.z += 20;
 			this._baseNode.addChild(this._cube);
 			

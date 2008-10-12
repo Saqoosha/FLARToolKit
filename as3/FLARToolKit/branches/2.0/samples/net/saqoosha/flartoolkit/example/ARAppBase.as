@@ -1,9 +1,4 @@
-package {
-	
-	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARParam;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
-	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
+package net.saqoosha.flartoolkit.example {
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -18,6 +13,11 @@ package {
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
+	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
 	
 	
 	[Event(name="init",type="flash.events.Event")]
@@ -36,7 +36,7 @@ package {
 		
 		protected var _param:FLARParam;
 		protected var _code:FLARCode;
-		protected var _raster:FLARBitmapData;
+		protected var _raster:FLARRgbRaster_BitmapData;
 		protected var _detector:FLARSingleMarkerDetector;
 		
 		protected var _webcam:Camera;
@@ -65,8 +65,8 @@ package {
 		private function _onLoadParam(e:Event):void {
 			this._loader.removeEventListener(Event.COMPLETE, this._onLoadParam);
 			this._param = new FLARParam();
-			this._param.loadFromARFile(this._loader.data);
-			this._param.changeSize(this._width, this._height);
+			this._param.loadARParam(this._loader.data);
+			this._param.changeScreenSize(this._width, this._height);
 			
 			this._loader.dataFormat = URLLoaderDataFormat.TEXT;
 			this._loader.addEventListener(Event.COMPLETE, this._onLoadCode);
@@ -75,7 +75,7 @@ package {
 		
 		private function _onLoadCode(e:Event):void {
 			this._code = new FLARCode(16, 16);
-			this._code.loadFromARFile(this._loader.data);
+			this._code.loadARPatt(this._loader.data);
 			
 			this._loader.removeEventListener(Event.COMPLETE, this._onLoadCode);
 			this._loader.removeEventListener(IOErrorEvent.IO_ERROR, this.dispatchEvent);
@@ -94,7 +94,7 @@ package {
 			this._capture = new Bitmap(new BitmapData(this._width, this._height, false, 0), PixelSnapping.AUTO, true);
 			
 			// setup ARToolkit
-			this._raster = new FLARBitmapData(this._capture.bitmapData);
+			this._raster = new FLARRgbRaster_BitmapData(this._capture.bitmapData);
 			this._detector = new FLARSingleMarkerDetector(this._param, this._code, this._codeWidth);
 			
 			this.dispatchEvent(new Event(Event.INIT));
