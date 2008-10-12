@@ -24,8 +24,9 @@ package org.tarotaro.flash.ar
 	import flash.media.Video;
 	import flash.utils.ByteArray;
 	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARParam;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	
 	/**
 	 * ...
@@ -49,13 +50,13 @@ package org.tarotaro.flash.ar
 		{
 			//AR部分の設定
 			var param:FLARParam = new FLARParam();
-			param.loadFromARFile(new CParam()as ByteArray);
+			param.loadARParam(new CParam()as ByteArray);
 			var code:FLARCode = new FLARCode(16,16);
 			var codeFile:ByteArray = new CodeData() as ByteArray;
-			code.loadFromARFile(codeFile.readMultiByte(codeFile.length, "shift-jis"));
+			code.loadARPatt(codeFile.readMultiByte(codeFile.length, "shift-jis"));
 			
 			this._capture = new Bitmap(new BitmapData(320, 240, false, 0), PixelSnapping.AUTO, true);
-			var raster:FLARBitmapData = new FLARBitmapData(this._capture.bitmapData);
+			var raster:IFLARRgbRaster = new FLARRgbRaster_BitmapData(this._capture.bitmapData);
 			var webcam:Camera = Camera.getCamera();
 			webcam.setMode(320, 240, 30);
 			

@@ -17,13 +17,13 @@ package org.tarotaro.flash.ar
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.errors.IllegalOperationError;
 	import flash.geom.Point;
 	import flash.geom.Transform;
 	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARParam;
 	import org.libspark.flartoolkit.core.FLARSquare;
-	import org.libspark.flartoolkit.core.FLARTransMatResult;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.cameras.CameraType;
 	import org.papervision3d.core.math.Matrix3D;
@@ -42,7 +42,7 @@ package org.tarotaro.flash.ar
 		private var _view:BasicView;
 		private var _panorama:Sphere;
 
-		public function FLARPanoramaSphereLayer(src:FLARBitmapData,
+		public function FLARPanoramaSphereLayer(src:IFLARRgbRaster,
 													param:FLARParam,
 													code:FLARCode,
 													markerWidth:Number,
@@ -77,17 +77,17 @@ package org.tarotaro.flash.ar
 		
 		override public function update():void 
 		{
-
-			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
+			if (!this._source is IFLARRgbRaster) throw new IllegalOperationError("ソース画像の型が予期しないクラスです。");
+			if (this._detector.detectMarkerLite(this._source as IFLARRgbRaster, this._thresh) &&
 				this._detector.getConfidence() >= 0.65) {
 				
 				//マーカの中心点の位置を検出し、傾きとする
 				var square:FLARSquare = this._detector.getSquare();
 
-				var Mx:int = Math.max(square.sqvertex[0][0], square.sqvertex[1][0], square.sqvertex[2][0], square.sqvertex[3][0]);
-				var mx:int = Math.min(square.sqvertex[0][0], square.sqvertex[1][0], square.sqvertex[2][0], square.sqvertex[3][0]);
-				var My:int = Math.max(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
-				var my:int = Math.min(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
+				var Mx:int = Math.max(square.sqvertex[0].x, square.sqvertex[1].x, square.sqvertex[2].x, square.sqvertex[3].x);
+				var mx:int = Math.min(square.sqvertex[0].x, square.sqvertex[1].x, square.sqvertex[2].x, square.sqvertex[3].x);
+				var My:int = Math.max(square.sqvertex[0].y, square.sqvertex[1].y, square.sqvertex[2].y, square.sqvertex[3].y);
+				var my:int = Math.min(square.sqvertex[0].y, square.sqvertex[1].y, square.sqvertex[2].y, square.sqvertex[3].y);
 				var center:Point = new Point((Mx + mx)/2, (My+my)/2);
 
 				this._view.camera.rotationY = (center.x - this._source.getWidth()/2) * 0.6;
@@ -95,22 +95,11 @@ package org.tarotaro.flash.ar
 				trace(this._view.camera.rotationY, this._view.camera.rotationX);
 				//マーカの大きさから、ズームを判定する
 				//900-45000
-				this._view.camera.zoom = 1 + square.area / 9000;
+				trace(square.area);
+				this._view.camera.zoom = 1 + square.label.area / 9000;
 			} else {
-				
 			}
-
-			//this._view.camera.rotationY += (480 * mouseX/(this._view.width) - this._view.camera.rotationY) * .1;
-			//this._view.camera.rotationX += (180 * mouseY/(this._view.height) - 90 - this._view.camera.rotationX) * .1;
-
 		}
-		private function setTranslationMatrix(mtx:Matrix3D):void {
-			var a:Array = this._resultMat.getArray();
-			mtx.n11 =  a[0][1];	mtx.n12 =  a[0][0];	mtx.n13 =  a[0][2];	mtx.n14 =  a[0][3];
-			mtx.n21 = -a[1][1];	mtx.n22 = -a[1][0];	mtx.n23 = -a[1][2];	mtx.n24 = -a[1][3];
-			mtx.n31 =  a[2][1];	mtx.n32 =  a[2][0];	mtx.n33 =  a[2][2];	mtx.n34 =  a[2][3];
-		}
-
 	}
 	
 }
