@@ -1,0 +1,25 @@
+2008-10-13	Saqoosha <saq@saqoosha.net>
+
+	* FLARSingleMarkerDetector: Added "getSquare" function.
+
+
+2008-10-11	Saqoosha <saq@saqoosha.net>
+
+	Major update based on NyARToolkit 2.0.0.
+	Class structure dramatically changed from earlier version.
+	Folowing change point is for end users. (Not complete changelog.)
+	
+	* FLARBaseNode.as: Moved package from "org.libspark.flartoolkit.scene" to "org.libspark.flartoolkit.pv3d".
+	* FLARBaseNode.as (setTransformMatrix): Renamed from "setTranslationMatrix".
+	
+	* FLARCamera3D.as: Moved package from "org.libspark.flartoolkit.scene" to "org.libspark.flartoolkit.pv3d".
+	
+	* FLARSingleMarkerDetector.as (getTransformMatrix): Renamed from "getTranslationMatrix".
+
+	* FLARParam.as: Moved package from "org.libspark.flartoolkit.core" to "org.libspark.flartoolkit.core.param".
+	* FLARParam.as (loadARParam): Renamed from "loadFromARFile".
+	* FLARParam.as (changeScreenSize): Renamed from "changeSize".
+	
+	* FLARCode.as (loadARPatt): Renamed from "loadFromARFile".
+	
+	* FLARRgbRaster_BitmapData: Renamed from "FLARBitmapData".
