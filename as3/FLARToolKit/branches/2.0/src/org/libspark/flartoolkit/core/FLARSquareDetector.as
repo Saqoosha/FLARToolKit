@@ -216,6 +216,9 @@ package org.libspark.flartoolkit.core {
 				}
 				// 検出済の矩形の属したラベルを重なりチェックに追加する。
 				overlap.push(label_pt);
+				
+				// 後から参照できるように
+				square_ptr.label = label_pt;
 			}	
 			return;
 		}

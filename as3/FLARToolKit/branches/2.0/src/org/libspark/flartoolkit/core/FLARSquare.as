@@ -29,6 +29,7 @@
  */
 
 package org.libspark.flartoolkit.core {
+	import org.libspark.flartoolkit.core.labeling.FLARLabelingLabel;
 	import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
 	import org.libspark.flartoolkit.core.types.FLARIntPoint;
 	import org.libspark.flartoolkit.core.types.FLARLinear;	
@@ -45,6 +46,7 @@ package org.libspark.flartoolkit.core {
 		public var line:Array = new Array(4);
 		public var sqvertex:Array = new Array(4);
 		public var imvertex:Array = new Array(4);
+		public var label:FLARLabelingLabel;
 
 		public function FLARSquare() {
 			for(var i:int = 0; i < 4;i++) {
