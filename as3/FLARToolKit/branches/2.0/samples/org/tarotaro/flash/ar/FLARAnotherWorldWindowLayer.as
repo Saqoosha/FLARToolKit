@@ -73,6 +73,9 @@ package org.tarotaro.flash.ar
 			this._view.camera.zoom = 1;
 			this._view.camera.z = -500;
 			
+			//カメラ画像とパラメータのサイズが合わないので、サイズチェックを飛ばす
+			this._detector.sizeCheckEnabled = false;
+			
 			//４．レンダリング開始
 			this._view.startRendering();
 		}

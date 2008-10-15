@@ -71,6 +71,9 @@ package org.tarotaro.flash.ar
 			//３．シーンに追加
 			this._view.scene.addChild(this._panorama,"panorama");
 			
+			//カメラ画像とパラメータのサイズが合わないので、サイズチェックを飛ばす
+			this._detector.sizeCheckEnabled = false;
+
 			//４．レンダリング開始
 			this._view.startRendering();
 		}
