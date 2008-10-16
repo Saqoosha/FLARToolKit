@@ -1,6 +1,8 @@
 2008-10-13	Saqoosha <saq@saqoosha.net>
 
 	* FLARSingleMarkerDetector: Added "getSquare" function.
+	
+	* FLARSquare: Added "label" property.
 
 
 2008-10-11	Saqoosha <saq@saqoosha.net>
