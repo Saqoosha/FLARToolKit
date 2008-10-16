@@ -1,0 +1,6 @@
+package org.libspark.flartoolkit.core.raster.rgb {	import org.libspark.flartoolkit.core.rasterreader.FLARBitmapDataReader;		import org.libspark.flartoolkit.core.raster.FLARRaster_BasicClass;	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;	import org.libspark.flartoolkit.core.rasterreader.IFLARBufferReader;	import org.libspark.flartoolkit.core.rasterreader.IFLARRgbPixelReader;	import org.libspark.flartoolkit.core.types.FLARIntSize;		import flash.display.BitmapData;		/**	 * @author Saqoosha	 */	public class FLARRgbRaster_BitmapData extends FLARRaster_BasicClass implements IFLARRgbRaster {		private var _bitmapData:BitmapData;		private var _rgb_reader:IFLARRgbPixelReader;		private var _buffer_reader:IFLARBufferReader;		public function FLARRgbRaster_BitmapData(bitmapData:BitmapData) {			super(new FLARIntSize(bitmapData.width, bitmapData.height));			this._bitmapData = bitmapData;			this._rgb_reader = new FLARBitmapDataReader(this);		}
+		public function getRgbPixelReader():IFLARRgbPixelReader {			return this._rgb_reader;
+		}
+		public override function getBufferReader():IFLARBufferReader {			return null;
+		}				public function get bitmapData():BitmapData { 			return this._bitmapData;		}
+	}}

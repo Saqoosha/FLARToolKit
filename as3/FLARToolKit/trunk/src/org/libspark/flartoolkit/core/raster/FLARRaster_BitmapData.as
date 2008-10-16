@@ -1,0 +1,4 @@
+package org.libspark.flartoolkit.core.raster {	import flash.display.BitmapData;			import org.libspark.flartoolkit.core.raster.FLARRaster_BasicClass;	import org.libspark.flartoolkit.core.raster.IFLARRaster;	import org.libspark.flartoolkit.core.rasterreader.IFLARBufferReader;	import org.libspark.flartoolkit.core.types.FLARIntSize;		/**	 * 2 値化された BitmapData.	 * 	 * @author Saqoosha	 */	public class FLARRaster_BitmapData extends FLARRaster_BasicClass implements IFLARRaster {		private var _bitmapData:BitmapData;		public function FLARRaster_BitmapData(i_width:int, i_height:int) {			super(new FLARIntSize(i_width, i_height));			this._bitmapData = new BitmapData(i_width, i_height, false, 0x0);		}
+		public override function getBufferReader():IFLARBufferReader {			return null;
+		}				public function get bitmapData():BitmapData {			return this._bitmapData;		}
+	}}
