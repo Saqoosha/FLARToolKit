@@ -226,7 +226,17 @@ package org.libspark.flartoolkit.detector {
 			this._is_continue = i_is_continue;
 		}
 		
-		public function get squareList():FLARSquareStack {
+		/**
+		 * @return 検出した FLARSquare 1 個返す。検出できなかったら null。
+		 */
+		public function getSquare():FLARSquare {
+			return this._detected_square;
+		}
+		
+		/**
+		 * @return 検出した全ての四角形を含む FLARSquareStack を返す。
+		 */
+		public function getSquareList():FLARSquareStack {
 			return this._square_list;
 		}
 	}
