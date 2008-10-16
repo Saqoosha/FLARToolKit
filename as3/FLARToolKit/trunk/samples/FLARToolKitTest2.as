@@ -15,7 +15,7 @@ package {
 
 	[SWF(width=640,height=480,frameRate=120,backgroundColor=0x0)]
 
-	public class FLARToolKitTest2 extends PV3DARApp {
+	public class SimpleCube extends PV3DARApp {
 		
 		private static const PATTERN_FILE:String = "Data/patt.hiro";
 		private static const CAMERA_FILE:String = "Data/camera_para.dat";
@@ -23,7 +23,7 @@ package {
 		private var _plane:Plane;
 		private var _cube:Cube;
 		
-		public function FLARToolKitTest2() {
+		public function SimpleCube() {
 			this.stage.scaleMode = StageScaleMode.SHOW_ALL;
 			this.stage.quality = StageQuality.LOW;
 			

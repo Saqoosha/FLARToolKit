@@ -117,7 +117,7 @@ package org.libspark.flartoolkit.pv3d {
 		override public function transformView(transform:Matrix3D=null):void {
 			// Camera3D の transformView はいらんことしやがるので super.transformView() しない。
 			// ただし CameraObject3D の transformView は必要なのでそこでやってる処理をここに移植。
-			this.eye.calculateMultiply(this.transform, _flipY );
+			this.eye.calculateMultiply(this.transform, _flipY);
 			this.eye.invert(); 
 			this.eye.calculateMultiply4x4(this._projection, this.eye);
 		}
