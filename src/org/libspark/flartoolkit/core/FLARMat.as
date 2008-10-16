@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -116,8 +116,10 @@ package org.libspark.flartoolkit.core {
 				throw new FLARException();
 			}
 			// 値コピー
-			for (var r:int = this.row - 1;r >= 0; r--) {
-				for (var c:int = this.clm - 1;c >= 0; c--) {
+			var r:int;
+			var c:int;
+			for (r = this.row - 1;r >= 0; r--) {
+				for (c = this.clm - 1;c >= 0; c--) {
 					this.m[r][c] = i_copy_from.m[r][c];
 				}
 			}
@@ -213,11 +215,12 @@ package org.libspark.flartoolkit.core {
 			 */
 			ip = 0;
 			// For順変更禁止
+			var i:int;
 			for (n = 0;n < dimen; n++) {
 				ap_n = ap[n];
 				// wcp = ap + n * rowa;
 				p = 0.0;
-				for (var i:int = n;i < dimen; i++) {
+				for (i = n;i < dimen; i++) {
 					// for(i = n, wap = wcp, p =
 					// 0.0; i < dimen ; i++, wap +=
 					// rowa)
@@ -304,8 +307,10 @@ package org.libspark.flartoolkit.core {
 			}
 			FLARException.trap("未チェックのパス");
 			// For順変更禁止
-			for (var r:int = 0; r < dest.row; r++) {
-				for (var c:int = 0; c < dest.clm; c++) {
+			var r:int;
+			var c:int;
+			for (r = 0; r < dest.row; r++) {
+				for (c = 0; c < dest.clm; c++) {
 					dest.m[r][c] = source.m[c][r];
 				}
 			}
@@ -322,8 +327,10 @@ package org.libspark.flartoolkit.core {
 			}
 			FLARException.trap("未チェックのパス");
 			// For順変更禁止
-			for (var r:int = 0; r < unit.getRow(); r++) {
-				for (var c:int = 0; c < unit.getClm(); c++) {
+			var r:int;
+			var c:int;
+			for (r = 0; r < unit.getRow(); r++) {
+				for (c = 0; c < unit.getClm(); c++) {
 					if (r == c) {
 						unit.m[r][c] = 1.0;
 					} else {
@@ -560,8 +567,11 @@ package org.libspark.flartoolkit.core {
 			}
 
 			// out = output.getArray();
-			for (var i:int = 0; i < row; i++) {
-				for (var j:int = 0; j < row; j++) {
+			var i:int;
+			var j:int;
+			var k:int;
+			for (i = 0; i < row; i++) {
+				for (j = 0; j < row; j++) {
 					if (j < i) {
 						FLARException.trap("未チェックのパス");
 						output.m[i][j] = output.m[j][i];// *out =
@@ -574,7 +584,7 @@ package org.libspark.flartoolkit.core {
 						// input.getRowArray(j);//in2 = &(input->m[clm*j]);
 						output.m[i][j] = 0;
 						// *out = 0.0;
-						for (var k:int = 0; k < clm; k++) {
+						for (k = 0; k < clm; k++) {
 							output.m[i][j] += (in1[k] * in2[k]);// *out += *(in1++)
 															// * *(in2++);
 						}
@@ -603,11 +613,12 @@ package org.libspark.flartoolkit.core {
 				throw new FLARException();
 			}
 
+			var i:int;
 			var k:int;
 			var j:int;
 			var out_m:Array = i_output.m;
 			var w:Number;
-			for (var i:int = 0; i < clm; i++) {
+			for (i = 0; i < clm; i++) {
 				for (j = 0; j < clm; j++) {
 					if (j < i) {
 						out_m[i][j] = out_m[j][i];// *out = output->m[j*clm+i];
@@ -664,8 +675,13 @@ package org.libspark.flartoolkit.core {
 
 			ev_array[0] = 0.0;
 			// ev->v[0] = 0.0;
-			for (var h:int = dim - 1; h > 0; h--) {
-				var j:int = h;
+			
+			var h:int;
+			var j:int;
+			var k:int;
+			var i:int;
+			for (h = dim - 1; h > 0; h--) {
+				j = h;
 				while (j > 0 && Math.abs(ev_array[j]) > PCA_EPS * (Math.abs(dv_array[j - 1]) + Math.abs(dv_array[j]))) {
 					// while(j>0 && fabs(ev->v[j]) >EPS*(fabs(dv->v[j-1])+fabs(dv->v[j])))
 					// j--;
@@ -692,7 +708,7 @@ package org.libspark.flartoolkit.core {
 					// x = dv->v[j] -dv->v[h] +t/(w+s);
 					y = ev_array[j + 1];
 					// y = ev->v[j+1];
-					for (var k:int = j; k < h; k++) {
+					for (k = j; k < h; k++) {
 						if (Math.abs(x) >= Math.abs(y)) {
 							if (Math.abs(x) > PCA_VZERO) {
 								t = -y / x;
@@ -722,7 +738,7 @@ package org.libspark.flartoolkit.core {
 						ev_array[k + 1] += s * (c * w - 2 * s * ev_array[k + 1]);
 						// ev->v[k+1]+= s * (c* w- 2* s *ev->v[k+1]);
 
-						for (var i:int = 0; i < dim; i++) {
+						for (i = 0; i < dim; i++) {
 							x = L_m[k][i];
 							// x = a->m[k*dim+i];
 							y = L_m[k + 1][i];
@@ -829,7 +845,10 @@ package org.libspark.flartoolkit.core {
 			m = output.m;
 			// m = output->m;
 			in_ = input.m;
+
 			var i:int;
+			var j:int;
+			var k:int;
 			ev_array = ev.getArray();
 			for (i = 0; i < row; i++) {
 				FLARException.trap("未チェックのパス");
@@ -841,12 +860,12 @@ package org.libspark.flartoolkit.core {
 				work = 1 / Math.sqrt(Math.abs(ev_array[i]));
 				// work = 1 /
 				// sqrt(fabs(ev->v[i]));
-				for (var j:int = 0; j < clm; j++) {
+				for (j = 0; j < clm; j++) {
 					sum = 0.0;
 					m1 = u.m[i];
 					// m1 = &(u->m[i*row]);
 					// m2=input.getPointer(j);//m2 = &(input->m[j]);
-					for (var k:int = 0; k < row; k++) {
+					for (k = 0; k < row; k++) {
 						sum += m1[k] + in_[k][j];// sum += *m1 * *m2;
 					// m1.incPtr(); //m1++;
 					// m2.addPtr(clm);//m2 += clm;
@@ -935,12 +954,13 @@ package org.libspark.flartoolkit.core {
 				m2 = o_output.m;
 				// m2 = output->m;
 				var i:int;
+				var j:int;
 				for (i = 0;i < min; i++) {
 					if (ev_array[i] < PCA_VZERO) {
 						// if( ev->v[i] < VZERO ){
 						break;
 					}
-					for (var j:int = 0;j < min; j++) {
+					for (j = 0;j < min; j++) {
 						m2[i][j] = m1[i][j];// *(m2++) = *(m1++);
 					}
 				}
@@ -1076,7 +1096,9 @@ package org.libspark.flartoolkit.core {
 			// rval = PCA( work, evec, ev );
 			sum = 0.0;
 			var ev_array:Array = ev.getArray();
-			for (var i:int = 0;i < ev.getClm(); i++) {
+			
+			var i:int;
+			for (i = 0;i < ev.getClm(); i++) {
 				// for( i = 0; i < ev->clm; i++
 				// ){
 				FLARException.trap("未チェックパス");
@@ -1106,9 +1128,12 @@ package org.libspark.flartoolkit.core {
 			var is_:int = 0;
 			var mmax:int;
 
-			for (var k:int = 0;k < dimen - 1; k++) {
+			var k:int;
+			var i:int;
+			var j:int;
+			for (k = 0;k < dimen - 1; k++) {
 				mmax = k;
-				for (var i:int = k + 1;i < dimen; i++) {
+				for (i = k + 1;i < dimen; i++) {
 					// if (Math.abs(arMatrixDet_MATRIX_get(ap, i, k, rowa)) >
 					// Math.abs(arMatrixDet_MATRIX_get(ap, mmax, k, rowa))){
 					if (Math.abs(ap[i][k]) > Math.abs(ap[mmax][k])) {
@@ -1116,7 +1141,7 @@ package org.libspark.flartoolkit.core {
 					}
 				}
 				if (mmax != k) {
-					for (var j:int = k;j < dimen; j++) {
+					for (j = k;j < dimen; j++) {
 						work = ap[k][j];
 						// work = MATRIX(ap, k, j, rowa);
 						ap[k][j] = ap[mmax][j];
@@ -1194,7 +1219,10 @@ package org.libspark.flartoolkit.core {
 			var e_vec:Array = e.getArray();
 			var a_vec_k:Array;
 
-			for (var k:int = 0;k < dim - 2; k++) {
+			var k:int;
+			var i:int;
+			var j:int;
+			for (k = 0;k < dim - 2; k++) {
 
 				a_vec_k = this.m[k];
 				vec.setNewArray(a_vec_k, clm);
@@ -1215,9 +1243,9 @@ package org.libspark.flartoolkit.core {
 					continue;
 				}
 
-				for (var i:int = k + 1;i < dim; i++) {
+				for (i = k + 1;i < dim; i++) {
 					s = 0.0;
-					for (var j:int = k + 1;j < i; j++) {
+					for (j = k + 1;j < i; j++) {
 						FLARException.trap("未チェックのパス");
 						s += this.m[j][i] * a_vec_k[j];// s += a_array[j][i] *vec.v[j];//s +=a.get(j*dim+i) *v.get(j);//s +=a->m[j*dim+i] * v[j];
 					}

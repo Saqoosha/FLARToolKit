@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -164,14 +164,19 @@ package org.libspark.flartoolkit.core.match {
 			var l_width:int = this.width;
 			var l_height:int = this.height;
 			linput = this.input;
+			
+			var sum:int;
+			var i:int;
+			var k:int;
+			var sum2:Number;
 			for (var j:int = 0;j < 4; j++) {
-				var sum:int = 0;
+				sum = 0;
 				pat_j = pat[j];
-				for (var i:int = l_height - 1;i >= 0; i--) {
+				for (i = l_height - 1;i >= 0; i--) {
 					// for(int i=0;i<Config.AR_PATT_SIZE_Y;i++){
 					input_i = linput[i];
 					pat_j_i = pat_j[i];
-					for (var k:int = l_width - 1;k >= 0; k--) {
+					for (k = l_width - 1;k >= 0; k--) {
 						pat_j_i_k = pat_j_i[k];
 						input_i_k = input_i[k];
 						// for(int i3=0;i3<3;i3++){
@@ -183,7 +188,7 @@ package org.libspark.flartoolkit.core.match {
 					// }
 					}
 				}
-				var sum2:Number = sum / patpow[j] / datapow;
+				sum2 = sum / patpow[j] / datapow;
 				// sum2 = sum / patpow[k][j]/ datapow;
 				if (sum2 > max) {
 					max = sum2;

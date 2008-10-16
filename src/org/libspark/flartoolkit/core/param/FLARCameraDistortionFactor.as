@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -114,6 +114,8 @@ package org.libspark.flartoolkit.core.param {
 			const d1:Number = this._f1;
 			const d3:Number = this._f3;
 			const d2_w:Number = this._f2 / 100000000.0;
+			
+			var d:Number;
 			for (var i:int = 0; i < i_size; i++) {
 				x = (i_in[i].x - d0) * d3;
 				y = (i_in[i].y - d1) * d3;
@@ -121,7 +123,7 @@ package org.libspark.flartoolkit.core.param {
 					o_out[i].x = d0;
 					o_out[i].y = d1;
 				} else {
-					var d:Number = 1.0 - d2_w * (x * x + y * y);
+					d = 1.0 - d2_w * (x * x + y * y);
 					o_out[i].x = x * d + d0;
 					o_out[i].y = y * d + d1;
 				}
@@ -205,7 +207,10 @@ package org.libspark.flartoolkit.core.param {
 			const d1:Number = this._f1;
 			const d3:Number = this._f3;
 			const p:Number = this._f2 / 100000000.0;
-			for (var j:int = 0; j < i_num; j++) {
+			
+			var j:int;
+			var i:int;
+			for (j = 0; j < i_num; j++) {
 
 				px = i_x_coord[i_start + j] - d0;
 				py = i_y_coord[i_start + j] - d1;
@@ -214,7 +219,7 @@ package org.libspark.flartoolkit.core.param {
 				q = z0 = Math.sqrt(z02);
 				// Optimize//q = z0 = Math.sqrt(px*px+py*py);
 
-				for (var i:int = 1; ; i++) {
+				for (i = 1; ; i++) {
 					if (z0 != 0.0) {
 						// Optimize opttmp_1
 						opttmp_1 = p * z02;
