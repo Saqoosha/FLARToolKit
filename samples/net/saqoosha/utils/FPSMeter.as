@@ -1,4 +1,4 @@
-package {
+package net.saqoosha.utils {
 	
 	import flash.display.Sprite;
 	import flash.text.TextField;

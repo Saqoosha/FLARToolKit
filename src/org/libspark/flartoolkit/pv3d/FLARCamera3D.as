@@ -51,13 +51,11 @@ package org.libspark.flartoolkit.pv3d {
 			var icpara_mat:FLARMat = new FLARMat(3,4);
 			var p:Array = ArrayUtil.createJaggedArray(3, 3);
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
-			var width:int;
-			var height:int;
 			var i:int;
 			var j:int;
-			var size:FLARIntSize = param.getScreenSize();
-			width  = size.w;
-			height = size.h;
+			const size:FLARIntSize = param.getScreenSize();
+			const width:int  = size.w;
+			const height:int = size.h;
 			
 			param.getPerspectiveProjectionMatrix().decompMat(icpara_mat, trans_mat);
 			
