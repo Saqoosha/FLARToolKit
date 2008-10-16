@@ -1,7 +1,10 @@
 ﻿package org.tarotaro.flash.ar {
 	
-	import org.libspark.flartoolkit.core.FLARTransMatResult;
-	import org.libspark.flartoolkit.scene.FLARCamera3D;
+	import net.saqoosha.flartoolkit.example.ARAppBase;
+	//import org.libspark.flartoolkit.core.FLARTransMatResult;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	import org.libspark.flartoolkit.pv3d.FLARCamera3D;
+	//import org.libspark.flartoolkit.scene.FLARCamera3D;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
@@ -140,12 +143,14 @@
 					this._viewport.visible = false;
 					return;
 				}
-				this._detector.getTranslationMatrix(this._resultMat);
-				var a:Array = this._resultMat.getArray();
+				this._detector.getTransformMatrix(this._resultMat);
 				var mtx:Matrix3D = this._transGrp.transform;
-				mtx.n11 =  a[0][1];	mtx.n12 =  a[0][0];	mtx.n13 =  a[0][2];	mtx.n14 =  a[0][3];
-				mtx.n21 = -a[1][1];	mtx.n22 = -a[1][0];	mtx.n23 = -a[1][2];	mtx.n24 = -a[1][3];
-				mtx.n31 =  a[2][1];	mtx.n32 =  a[2][0];	mtx.n33 =  a[2][2];	mtx.n34 =  a[2][3];
+				mtx.n11 =  this._resultMat.m01; mtx.n12 =  this._resultMat.m00;
+				mtx.n13 =  this._resultMat.m02; mtx.n14 =  this._resultMat.m03;
+				mtx.n21 = -this._resultMat.m11; mtx.n22 = -this._resultMat.m10;
+				mtx.n23 = -this._resultMat.m12; mtx.n24 = -this._resultMat.m13;
+				mtx.n31 =  this._resultMat.m21; mtx.n32 =  this._resultMat.m20;
+				mtx.n33 =  this._resultMat.m22; mtx.n34 =  this._resultMat.m23;
 				this._viewport.visible = true;
 				this._renderer.render();
 			} else {
