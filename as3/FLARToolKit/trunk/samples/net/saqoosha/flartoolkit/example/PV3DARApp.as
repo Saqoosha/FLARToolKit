@@ -1,15 +1,15 @@
-package {
-	
-	import org.libspark.flartoolkit.core.FLARTransMatResult;
-	import org.libspark.flartoolkit.scene.FLARBaseNode;
-	import org.libspark.flartoolkit.scene.FLARCamera3D;
+package net.saqoosha.flartoolkit.example {
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
+	import org.libspark.flartoolkit.pv3d.FLARCamera3D;
 	import org.papervision3d.render.LazyRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.view.Viewport3D;
+	import org.papervision3d.view.stats.StatsView;
 	
 
 	[SWF(width=640,height=480,frameRate=60,backgroundColor=0x0)]
@@ -65,9 +65,9 @@ package {
 		
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
-			if (this._detector.detectMarkerLite(this._raster, 80)) {
-				this._detector.getTranslationMatrix(this._resultMat);
-				this._baseNode.setTranslationMatrix(this._resultMat);
+			if (this._detector.detectMarkerLite(this._raster, 80) && this._detector.getConfidence() > 0.5) {
+				this._detector.getTransformMatrix(this._resultMat);
+				this._baseNode.setTransformMatrix(this._resultMat);
 				this._baseNode.visible = true;
 			} else {
 				this._baseNode.visible = false;

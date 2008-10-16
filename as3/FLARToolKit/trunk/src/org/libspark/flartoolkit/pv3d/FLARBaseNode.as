@@ -42,9 +42,9 @@ package org.libspark.flartoolkit.pv3d {
 		
 		public function setTransformMatrix(r:FLARTransMatResult):void {
 			var m:Matrix3D = this.transform;
-			m.n11 =  r.m00; m.n12 =  r.m01; m.n13 =  r.m02; m.n14 =  r.m03;
-			m.n21 = -r.m10; m.n22 = -r.m11; m.n23 = -r.m12; m.n24 = -r.m13;
-			m.n31 =  r.m20; m.n32 =  r.m21; m.n33 =  r.m22; m.n34 =  r.m23;
+			m.n11 =  r.m01; m.n12 =  r.m00; m.n13 =  r.m02; m.n14 =  r.m03;
+			m.n21 = -r.m11; m.n22 = -r.m10; m.n23 = -r.m12; m.n24 = -r.m13;
+			m.n31 =  r.m21; m.n32 =  r.m20; m.n33 =  r.m22; m.n34 =  r.m23;
 		}
 	}
 }
