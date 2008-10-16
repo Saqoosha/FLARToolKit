@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -57,8 +57,10 @@ package org.libspark.flartoolkit.core.transmat.fitveccalc {
 			const b_array:Array = this._mat_b.getArray(); // double[][]
 
 			//変換用行列のcpara固定値の部分を先に初期化してしまう。
-			for (var i:int = 0; i < 4; i++) {
-				var x2:int = i * 2;
+			var i:int;
+			var x2:int;
+			for (i = 0; i < 4; i++) {
+				x2 = i * 2;
 				a_array[x2][0] = b_array[0][x2] = i_projection_mat_ref.m00; // mat_a->m[j*6+0]=mat_b->m[num*0+j*2] =cpara[0][0];
 				a_array[x2][1] = b_array[1][x2] = i_projection_mat_ref.m01; // mat_a->m[j*6+1]=mat_b->m[num*2+j*2]=cpara[0][1];
 				//a_array[x2][2] = b_array[2][x2] = cpara[0 * 4 + 2] - o_marker_vertex_2d[i].x;// mat_a->m[j*6+2]=mat_b->m[num*4+j*2]=cpara[0][2]-pos2d[j][0];
@@ -117,8 +119,11 @@ package org.libspark.flartoolkit.core.transmat.fitveccalc {
 			const mat_b:FLARMat = this._mat_b;
 			const a_array:Array = mat_a.getArray(); // double[][]
 			const b_array:Array = mat_b.getArray(); // double[][]
-			for (var i:int = 0; i < 4; i++) {
-				var x2:int = i * 2;	
+			
+			var i:int;
+			var x2:int;
+			for (i = 0; i < 4; i++) {
+				x2 = i * 2;	
 				a_array[x2][2] = b_array[2][x2] = cpara02 - vertex[i].x; // mat_a->m[j*6+2]=mat_b->m[num*4+j*2]=cpara[0][2]-pos2d[j][0];
 				a_array[x2 + 1][2] = b_array[2][x2 + 1] = cpara12 - vertex[i].y; // mat_a->m[j*6+5]=mat_b->m[num*4+j*2+1]=cpara[1][2]-pos2d[j][1];
 			}
@@ -163,9 +168,13 @@ package org.libspark.flartoolkit.core.transmat.fitveccalc {
 		
 			//（3D座標？）を一括請求
 			i_rotation.getPoint3dBatch(vertex3d, point3d, 4);
-			for (var i:int = 0;i < 4; i++) {
-				var x2:int = i + i;
-				var point3d_ptr:FLARDoublePoint3d = point3d[i];
+			
+			var i:int;
+			var x2:int;
+			var point3d_ptr:FLARDoublePoint3d;
+			for (i = 0;i < 4; i++) {
+				x2 = i + i;
+				point3d_ptr = point3d[i];
 				//			i_rotation.getPoint3d(vertex3d[i],point3d);
 				//透視変換？
 				c_array[x2][0] = point3d_ptr.z * vertex2d[i].x - cpara00 * point3d_ptr.x - cpara01 * point3d_ptr.y - cpara02 * point3d_ptr.z;

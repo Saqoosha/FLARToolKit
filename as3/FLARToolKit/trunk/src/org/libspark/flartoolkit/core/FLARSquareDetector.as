@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -165,6 +165,8 @@ package org.libspark.flartoolkit.core {
 			//重なりチェッカの最大数を設定
 			overlap.reset(label_num);
 
+			var vertex1:int;
+			var square_ptr:FLARSquare;
 			for (;i < label_num; i++) {
 				label_pt = labels[i];
 				label_area = label_pt.area;
@@ -194,13 +196,13 @@ package org.libspark.flartoolkit.core {
 					continue;
 				}
 				//頂点候補のインデクスを取得
-				var vertex1:int = scanVertex(xcoord, ycoord, coord_num);
+				vertex1 = scanVertex(xcoord, ycoord, coord_num);
 
 				// 頂点候補(vertex1)を先頭に並べなおした配列を作成する。
 				normalizeCoord(xcoord, ycoord, vertex1, coord_num);
 
 				// 領域を準備する。
-				var square_ptr:FLARSquare = o_square_stack.prePush() as FLARSquare;
+				square_ptr = o_square_stack.prePush() as FLARSquare;
 
 				// 頂点情報を取得
 				if (!getSquareVertex(xcoord, ycoord, vertex1, coord_num, label_area, mkvertex)) {
@@ -239,7 +241,8 @@ package org.libspark.flartoolkit.core {
 			var x:int;
 			var y:int;
 			var ret:int = 0;
-			for (var i:int = 1;i < i_coord_num; i++) {
+			var i:int;
+			for (i = 1; i < i_coord_num; i++) {
 				x = i_xcoord[i] - sx;
 				y = i_ycoord[i] - sy;
 				w = x * x + y * y;
@@ -278,10 +281,12 @@ package org.libspark.flartoolkit.core {
 			// sy = marker_info2->y_coord[0];
 			var dmax:int = 0;
 			var v1:int = i_vertex1_index;
-			for (var i:int = 1 + i_vertex1_index; i < end_of_coord; i++) {
+			var d:int;
+			var i:int;
+			for (i = 1 + i_vertex1_index; i < end_of_coord; i++) {
 				// for(i=1;i<marker_info2->coord_num-1;i++)
 				// {
-				var d:int = (i_x_coord[i] - sx) * (i_x_coord[i] - sx) + (i_y_coord[i] - sy) * (i_y_coord[i] - sy);
+				d = (i_x_coord[i] - sx) * (i_x_coord[i] - sx) + (i_y_coord[i] - sy) * (i_y_coord[i] - sy);
 				if (d > dmax) {
 					dmax = d;
 					v1 = i;
@@ -380,11 +385,18 @@ package org.libspark.flartoolkit.core {
 			const evec:FLARMat = this.__getSquareLine_evec;
 			// アウトパラメータを受け取るから初期化不要//new FLARMat(2,2);
 			const evec_array:Array = evec.getArray(); // double[][]
-			for (var i:int = 0; i < 4; i++) {
-				var w1:Number = (i_mkvertex[i + 1] - i_mkvertex[i] + 1) * 0.05 + 0.5;
-				var st:int = (i_mkvertex[i] + w1);
-				var ed:int = (i_mkvertex[i + 1] - w1);
-				var n:int = ed - st + 1;
+			
+			var i:int;
+			var w1:Number;
+			var st:int;
+			var ed:int;
+			var n:int;
+			var l_line_i:FLARLinear;
+			for (i = 0; i < 4; i++) {
+				w1 = (i_mkvertex[i + 1] - i_mkvertex[i] + 1) * 0.05 + 0.5;
+				st = (i_mkvertex[i] + w1);
+				ed = (i_mkvertex[i + 1] - w1);
+				n = ed - st + 1;
 				if (n < 2) {
 					// nが2以下でmatrix.PCAを計算することはできないので、エラー
 					return false;
@@ -396,7 +408,7 @@ package org.libspark.flartoolkit.core {
 
 				// 主成分分析
 				input.matrixPCA(evec, ev, mean);
-				var l_line_i:FLARLinear = l_line[i];
+				l_line_i = l_line[i];
 				l_line_i.run = evec_array[0][1];
 				// line[i][0] = evec->m[1];
 				l_line_i.rise = -evec_array[0][0];
@@ -408,9 +420,11 @@ package org.libspark.flartoolkit.core {
 			// FLARDoublePoint2d[]
 			const l_imvertex:Array = o_square.imvertex; 
 			// FLARIntPoint[]
+			
+			var l_line_2:FLARLinear;
 			for (i = 0; i < 4; i++) {
 				l_line_i = l_line[i];
-				var l_line_2:FLARLinear = l_line[(i + 3) % 4];
+				l_line_2 = l_line[(i + 3) % 4];
 				w1 = l_line_2.run * l_line_i.rise - l_line_i.run * l_line_2.rise;
 				if (w1 == 0.0) {
 					return false;
@@ -477,8 +491,11 @@ class FLARVertexCounter {
 		const b:Number = lx_coord[st] - lx_coord[ed];
 		const c:Number = lx_coord[ed] * ly_coord[st] - ly_coord[ed] * lx_coord[st];
 		var dmax:Number = 0;
-		for (var i:int = st + 1; i < ed; i++) {
-			var d:Number = a * lx_coord[i] + b * ly_coord[i] + c;
+		
+		var i:int;
+		var d:Number;
+		for (i = st + 1; i < ed; i++) {
+			d = a * lx_coord[i] + b * ly_coord[i] + c;
 			if (d * d > dmax) {
 				dmax = d * d;
 				v1 = i;
@@ -551,10 +568,15 @@ class OverlapChecker {
 		const label_pt:Array = this._labels; // FLARLabelingLabel[]
 		const px1:int = int(i_label.pos_x);
 		const py1:int = int(i_label.pos_y);
-		for (var i:int = this._length - 1;i >= 0; i--) {
-			var px2:int = int(label_pt[i].pos_x);
-			var py2:int = int(label_pt[i].pos_y);
-			var d:int = (px1 - px2) * (px1 - px2) + (py1 - py2) * (py1 - py2);
+		
+		var i:int;
+		var px2:int;
+		var py2:int;
+		var d:int;
+		for (i = this._length - 1;i >= 0; i--) {
+			px2 = int(label_pt[i].pos_x);
+			py2 = int(label_pt[i].pos_y);
+			d = (px1 - px2) * (px1 - px2) + (py1 - py2) * (py1 - py2);
 			if (d < label_pt[i].area / 4) {
 				// 対象外
 				return false;

@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -116,12 +116,13 @@ package org.libspark.flartoolkit.core.labeling {
 			label_list.clear();
 //			label_list.reserv(256);
 			var labels:Array = label_list.getArray();
+			var label:FLARLabelingLabel;
 			while (!currentRect.isEmpty()) {
 				hLineRect.y = currentRect.top;
 				hSearch.copyPixels(label_img, hLineRect, ZERO_POINT);
 				hSearchRect = hSearch.getColorBoundsRect(0xffffff, 0xffffff, true);
 				
-				var label:FLARLabelingLabel = label_list.prePush() as FLARLabelingLabel;//labels[index++];
+				label = label_list.prePush() as FLARLabelingLabel;//labels[index++];
 				label_img.floodFill(hSearchRect.x, hLineRect.y, ++index);
 				labelRect = label_img.getColorBoundsRect(0xffffff, index, true);
 //			trace(labelRect);

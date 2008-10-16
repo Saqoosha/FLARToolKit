@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -154,8 +154,15 @@ package org.libspark.flartoolkit.detector {
 			this._result_holder.reservHolder(number_of_square);
 
 			// 1スクエア毎に、一致するコードを決定していく
-			for (var i:int = 0; i < number_of_square; i++) {
-				var square:FLARSquare = l_square_list.getItem(i) as FLARSquare;
+			var i:int;
+			var square:FLARSquare;
+			var code_index:int;
+			var confidence:Number;
+			var direction:int;
+			var i2:int;
+			var c2:Number;
+			for (i = 0; i < number_of_square; i++) {
+				square = l_square_list.getItem(i) as FLARSquare;
 				// 評価基準になるパターンをイメージから切り出す
 				if (!this._patt.pickFromRaster(i_raster, square)) {
 					// イメージの切り出しは失敗することもある。
@@ -167,14 +174,14 @@ package org.libspark.flartoolkit.detector {
 					throw new FLARException();
 				}
 				// コードと順番に比較していく
-				var code_index:int = 0;
+				code_index = 0;
 				_match_patt.evaluate(_codes[0]);
-				var confidence:Number = _match_patt.getConfidence();
-				var direction:int = _match_patt.getDirection();
-				for (var i2:int = 1;i2 < this._number_of_code; i2++) {
+				confidence = _match_patt.getConfidence();
+				direction = _match_patt.getDirection();
+				for (i2 = 1;i2 < this._number_of_code; i2++) {
 					// コードと比較する
 					_match_patt.evaluate(_codes[i2]);
-					var c2:Number = _match_patt.getConfidence();
+					c2 = _match_patt.getConfidence();
 					if (confidence > c2) {
 						continue;
 					}

@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -113,13 +113,21 @@ package org.libspark.flartoolkit.core {
 			//				var st:StreamTokenizer = new StreamTokenizer(new InputStreamReader(i_stream));
 			var token:Array = i_stream.match(/\d+/g);
 			// パターンデータはGBRAで並んでる。
-			for (var h:int = 0;h < 4; h++) {
-				var l:int = 0;
-				for (var i3:int = 0;i3 < 3; i3++) {
-					for (var i2:int = 0;i2 < height; i2++) {
-						for (var i1:int = 0;i1 < width; i1++) {
+			
+			var h:int;
+			var l:int = 0;
+			var i3:int;
+			var i2:int;
+			var i1:int;
+			var val:int;
+			var j:int;
+			for (h = 0;h < 4; h++) {
+				
+				for (i3 = 0;i3 < 3; i3++) {
+					for (i2 = 0;i2 < height; i2++) {
+						for (i1 = 0;i1 < width; i1++) {
 							// 数値のみ読み出す
-							var val:int = parseInt(token.shift());
+							val = parseInt(token.shift());
 							if (isNaN(val)) {
 								throw new Error();
 							}
@@ -129,7 +137,7 @@ package org.libspark.flartoolkit.core {
 							//									default:
 							//										throw new FLARException();
 							//								}
-							var j:int = 255 - val;
+							j = 255 - val;
 							// j = 255-j;
 							// 標準ファイルのパターンはBGRでならんでるからRGBに並べなおす
 							switch (i3) {

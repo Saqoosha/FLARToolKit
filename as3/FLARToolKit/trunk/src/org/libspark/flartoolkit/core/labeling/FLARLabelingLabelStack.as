@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -66,11 +66,14 @@ package org.libspark.flartoolkit.core.labeling {
 			var len:int = this._length;
 			var h:int = len * 13 / 10;
 			var item:Array = this._items; // FLARLabelingLabel[]
+			
+			var swaps:int;
+			var temp:FLARLabelingLabel;
 			for(;;) {
-				var swaps:int = 0;
+				swaps = 0;
 				for (var i:int = 0;i + h < len; i++) {
 					if (item[i + h].area > item[i].area) {
-						var temp:FLARLabelingLabel = item[i + h];
+						temp = item[i + h];
 						item[i + h] = item[i];
 						item[i] = temp;
 						swaps++;

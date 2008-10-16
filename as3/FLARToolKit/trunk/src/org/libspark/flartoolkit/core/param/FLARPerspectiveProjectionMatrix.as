@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -107,8 +107,11 @@ package org.libspark.flartoolkit.core.param {
 
 			var cpara:Array = o_cpara.getArray(); // double[][]
 			var trans:Array = o_trans.getArray(); // double[][]
-			for (var r:int = 0; r < 3; r++) {
-				for (var c:int = 0; c < 4; c++) {
+			
+			var r:int;
+			var c:int;
+			for (r = 0; r < 3; r++) {
+				for (c = 0; c < 4; c++) {
 					cpara[r][c] = 0.0;// cpara[r][c] = 0.0;
 				}
 			}

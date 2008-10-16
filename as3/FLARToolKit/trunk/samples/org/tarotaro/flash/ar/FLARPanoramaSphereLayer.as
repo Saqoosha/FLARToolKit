@@ -98,7 +98,6 @@ package org.tarotaro.flash.ar
 				trace(this._view.camera.rotationY, this._view.camera.rotationX);
 				//マーカの大きさから、ズームを判定する
 				//900-45000
-				trace(square.area);
 				this._view.camera.zoom = 1 + square.label.area / 9000;
 			} else {
 			}
