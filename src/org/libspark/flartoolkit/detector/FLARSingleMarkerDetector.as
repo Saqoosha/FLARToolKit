@@ -1,12 +1,14 @@
 /* 
- * PROJECT: FLARToolKit
+ * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
- *   R.Iizuka (nyatla)
- * http://nyatla.jp/nyatoolkit/
+ * This work is based on the original ARToolKit developed by
+ *   Hirokazu Kato
+ *   Mark Billinghurst
+ *   HITLab, University of Washington, Seattle
+ * http://www.hitl.washington.edu/artoolkit/
  *
- * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008 Saqoosha
+ * The FLARToolkit is Java version ARToolkit class library.
+ * Copyright (C)2008 R.Iizuka
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,171 +25,210 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  * For further information please contact.
- *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
- *	<saq(at)saqoosha.net>
+ *	http://nyatla.jp/nyatoolkit/
+ *	<airmail(at)ebony.plala.or.jp>
  * 
  */
-
 package org.libspark.flartoolkit.detector {
-	
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARColorPatt_O3;
-	import org.libspark.flartoolkit.core.FLARMat;
-	import org.libspark.flartoolkit.core.FLARParam;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
-	import org.libspark.flartoolkit.core.FLARSquareList;
-	import org.libspark.flartoolkit.core.FLARTransMatResult;
-	import org.libspark.flartoolkit.core.FLARTransMat_O2;
-	import org.libspark.flartoolkit.core.IFLARColorPatt;
-	import org.libspark.flartoolkit.core.IFLARTransMat;
-	import org.libspark.flartoolkit.core.match.FLARMatchPatt_BlackWhite;
+	import org.libspark.flartoolkit.core.FLARSquareStack;
+	import org.libspark.flartoolkit.core.IFLARSquareDetector;
 	import org.libspark.flartoolkit.core.match.FLARMatchPatt_Color_WITHOUT_PCA;
-	import org.libspark.flartoolkit.core.match.IFLARMatchPatt;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.pickup.FLARColorPatt_O3;
+	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
+	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
-	
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
+
 	/**
-	 * 1個のマーカーに対する変換行列を計算するクラスです。
-	 *
+	 * 画像からARCodeに最も一致するマーカーを1個検出し、その変換行列を計算するクラスです。
+	 * 
 	 */
 	public class FLARSingleMarkerDetector {
+
+		private static const AR_SQUARE_MAX:int = 100;
+
+		private var _is_continue:Boolean = false;
+		private var _match_patt:FLARMatchPatt_Color_WITHOUT_PCA;
+		private var _square_detect:IFLARSquareDetector;
+
+		private const _square_list:FLARSquareStack = new FLARSquareStack(AR_SQUARE_MAX);
+
+		private var _code:FLARCode;
+
+		protected var _transmat:IFLARTransMat;
+
+		private var _marker_width:Number;
+
+		// 検出結果の保存用
+		private var _detected_direction:int;
+
+		private var _detected_confidence:Number;
+
+		private var _detected_square:FLARSquare;
+
+		private var _patt:IFLARColorPatt;
+
+		/**
+		 * 検出するARCodeとカメラパラメータから、1個のARCodeを検出するFLARSingleDetectMarkerインスタンスを作ります。
+		 * 
+		 * @param i_param
+		 * カメラパラメータを指定します。
+		 * @param i_code
+		 * 検出するARCodeを指定します。
+		 * @param i_marker_width
+		 * ARコードの物理サイズを、ミリメートルで指定します。
+		 * @throws FLARException
+		 */
+		public function FLARSingleMarkerDetector(i_param:FLARParam, i_code:FLARCode, i_marker_width:Number) {
+			const scr_size:FLARIntSize = i_param.getScreenSize();		
+			// 解析オブジェクトを作る
+			this._square_detect = new FLARSquareDetector(i_param.getDistortionFactor(), scr_size);
+			this._transmat = new FLARTransMat(i_param);
+			// 比較コードを保存
+			this._code = i_code;
+			this._marker_width = i_marker_width;
+			// 評価パターンのホルダを作る
+			this._patt = new FLARColorPatt_O3(_code.getWidth(), _code.getHeight());
+			// 評価器を作る。
+			this._match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();
+			//２値画像バッファを作る
+//			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
+			this._bin_raster = new FLARRaster_BitmapData(scr_size.w, scr_size.h);
+		}
+
+		private var _bin_raster:IFLARRaster;
+//		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
+		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
+
+		/**
+		 * i_imageにマーカー検出処理を実行し、結果を記録します。
+		 * 
+		 * @param i_raster
+		 * マーカーを検出するイメージを指定します。イメージサイズは、カメラパラメータ
+		 * と一致していなければなりません。
+		 * @return マーカーが検出できたかを真偽値で返します。
+		 * @throws FLARException
+		 */
+		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Boolean {
+			//サイズチェック
+			if(!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+				throw new FLARException();
+			}
+
+			//ラスタを２値イメージに変換する.
+			this._tobin_filter.setThreshold(i_threshold);
+			this._tobin_filter.doFilter(i_raster, this._bin_raster);
 		
-	    private static const AR_SQUARE_MAX:int = 100;
-	    private var is_continue:Boolean = false;
-	    private var match_patt:IFLARMatchPatt;
-	    private var square:FLARSquareDetector;
-	    private var square_list:FLARSquareList = new FLARSquareList(AR_SQUARE_MAX);
-	    private var code:FLARCode;
-	    protected var transmat:IFLARTransMat;
-	    private var marker_width:Number;
-	    //検出結果の保存用
-	    private var detected_direction:int;
-	    private var detected_confidence:Number;
-	    private var detected_square:FLARSquare;
-	    private var patt:IFLARColorPatt;
-	    
-	    public function FLARSingleMarkerDetector(i_param:FLARParam, i_code:FLARCode, i_marker_width:Number) {
-			//解析オブジェクトを作る
-			this.square = new FLARSquareDetector(i_param);
-			this.transmat = new FLARTransMat_O2(i_param);
-			//比較コードを保存
-			this.code = i_code;
-			this.marker_width = i_marker_width;
-			//評価パターンのホルダを作る
-			this.patt = new FLARColorPatt_O3(code.getWidth(), code.getHeight());
-			//評価器を作る。
-//			this.match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();	
-			this.match_patt = new FLARMatchPatt_BlackWhite();
-	    }
-	    /**
-	     * i_imageにマーカー検出処理を実行して、結果を保持します。
-	     * @param dataPtr
-	     * @param thresh
-	     * @return
-	     * マーカーが検出できたかを真偽値で返します。
-	     * @throws NyARException
-	     */
-	    public function detectMarkerLite(i_image:FLARBitmapData, i_thresh:int):Boolean {
-			detected_square = null;
-			var l_square_list:FLARSquareList = this.square_list;
-			//スクエアコードを探す
-			square.detectSquare(i_image, i_thresh, l_square_list);
-			
-			var number_of_square:int = l_square_list.getSquareNum();
-			//コードは見つかった？
+		
+			this._detected_square = null;
+			var l_square_list:FLARSquareStack = this._square_list;
+			// スクエアコードを探す
+			this._square_detect.detectMarker(this._bin_raster, l_square_list);
+
+
+			var number_of_square:int = l_square_list.getLength();
+			// コードは見つかった？
 			if (number_of_square < 1) {
-			    return false;
+				return false;
 			}
-	
-			//評価基準になるパターンをイメージから切り出す
-			if(!patt.pickFromRaster(i_image, l_square_list.getSquare(0))){
-			    //パターンの切り出しに失敗
-			    return false;
+
+			// 評価基準になるパターンをイメージから切り出す
+			if (!this._patt.pickFromRaster(i_raster, l_square_list.getItem(0) as FLARSquare)) {
+				// パターンの切り出しに失敗
+				return false;
 			}
-			//パターンを評価器にセット
-			if (!this.match_patt.setPatt(patt)) {
-			    //計算に失敗した。
-			    return false;
-//			    throw new FLARException();
+			// パターンを評価器にセット
+			if (!this._match_patt.setPatt(this._patt)) {
+				// 計算に失敗した。
+				throw new FLARException();
 			}
-			//コードと比較する
-			match_patt.evaluate(code);
+			// コードと比較する
+			this._match_patt.evaluate(this._code);
 			var square_index:int = 0;
-			var direction:int = match_patt.getDirection();
-			var confidence:Number = match_patt.getConfidence();
-			for (var i:int = 1; i < number_of_square; i++) {
-			    //次のパターンを取得
-			    patt.pickFromRaster(i_image, l_square_list.getSquare(i));
-			    //評価器にセットする。
-			    match_patt.setPatt(patt);
-	            //コードと比較する
-			    match_patt.evaluate(code);
-			    var c2:Number = match_patt.getConfidence();
-			    if (confidence > c2) {
+			var direction:int = this._match_patt.getDirection();
+			var confidence:Number = this._match_patt.getConfidence();
+			for (var i:int = 1;i < number_of_square; i++) {
+				// 次のパターンを取得
+				this._patt.pickFromRaster(i_raster, l_square_list.getItem(i) as FLARSquare);
+				// 評価器にセットする。
+				this._match_patt.setPatt(this._patt);
+				// コードと比較する
+				this._match_patt.evaluate(this._code);
+				var c2:Number = this._match_patt.getConfidence();
+				if (confidence > c2) {
 					continue;
-			    }
-			    //もっと一致するマーカーがあったぽい
-			    square_index = i;
-			    direction = match_patt.getDirection();
-			    confidence = c2;
+				}
+				// もっと一致するマーカーがあったぽい
+				square_index = i;
+				direction = this._match_patt.getDirection();
+				confidence = c2;
 			}
-			//マーカー情報を保存
-			detected_square = l_square_list.getSquare(square_index);
-			detected_direction = direction;
-			detected_confidence = confidence;
+			// マーカー情報を保存
+			this._detected_square = l_square_list.getItem(square_index) as FLARSquare;
+			this._detected_direction = direction;
+			this._detected_confidence = confidence;
 			return true;
-	    }
-	    
-	    /**
-	     * 変換行列を返します。直前に実行したdetectMarkerLiteが成功していないと使えません。
-	     * @param i_marker_width
-	     * マーカーの大きさを指定します。
-	     * @return
-	     * double[3][4]の変換行列を返します。
-	     * @throws NyARException
-	     */
-	    public function getTranslationMatrix(o_result:FLARTransMatResult):void {
-			//一番一致したマーカーの位置とかその辺を計算
-			if (is_continue) { 
-			    transmat.transMatContinue(detected_square, detected_direction, marker_width, o_result);
+		}
+
+		/**
+		 * 検出したマーカーの変換行列を計算して、o_resultへ値を返します。
+		 * 直前に実行したdetectMarkerLiteが成功していないと使えません。
+		 * 
+		 * @param o_result
+		 * 変換行列を受け取るオブジェクトを指定します。
+		 * @throws FLARException
+		 */
+		public function getTransformMatrix(o_result:FLARTransMatResult):void {
+			// 一番一致したマーカーの位置とかその辺を計算
+			if (this._is_continue) {
+				this._transmat.transMatContinue(this._detected_square, this._detected_direction, this._marker_width, o_result);
 			} else {
-			    transmat.transMat(detected_square, detected_direction, marker_width, o_result);
+				this._transmat.transMat(this._detected_square, this._detected_direction, this._marker_width, o_result);
 			}
 			return;
-	    }
-	    
-	    public function getConfidence():Number {
-			return detected_confidence;
-	    }
-	    
-	    public function getDirection():int {
-			return detected_direction;
-	    }
-	    
-	    /**
-	     * getTransmationMatrixの計算モードを設定します。
-	     * 初期値はTRUEです。
-	     * @param i_is_continue
-	     * TRUEなら、transMatCont互換の計算をします。
-	     * FALSEなら、transMat互換の計算をします。
-	     */
-	    public function setContinueMode(i_is_continue:Boolean):void {
-			this.is_continue = i_is_continue;
-	    }
-    
-	    public function getSquare():FLARSquare {
-	    	return this.detected_square;
-	    }
+		}
+
+		/**
+		 * 検出したマーカーの一致度を返します。
+		 * 
+		 * @return マーカーの一致度を返します。0～1までの値をとります。 一致度が低い場合には、誤認識の可能性が高くなります。
+		 * @throws FLARException
+		 */
+		public function getConfidence():Number {
+			return this._detected_confidence;
+		}
+
+		/**
+		 * 検出したマーカーの方位を返します。
+		 * 
+		 * @return 0,1,2,3の何れかを返します。
+		 */
+		public function getDirection():int {
+			return this._detected_direction;
+		}
+
+		/**
+		 * getTransmationMatrixの計算モードを設定します。 初期値はTRUEです。
+		 * 
+		 * @param i_is_continue
+		 * TRUEなら、transMatCont互換の計算をします。 FALSEなら、transMat互換の計算をします。
+		 */
+		public function setContinueMode(i_is_continue:Boolean):void {
+			this._is_continue = i_is_continue;
+		}
 		
-	//	public static class arUtil_c{
-	//		public static final int		arFittingMode	=Config.DEFAULT_FITTING_MODE;
-	//		private static final int		arImageProcMode	=Config.DEFAULT_IMAGE_PROC_MODE;
-	//		public static final int		arTemplateMatchingMode  =Config.DEFAULT_TEMPLATE_MATCHING_MODE;
-	//		public static final int		arMatchingPCAMode       =Config.DEFAULT_MATCHING_PCA_MODE;	
-			/*int arInitCparam(ARParam *param)*/
-		
+		public function get squareList():FLARSquareStack {
+			return this._square_list;
+		}
 	}
-	
 }
