@@ -16,9 +16,10 @@
 package org.tarotaro.flash.ar.layers 
 {
 	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARParam;
-	import org.libspark.flartoolkit.core.FLARTransMatResult;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
 	
 	/**
@@ -38,7 +39,7 @@ package org.tarotaro.flash.ar.layers
 		 * @param	markerWidth
 		 * @param	thresh
 		 */
-		public function FLARSingleMarkerLayer(src:FLARBitmapData, 
+		public function FLARSingleMarkerLayer(src:IFLARRgbRaster, 
 												param:FLARParam, 
 												code:FLARCode, 
 												markerWidth:Number, 

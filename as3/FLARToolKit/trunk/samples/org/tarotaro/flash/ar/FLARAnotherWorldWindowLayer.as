@@ -15,12 +15,13 @@
  */ 
 package org.tarotaro.flash.ar 
 {
+	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.FLARParam;
 	import org.libspark.flartoolkit.core.FLARSquare;
-	import org.libspark.flartoolkit.core.raster.FLARBitmapData;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.papervision3d.cameras.CameraType;
 	import org.papervision3d.core.culling.FrustumTestMethod;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -46,7 +47,7 @@ package org.tarotaro.flash.ar
 		 * @param	windowHeight	表示領域の高さ
 		 * @param	thresh			マーカー検出時の閾値
 		 */
-		public function FLARAnotherWorldWindowLayer(src:FLARBitmapData,
+		public function FLARAnotherWorldWindowLayer(src:IFLARRgbRaster,
 													param:FLARParam,
 													code:FLARCode,
 													markerWidth:Number,
@@ -80,22 +81,23 @@ package org.tarotaro.flash.ar
 		override public function update():void 
 		{
 
-			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
+			if (!this._source is IFLARRgbRaster) throw new IllegalOperationError("ソース画像の型が予期しないクラスです。");
+			if (this._detector.detectMarkerLite(this._source as IFLARRgbRaster, this._thresh) &&
 				this._detector.getConfidence() >= 0.65) {
 				
 				//マーカの中心点の位置を検出し、傾きとする
 				var square:FLARSquare = this._detector.getSquare();
 
-				var Mx:int = Math.max(square.sqvertex[0][0], square.sqvertex[1][0], square.sqvertex[2][0], square.sqvertex[3][0]);
-				var mx:int = Math.min(square.sqvertex[0][0], square.sqvertex[1][0], square.sqvertex[2][0], square.sqvertex[3][0]);
-				var My:int = Math.max(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
-				var my:int = Math.min(square.sqvertex[0][1], square.sqvertex[1][1], square.sqvertex[2][1], square.sqvertex[3][1]);
+				var Mx:int = Math.max(square.sqvertex[0].x, square.sqvertex[1].x, square.sqvertex[2].x, square.sqvertex[3].x);
+				var mx:int = Math.min(square.sqvertex[0].x, square.sqvertex[1].x, square.sqvertex[2].x, square.sqvertex[3].x);
+				var My:int = Math.max(square.sqvertex[0].y, square.sqvertex[1].y, square.sqvertex[2].y, square.sqvertex[3].y);
+				var my:int = Math.min(square.sqvertex[0].y, square.sqvertex[1].y, square.sqvertex[2].y, square.sqvertex[3].y);
 				var center:Point = new Point((Mx + mx)/2, (My+my)/2);
 
 				this._view.camera.x = -(center.x - this._source.getWidth() / 2) * 1;
 				this._view.camera.y = -(center.y - this._source.getHeight() / 2) * 1;
 				//this._view.camera.z = -100 - (45000 - square.area);
-				this._view.camera.zoom = 1 + square.area / 9000;
+				this._view.camera.zoom = 1 + square.label.area / 9000;
 				
 			} else {
 				
