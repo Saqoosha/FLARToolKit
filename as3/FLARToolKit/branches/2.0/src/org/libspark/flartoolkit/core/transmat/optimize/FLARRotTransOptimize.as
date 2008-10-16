@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -173,10 +173,12 @@ package org.libspark.flartoolkit.core.transmat.optimize {
 			c2 = angle.z;
 
 			// comboの3行目を先に計算
-			for (var i:int = 0; i < 10; i++) {
+			var i:int;
+			var j:int;
+			for (i = 0; i < 10; i++) {
 				minerr = 1000000000.0;
 				// sin-cosテーブルを計算(これが外に出せるとは…。)
-				for (var j:int = 0; j < 3; j++) {
+				for (j = 0; j < 3; j++) {
 					w2 = factor * (j - 1);
 					w = a2 + w2;
 					a_factor[j] = w;

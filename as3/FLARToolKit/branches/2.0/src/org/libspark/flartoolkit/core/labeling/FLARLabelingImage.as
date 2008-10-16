@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -107,7 +107,9 @@ package org.libspark.flartoolkit.core.labeling {
 			var limage_j:Array = this._ref_buf[i_label.clip_t]; // int[]
 			const clip1:int = i_label.clip_r;
 			// p1=ShortPointer.wrap(limage,j*xsize+clip.get());//p1 =&(limage[j*xsize+clip[0]]);
-			for (var i:int = i_label.clip_l; i <= clip1; i++) { // for( i = clip[0]; i <=clip[1]; i++, p1++ ) {
+			
+			var i:int;
+			for (i = i_label.clip_l; i <= clip1; i++) { // for( i = clip[0]; i <=clip[1]; i++, p1++ ) {
 				w = limage_j[i];
 				if (w > 0 && index_table[w - 1] == i_label_id) {
 					return i;

@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -108,7 +108,8 @@ package org.libspark.flartoolkit.core {
 			if (this.clm != y.clm) {
 				throw new FLARException();// exit();
 			}
-			for (var i:int = i_start;i < this.clm; i++) {
+			var i:int;
+			for (i = i_start;i < this.clm; i++) {
 				FLARException.trap("未チェックのパス");
 				result += this.v[i] * y.v[i];// result += x->v[i] * y->v[i];
 			}
@@ -128,6 +129,7 @@ package org.libspark.flartoolkit.core {
 			FLARException.trap("この関数は動作確認できていません。");
 			var s:Number;
 			var t:Number;
+			var i:int;
 			s = Math.sqrt(this.vecInnerproduct(this, i_start));
 			// double[] x_array=x.getArray();
 			if (s != 0.0) {
@@ -140,7 +142,7 @@ package org.libspark.flartoolkit.core {
 					this.v[i_start] += s;// x->v[0] += s;
 					t = 1 / Math.sqrt(this.v[i_start] * s);// t = 1 / sqrt(x->v[0] * s);
 				}
-				for (var i:int = i_start; i < this.clm; i++) {
+				for (i = i_start; i < this.clm; i++) {
 					FLARException.trap("未チェックのパス");
 					this.v[i] *= t;// x->v[i] *= t;
 				}

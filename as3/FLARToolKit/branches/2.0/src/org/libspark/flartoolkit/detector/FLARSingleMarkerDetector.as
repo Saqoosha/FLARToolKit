@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -155,14 +155,17 @@ package org.libspark.flartoolkit.detector {
 			var square_index:int = 0;
 			var direction:int = this._match_patt.getDirection();
 			var confidence:Number = this._match_patt.getConfidence();
-			for (var i:int = 1;i < number_of_square; i++) {
+			
+			var i:int;
+			var c2:Number;
+			for (i = 1;i < number_of_square; i++) {
 				// 次のパターンを取得
 				this._patt.pickFromRaster(i_raster, l_square_list.getItem(i) as FLARSquare);
 				// 評価器にセットする。
 				this._match_patt.setPatt(this._patt);
 				// コードと比較する
 				this._match_patt.evaluate(this._code);
-				var c2:Number = this._match_patt.getConfidence();
+				c2 = this._match_patt.getConfidence();
 				if (confidence > c2) {
 					continue;
 				}

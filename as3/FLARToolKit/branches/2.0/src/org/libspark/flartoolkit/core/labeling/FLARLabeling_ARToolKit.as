@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -50,7 +50,9 @@ package org.libspark.flartoolkit.core.labeling {
 
 			// NyLabelingImageのイメージ初期化(枠書き)
 			var img:Array = i_destination_image.getBufferReader().getBuffer() as Array; // int[][]
-			for (var i:int = 0; i < size.w; i++) {
+			
+			var i:int;
+			for (i = 0; i < size.w; i++) {
 				img[0][i] = 0;
 				img[size.h - 1][i] = 0;
 			}
