@@ -52,6 +52,7 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin {
 		]);
 		
 		private var _threshold:int;
+		private var _tmp:BitmapData;
 		
 		public function FLARRasterFilter_BitmapDataThreshold(i_threshold:int) {
 			this._threshold = i_threshold;
@@ -63,12 +64,18 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin {
 
 		public function doFilter(i_input:IFLARRgbRaster, i_output:IFLARRaster):void {
 			var inbmp:BitmapData = FLARRgbRaster_BitmapData(i_input).bitmapData;
-			inbmp.applyFilter(inbmp, inbmp.rect, ZERO_POINT, MONO_FILTER);
+			if (!this._tmp) {
+				this._tmp = new BitmapData(inbmp.width, inbmp.height, false, 0x0);
+			} else if (inbmp.width != this._tmp.width || inbmp.height != this._tmp.height) {
+				this._tmp.dispose();
+				this._tmp = new BitmapData(inbmp.width, inbmp.height, false, 0x0);
+			}
+			this._tmp.applyFilter(inbmp, inbmp.rect, ZERO_POINT, MONO_FILTER);
 			var outbmp:BitmapData = FLARRaster_BitmapData(i_output).bitmapData;
 			outbmp.fillRect(outbmp.rect, 0x0);
 			var rect:Rectangle = outbmp.rect;
 			rect.inflate(-1, -1);
-			outbmp.threshold(inbmp, rect, ONE_POINT, '<=', this._threshold, 0xffffffff, 0xff);
+			outbmp.threshold(this._tmp, rect, ONE_POINT, '<=', this._threshold, 0xffffffff, 0xff);
 		}
 	}
 }
