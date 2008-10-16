@@ -56,6 +56,7 @@ package org.libspark.flartoolkit.detector {
 
 		private static const AR_SQUARE_MAX:int = 100;
 
+		private var _sizeCheckEnabled:Boolean = true;
 		private var _is_continue:Boolean = false;
 		private var _match_patt:FLARMatchPatt_Color_WITHOUT_PCA;
 		private var _square_detect:IFLARSquareDetector;
@@ -70,9 +71,7 @@ package org.libspark.flartoolkit.detector {
 
 		// 検出結果の保存用
 		private var _detected_direction:int;
-
 		private var _detected_confidence:Number;
-
 		private var _detected_square:FLARSquare;
 
 		private var _patt:IFLARColorPatt;
@@ -120,7 +119,7 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Boolean {
 			//サイズチェック
-			if(!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
 				throw new FLARException();
 			}
 
@@ -238,6 +237,16 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function getSquareList():FLARSquareStack {
 			return this._square_list;
+		}
+		
+		/**
+		 * 入力画像のサイズチェックをする／しない的な。（デフォルトではチェックする）
+		 */
+		public function get sizeCheckEnabled():Boolean {
+			return this._sizeCheckEnabled;
+		}
+		public function set sizeCheckEnabled(value:Boolean):void {
+			this._sizeCheckEnabled = value;
 		}
 	}
 }
