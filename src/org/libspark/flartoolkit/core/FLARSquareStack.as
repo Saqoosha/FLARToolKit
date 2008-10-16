@@ -1,14 +1,12 @@
 /* 
- * PROJECT: FLARToolkit
+ * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the original ARToolKit developed by
- *   Hirokazu Kato
- *   Mark Billinghurst
- *   HITLab, University of Washington, Seattle
- * http://www.hitl.washington.edu/artoolkit/
+ * This work is based on the NyARToolKit developed by
+ *   R.Iizuka (nyatla)
+ * http://nyatla.jp/nyatoolkit/
  *
- * The FLARToolkit is Java version ARToolkit class library.
- * Copyright (C)2008 R.Iizuka
+ * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
+ * Copyright (C)2008 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,28 +23,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  * For further information please contact.
- *	http://nyatla.jp/nyatoolkit/
- *	<airmail(at)ebony.plala.or.jp>
+ *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
+ *	<saq(at)saqoosha.net>
  * 
  */
+
 package org.libspark.flartoolkit.core {
 	import org.libspark.flartoolkit.utils.NyObjectStack;		
 
 	public class FLARSquareStack extends NyObjectStack {
 
 		public function FLARSquareStack(i_length:int) {
-//			var arr:Array = new Array(i_length);
-//			var n:int = i_length;
-//			while (n--) {
-//				arr[n] = new FLARSquare();
-//			}
 			super(FLARSquare, i_length);
 		}
-
-//		protected override function onReservRequest(i_start:int, i_end:int, i_buffer:Array):void {
-//			for (var i:int = i_start; i < i_end; i++) {
-//				i_buffer[i] = new FLARSquare();
-//			}
-//		}
 	}
 }
