@@ -58,14 +58,14 @@ package net.saqoosha.flartoolkit.example {
 			
 			this._renderer = new LazyRenderEngine(this._scene, this._camera3d, this._viewport);
 			
-//			this.stage.addChild(new StatsView(this._renderer));
+			this.stage.addChild(new StatsView(this._renderer));
 			
 			this.addEventListener(Event.ENTER_FRAME, this._onEnterFrame);
 		}
 		
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
-			if (this._detector.detectMarkerLite(this._raster, 80) && this._detector.getConfidence() > 0.5) {
+			if (this._detector.detectMarkerLite(this._raster, 80)) {// && this._detector.getConfidence() > 0.5) {
 				this._detector.getTransformMatrix(this._resultMat);
 				this._baseNode.setTransformMatrix(this._resultMat);
 				this._baseNode.visible = true;
