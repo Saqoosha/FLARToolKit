@@ -65,7 +65,7 @@ package net.saqoosha.flartoolkit.example {
 		
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
-			if (this._detector.detectMarkerLite(this._raster, 80)) {// && this._detector.getConfidence() > 0.5) {
+			if (this._detector.detectMarkerLite(this._raster, 80) && this._detector.getConfidence() > 0.5) {
 				this._detector.getTransformMatrix(this._resultMat);
 				this._baseNode.setTransformMatrix(this._resultMat);
 				this._baseNode.visible = true;
