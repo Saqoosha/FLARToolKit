@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */ 
-package org.tarotaro.flash.ar 
+package org.tarotaro.flash.ar.layers 
 {
 	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
@@ -84,8 +84,7 @@ package org.tarotaro.flash.ar
 		override public function update():void 
 		{
 
-			if (!this._source is IFLARRgbRaster) throw new IllegalOperationError("ソース画像の型が予期しないクラスです。");
-			if (this._detector.detectMarkerLite(this._source as IFLARRgbRaster, this._thresh) &&
+			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
 				this._detector.getConfidence() >= 0.65) {
 				
 				//マーカの中心点の位置を検出し、傾きとする

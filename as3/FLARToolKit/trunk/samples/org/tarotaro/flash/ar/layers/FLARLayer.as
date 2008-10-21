@@ -17,6 +17,7 @@ package org.tarotaro.flash.ar.layers
 {
 	import flash.display.Sprite;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	
 	/**
 	* ...
@@ -24,10 +25,10 @@ package org.tarotaro.flash.ar.layers
 	*/
 	public class FLARLayer extends Sprite
 	{
-		protected var _source:IFLARRaster;
+		protected var _source:IFLARRgbRaster;
 		protected var _thresh:int;
 
-		public function FLARLayer(src:IFLARRaster,thresh:int) 
+		public function FLARLayer(src:IFLARRgbRaster,thresh:int) 
 		{
 			this._source = src;
 			this._thresh = thresh;

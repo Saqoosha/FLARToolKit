@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */ 
-package org.tarotaro.flash.ar 
+package org.tarotaro.flash.ar.layers
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
