@@ -15,11 +15,6 @@
  */ 
 package org.tarotaro.flash.ar.layers 
 {
-	import com.libspark.flartoolkit.core.FLARParam;
-	import com.libspark.flartoolkit.core.FLARSquare;
-	import com.libspark.flartoolkit.core.FLARSquareDetector;
-	import com.libspark.flartoolkit.core.FLARSquareList;
-	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -28,6 +23,15 @@ package org.tarotaro.flash.ar.layers
 	import flash.display.LineScaleMode;
 	import flash.display.PixelSnapping;
 	import flash.display.Shape;
+	import org.libspark.flartoolkit.core.FLARSquare;
+	import org.libspark.flartoolkit.core.FLARSquareDetector;
+	import org.libspark.flartoolkit.core.FLARSquareStack;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	
 	/**
 	* 
@@ -36,7 +40,7 @@ package org.tarotaro.flash.ar.layers
 	public class FLARSquareLayer extends FLARLayer
 	{
 		private var _detector:FLARSquareDetector;
-		private var _squareList:FLARSquareList;
+		private var _stack:FLARSquareStack;
 
 		private var _thickness:Number=NaN;
 		private var _color:uint=0;
@@ -46,12 +50,22 @@ package org.tarotaro.flash.ar.layers
 		private var _caps:String=null;
 		private var _joints:String=null;
 		private var _miterLimit:Number = 3;
+		private var _monoSrc:IFLARRaster;
+		private var _filter:FLARRasterFilter_BitmapDataThreshold;
 
-		public function FLARSquareLayer(src:FLARBitmapData, param:FLARParam, thresh:int=100) 
+		/**
+		 * 
+		 * @param	src
+		 * @param	param
+		 * @param	thresh
+		 */
+		public function FLARSquareLayer(src:IFLARRgbRaster, param:FLARParam, thresh:int=100) 
 		{
 			super(src,thresh);
-			this._squareList = new FLARSquareList(10);
-			this._detector = new FLARSquareDetector(param);
+			this._stack = new FLARSquareStack(10);
+			this._detector = new FLARSquareDetector(param.getDistortionFactor(), param.getScreenSize());
+			this._filter = new FLARRasterFilter_BitmapDataThreshold(thresh);
+			this._monoSrc = new FLARRaster_BitmapData(src.getWidth(), src.getHeight());
 		}
 		
 		/**
@@ -59,14 +73,19 @@ package org.tarotaro.flash.ar.layers
 		 */
 		override public function update():void
 		{
-			this._detector.detectSquare(this._source, this._thresh, this._squareList);
+			this._filter.doFilter(this._source, this._monoSrc);
+			this._detector.detectMarker(this._monoSrc, this._stack);
 			this.graphics.clear();
-			var squareNum:int = this._squareList.getSquareNum();
+			var squareNum:int = this._stack.getLength();
 			var square:FLARSquare;
 			var v:Array;
 
 			for (var i:int = 0; i < squareNum; i++) {
-				square = this._squareList.getSquare(i);
+				square = this._stack.getItem(i) as FLARSquare;
+				if (square == null) {
+					trace(square, i,"nullです");
+					continue;
+				}
 				v = square.sqvertex;
 				this.graphics.lineStyle(this._thickness, 
 										this._color, 
@@ -76,9 +95,9 @@ package org.tarotaro.flash.ar.layers
 										this._caps, 
 										this._joints, 
 										this._miterLimit);
-				this.graphics.moveTo(v[3][0], v[3][1]);
+				this.graphics.moveTo(v[3].x, v[3].y);
 				for (var vi:int = 0; vi < v.length; vi++) {
-					this.graphics.lineTo(v[vi][0], v[vi][1]);
+					this.graphics.lineTo(v[vi].x, v[vi].y);
 				}
 			}
 			

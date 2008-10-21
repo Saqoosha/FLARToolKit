@@ -41,6 +41,7 @@ package org.tarotaro.flash.ar
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.objects.primitives.Cube;
 	import org.papervision3d.objects.primitives.Sphere;
+	import org.tarotaro.flash.ar.layers.FLARAnotherWorldWindowLayer;
 	
 	/**
 	 * ...

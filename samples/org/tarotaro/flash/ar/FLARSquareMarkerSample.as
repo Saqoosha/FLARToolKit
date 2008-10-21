@@ -12,7 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */ 
+ */
 package org.tarotaro.flash.ar 
 {
 	import flash.display.Bitmap;
@@ -27,34 +27,28 @@ package org.tarotaro.flash.ar
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.tarotaro.flash.ar.layers.FLARPanoramaSphereLayer;
+	import org.tarotaro.flash.ar.layers.FLARSquareLayer;
 	
 	/**
 	 * ...
 	 * @author 太郎(tarotaro.org)
 	 */
-	public class FLARPanoramaSphere extends Sprite
+	[SWF(width="640", height="480", backgroundColor="0xFFFFFF", frameRate="30")]
+	public class FLARSquareMarkerSample extends Sprite
 	{
-		//フォルダ構造の変更に注意すること！！
 		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]
 		private var CParam:Class;
-		[Embed(source = "../../../../Data/patt.hiro", mimeType = "application/octet-stream")]
-		private var CodeData:Class;
-		//panorama.jpgはFlickrなどから調達して、Data以下に格納してください。
-		[Embed(source = '../../../../Data/panorama.jpg')]private var PanoBitmap:Class;
 		private var _capture:Bitmap;
 		private var _video:Video;
-		private var _layer:FLARPanoramaSphereLayer;
+		private var _layer:FLARSquareLayer;
 		private var _arSprite:Sprite;
-
-		public function FLARPanoramaSphere() 
+		
+		public function FLARSquareMarkerSample() 
 		{
 			//AR部分の設定
 			var param:FLARParam = new FLARParam();
 			param.loadARParam(new CParam()as ByteArray);
 			var code:FLARCode = new FLARCode(16,16);
-			var codeFile:ByteArray = new CodeData() as ByteArray;
-			code.loadARPatt(codeFile.readMultiByte(codeFile.length, "shift-jis"));
 			
 			this._capture = new Bitmap(new BitmapData(320, 240, false, 0), PixelSnapping.AUTO, true);
 			var raster:IFLARRgbRaster = new FLARRgbRaster_BitmapData(this._capture.bitmapData);
@@ -64,15 +58,15 @@ package org.tarotaro.flash.ar
 			this._video = new Video();
 			this._video.attachCamera(webcam);
 			
-
-			var panoBMP:Bitmap = new PanoBitmap() as Bitmap;
+			this._layer = new FLARSquareLayer(raster, param);
+			this._layer.lineStyle(2, 0xFF0000);
 			
-			this._layer = new FLARPanoramaSphereLayer(raster, param, code, 80,panoBMP.bitmapData);
+			this._capture.scaleX = this._capture.scaleY = 2;
+			this._layer.scaleX = this._layer.scaleY = 2;
+
+			this.addChild(this._capture);
 			this.addChild(this._layer);
 			
-			this._capture.scaleX = this._capture.scaleY = 0.5;
-			this.addChild(this._capture);
-
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
