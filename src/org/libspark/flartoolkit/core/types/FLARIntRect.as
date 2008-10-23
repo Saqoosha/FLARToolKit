@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
@@ -29,15 +29,25 @@
  *	<airmail(at)ebony.plala.or.jp>
  * 
  */
-package org.libspark.flartoolkit.core.types;
+package org.libspark.flartoolkit.core.types {
 
-public class FLARIntRect
-{
-	public int x;
-
-	public int y;
-
-	public int w;
-
-	public int h;
+	public class FLARIntRect
+	{
+		/**
+		 * 左上のX座標
+		 */
+		public var x:int;
+		/**
+		 * 左上のY座標
+		 */
+		public var y:int;
+		/**
+		 * 幅
+		 */
+		public var w:int;
+		/**
+		 * 高さ
+		 */
+		public var h:int;
+	}
 }
