@@ -48,24 +48,28 @@ package org.tarotaro.flash.ar.layers
 	{
 		protected var _detector:FLARSingleMarkerDetector;
 		protected var _resultMat:FLARTransMatResult;
-		
+		protected var _confidence:Number;
+
 		/**
 		 * 単一マーカ用レイヤ
 		 * @param	src
 		 * @param	param
 		 * @param	code
 		 * @param	markerWidth
+		 * @param	confidence
 		 * @param	thresh
 		 */
 		public function FLARSingleMarkerLayer(src:IFLARRgbRaster, 
 												param:FLARParam, 
 												code:FLARCode, 
 												markerWidth:Number, 
+												confidence:Number = 0.65,
 												thresh:int = 100) 
 		{
 			super(src, thresh);
 			this._detector = new FLARSingleMarkerDetector(param, code, markerWidth);
 			this._resultMat = new FLARTransMatResult();
+			this._confidence = confidence;
 		}
 	}
 	
