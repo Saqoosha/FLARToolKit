@@ -29,6 +29,9 @@
  */
 
 package org.libspark.flartoolkit.detector {
+	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
@@ -113,12 +116,14 @@ package org.libspark.flartoolkit.detector {
 			// 評価器を作る。
 			this._match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();
 			//２値画像バッファを作る
-			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);		
+//			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
+			this._bin_raster = new FLARRaster_BitmapData(scr_size.w, scr_size.h);
 		}
 
-		private var _bin_raster:FLARBinRaster;
+		private var _bin_raster:IFLARRaster;
 
-		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
+//		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
+		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -132,9 +137,10 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):int {
 			// サイズチェック
-			if (!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
-				throw new FLARException();
-			}
+			//trace(this._bin_raster.getSize().w, i_raster.getSize().w);
+			//if (!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+				//throw new FLARException();
+			//}
 
 			// ラスタを２値イメージに変換する.
 			this._tobin_filter.setThreshold(i_threshold);
@@ -191,7 +197,7 @@ package org.libspark.flartoolkit.detector {
 					confidence = c2;
 				}
 				// i番目のパターン情報を保存する。
-				const result:FLARDetectMarkerResult = this._result_holder.result_array[i];
+				var result:FLARDetectMarkerResult = this._result_holder.result_array[i];
 				result.arcode_id = code_index;
 				result.confidence = confidence;
 				result.direction = direction;
@@ -220,6 +226,15 @@ package org.libspark.flartoolkit.detector {
 			return;
 		}
 
+		public function getResult(i_index:int):Object
+		{
+			const result:FLARDetectMarkerResult = this._result_holder.result_array[i_index];
+			var ret:Object = new Object();
+			ret.square = result.ref_square;
+			ret.codeId = result.arcode_id;
+			ret.confidence = result.confidence;
+			return ret;
+		}
 		/**
 		 * i_indexのマーカーの一致度を返します。
 		 * 
