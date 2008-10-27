@@ -66,7 +66,6 @@ package org.tarotaro.flash.ar
 			//AR部分の設定
 			var param:FLARParam = new FLARParam();
 			param.loadARParam(new CParam()as ByteArray);
-			var code:FLARCode = new FLARCode(16,16);
 			
 			this._capture = new Bitmap(new BitmapData(320, 240, false, 0), PixelSnapping.AUTO, true);
 			var raster:IFLARRgbRaster = new FLARRgbRaster_BitmapData(this._capture.bitmapData);

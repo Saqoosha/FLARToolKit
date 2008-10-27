@@ -39,6 +39,10 @@ package org.tarotaro.flash.ar.layers
 	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
 	import com.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
 	import com.libspark.flartoolkit.scene.FLARBaseNode;
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
 	
 	/**
 	* ...
@@ -54,13 +58,15 @@ package org.tarotaro.flash.ar.layers
 		 * @param	param
 		 * @param	code
 		 * @param	markerWidth
+		 * @param	confidence
 		 * @param	thresh
 		 */
-		public function FLARSingle3DModelLayer(src:FLARBitmapData,
+		public function FLARSingle3DModelLayer(src:IFLARRgbRaster, 
 												param:FLARParam,
 												code:FLARCode,
 												markerWidth:Number, 
 												model:FLARBaseNode,
+												confidence:Number = 0.65,
 												thresh:int=100) 
 		{
 			super(src, param, code, markerWidth, thresh);
@@ -69,7 +75,8 @@ package org.tarotaro.flash.ar.layers
 
 		override public function update():void 
 		{
-			if (this._detector.detectMarkerLite(this._source, this._thresh) ) {
+			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
+				this._detector.getConfidence() > this._confidence) {
 				this._detector.getTranslationMatrix(this._resultMat);
 				this._model.setTranslationMatrix(this._resultMat);
 				this._model.visible = true;

@@ -49,7 +49,7 @@
 	 */
 	public class SimpleFLARToolKitView extends ARAppBase {
 		
-		private static const PATTERN_FILE:String = "Data/patt.hiro";
+		private static const PATTERN_FILE:String = "Data/top.pat";
 		private static const CAMERA_FILE:String = "Data/camera_para.dat";
 		
 		private var _base:Sprite;
