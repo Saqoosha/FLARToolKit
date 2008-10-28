@@ -53,7 +53,7 @@ package org.libspark.flartoolkit.detector {
 	 * 複数のマーカーを検出し、それぞれに最も一致するARコードを、コンストラクタで登録したARコードから 探すクラスです。最大300個を認識しますが、ゴミラベルを認識したりするので100個程度が限界です。
 	 * 
 	 */
-	public class FLARDetectMarker {
+	public class FLARMultiMarkerDetector {
 
 		private static const AR_SQUARE_MAX:int = 300;
 
@@ -76,7 +76,7 @@ package org.libspark.flartoolkit.detector {
 		// 検出結果の保存用
 		private var _patt:IFLARColorPatt;
 
-		private var _result_holder:FLARDetectMarkerResultHolder = new FLARDetectMarkerResultHolder();
+		private var _result_holder:FLARMultiMarkerDetectorResultHolder = new FLARMultiMarkerDetectorResultHolder();
 
 		/**
 		 * 複数のマーカーを検出し、最も一致するARCodeをi_codeから検索するオブジェクトを作ります。
@@ -92,7 +92,7 @@ package org.libspark.flartoolkit.detector {
 		 * i_codeに含まれる、ARCodeの数を指定します。
 		 * @throws FLARException
 		 */
-		public function FLARDetectMarker(i_param:FLARParam, i_code:Array, i_marker_width:Array, i_number_of_code:int) {
+		public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Array, i_marker_width:Array, i_number_of_code:int) {
 			const scr_size:FLARIntSize = i_param.getScreenSize();
 			// 解析オブジェクトを作る
 			this._square_detect = new FLARSquareDetector(i_param.getDistortionFactor(), scr_size);
@@ -197,7 +197,7 @@ package org.libspark.flartoolkit.detector {
 					confidence = c2;
 				}
 				// i番目のパターン情報を保存する。
-				var result:FLARDetectMarkerResult = this._result_holder.result_array[i];
+				var result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i];
 				result.arcode_id = code_index;
 				result.confidence = confidence;
 				result.direction = direction;
@@ -216,7 +216,7 @@ package org.libspark.flartoolkit.detector {
 		 * @throws FLARException
 		 */
 		public function getTransmationMatrix(i_index:int, o_result:FLARTransMatResult):void {
-			const result:FLARDetectMarkerResult = this._result_holder.result_array[i_index];
+			const result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i_index];
 			// 一番一致したマーカーの位置とかその辺を計算
 			if (_is_continue) {
 				_transmat.transMatContinue(result.ref_square, result.direction, _marker_width[result.arcode_id], o_result);
@@ -228,7 +228,7 @@ package org.libspark.flartoolkit.detector {
 
 		public function getResult(i_index:int):Object
 		{
-			const result:FLARDetectMarkerResult = this._result_holder.result_array[i_index];
+			const result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i_index];
 			var ret:Object = new Object();
 			ret.square = result.ref_square;
 			ret.codeId = result.arcode_id;
@@ -283,7 +283,7 @@ package org.libspark.flartoolkit.detector {
 
 import org.libspark.flartoolkit.core.FLARSquare;	
 
-class FLARDetectMarkerResult {
+class FLARMultiMarkerDetectorResult {
 
 	public var arcode_id:int;
 
@@ -294,9 +294,9 @@ class FLARDetectMarkerResult {
 	public var ref_square:FLARSquare;
 }
 
-class FLARDetectMarkerResultHolder {
+class FLARMultiMarkerDetectorResultHolder {
 
-	public var result_array:Array = new Array(1); //new FLARDetectMarkerResult[1]; // FLARDetectMarkerResult[]
+	public var result_array:Array = new Array(1); //new FLARMultiMarkerDetectorResult[1]; // FLARMultiMarkerDetectorResult[]
 
 	/**
 	 * result_holderを最大i_reserve_size個の要素を格納できるように予約します。
@@ -306,9 +306,9 @@ class FLARDetectMarkerResultHolder {
 	public function reservHolder(i_reserve_size:int):void {
 		if (i_reserve_size >= result_array.length) {
 			var new_size:int = i_reserve_size + 5;
-			result_array = new Array(new_size); //new FLARDetectMarkerResult[new_size];
+			result_array = new Array(new_size); //new FLARMultiMarkerDetectorResult[new_size];
 			for (var i:int = 0; i < new_size; i++) {
-				result_array[i] = new FLARDetectMarkerResult();
+				result_array[i] = new FLARMultiMarkerDetectorResult();
 			}
 		}
 	}
