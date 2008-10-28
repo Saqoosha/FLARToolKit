@@ -50,11 +50,11 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 
 	/**
-	 * 複数のマーカーを検出し、それぞれに最も一致するARコードを、コンストラクタで登録したARコードから 探すクラスです。
-	 * 最大300個を認識しますが、ゴミラベルを認識したりするので100個程度が限界です。
+	 * 複数マーカ用のDetectorを基に作成中のキューブ用Detector。
+	 * まだ上手く動きません。
 	 * 
 	 */
-	public class FLARMultiMarkerDetector {
+	public class CubeMarkerDetector {
 
 		private static const AR_SQUARE_MAX:int = 300;
 		private var _sizeCheckEnabled:Boolean = true;
@@ -68,6 +68,7 @@ package org.libspark.flartoolkit.detector {
 		private const _square_list:FLARSquareStack = new FLARSquareStack(AR_SQUARE_MAX);
 
 		private var _codes:Array; // FLARCode[]
+		private var _codeResult:Array;
 
 		protected var _transmat:IFLARTransMat;
 
@@ -94,13 +95,17 @@ package org.libspark.flartoolkit.detector {
 		 * i_codeに含まれる、ARCodeの数を指定します。
 		 * @throws FLARException
 		 */
-		public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Array, i_marker_width:Array, i_number_of_code:int) {
+		public function CubeMarkerDetector(i_param:FLARParam, i_code:Array, i_marker_width:Array, i_number_of_code:int) {
 			const scr_size:FLARIntSize = i_param.getScreenSize();
 			// 解析オブジェクトを作る
 			this._square_detect = new FLARSquareDetector(i_param.getDistortionFactor(), scr_size);
 			this._transmat = new FLARTransMat(i_param);
 			// 比較コードを保存
 			this._codes = i_code;
+			this._codeResult = new Array(i_number_of_code);
+			for (var r:int = 0; r < this._codeResult.length; r++) {
+				this._codeResult[r] = false;
+			}
 			// 比較コードの解像度は全部同じかな？（違うとパターンを複数種つくらないといけないから）
 			const cw:int = i_code[0].getWidth();
 			const ch:int = i_code[0].getHeight();
@@ -137,7 +142,7 @@ package org.libspark.flartoolkit.detector {
 		 * @return 見つかったマーカーの数を返します。 マーカーが見つからない場合は0を返します。
 		 * @throws FLARException
 		 */
-		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):int {
+		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):FLARMultiMarkerDetectorResult {
 			// サイズチェック
 			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
 				throw new FLARException();
@@ -155,10 +160,16 @@ package org.libspark.flartoolkit.detector {
 			// コードは見つかった？
 			if (number_of_square < 1) {
 				// ないや。おしまい。
-				return 0;
+				//return 0;
+				return null;
 			}
 			// 保持リストのサイズを調整
 			this._result_holder.reservHolder(number_of_square);
+
+			//あれの結果の初期化
+			for (var r:int = 0; r < this._codeResult.length; r++) {
+				this._codeResult[r] = false;
+			}
 
 			// 1スクエア毎に、一致するコードを決定していく
 			var i:int;
@@ -186,7 +197,8 @@ package org.libspark.flartoolkit.detector {
 				confidence = _match_patt.getConfidence();
 				direction = _match_patt.getDirection();
 				trace(i,0, confidence,"(",square.label.area,")");
-				for (i2 = 1;i2 < this._number_of_code; i2++) {
+				for (i2 = 1; i2 < this._number_of_code; i2++) {
+					if (this._codeResult[i2]) continue;
 					// コードと比較する
 					_match_patt.evaluate(_codes[i2]);
 					c2 = _match_patt.getConfidence();
@@ -199,14 +211,18 @@ package org.libspark.flartoolkit.detector {
 					direction = _match_patt.getDirection();
 					confidence = c2;
 				}
+				//if (confidence > 0.8) trace("GREAT!!",i, code_index, confidence);
 				// i番目のパターン情報を保存する。
 				var result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i];
 				result._codeId = code_index;
 				result._confidence = confidence;
 				result._direction = direction;
 				result._square = square;
+				this._codeResult[code_index] = true;
+				if (confidence > 0.8) return result;
 			}
-			return number_of_square;
+			return null;
+			//return number_of_square;
 		}
 
 		/**
@@ -289,5 +305,3 @@ package org.libspark.flartoolkit.detector {
 
 	}
 }
-
-

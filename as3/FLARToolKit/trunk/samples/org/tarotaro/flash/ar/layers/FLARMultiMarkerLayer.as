@@ -37,7 +37,8 @@ package org.tarotaro.flash.ar.layers
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetector;
+	import org.libspark.flartoolkit.detector.CubeMarkerDetector;
+	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetectorResult;
 	
 	/**
 	 * ...
@@ -45,7 +46,7 @@ package org.tarotaro.flash.ar.layers
 	 */
 	public class FLARMultiMarkerLayer extends FLARLayer
 	{
-		protected var _detector:FLARMultiMarkerDetector;
+		protected var _detector:CubeMarkerDetector;
 		protected var _resultMat:FLARTransMatResult;
 		protected var _confidence:Number;
 		
@@ -60,7 +61,8 @@ package org.tarotaro.flash.ar.layers
 												thresh:int = 100) 
 		{
 			super(src, thresh);
-			this._detector = new FLARMultiMarkerDetector(param, codeList, markerWidthList, codeList.length);
+			this._detector = new CubeMarkerDetector(param, codeList, markerWidthList, codeList.length);
+			this._detector.sizeCheckEnabled = false;
 			this._resultMat = new FLARTransMatResult();
 			this._confidence = confidence;
 		}
@@ -70,23 +72,24 @@ package org.tarotaro.flash.ar.layers
 			var g:Graphics = this.graphics;
 			g.clear();
 
-			var numDetected:int = this._detector.detectMarkerLite(this._source, this._thresh);
-			
-			if (numDetected > 0) {
-				trace(numDetected);
-				for (var i:uint = 0; i < numDetected; i++) {
-					var r:Object = this._detector.getResult(i);
+			//var numDetected:int = this._detector.detectMarkerLite(this._source, this._thresh);
+			var r:FLARMultiMarkerDetectorResult = this._detector.detectMarkerLite(this._source, this._thresh);
+			if (r != null) {
+			//if (numDetected > 0) {
+				//trace(numDetected);
+				//for (var i:uint = 0; i < numDetected; i++) {
+					//var r:FLARMultiMarkerDetectorResult = this._detector.getResult(i);
 					trace(r.codeId,":",r.confidence);
-					if (r.confidence <= this._confidence) {
-						continue;
-					}
+					//if (r.confidence <= this._confidence) {
+						//continue;
+					//}
 					var v:Array = r.square.sqvertex;
 					g.lineStyle(2, colors[r.codeId]);
 					g.moveTo(v[3].x, v[3].y);
 					for (var vi:int = 0; vi < v.length; vi++) {
 						g.lineTo(v[vi].x, v[vi].y);
 					}
-				}
+				//}
 			}
 		}
 		
