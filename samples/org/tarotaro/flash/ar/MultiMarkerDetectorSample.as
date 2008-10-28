@@ -20,7 +20,7 @@
 	 * @author 太郎(tarotaro.org)
 	 */
 	[SWF(width="640", height="480", backgroundColor="0xFFFFFF", frameRate="30")]
-	public class MultiDetectorSample extends Sprite
+	public class MultiMarkerDetectorSample extends Sprite
 	{
 		
 		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]private var CParam:Class;
@@ -35,7 +35,7 @@
 		private var _layer:FLARMultiMarkerLayer;
 		private var _arSprite:Sprite;
 
-		public function MultiDetectorSample() 
+		public function MultiMarkerDetectorSample() 
 		{
 			//AR部分の設定
 			//パラメータ設定
