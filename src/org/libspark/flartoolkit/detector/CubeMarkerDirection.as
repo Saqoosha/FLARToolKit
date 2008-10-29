@@ -25,60 +25,31 @@
  * For further information please contact.
  *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
  *	<saq(at)saqoosha.net>
+ *
+ * --------------------------------------------------------------------------------
+ * 
  * 
  */
-
-package org.libspark.flartoolkit.core.types {
-
-	public class FLARIntSize {
-
-		public var h:int;
-		public var w:int;
-
-//		public function FLARIntSize() {
-//			this.w = 0;
-//			this.h = 0;
-//			return;
-//		}
-
-		public function FLARIntSize(i_width:int = 0, i_height:int = 0) {
-			this.w = i_width;
-			this.h = i_height;
-			return;
-		}
-
-		/**
-		 * サイズが同一であるかを確認する。
-		 * 
-		 * @param i_width
-		 * @param i_height
-		 * @return
-		 * @throws FLARException
-		 */
-		public function isEqualSizeII(i_width:int, i_height:int):Boolean {
-			if (i_width == this.w && i_height == this.h) {
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * サイズが同一であるかを確認する。
-		 * 
-		 * @param i_size
-		 * @return
-		 * @throws FLARException
-		 */
-		public function isEqualSizeO(i_size:FLARIntSize):Boolean {
-			if (i_size.w == this.w && i_size.h == this.h) {
-				return true;
-			}
-			return false;
+package org.libspark.flartoolkit.detector 
+{
+	
+	/**
+	 * キューブ型マーカの向きを表す文字列クラス
+	 * @author 太郎(tarotaro.org)
+	 */
+	public final class CubeMarkerDirection 
+	{
+		
+		public function CubeMarkerDirection() 
+		{
+			public const TOP:String = "top";
+			public const BOTTOM:String = "bottom";
+			public const LEFT:String = "left";
+			public const RIGHT:String = "right";
+			public const FRONT:String = "front";
+			public const BACK:String = "back";
 		}
 		
-		override public function toString():String 
-		{
-			return "(width=" + _size.w + " , height=" + this._size.h + ")";
-		}
 	}
+	
 }
