@@ -37,19 +37,14 @@ package org.libspark.flartoolkit.detector
 	 * キューブ型マーカの向きを表す文字列クラス
 	 * @author 太郎(tarotaro.org)
 	 */
-	public final class CubeMarkerDirection 
+	public class CubeMarkerDirection 
 	{
-		
-		public function CubeMarkerDirection() 
-		{
-			public const TOP:String = "top";
-			public const BOTTOM:String = "bottom";
-			public const LEFT:String = "left";
-			public const RIGHT:String = "right";
-			public const FRONT:String = "front";
-			public const BACK:String = "back";
-		}
-		
+		public static const TOP:String = "top";
+		public static const BOTTOM:String = "bottom";
+		public static const LEFT:String = "left";
+		public static const RIGHT:String = "right";
+		public static const FRONT:String = "front";
+		public static const BACK:String = "back";
 	}
 	
 }

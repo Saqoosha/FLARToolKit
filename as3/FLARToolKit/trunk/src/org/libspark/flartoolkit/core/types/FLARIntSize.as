@@ -30,7 +30,7 @@
 
 package org.libspark.flartoolkit.core.types {
 
-	public class FLARIntSize {
+	public class FLARIntSize{
 
 		public var h:int;
 		public var w:int;
@@ -76,9 +76,9 @@ package org.libspark.flartoolkit.core.types {
 			return false;
 		}
 		
-		override public function toString():String 
+		public function toString():String 
 		{
-			return "(width=" + _size.w + " , height=" + this._size.h + ")";
+			return "(width=" + w + " , height=" + h + ")";
 		}
 	}
 }

@@ -13,14 +13,16 @@
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.tarotaro.flash.ar.layers.FLARMultiMarkerLayer;
+	import org.libspark.flartoolkit.detector.CubeMarker;
+	import org.tarotaro.flash.ar.layers.FLARCubeMarkerLayer;
+	import org.tarotaro.flash.ar.layers.FLARLayer;
 	
 	/**
 	 * ...
 	 * @author 太郎(tarotaro.org)
 	 */
 	[SWF(width="640", height="480", backgroundColor="0xFFFFFF", frameRate="30")]
-	public class MultiMarkerDetectorSample extends Sprite
+	public class FLARCubeMarkerDetectorSample extends Sprite
 	{
 		
 		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]private var CParam:Class;
@@ -32,10 +34,10 @@
 
 		private var _capture:Bitmap;
 		private var _video:Video;
-		private var _layer:FLARMultiMarkerLayer;
+		private var _layer:FLARLayer;
 		private var _arSprite:Sprite;
 
-		public function MultiMarkerDetectorSample() 
+		public function FLARCubeMarkerDetectorSample() 
 		{
 			//AR部分の設定
 			//パラメータ設定
@@ -60,13 +62,7 @@
 			cBack.loadARPatt(dBack.readMultiByte(dBack.length, "shift-jis"));
 
 
-			var codeList:Array = [
-				cTop,cFront,cLeft,cRight,cBack
-			];
-			var codeLenList:Array = [
-				80,80,80,80,80
-			];
-			trace(codeLenList);
+			var cube:CubeMarker = new CubeMarker(cTop, null, cFront, cBack, cLeft, cRight);
 			
 			//表示部分を設定
 			this._capture = new Bitmap(new BitmapData(320, 240, false, 0), PixelSnapping.AUTO, true);
@@ -79,7 +75,7 @@
 			this._video.attachCamera(webcam);
 			
 			
-			this._layer = new FLARMultiMarkerLayer(raster, param, codeList, codeLenList);
+			this._layer = new FLARCubeMarkerLayer(raster, param, cube);
 			this._layer.scaleX = this._layer.scaleY = 2;
 			
 

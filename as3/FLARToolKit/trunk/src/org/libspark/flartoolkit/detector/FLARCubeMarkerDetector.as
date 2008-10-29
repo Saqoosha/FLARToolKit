@@ -48,14 +48,13 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
 	import org.libspark.flartoolkit.core.types.FLARIntSize;	
-	import org.tarotaro.flash.ar.detector.CubeMarker;
 
 	/**
 	 * 複数マーカ用のDetectorを基に作成中のキューブ用Detector。
 	 * まだ上手く動きません。
 	 * 
 	 */
-	public class CubeMarkerDetector {
+	public class FLARCubeMarkerDetector {
 
 		private static const AR_SQUARE_MAX:int = 300;
 		private var _sizeCheckEnabled:Boolean = true;
@@ -74,7 +73,7 @@ package org.libspark.flartoolkit.detector {
 
 		protected var _transmat:IFLARTransMat;
 
-		private var _marker_width:Array; // double[]
+		private var _marker_width:int;
 
 		private var _number_of_code:int;
 
@@ -88,7 +87,7 @@ package org.libspark.flartoolkit.detector {
 		  * @param	i_param	カメラパラメータを指定します。
 		  * @param	i_code	キューブ型マーカを指定します。
 		  */
-		public function CubeMarkerDetector(i_param:FLARParam, i_code:CubeMarker) {
+		public function FLARCubeMarkerDetector(i_param:FLARParam, i_code:CubeMarker) {
 			
 			//scrとは、「screen」の略。srcの打ち間違いではない事に注意！
 			const scr_size:FLARIntSize = i_param.getScreenSize();
@@ -130,7 +129,12 @@ package org.libspark.flartoolkit.detector {
 		 * ２．Squareに対する全マーカ発見後、一致度が0.75を超えるマーカが見つかり、かつそれがSquareに対する最高一致度⇒そのマーカが一致とみなす
 		 * 探索条件：
 		 * １．Squareに対して最高一致度を出したマーカは、他のSquareで評価しない
-		 *
+		 * 
+		 * 戻り値に含まれるもの：
+		 * １．square
+		 * ２．マーカのdirection
+		 * ３．confidence
+		 * ４．キューブのdirection(TOPとか)
 		 * @param i_raster
 		 * マーカーを検出するイメージを指定します。
 		 * @param i_thresh
@@ -138,7 +142,7 @@ package org.libspark.flartoolkit.detector {
 		 * @return 見つかったマーカーの数を返します。 マーカーが見つからない場合は0を返します。
 		 * @throws FLARException
 		 */
-		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):FLARMultiMarkerDetectorResult {
+		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Object {
 			// サイズチェック
 			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
 				throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
@@ -191,9 +195,15 @@ package org.libspark.flartoolkit.detector {
 				_match_patt.evaluate(this._marker.top);
 				confidence = _match_patt.getConfidence();
 				direction = _match_patt.getDirection();
+				trace("top_confidence:", confidence);
 				if (confidence > 0.9) {
 					//終了条件1に一致
-					return ;
+					var ret:Object = new Object();
+					ret.direction = direction;
+					ret.confidence = confidence;
+					ret.square = square;
+					ret.markerDirection = CubeMarkerDirection.TOP;
+					return ret;
 				}
 				for (i2 = 1; i2 < this._number_of_code; i2++) {
 					if (this._codeResult[i2]) continue;

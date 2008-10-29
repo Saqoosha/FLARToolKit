@@ -34,6 +34,7 @@
 package org.libspark.flartoolkit.detector {
 
 	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.FLARException;
 	
 	/**
 	 * キューブ型のマーカー
@@ -81,26 +82,35 @@ package org.libspark.flartoolkit.detector {
 			for (var key:Object in this) {
 				var code:FLARCode = this[key] as FLARCode;
 				if (code != null && code != this.top) {
-					if (cw != code.getWidth() || ch != code.getHeight()) {
+					if (!this.checkResolution(this.top,code)) {
 						// 違う解像度のが混ざっている。
-						throw new FLARException();
+						throw new FLARException("コード[" + key + "]の解像度が不正です。");
 					}
 				}
 			}
+		}
+
+		private function checkResolution(src:FLARCode,dest:FLARCode):Boolean 
+		{
+			const cw:int = src.getWidth();
+			const ch:int = src.getHeight();
+			return (cw == dest.getWidth() && ch == dest.getHeight());
 		}
 
 		public function get top():FLARCode { return _top; }
 		
 		public function set top(value:FLARCode):void 
 		{
-			_top = value;
+			if (_top == null || this.checkResolution(_top, value)) _top = value;
+			else throw new FLARException("コード[top]の解像度が不正です。");
 		}
 		
 		public function get bottom():FLARCode { return _bottom; }
 		
 		public function set bottom(value:FLARCode):void 
 		{
-			_bottom = value;
+			if (_bottom == null || this.checkResolution(_bottom, value)) _bottom = value;
+			else throw new FLARException("コード[bottom]の解像度が不正です。");
 		}
 		
 		public function get front():FLARCode { return _front; }
@@ -128,7 +138,8 @@ package org.libspark.flartoolkit.detector {
 		
 		public function set right(value:FLARCode):void 
 		{
-			_right = value;
+			if (_right == null || this.checkResolution(_right, value)) _right = value;
+			else throw new FLARException("コード[right]の解像度が不正です。");
 		}
 		
 		public function get size():int { return _size; }
