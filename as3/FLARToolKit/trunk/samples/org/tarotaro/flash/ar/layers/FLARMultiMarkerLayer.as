@@ -37,7 +37,8 @@ package org.tarotaro.flash.ar.layers
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-	import org.libspark.flartoolkit.detector.CubeMarkerDetector;
+	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetector;
+	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetector;
 	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetectorResult;
 	
 	/**
@@ -61,7 +62,7 @@ package org.tarotaro.flash.ar.layers
 												thresh:int = 100) 
 		{
 			super(src, thresh);
-			this._detector = new CubeMarkerDetector(param, codeList, markerWidthList, codeList.length);
+			this._detector = new FLARMultiMarkerDetector(param, codeList, markerWidthList, codeList.length);
 			this._detector.sizeCheckEnabled = false;
 			this._resultMat = new FLARTransMatResult();
 			this._confidence = confidence;

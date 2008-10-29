@@ -140,7 +140,7 @@ package org.libspark.flartoolkit.detector {
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):int {
 			// サイズチェック
 			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
-				throw new FLARException();
+				throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
 			}
 
 			// ラスタを２値イメージに変換する.
