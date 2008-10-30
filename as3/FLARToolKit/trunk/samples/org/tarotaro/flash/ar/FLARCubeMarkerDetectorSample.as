@@ -13,7 +13,7 @@
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.libspark.flartoolkit.detector.CubeMarker;
+	import org.tarotaro.flash.ar.detector.CubeMarker;
 	import org.tarotaro.flash.ar.layers.FLARCubeMarkerLayer;
 	import org.tarotaro.flash.ar.layers.FLARLayer;
 	
@@ -43,7 +43,7 @@
 			//パラメータ設定
 			var param:FLARParam = new FLARParam();
 			param.loadARParam(new CParam() as ByteArray);
-			
+			param.changeScreenSize(320, 240);
 			//パターンの設定
 			var cTop:FLARCode = new FLARCode(16, 16);
 			var cFront:FLARCode = new FLARCode(16,16);
@@ -66,7 +66,7 @@
 			
 			//表示部分を設定
 			this._capture = new Bitmap(new BitmapData(320, 240, false, 0), PixelSnapping.AUTO, true);
-			this._capture.scaleX = this._capture.scaleY = 2;
+
 			var raster:IFLARRgbRaster = new FLARRgbRaster_BitmapData(this._capture.bitmapData);
 			var webcam:Camera = Camera.getCamera();
 			webcam.setMode(320, 240, 30);
@@ -76,12 +76,14 @@
 			
 			
 			this._layer = new FLARCubeMarkerLayer(raster, param, cube);
-			this._layer.scaleX = this._layer.scaleY = 2;
 			
+			this._arSprite = new Sprite();
 
-			this.addChild(this._capture);
-			this.addChild(this._layer);
-			
+			this._arSprite.addChild(this._capture);
+			this._arSprite.addChild(this._layer);
+			this._arSprite.scaleX = this._arSprite.scaleY = 2;
+			this.addChild(this._arSprite);
+
 			this.addChild(new FPSMeter());
 
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
