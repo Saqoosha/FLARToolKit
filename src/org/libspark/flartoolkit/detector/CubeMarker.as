@@ -49,6 +49,7 @@ package org.libspark.flartoolkit.detector {
 		private var _left:FLARCode;
 		private var _right:FLARCode;
 		private var _size:int;
+		private var _space:int;
 
 		/**
 		 * キューブ型マーカを新規作成
@@ -59,6 +60,7 @@ package org.libspark.flartoolkit.detector {
 		 * @param	left
 		 * @param	right
 		 * @param	size
+		 * @param	space
 		 */
 		public function CubeMarker(top:FLARCode,
 									bottom:FLARCode = null,
@@ -66,7 +68,8 @@ package org.libspark.flartoolkit.detector {
 									back:FLARCode = null,
 									left:FLARCode = null,
 									right:FLARCode = null,
-									size:int = 80) 
+									size:int = 80,
+									space:int = 20 ) 
 		{
 			this.top = top;
 			this.bottom = bottom;
@@ -117,21 +120,24 @@ package org.libspark.flartoolkit.detector {
 		
 		public function set front(value:FLARCode):void 
 		{
-			_front = value;
+			if (_front == null || this.checkResolution(_front, value)) _front = value;
+			else throw new FLARException("コード[front]の解像度が不正です。");
 		}
 		
 		public function get back():FLARCode { return _back; }
 		
 		public function set back(value:FLARCode):void 
 		{
-			_back = value;
+			if (_back == null || this.checkResolution(_back, value)) _back = value;
+			else throw new FLARException("コード[back]の解像度が不正です。");
 		}
 		
 		public function get left():FLARCode { return _left; }
 		
 		public function set left(value:FLARCode):void 
 		{
-			_left = value;
+			if (_left == null || this.checkResolution(_left, value)) _left = value;
+			else throw new FLARException("コード[left]の解像度が不正です。");
 		}
 		
 		public function get right():FLARCode { return _right; }
