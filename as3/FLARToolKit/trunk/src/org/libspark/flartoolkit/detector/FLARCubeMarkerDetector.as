@@ -29,6 +29,7 @@
  */
 
 package org.libspark.flartoolkit.detector {
+	import flash.utils.Dictionary;
 	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
@@ -57,38 +58,86 @@ package org.libspark.flartoolkit.detector {
 	public class FLARCubeMarkerDetector {
 
 		private static const AR_SQUARE_MAX:int = 300;
+		
+		/**
+		 * マーカ検索時の、画像バッファと入力画像のサイズ比較を行うかどうか
+		 */
 		private var _sizeCheckEnabled:Boolean = true;
 
+		/**
+		 * 
+		 */
 		private var _is_continue:Boolean = false;
 
+		/**
+		 * パターン評価器
+		 */
 		private var _match_patt:FLARMatchPatt_Color_WITHOUT_PCA;
 
+		/**
+		 * 入力画像からマーカ候補となるSquareを検出するDetector
+		 */
 		private var _square_detect:IFLARSquareDetector;
 
+		/**
+		 * 入力画像内のSquare一覧
+		 */
 		private const _square_list:FLARSquareStack = new FLARSquareStack(AR_SQUARE_MAX);
 
-		private var _codes:Array; // FLARCode[]
+		/**
+		 * キューブ型マーカ
+		 */
 		private var _marker:CubeMarker;
-		private var _codeResult:Array;
 
+		/**
+		 * 
+		 */
 		protected var _transmat:IFLARTransMat;
 
+		/**
+		 * マーカの幅
+		 */
 		private var _marker_width:int;
-
-		private var _number_of_code:int;
 
 		// 検出結果の保存用
 		private var _patt:IFLARColorPatt;
 
-		private var _result_holder:FLARMultiMarkerDetectorResultHolder = new FLARMultiMarkerDetectorResultHolder();
+		/**
+		 * 「この一致度を越えたら、その時点でキューブ発見としてよい」と言う一致度の閾値
+		 */
+		private var _immidiateEndConfidence:Number;
+		
+		/**
+		 * 「Squareに対して全マーカを検査した結果、最大一致度がこの値を超えていたらマーカ発見としてよい」と言う一致度の閾値
+		 */
+		private var _endConfidence:Number;
 
-		 /**
-		  * 
+		/**
+		 * 検出時のフラグ
+		 */
+		private var _detectFlag:uint;
+		private static const DETECT_FLAGS:Dictionary = new Dictionary();
+
+		/**
+		 * 
 		  * @param	i_param	カメラパラメータを指定します。
 		  * @param	i_code	キューブ型マーカを指定します。
-		  */
-		public function FLARCubeMarkerDetector(i_param:FLARParam, i_code:CubeMarker) {
+		 * @param	immidateEndConfidence
+		 * @param	endConfidence
+		 */
+		public function FLARCubeMarkerDetector(i_param:FLARParam, i_code:CubeMarker, 
+												immidateEndConfidence:Number = 0.9,endConfidence:Number = 0.8) {
 			
+			DETECT_FLAGS[CubeMarkerDirection.TOP] = 1;
+			DETECT_FLAGS[CubeMarkerDirection.BOTTOM] = 2;
+			DETECT_FLAGS[CubeMarkerDirection.FRONT] = 4;
+			DETECT_FLAGS[CubeMarkerDirection.BACK] = 8;
+			DETECT_FLAGS[CubeMarkerDirection.LEFT] = 16;
+			DETECT_FLAGS[CubeMarkerDirection.RIGHT] = 32;
+
+			//閾値を設定
+			this.setEndConfidences(immidateEndConfidence, endConfidence);
+
 			//scrとは、「screen」の略。srcの打ち間違いではない事に注意！
 			const scr_size:FLARIntSize = i_param.getScreenSize();
 			
@@ -96,9 +145,12 @@ package org.libspark.flartoolkit.detector {
 			this._square_detect = new FLARSquareDetector(i_param.getDistortionFactor(), scr_size);
 			this._transmat = new FLARTransMat(i_param);
 			
-			// 比較コードを保存
+			// キューブ型マーカを保存
 			this._marker = i_code;
 
+			//キューブ型マーカの内、nullの面を調査し、保持
+			this.checkNullMarker();
+			
 			// 評価パターンのホルダを作る
 			this._patt = new FLARColorPatt_O3(this._marker.top.getWidth(), this._marker.top.getWidth());
 
@@ -111,7 +163,32 @@ package org.libspark.flartoolkit.detector {
 			//２値画像バッファを作る
 			this._bin_raster = new FLARRaster_BitmapData(scr_size.w, scr_size.h);
 		}
+		
+		private function checkNullMarker():void
+		{
+			this._detectFlag = 0;
+			if (this._marker == null) return;
+			this._detectFlag &= this._marker.top == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.TOP];
+			this._detectFlag &= this._marker.bottom == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.BOTTOM];
+			this._detectFlag &= this._marker.front == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.FRONT];
+			this._detectFlag &= this._marker.back == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.BACK];
+			this._detectFlag &= this._marker.left == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.LEFT];
+			this._detectFlag &= this._marker.right == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.RIGHT];
+		}
 
+		/**
+		 * 終了閾値を設定する。
+		 * @param	immidate
+		 * @param	end
+		 */
+		private function setEndConfidences(immidate:Number, end:Number):void
+		{
+			if (immidate < end) {
+				throw new ArgumentError("即時終了条件" + immidate + "は、終了条件" + end + "以上である必要があります。");
+			}
+			this._immidiateEndConfidence = immidate;
+			this._endConfidence = end;
+		}
 		/**
 		 * #detectMarkerLiteで使用する作業領域
 		 */
@@ -124,9 +201,11 @@ package org.libspark.flartoolkit.detector {
 
 		/**
 		 * i_rasterにマーカー検出処理を実行し、結果を記録します。
+		 * 即時終了条件：
+		 * １．一致度がthis._immidiateEndConfidenceを超えるマーカが見つかった場合⇒そのマーカが一致とし、即時終了
 		 * 終了条件：
-		 * １．一致度が0.9を超えるマーカが見つかった場合⇒そのマーカが一致とし、即時終了
-		 * ２．Squareに対する全マーカ発見後、一致度が0.75を超えるマーカが見つかり、かつそれがSquareに対する最高一致度⇒そのマーカが一致とみなす
+		 * １．Squareに対する全マーカ評価後、そのSquareに対して最も高い一致度がthis._endConfidenceを超える
+		 * 　　マーカが見つかった場合⇒そのマーカが一致とみなし、終了
 		 * 探索条件：
 		 * １．Squareに対して最高一致度を出したマーカは、他のSquareで評価しない
 		 * 
@@ -144,8 +223,13 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Object {
 			// サイズチェック
-			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
-				throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
+			if (!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+				if (this._sizeCheckEnabled ) 
+					throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
+				else {
+					//２値画像バッファを作る
+					this._bin_raster = new FLARRaster_BitmapData(i_raster.getSize().w, i_raster.getSize().h);
+				}
 			}
 
 			// ラスタを２値イメージに変換する.
@@ -167,12 +251,11 @@ package org.libspark.flartoolkit.detector {
 
 			// Square毎に、一致するコードを決定していく
 			var square:FLARSquare;	//検査対象のSquareを格納しておく
-			var code_index:int;		//
-			var confidence:Number;	//マーカパターンとSquareの一致度
-			var direction:int;		//マーカの向き
-			var i2:int;				//
-			var c2:Number;			//一致度2
-			
+			//結果を保存しておくオブジェクト
+			var result:CubeMarkerMatchResultTemporaryHolder = new CubeMarkerMatchResultTemporaryHolder();
+			var maxMarkerDirection:String;
+			var detectFlagTemp:uint = this._detectFlag;
+
 			//Squareリストを走査する
 			for (var i:int = 0; i < number_of_square; i++) {
 				//Squareを取り出す
@@ -189,50 +272,116 @@ package org.libspark.flartoolkit.detector {
 					throw new FLARException("パターンを評価器にセット：失敗！");
 				}
 				// コードと順番に比較していく
-				
-				
-				//まずはTOPから
-				_match_patt.evaluate(this._marker.top);
-				confidence = _match_patt.getConfidence();
-				direction = _match_patt.getDirection();
-				trace("top_confidence:", confidence);
-				if (confidence > 0.9) {
-					//終了条件1に一致
-					var ret:Object = new Object();
-					ret.direction = direction;
-					ret.confidence = confidence;
-					ret.square = square;
-					ret.markerDirection = CubeMarkerDirection.TOP;
-					return ret;
-				}
-				for (i2 = 1; i2 < this._number_of_code; i2++) {
-					if (this._codeResult[i2]) continue;
-					// コードと比較する
-					_match_patt.evaluate(_codes[i2]);
-					c2 = _match_patt.getConfidence();
-					trace(i, i2, c2,"(",square.label.area,")");
-					if (confidence > c2) {
-						continue;
+
+				//１．まずはTOPから
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.TOP]) {
+					_match_patt.evaluate(this._marker.top);
+					result.topConf = _match_patt.getConfidence();
+					result.topDir = _match_patt.getDirection();
+					result.topSq = square;
+					if (result.top > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.topConf, result.topDir, square, CubeMarkerDirection.TOP);
 					}
-					// より一致するARCodeの情報を保存
-					code_index = i2;
-					direction = _match_patt.getDirection();
-					confidence = c2;
 				}
-				//if (confidence > 0.8) trace("GREAT!!",i, code_index, confidence);
-				// i番目のパターン情報を保存する。
-				var result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i];
-				result._codeId = code_index;
-				result._confidence = confidence;
-				result._direction = direction;
-				result._square = square;
-				this._codeResult[code_index] = true;
-				if (confidence > 0.8) return result;
+				
+				//２．次はFRONT
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.FRONT]) {
+					_match_patt.evaluate(this._marker.front);
+					result.frontConf = _match_patt.getConfidence();
+					result.frontDir = _match_patt.getDirection();
+					result.frontSq = square;
+					if (result.frontConf > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.frontConf, result.frontDir, square, CubeMarkerDirection.FRONT);
+					}
+				}
+				
+				//３．次はBACK
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.BACK]) {
+					_match_patt.evaluate(this._marker.back);
+					result.backConf = _match_patt.getConfidence();
+					result.backDir = _match_patt.getDirection();
+					result.backSq = square;
+					if (result.backConf > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.backConf, result.backDir, square, CubeMarkerDirection.BACK);
+					}
+				}
+
+				//４．次はLEFT
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.LEFT]) {
+					_match_patt.evaluate(this._marker.left);
+					result.leftConf = _match_patt.getConfidence();
+					result.leftDir = _match_patt.getDirection();
+					result.leftSq = square;
+					if (result.leftConf > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.leftConf, result.leftDir, square, CubeMarkerDirection.LEFT);
+					}
+				}
+
+				//５．次はRIGHT
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.RIGHT]) {
+					_match_patt.evaluate(this._marker.right);
+					result.rightConf = _match_patt.getConfidence();
+					result.rightDir = _match_patt.getDirection();
+					result.rightSq = square;
+					if (result.rightConf > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.rightConf, result.rightDir, square, CubeMarkerDirection.RIGHT);
+					}
+				}
+
+				//６．最後はBOTTOM
+				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.BOTTOM]) {
+					_match_patt.evaluate(this._marker.bottom);
+					result.bottomConf = _match_patt.getConfidence();
+					result.bottomDir = _match_patt.getDirection();
+					result.bottomSq = square;
+					if (result.bottomConf > this._immidiateEndConfidence) {
+						//即時終了条件1に一致
+						return this.createDetectedResult
+							(result.bottomConf, result.bottomDir, square, CubeMarkerDirection.BOTTOM);
+					}
+				}
+				
+				//一番一致度の高かった面を調査
+				result.checkMaxConfidenceDirection();
+				//最高一致度が終了条件に達しているかを調査
+				if (result.currentMaxConfidence > this._endConfidence) {
+					//終了条件1に合致したため、終了
+					return this.createDetectedResult(result.currentMaxConfidence, 
+													result.currentMaxConfidenceDirection, 
+													square,
+													result.currentMaxConfidenceMarkerDirection);
+				} else if (detectFlagTemp & DETECT_FLAGS[result.currentMaxConfidenceMarkerDirection]) {
+					//最高一致したマーカは、次は評価しない
+					detectFlagTemp ^= DETECT_FLAGS[result.currentMaxConfidenceMarkerDirection];
+				}
+				
 			}
-			return null;
+			return this.createDetectedResult(result.currentMaxConfidence, 
+											result.currentMaxConfidenceDirection, 
+											square,
+											result.currentMaxConfidenceMarkerDirection);
 			//return number_of_square;
 		}
 
+		private function createDetectedResult(confidence:Number,direction:int square:FLARSquare,markerDirection:String):Object 
+		{
+					var ret:Object = new Object();
+					ret.direction = confidence;
+					ret.confidence = rdirection;
+					ret.square = square;
+					ret.markerDirection = markerDirection;
+					return ret;
+		}
 		/**
 		 * i_indexのマーカーに対する変換行列を計算し、結果値をo_resultへ格納します。 直前に実行したdetectMarkerLiteが成功していないと使えません。
 		 * 
@@ -312,4 +461,111 @@ package org.libspark.flartoolkit.detector {
 		}
 
 	}
+}
+import org.libspark.flartoolkit.core.FLARSquare;
+/**
+ * キューブ型マーカの探索結果を一時的にためておくホルダ
+ */
+class CubeMarkerMatchResultTemporaryHolder {
+
+	public var topConf:Number;
+	public var bottomConf:Number;
+	public var frontConf:Number;
+	public var backConf:Number;
+	public var leftConf:Number;
+	public var rightConf:Number;
+
+	public var topDir:int;
+	public var bottomDir:int;
+	public var frontDir:int;
+	public var backDir:int;
+	public var leftDir:int;
+	public var rightDir:int;
+
+	public var topSq:FLARSquare;
+	public var bottomSq:FLARSquare;
+	public var frontSq:FLARSquare;
+	public var backSq:FLARSquare;
+	public var leftSq:FLARSquare;
+	public var rightSq:FLARSquare;
+
+	private var _currentMaxConfidenceMarkerDirection:String;
+	private var _currentMaxConfidence:Number;
+	private var _currentMaxConfidenceDirection:int;
+	private var _currentMaxConfidenceSquare:FLARSquare;
+
+	/**
+	 * 現在保持している一致度の中で、最も一致度が高い面を返す
+	 * @return
+	 */
+	public function checkMaxConfidenceDirection():Object
+	{
+		_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.TOP;
+		_currentMaxConfidence = topConf;
+		_currentMaxConfidenceDirection = topDir;
+		_currentMaxConfidenceSquare = topSq;
+		
+		if (bottomConf > maxConf) {
+			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.BOTTOM;
+			_currentMaxConfidence = bottomConf;
+			_currentMaxConfidenceDirection = bottomDir;
+			_currentMaxConfidenceSquare = bottomSq;
+		}
+		if (frontConf > maxConf) {
+			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.FRONT;
+			_currentMaxConfidence = frontConf;
+			_currentMaxConfidenceDirection = frontDir;
+			_currentMaxConfidenceSquare = frontSq;
+		}
+		if (backConf > maxConf) {
+			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.BACK;
+			_currentMaxConfidence = backConf;
+			_currentMaxConfidenceDirection = backDir;
+			_currentMaxConfidenceSquare = backSq;
+		}
+		if (leftConf > maxConf) {
+			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.LEFT;
+			_currentMaxConfidence = leftConf;
+			_currentMaxConfidenceDirection = leftDir;
+			_currentMaxConfidenceSquare = leftSq;
+		}
+		if (rightConf > maxConf) {
+			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.RIGHT;
+			_currentMaxConfidence = rightConf;
+			_currentMaxConfidenceDirection = rightDir;
+			_currentMaxConfidenceSquare = rightSq;
+		}
+	}
+	
+	/**
+	 * 保持している情報を全て消去する。
+	 */
+	public function reset():void
+	{
+		topConf = 0;
+		bottomConf = 0;
+		frontConf = 0;
+		backConf = 0;
+		leftConf = 0;
+		rightConf = 0;
+
+		topDir = 0;
+		bottomDir = 0;
+		frontDir = 0;
+		backDir = 0;
+		leftDir = 0;
+		rightDir = 0;
+	}
+	/**
+	 * 現在、最も一致度の高いマーカの面
+	 */
+	public function get currentMaxConfidenceMarkerDirection():String { return _currentMaxConfidenceMarkerDirection; }
+	
+	public function get currentMaxConfidence():Number { return _currentMaxConfidence; }
+	
+	public function get currentMaxConfidence():Number { return _currentMaxConfidence; }
+	
+	public function get currentMaxConfidenceDirection():int { return _currentMaxConfidenceDirection; }
+	
+	public function get currentMaxConfidenceSquare():FLARSquare { return _currentMaxConfidenceSquare; }
 }
