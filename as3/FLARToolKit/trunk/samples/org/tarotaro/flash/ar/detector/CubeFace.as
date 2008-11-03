@@ -36,7 +36,7 @@ package org.tarotaro.flash.ar.detector {
 	 * キューブ型マーカの向きを表す文字列クラス
 	 * @author 太郎(tarotaro.org)
 	 */
-	public class CubeMarkerDirection 
+	public class CubeFace 
 	{
 		public static const TOP:String = "top";
 		public static const BOTTOM:String = "bottom";
