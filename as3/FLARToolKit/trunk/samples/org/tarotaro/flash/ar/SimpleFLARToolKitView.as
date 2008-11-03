@@ -49,7 +49,7 @@
 	 */
 	public class SimpleFLARToolKitView extends ARAppBase {
 		
-		private static const PATTERN_FILE:String = "Data/top.pat";
+		private static const PATTERN_FILE:String = "Data/cube-basic.pat";
 		private static const CAMERA_FILE:String = "Data/camera_para.dat";
 		
 		private var _base:Sprite;
@@ -138,8 +138,8 @@
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
 			if (this._detector.detectMarkerLite(this._raster, 80)) {
+				trace("confidence:", this._detector.getConfidence()," direction:",this._detector.getDirection());
 				if (this._detector.getConfidence() < .5) {
-					//trace("confidence:", this._detector.getConfidence());
 					this._viewport.visible = false;
 					return;
 				}

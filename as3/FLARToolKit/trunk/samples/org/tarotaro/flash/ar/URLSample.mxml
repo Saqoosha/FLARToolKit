@@ -51,7 +51,7 @@
 			var grp:DisplayObject3D = new DisplayObject3D("model");
 			var wmat:WireframeMaterial = new WireframeMaterial(0xff0000, 1, 2);
 			wmat.doubleSided = true;
-			var basePlane:Plane = new Plane(wmat, 80, 80);
+			var basePlane:Plane = new Plane(wmat, 80, 80,2,2);
 			grp.addChild(basePlane);
 			if (url != null && url.length > 0) {
 				var ext:String = url.substring(url.length - 3);
