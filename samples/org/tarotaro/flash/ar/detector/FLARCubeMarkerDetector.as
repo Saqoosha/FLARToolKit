@@ -129,12 +129,12 @@ package org.tarotaro.flash.ar.detector {
 		public function FLARCubeMarkerDetector(i_param:FLARParam, i_code:CubeMarker, 
 												immidateEndConfidence:Number = 0.9,endConfidence:Number = 0.8) {
 			
-			DETECT_FLAGS[CubeMarkerDirection.TOP] = 1;
-			DETECT_FLAGS[CubeMarkerDirection.BOTTOM] = 2;
-			DETECT_FLAGS[CubeMarkerDirection.FRONT] = 4;
-			DETECT_FLAGS[CubeMarkerDirection.BACK] = 8;
-			DETECT_FLAGS[CubeMarkerDirection.LEFT] = 16;
-			DETECT_FLAGS[CubeMarkerDirection.RIGHT] = 32;
+			DETECT_FLAGS[CubeFace.TOP] = 1;
+			DETECT_FLAGS[CubeFace.BOTTOM] = 2;
+			DETECT_FLAGS[CubeFace.FRONT] = 4;
+			DETECT_FLAGS[CubeFace.BACK] = 8;
+			DETECT_FLAGS[CubeFace.LEFT] = 16;
+			DETECT_FLAGS[CubeFace.RIGHT] = 32;
 
 			//閾値を設定
 			this.setEndConfidences(immidateEndConfidence, endConfidence);
@@ -171,12 +171,12 @@ package org.tarotaro.flash.ar.detector {
 		{
 			this._detectFlag = 0;
 			if (this._marker == null) return;
-			this._detectFlag |= this._marker.top == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.TOP];
-			this._detectFlag |= this._marker.bottom == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.BOTTOM];
-			this._detectFlag |= this._marker.front == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.FRONT];
-			this._detectFlag |= this._marker.back == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.BACK];
-			this._detectFlag |= this._marker.left == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.LEFT];
-			this._detectFlag |= this._marker.right == null ? 0 : DETECT_FLAGS[CubeMarkerDirection.RIGHT];
+			this._detectFlag |= this._marker.top == null ? 0 : DETECT_FLAGS[CubeFace.TOP];
+			this._detectFlag |= this._marker.bottom == null ? 0 : DETECT_FLAGS[CubeFace.BOTTOM];
+			this._detectFlag |= this._marker.front == null ? 0 : DETECT_FLAGS[CubeFace.FRONT];
+			this._detectFlag |= this._marker.back == null ? 0 : DETECT_FLAGS[CubeFace.BACK];
+			this._detectFlag |= this._marker.left == null ? 0 : DETECT_FLAGS[CubeFace.LEFT];
+			this._detectFlag |= this._marker.right == null ? 0 : DETECT_FLAGS[CubeFace.RIGHT];
 		}
 
 		/**
@@ -274,7 +274,7 @@ package org.tarotaro.flash.ar.detector {
 				// コードと順番に比較していく
 
 				//１．まずはTOPから
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.TOP]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.TOP]) {
 					_match_patt.evaluate(this._marker.top);
 					result.topConf = _match_patt.getConfidence();
 					result.topDir = _match_patt.getDirection();
@@ -282,12 +282,12 @@ package org.tarotaro.flash.ar.detector {
 					if (result.topConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.topConf, result.topDir, square, CubeMarkerDirection.TOP);
+							(result.topConf, result.topDir, square, CubeFace.TOP);
 					}
 				}
 				
 				//２．次はFRONT
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.FRONT]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.FRONT]) {
 					_match_patt.evaluate(this._marker.front);
 					result.frontConf = _match_patt.getConfidence();
 					result.frontDir = _match_patt.getDirection();
@@ -295,12 +295,12 @@ package org.tarotaro.flash.ar.detector {
 					if (result.frontConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.frontConf, result.frontDir, square, CubeMarkerDirection.FRONT);
+							(result.frontConf, result.frontDir, square, CubeFace.FRONT);
 					}
 				}
 				
 				//３．次はBACK
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.BACK]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.BACK]) {
 					_match_patt.evaluate(this._marker.back);
 					result.backConf = _match_patt.getConfidence();
 					result.backDir = _match_patt.getDirection();
@@ -308,12 +308,12 @@ package org.tarotaro.flash.ar.detector {
 					if (result.backConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.backConf, result.backDir, square, CubeMarkerDirection.BACK);
+							(result.backConf, result.backDir, square, CubeFace.BACK);
 					}
 				}
 
 				//４．次はLEFT
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.LEFT]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.LEFT]) {
 					_match_patt.evaluate(this._marker.left);
 					result.leftConf = _match_patt.getConfidence();
 					result.leftDir = _match_patt.getDirection();
@@ -321,12 +321,12 @@ package org.tarotaro.flash.ar.detector {
 					if (result.leftConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.leftConf, result.leftDir, square, CubeMarkerDirection.LEFT);
+							(result.leftConf, result.leftDir, square, CubeFace.LEFT);
 					}
 				}
 
 				//５．次はRIGHT
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.RIGHT]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.RIGHT]) {
 					_match_patt.evaluate(this._marker.right);
 					result.rightConf = _match_patt.getConfidence();
 					result.rightDir = _match_patt.getDirection();
@@ -334,12 +334,12 @@ package org.tarotaro.flash.ar.detector {
 					if (result.rightConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.rightConf, result.rightDir, square, CubeMarkerDirection.RIGHT);
+							(result.rightConf, result.rightDir, square, CubeFace.RIGHT);
 					}
 				}
 
 				//６．最後はBOTTOM
-				if (detectFlagTemp & DETECT_FLAGS[CubeMarkerDirection.BOTTOM]) {
+				if (detectFlagTemp & DETECT_FLAGS[CubeFace.BOTTOM]) {
 					_match_patt.evaluate(this._marker.bottom);
 					result.bottomConf = _match_patt.getConfidence();
 					result.bottomDir = _match_patt.getDirection();
@@ -347,7 +347,7 @@ package org.tarotaro.flash.ar.detector {
 					if (result.bottomConf > this._immidiateEndConfidence) {
 						//即時終了条件1に一致
 						return this.createDetectedResult
-							(result.bottomConf, result.bottomDir, square, CubeMarkerDirection.BOTTOM);
+							(result.bottomConf, result.bottomDir, square, CubeFace.BOTTOM);
 					}
 				}
 				

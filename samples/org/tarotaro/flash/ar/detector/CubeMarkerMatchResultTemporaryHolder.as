@@ -74,37 +74,37 @@ package org.tarotaro.flash.ar.detector
 		public function checkMaxConfidenceDirection():void
 		{
 			trace("top:", topConf, "front:", frontConf, "back:", backConf, "left:", leftConf, "right:", rightConf);
-			_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.TOP;
+			_currentMaxConfidenceMarkerDirection = CubeFace.TOP;
 			_currentMaxConfidence = topConf;
 			_currentMaxConfidenceDirection = topDir;
 			_currentMaxConfidenceSquare = topSq;
 			
 			if (bottomConf > _currentMaxConfidence) {
-				_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.BOTTOM;
+				_currentMaxConfidenceMarkerDirection = CubeFace.BOTTOM;
 				_currentMaxConfidence = bottomConf;
 				_currentMaxConfidenceDirection = bottomDir;
 				_currentMaxConfidenceSquare = bottomSq;
 			}
 			if (frontConf > _currentMaxConfidence) {
-				_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.FRONT;
+				_currentMaxConfidenceMarkerDirection = CubeFace.FRONT;
 				_currentMaxConfidence = frontConf;
 				_currentMaxConfidenceDirection = frontDir;
 				_currentMaxConfidenceSquare = frontSq;
 			}
 			if (backConf > _currentMaxConfidence) {
-				_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.BACK;
+				_currentMaxConfidenceMarkerDirection = CubeFace.BACK;
 				_currentMaxConfidence = backConf;
 				_currentMaxConfidenceDirection = backDir;
 				_currentMaxConfidenceSquare = backSq;
 			}
 			if (leftConf > _currentMaxConfidence) {
-				_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.LEFT;
+				_currentMaxConfidenceMarkerDirection = CubeFace.LEFT;
 				_currentMaxConfidence = leftConf;
 				_currentMaxConfidenceDirection = leftDir;
 				_currentMaxConfidenceSquare = leftSq;
 			}
 			if (rightConf > _currentMaxConfidence) {
-				_currentMaxConfidenceMarkerDirection = CubeMarkerDirection.RIGHT;
+				_currentMaxConfidenceMarkerDirection = CubeFace.RIGHT;
 				_currentMaxConfidence = rightConf;
 				_currentMaxConfidenceDirection = rightDir;
 				_currentMaxConfidenceSquare = rightSq;

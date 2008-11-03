@@ -49,7 +49,7 @@ package org.tarotaro.flash.ar.layers
 	import org.papervision3d.view.BasicView;
 	import org.tarotaro.flash.ar.detector.CubeMarker;
 	import org.tarotaro.flash.ar.detector.CubeMarkerDetectedResult;
-	import org.tarotaro.flash.ar.detector.CubeMarkerDirection;
+	import org.tarotaro.flash.ar.detector.CubeFace;
 	import org.tarotaro.flash.ar.detector.FLARCubeMarkerDetector;
 	
 	/**
@@ -113,7 +113,7 @@ package org.tarotaro.flash.ar.layers
 			var r:CubeMarkerDetectedResult = this._detector.detectMarkerLite(this._source, this._thresh);
 			if (r != null && r.confidence > this._confidence) {
 					trace(r.markerDirection, r.confidence);
-					if (r.markerDirection == CubeMarkerDirection.FRONT) {
+					if (r.markerDirection == CubeFace.FRONT) {
 						this._detector.getTransmationMatrix(r, this._resultMat);
 						this._baseNode.setTransformMatrix(this._resultMat);
 						this._view.startRendering();
