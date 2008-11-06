@@ -30,7 +30,7 @@
  * 
  * 
  */
-package org.tarotaro.flash.ar.detector {
+package org.tarotaro.flash.ar.cube {
 	
 	/**
 	 * キューブ型マーカの向きを表す文字列クラス
@@ -44,6 +44,8 @@ package org.tarotaro.flash.ar.detector {
 		public static const RIGHT:String = "right";
 		public static const FRONT:String = "front";
 		public static const BACK:String = "back";
+		public static const HORIZONTAL:String = "horizontal";
+		public static const VERTICAL:String = "vertical";
 	}
 	
 }
