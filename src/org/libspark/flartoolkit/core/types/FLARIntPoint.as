@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -35,5 +35,10 @@ package org.libspark.flartoolkit.core.types {
 		public var x:int;
 
 		public var y:int;
+		
+		public function toString():String 
+		{
+			return "(" + this.x + " , " + this.y + ")";
+		}
 	}
 }
