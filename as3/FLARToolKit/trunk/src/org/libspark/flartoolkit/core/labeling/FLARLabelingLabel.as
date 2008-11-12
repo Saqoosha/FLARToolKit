@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -40,5 +40,13 @@ package org.libspark.flartoolkit.core.labeling {
 		public var clip_t:int; // 3
 		public var pos_x:Number;
 		public var pos_y:Number;
+		
+		public function toString():String 
+		{
+			return "{id:" + id + ",area:" + area + ",clip_r:" + clip_r + 
+					",clip_l:" + clip_l + ",clip_b:" + clip_b + 
+					",clip_t:" + clip_t +",pos_x:" + pos_x + ",pos_y:" + pos_y;
+					
+		}
 	}
 }
