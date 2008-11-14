@@ -271,6 +271,53 @@ package org.libspark.flartoolkit.core {
 			patpow[0] = patpow[1] = patpow[2] = patpow[3] = m == 0 ? 0.0000001 : Math.sqrt(m);
 			patpowBW[0] = patpowBW[1] = patpowBW[2] = patpowBW[3] = mbw == 0 ? 0.0000001 : Math.sqrt(mbw);
 		}
+		
+		public function toString():String 
+		{
+			return this.generatePatFileString(this.pat);
+		}
+		
+		private function generatePatFileString(pat:Array):String {
+			var x:int, y:int, c:int;
+			var out:String = '';
+			for (c = 2; c >= 0; c--) {
+				for (x = 15; x >= 0; x--) {
+					for (y = 0; y < 16; y++) {
+						out += String('    ' + int(pat[y][x][c])).substr(-4);
+					}
+					out += '\n';
+				}
+			}
+			out += '\n';
+			for (c = 2; c >= 0; c--) {
+				for (y = 15; y >= 0; y--) {
+					for (x = 15; x >= 0; x--) {
+						out += String('    ' + int(pat[y][x][c])).substr(-4);
+					}
+					out += '\n';
+				}
+			}
+			out += '\n';
+			for (c = 2; c >= 0; c--) {
+				for (x = 0; x < 16; x++) {
+					for (y = 15; y >= 0; y--) {
+						out += String('    ' + int(pat[y][x][c])).substr(-4);
+					}
+					out += '\n';
+				}
+			}
+			out += '\n';
+			for (c = 2; c >= 0; c--) {
+				for (y = 0; y < 16; y++) {
+					for (x = 0; x < 16; x++) {
+						out += String('    ' + int(pat[y][x][c])).substr(-4);
+					}
+					out += '\n';
+				}
+			}
+			out += '\n';
+			return out;
+		}
 
 	}
 }
