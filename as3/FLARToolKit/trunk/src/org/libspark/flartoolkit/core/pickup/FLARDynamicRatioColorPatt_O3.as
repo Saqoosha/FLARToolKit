@@ -51,9 +51,9 @@ package org.libspark.flartoolkit.core.pickup {
 		private var extpat:Array; 
 		// int[][][]
 
-		private var width:int;
+		private var _width:int;
 
-		private var height:int;
+		private var _height:int;
 
 		private var _pickFromRasterDivideX:Number;
 		private var _pickFromRasterDivideY:Number;
@@ -82,17 +82,71 @@ package org.libspark.flartoolkit.core.pickup {
 			//updateExtpatで利用する、マーカと枠の比率の値を決めている
 			this._extPatXwBase = WK_WORLD_BASE + frameWidthByDec;
 			this._extPatYwBase = WK_WORLD_BASE + frameHeightByDec;
-			this._extPatXwStep = (WK_WORLD_ADD - frameWidthByDec*2);
-			this._extPatYwStep = (WK_WORLD_ADD - frameHeightByDec*2);
+			this._extPatXwStep = (WK_WORLD_ADD - frameWidthByDec * 2);
+			this._extPatYwStep = (WK_WORLD_ADD - frameHeightByDec * 2);
 
-			trace(this._extPatXwBase, this._extPatXwStep, this._extPatYwBase, this._extPatYwStep);
-			this.width = i_width;
-			this.height = i_height;
+			this._width = i_width;
+			this._height = i_height;
 			this._pickFromRasterDivideX = AR_PATT_SAMPLE_NUM / i_width;
 			this._pickFromRasterDivideY = AR_PATT_SAMPLE_NUM / i_height;
 			this.extpat = ArrayUtil.createJaggedArray(i_height, i_width, 3);//newint[i_height][i_width][3];
 		}
 
+		/**
+		 * マーカ全体を10とした場合の、枠の太さ(X方向)を取得
+		 */
+		public function get frameWidthByDec():Number 
+		{
+			return this._extPatXwBase - WK_WORLD_BASE;
+		}
+		
+		/**
+		 * マーカ全体を10とした場合の、枠の太さ(X方向)を変更
+		 * @param	value	新しい値
+		 */
+		public function set frameWidthByDec(value:Number):void 
+		{
+			this._extPatXwBase = WK_WORLD_BASE + value;
+			this._extPatXwStep = (WK_WORLD_ADD - value * 2);
+		}
+		
+		/**
+		 * マーカ全体を10とした場合の、枠の太さ(Y方向)を取得
+		 */
+		public function get frameHeightByDec():Number 
+		{
+			return this._extPatXwBase - WK_WORLD_BASE;
+		}
+		
+		/**
+		 * マーカ全体を10とした場合の、枠の太さ(Y方向)を変更
+		 * @param	value	新しい値
+		 */
+		public function set frameHeightByDec(value:Number):void 
+		{
+			this._extPatXwBase = WK_WORLD_BASE + value;
+			this._extPatYwStep = (WK_WORLD_ADD - value * 2);
+		}
+		
+		
+		public function get width():int { return _width; }
+		
+		public function set width(value:int):void 
+		{
+			this._width = value;
+			this._pickFromRasterDivideX = AR_PATT_SAMPLE_NUM / value;
+			this.extpat = ArrayUtil.createJaggedArray(this._height, this._width, 3);
+		}
+
+		public function get height():int { return _height; }
+		
+		public function set height(value:int):void 
+		{
+			this._height = value;
+			this._pickFromRasterDivideY = AR_PATT_SAMPLE_NUM / value;
+			this.extpat = ArrayUtil.createJaggedArray(this._height, this._width, 3);
+		}
+		
 		// public void setSize(int i_new_width,int i_new_height)
 		// {
 		// int array_w=this.extpat[0].length;
