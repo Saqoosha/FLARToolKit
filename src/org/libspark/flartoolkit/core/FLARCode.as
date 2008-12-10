@@ -53,7 +53,12 @@ package org.libspark.flartoolkit.core {
 
 		private var width:int;
 		private var height:int;
+		private var averagePat:int;
 
+		public function get averageOfPattern():int 
+		{
+			return this.averagePat;
+		}
 		public function getPat():Array {
 			return pat;
 		}
@@ -167,7 +172,7 @@ package org.libspark.flartoolkit.core {
 				}
 
 				l /= (height * width * 3);
-
+				this.averagePat = l;
 				var m:int = 0;
 				for (var i:int = 0;i < height; i++) {
 					// for( i = 0; i < AR_PATT_SIZE_Y*AR_PATT_SIZE_X*3;i++ ) {
@@ -219,6 +224,7 @@ package org.libspark.flartoolkit.core {
 
 			//幅・高さのチェック
 			if (this.height != patArray.length || this.width != patArray[0].length) {
+				trace(this.height, patArray.length, this.width, patArray[0].length);
 				throw new ArgumentError("パターンの幅・高さが、Codeの幅・高さと異なっています");
 			}
 			if (this.height != this.width) {
@@ -252,6 +258,7 @@ package org.libspark.flartoolkit.core {
 				}
 			}
 			l /= (this.width * this.height * 3);
+			this.averagePat = l;
 			for (y = 0; y < this.height; y++) {
 				for (x = 0; x < this.width; x++) {
 					patBW[0][this.height - 1 - x][y] -= l;
@@ -278,44 +285,21 @@ package org.libspark.flartoolkit.core {
 		}
 		
 		private function generatePatFileString(pat:Array):String {
-			var x:int, y:int, c:int;
+			var x:int, y:int, c:int, h:int;
 			var out:String = '';
-			for (c = 2; c >= 0; c--) {
-				for (x = 15; x >= 0; x--) {
-					for (y = 0; y < 16; y++) {
-						out += String('    ' + int(pat[y][x][c])).substr(-4);
+			var width:int = this.getWidth();
+			var height:int = this.getHeight();
+			for (h = 0; h < pat.length;h++) {
+				for (c = 2; c >= 0; c--) {
+					for (y = 0; y < height; y++) {
+						for (x = 0; x < width; x++) {
+							out += String('    ' + int((255-(pat[h][y][x][c])-this.averagePat)&0xFF)).substr(-4);
+						}
+						out += '\n';
 					}
-					out += '\n';
 				}
+				out += '\n';
 			}
-			out += '\n';
-			for (c = 2; c >= 0; c--) {
-				for (y = 15; y >= 0; y--) {
-					for (x = 15; x >= 0; x--) {
-						out += String('    ' + int(pat[y][x][c])).substr(-4);
-					}
-					out += '\n';
-				}
-			}
-			out += '\n';
-			for (c = 2; c >= 0; c--) {
-				for (x = 0; x < 16; x++) {
-					for (y = 15; y >= 0; y--) {
-						out += String('    ' + int(pat[y][x][c])).substr(-4);
-					}
-					out += '\n';
-				}
-			}
-			out += '\n';
-			for (c = 2; c >= 0; c--) {
-				for (y = 0; y < 16; y++) {
-					for (x = 0; x < 16; x++) {
-						out += String('    ' + int(pat[y][x][c])).substr(-4);
-					}
-					out += '\n';
-				}
-			}
-			out += '\n';
 			return out;
 		}
 
