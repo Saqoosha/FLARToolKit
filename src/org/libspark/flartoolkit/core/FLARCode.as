@@ -54,10 +54,21 @@ package org.libspark.flartoolkit.core {
 		private var width:int;
 		private var height:int;
 		private var averagePat:int;
+		private var _markerPercentWidth:uint;
+		private var _markerPercentHeight:uint;
 
 		public function get averageOfPattern():int 
 		{
 			return this.averagePat;
+		}
+		
+		public function get markerPercentWidth():uint { return _markerPercentWidth; }
+		
+		public function get markerPercentHeight():uint { return _markerPercentHeight; }
+		
+		public function set markerPercentHeight(value:uint):void 
+		{
+			_markerPercentHeight = value;
 		}
 		public function getPat():Array {
 			return pat;
@@ -83,9 +94,25 @@ package org.libspark.flartoolkit.core {
 			return height;
 		}
 
-		public function FLARCode(i_width:int, i_height:int) {
+		/**
+		 * 
+		 * @param	i_width					幅方向の分割数
+		 * @param	i_height				高さ方向の分割数
+		 * @param	i_markerPercentWidth	マーカ全体(本体＋枠)における、マーカ本体部分の割合(幅)
+		 * @param	i_markerPercentHeight	マーカ全体(本体＋枠)における、マーカ本体部分の割合(高さ)
+		 */
+		public function FLARCode(i_width:int, 
+								 i_height:int, 
+								 i_markerPercentWidth:uint = 50, 
+								 i_markerPercentHeight:uint = 50)
+		{
 			width = i_width;
 			height = i_height;
+			if (i_markerPercentWidth > 100 || i_markerPercentHeight > 100) {
+				throw new ArgumentError("illegal marker size[" + i_markerPercentWidth + " x " + i_markerPercentHeight + "]");
+			}
+			this._markerPercentWidth = i_markerPercentWidth;
+			this._markerPercentHeight = i_markerPercentHeight;
 			//		pat = new int[4][height][width][3];// static int pat[AR_PATT_NUM_MAX][4][AR_PATT_SIZE_Y*AR_PATT_SIZE_X*3];
 			pat = ArrayUtil.createJaggedArray(4, height, width, 3);
 			//		patBW = new short[4][height][width];// static int patBW[AR_PATT_NUM_MAX][4][AR_PATT_SIZE_Y*AR_PATT_SIZE_X*3];
