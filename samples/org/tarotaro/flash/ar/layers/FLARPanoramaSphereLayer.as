@@ -90,7 +90,6 @@ package org.tarotaro.flash.ar.layers
 			this._view.scene.addChild(this._panorama,"panorama");
 			
 			//カメラ画像とパラメータのサイズが合わないので、サイズチェックを飛ばす
-			this._detector.sizeCheckEnabled = false;
 
 			//４．レンダリング開始
 			this._view.startRendering();
@@ -98,7 +97,6 @@ package org.tarotaro.flash.ar.layers
 		
 		override public function update():void 
 		{
-			if (!this._source is IFLARRgbRaster) throw new IllegalOperationError("ソース画像の型が予期しないクラスです。");
 			if (this._detector.detectMarkerLite(this._source as IFLARRgbRaster, this._thresh) &&
 				this._detector.getConfidence() >= 0.65) {
 				
@@ -113,7 +111,6 @@ package org.tarotaro.flash.ar.layers
 
 				this._view.camera.rotationY = (center.x - this._source.getWidth()/2) * 0.6;
 				this._view.camera.rotationX = -(center.y - this._source.getHeight()/2) * 0.6;
-				trace(this._view.camera.rotationY, this._view.camera.rotationX);
 				//マーカの大きさから、ズームを判定する
 				//900-45000
 				this._view.camera.zoom = 1 + square.label.area / 9000;

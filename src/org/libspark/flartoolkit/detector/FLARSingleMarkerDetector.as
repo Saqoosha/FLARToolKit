@@ -29,6 +29,7 @@
  */
 
 package org.libspark.flartoolkit.detector {
+	import org.libspark.flartoolkit.core.pickup.FLARDynamicRatioColorPatt_O3;
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.FLARSquare;
@@ -75,7 +76,8 @@ package org.libspark.flartoolkit.detector {
 		private var _detected_square:FLARSquare;
 
 		private var _patt:IFLARColorPatt;
-
+		private var _bin_raster:IFLARRaster;
+		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold;
 		/**
 		 * 検出するARCodeとカメラパラメータから、1個のARCodeを検出するFLARSingleDetectMarkerインスタンスを作ります。
 		 * 
@@ -95,18 +97,21 @@ package org.libspark.flartoolkit.detector {
 			// 比較コードを保存
 			this._code = i_code;
 			this._marker_width = i_marker_width;
+
 			// 評価パターンのホルダを作る
-			this._patt = new FLARColorPatt_O3(_code.getWidth(), _code.getHeight());
+			//マーカの枠幅を算出
+			var borderWidth:Number = (100 - _code.markerPercentWidth) / 20;
+			//マーカの枠高を算出
+			var borderHeight:Number = (100 - _code.markerPercentHeight) / 20;
+			this._patt = new FLARDynamicRatioColorPatt_O3(_code.getWidth(), _code.getHeight(), borderWidth, borderHeight);
+			
 			// 評価器を作る。
 			this._match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();
 			//２値画像バッファを作る
-//			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
 			this._bin_raster = new FLARRaster_BitmapData(scr_size.w, scr_size.h);
+			//2値画像化フィルタの作成
+			this._tobin_filter= new FLARRasterFilter_BitmapDataThreshold(100);
 		}
-
-		private var _bin_raster:IFLARRaster;
-//		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
-		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -119,8 +124,13 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Boolean {
 			//サイズチェック
-			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
-				throw new FLARException();
+			if (!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+				if (this._sizeCheckEnabled ) 
+					throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
+				else {
+					//サイズに合わせて、２値画像バッファを作る
+					this._bin_raster = new FLARRaster_BitmapData(i_raster.getSize().w, i_raster.getSize().h);
+				}
 			}
 
 			//ラスタを２値イメージに変換する.
