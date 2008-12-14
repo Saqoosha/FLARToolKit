@@ -37,7 +37,9 @@ package org.tarotaro.flash.ar
 	import flash.display.BitmapData;
 	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
+	import flash.display.StageDisplayState;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.media.Camera;
 	import flash.media.Video;
 	import flash.utils.ByteArray;
@@ -69,7 +71,8 @@ package org.tarotaro.flash.ar
 		{
 			//AR部分の設定
 			var param:FLARParam = new FLARParam();
-			param.loadARParam(new CParam()as ByteArray);
+			param.loadARParam(new CParam() as ByteArray);
+			param.changeScreenSize(320, 240);
 			var code:FLARCode = new FLARCode(16,16);
 			var codeFile:ByteArray = new CodeData() as ByteArray;
 			code.loadARPatt(codeFile.readMultiByte(codeFile.length, "shift-jis"));
@@ -89,9 +92,20 @@ package org.tarotaro.flash.ar
 			this.addChild(this._layer);
 			
 			this._capture.scaleX = this._capture.scaleY = 0.5;
+			this.addEventListener(MouseEvent.CLICK, onClick);
 			this.addChild(this._capture);
 
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		
+		private function onClick(e:MouseEvent):void 
+		{
+			trace("clicked");
+			if (this.stage.displayState == StageDisplayState.FULL_SCREEN) { 
+				this.stage.displayState = StageDisplayState.NORMAL;
+			} else {
+				this.stage.displayState = StageDisplayState.FULL_SCREEN;
+			}
 		}
 
 		private function onEnterFrame(e:Event):void 
