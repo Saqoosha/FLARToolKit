@@ -8,7 +8,7 @@
     <mx:Script>
     <![CDATA[
 		import flash.events.Event;
-		import org.libspark.pv3d.Metasequoia;
+		import org.tarotaro.flash.pv3d.Metasequoia;
 		import org.papervision3d.materials.WireframeMaterial;
 		import org.papervision3d.objects.DisplayObject3D;
 		import org.papervision3d.objects.primitives.Plane;
@@ -64,8 +64,7 @@
 			if (url != null &&url.length > 0) {
 				var mqo:Metasequoia = new Metasequoia();
 				mqo.load(url, 0.3);
-				mqo.rotationX = -90;
-				mqo.rotationZ = -90;
+				mqo.rotationX = 90;
 				mqo.z += 40;
 				grp.addChild(mqo);
 			}
