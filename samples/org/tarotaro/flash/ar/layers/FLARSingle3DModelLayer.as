@@ -33,12 +33,6 @@
  */
 package org.tarotaro.flash.ar.layers 
 {
-	import com.libspark.flartoolkit.core.FLARCode;
-	import com.libspark.flartoolkit.core.FLARParam;
-	import com.libspark.flartoolkit.core.FLARTransMatResult;
-	import com.libspark.flartoolkit.core.raster.FLARBitmapData;
-	import com.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
-	import com.libspark.flartoolkit.scene.FLARBaseNode;
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
@@ -77,8 +71,8 @@ package org.tarotaro.flash.ar.layers
 		{
 			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
 				this._detector.getConfidence() > this._confidence) {
-				this._detector.getTranslationMatrix(this._resultMat);
-				this._model.setTranslationMatrix(this._resultMat);
+				this._detector.getTransformMatrix(this._resultMat);
+				this._model.setTransformMatrix(this._resultMat);
 				this._model.visible = true;
 			} else {
 				this._model.visible = false;
