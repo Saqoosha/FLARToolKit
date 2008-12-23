@@ -1,6 +1,8 @@
 ﻿package org.tarotaro.flash.ar {
 	
+	import flash.display.DisplayObject;
 	import net.saqoosha.flartoolkit.example.ARAppBase;
+	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
 	//import org.libspark.flartoolkit.core.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.pv3d.FLARCamera3D;
@@ -58,7 +60,7 @@
 		private var _viewport:Viewport3D;
 		private var _renderer:LazyRenderEngine;
 		
-		private var _transGrp:DisplayObject3D;
+		private var _transGrp:FLARBaseNode;
 		
 		private var _resultMat:FLARTransMatResult = new FLARTransMatResult();
 		
@@ -123,8 +125,8 @@
 			this._camera3d = new FLARCamera3D(this._param);
 			
 			this._scene = new Scene3D();
-			this._transGrp = this._scene.addChild(new DisplayObject3D()) as DisplayObject3D;
-			
+			this._transGrp = new FLARBaseNode();
+			this._scene.addChild(this._transGrp);
 			this._renderer = new LazyRenderEngine(this._scene, this._camera3d, this._viewport);
 			
 			dispatchEvent(new Event(Event.COMPLETE));
@@ -138,19 +140,13 @@
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
 			if (this._detector.detectMarkerLite(this._raster, 80)) {
-				trace("confidence:", this._detector.getConfidence()," direction:",this._detector.getDirection());
+				//trace("confidence:", this._detector.getConfidence()," direction:",this._detector.getDirection());
 				if (this._detector.getConfidence() < .5) {
 					this._viewport.visible = false;
 					return;
 				}
 				this._detector.getTransformMatrix(this._resultMat);
-				var mtx:Matrix3D = this._transGrp.transform;
-				mtx.n11 =  this._resultMat.m01; mtx.n12 =  this._resultMat.m00;
-				mtx.n13 =  this._resultMat.m02; mtx.n14 =  this._resultMat.m03;
-				mtx.n21 = -this._resultMat.m11; mtx.n22 = -this._resultMat.m10;
-				mtx.n23 = -this._resultMat.m12; mtx.n24 = -this._resultMat.m13;
-				mtx.n31 =  this._resultMat.m21; mtx.n32 =  this._resultMat.m20;
-				mtx.n33 =  this._resultMat.m22; mtx.n34 =  this._resultMat.m23;
+				this._transGrp.setTransformMatrix(this._resultMat);
 				this._viewport.visible = true;
 				this._renderer.render();
 			} else {

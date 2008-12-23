@@ -240,7 +240,7 @@ package org.libspark.flartoolkit.core {
 		 */
 		public function fromPattern(pattern:IFLARColorPatt):void
 		{
-			var patArray:Array = pattern.getPatArray();
+			var patArray:Array = pattern.getPatArray(); 
 			var l:int;
 			var m:int;
 			var mbw:int;
@@ -258,47 +258,47 @@ package org.libspark.flartoolkit.core {
 				throw new ArgumentError("正方形のインスタンスのみ有効です。");
 			}
 			for (var y:int = 0; y < this.height; y++) {//y : 行方向の添え字
-				for (var x:int = this.width - 1; x >= 0 ; x--) {//x : 列方向の添え字
-					patBW[0][this.height - 1 - x][y] = 0;
-					patBW[1][this.height - 1 - y][this.width -1 - x] = 0;
-					patBW[2][x][this.width - 1 - y] = 0;
-					patBW[3][y][x] = 0;
+				for (var x:int = 0; x < this.width ; x++) {//x : 列方向の添え字
+					patBW[0][this.height - 1 - y][this.width -1 - x] = 0;
+					patBW[1][x][this.width - 1 - y] = 0;
+					patBW[2][y][x] = 0;
+					patBW[3][this.height - 1 - x][y] = 0;
 					for (var c:int = 0; c < 3; c++) {//c : 色情報(0:R/1:G/2:B)
 						//傾き情報(0:上/1:左/2:下/3:右)
 						//全方向に1度に値を代入している
 						var j:int = 255 - int(patArray[y][x][c]);
 
-						pat[0][this.height - 1 - x][y][c] = j;
-						pat[1][this.height - 1 - y][this.width - 1 - x][c] = j;
-						pat[2][x][this.width - 1 - y][c] = j;
-						pat[3][y][x][c] = j
-						patBW[0][this.height - 1 - x][y] += j;
-						patBW[1][this.height - 1 - y][this.width -1 - x] += j;
-						patBW[2][x][this.width - 1 - y] += j;
-						patBW[3][y][x] += j;
+						pat[0][this.height - 1 - y][this.width - 1 - x][c] = j;
+						pat[1][x][this.width - 1 - y][c] = j;
+						pat[2][y][x][c] = j
+						pat[3][this.height - 1 - x][y][c] = j;
+						patBW[0][this.height - 1 - y][this.width -1 - x] += j;
+						patBW[1][x][this.width - 1 - y] += j;
+						patBW[2][y][x] += j;
+						patBW[3][this.height - 1 - x][y] += j;
 						l += j;
 					}
-					patBW[0][this.height - 1 - x][y] /= 3;
-					patBW[1][this.height - 1 - y][this.width -1 - x] /= 3;
-					patBW[2][x][this.width - 1 - y] /= 3;
-					patBW[3][y][x] /= 3;
+					patBW[0][this.height - 1 - y][this.width -1 - x] /= 3;
+					patBW[1][x][this.width - 1 - y] /= 3;
+					patBW[2][y][x] /= 3;
+					patBW[3][this.height - 1 - x][y] /= 3;
 				}
 			}
 			l /= (this.width * this.height * 3);
 			this.averagePat = l;
 			for (y = 0; y < this.height; y++) {
 				for (x = 0; x < this.width; x++) {
-					patBW[0][this.height - 1 - x][y] -= l;
-					patBW[1][this.height - 1 - y][this.width - 1 - x] -= l;
-					patBW[2][x][this.width - 1 - y] -= l;
-					patBW[3][y][x] -= l;
-					mbw += (patBW[3][y][x] * patBW[3][y][x]);
+					patBW[0][this.height - 1 - y][this.width - 1 - x] -= l;
+					patBW[1][x][this.width - 1 - y] -= l;
+					patBW[2][y][x] -= l;
+					patBW[3][this.height - 1 - x][y] -= l;
+					mbw += (patBW[2][y][x] * patBW[2][y][x]);
 					for (c = 0; c < 3;c++) {
-						pat[0][this.height - 1 - x][y][c] -= l;
-						pat[1][this.height - 1 - y][this.width - 1 - x][c] -= l;
-						pat[2][x][this.width - 1 - y][c] -= l;
-						pat[3][y][x][c] -= l;
-						m += (pat[3][y][x][c] * pat[3][y][x][c]);
+						pat[0][this.height - 1 - y][this.width - 1 - x][c] -= l;
+						pat[1][x][this.width - 1 - y][c] -= l;
+						pat[2][y][x][c] -= l;
+						pat[3][this.height - 1 - x][y][c] -= l;
+						m += (pat[2][y][x][c] * pat[2][y][x][c]);
 					}
 				}
 			}
