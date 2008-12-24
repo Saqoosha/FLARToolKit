@@ -34,8 +34,10 @@
 package org.tarotaro.flash.ar.layers 
 {
 	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
 	
 	/**
@@ -63,19 +65,38 @@ package org.tarotaro.flash.ar.layers
 												confidence:Number = 0.65,
 												thresh:int=100) 
 		{
-			super(src, param, code, markerWidth, thresh);
+			super(src, param, code, markerWidth, confidence, thresh);
 			this._model = model;
 		}
 
 		override public function update():void 
 		{
-			if (this._detector.detectMarkerLite(this._source, this._thresh) &&
-				this._detector.getConfidence() > this._confidence) {
-				this._detector.getTransformMatrix(this._resultMat);
-				this._model.setTransformMatrix(this._resultMat);
-				this._model.visible = true;
-			} else {
+			try {
+				if (this._detector.detectMarkerLite(this._source, this._thresh) &&
+					this._detector.getConfidence() > this._confidence) {
+					this._detector.getTransformMatrix(this._resultMat);
+					this._model.setTransformMatrix(this._resultMat);
+					this._model.visible = true;
+					
+					this.drawSquare();
+				} else {
+					this._model.visible = false;
+				}
+			}catch (e:FLARException) {
 				this._model.visible = false;
+			}
+		}
+		
+		private function drawSquare():void 
+		{
+			var square:FLARSquare = this._detector.getSquare();
+			var v:Array;
+			v = square.imvertex;
+			this.graphics.clear();
+			this.graphics.lineStyle(4,0xFF0000);
+			this.graphics.moveTo(v[3].x, v[3].y);
+			for (var vi:int = 0; vi < v.length; vi++) {
+				this.graphics.lineTo(v[vi].x, v[vi].y);
 			}
 		}
 	}
