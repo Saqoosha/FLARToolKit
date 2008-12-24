@@ -71,6 +71,8 @@ package org.tarotaro.flash.ar.layers
 
 		override public function update():void 
 		{
+			this.graphics.clear();
+
 			try {
 				if (this._detector.detectMarkerLite(this._source, this._thresh) &&
 					this._detector.getConfidence() > this._confidence) {
@@ -92,7 +94,6 @@ package org.tarotaro.flash.ar.layers
 			var square:FLARSquare = this._detector.getSquare();
 			var v:Array;
 			v = square.imvertex;
-			this.graphics.clear();
 			this.graphics.lineStyle(4,0xFF0000);
 			this.graphics.moveTo(v[3].x, v[3].y);
 			for (var vi:int = 0; vi < v.length; vi++) {
