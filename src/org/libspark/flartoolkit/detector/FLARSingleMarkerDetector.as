@@ -99,12 +99,18 @@ package org.libspark.flartoolkit.detector {
 			this._marker_width = i_marker_width;
 
 			// 評価パターンのホルダを作る
-			//マーカの枠幅を算出
-			var borderWidth:Number = (100 - _code.markerPercentWidth) / 20;
-			//マーカの枠高を算出
-			var borderHeight:Number = (100 - _code.markerPercentHeight) / 20;
-			this._patt = new FLARDynamicRatioColorPatt_O3(_code.getWidth(), _code.getHeight(), borderWidth, borderHeight);
-			
+
+			//マーカ幅を算出
+			var markerWidthByDec:Number = this._code.markerPercentWidth/10;
+			//マーカ高を算出
+			var markerHeightByDec:Number = this._code.markerPercentHeight / 10;
+
+			//評価パターンのホルダを作成
+			this._patt = new FLARDynamicRatioColorPatt_O3(this._code.getWidth(), 
+														  this._code.getHeight(),
+														  markerWidthByDec,
+														  markerHeightByDec);
+
 			// 評価器を作る。
 			this._match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();
 			//２値画像バッファを作る
