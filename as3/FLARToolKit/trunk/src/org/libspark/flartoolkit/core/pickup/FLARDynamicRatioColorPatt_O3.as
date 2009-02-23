@@ -45,6 +45,8 @@ package org.libspark.flartoolkit.core.pickup {
 	public class FLARDynamicRatioColorPatt_O3 implements IFLARColorPatt {
 
 		private static const AR_PATT_SAMPLE_NUM:int = 64;
+		
+
 		// #define
 		// AR_PATT_SAMPLE_NUM 64
 
@@ -67,17 +69,22 @@ package org.libspark.flartoolkit.core.pickup {
 		 * 枠の全く無いマーカや、長方形のマーカも扱えるIFLARColorPattの実装クラス
 		 * @param	i_width				マーカパターンのX方向の値の個数
 		 * @param	i_height			マーカパターンのY方向の値の個数
-		 * @param	frameWidthByDec		マーカ全体を10とした場合の、枠の太さ(X方向)。デフォルトは2.5(1:2:1)
-		 * @param	frameHeightByDec	マーカ全体を10とした場合の、枠の太さ(Y方向)。デフォルトは2.5(1:2:1)
+		 * @param	markerWidthByDec		マーカ全体を10とした場合の、マーカ幅の割合(X方向)。デフォルトは5(1:2:1)
+		 * @param	markerHeightByDec	マーカ全体を10とした場合の、マーカ高さの割合(Y方向)。デフォルトは5(1:2:1)
 		 */
 		public function FLARDynamicRatioColorPatt_O3(i_width:int, 
 													 i_height:int, 
-													 frameWidthByDec:Number = 2.5,
-													 frameHeightByDec:Number = 2.5) {
-			if (frameWidthByDec < 0 || frameWidthByDec > WK_WORLD_BASE) 
-				throw new ArgumentError("第3引数frameWidthByDecは、0以上" + WK_WORLD_BASE + "以下である必要があります。");
-			if (frameWidthByDec < 0 || frameWidthByDec > WK_WORLD_BASE) 
-				throw new ArgumentError("第4引数frameHeightByDecは、0以上" + WK_WORLD_BASE + "以下である必要があります。");
+													 markerWidthByDec:Number = 5,
+													 markerHeightByDec:Number = 5) {
+			if (markerWidthByDec < 0 || markerWidthByDec > WK_WORLD_ADD) {
+				throw new ArgumentError("Marker width is between 0 and " + WK_WORLD_BASE + ".");
+			}
+			if (markerHeightByDec < 0 || markerHeightByDec > WK_WORLD_ADD) {
+				throw new ArgumentError("Marker height is between 0 and " + WK_WORLD_BASE + ".");
+			}
+			
+			var frameWidthByDec:Number = (WK_WORLD_ADD - markerWidthByDec)/2;
+			var frameHeightByDec:Number (WK_WORLD_ADD - markerHeightByDec)/2;
 			
 			//updateExtpatで利用する、マーカと枠の比率の値を決めている
 			this._extPatXwBase = WK_WORLD_BASE + frameWidthByDec;
