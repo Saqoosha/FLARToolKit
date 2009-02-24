@@ -84,7 +84,7 @@ package org.libspark.flartoolkit.core.pickup {
 			}
 			
 			var frameWidthByDec:Number = (WK_WORLD_ADD - markerWidthByDec)/2;
-			var frameHeightByDec:Number (WK_WORLD_ADD - markerHeightByDec)/2;
+			var frameHeightByDec:Number = (WK_WORLD_ADD - markerHeightByDec)/2;
 			
 			//updateExtpatで利用する、マーカと枠の比率の値を決めている
 			this._extPatXwBase = WK_WORLD_BASE + frameWidthByDec;
