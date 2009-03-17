@@ -71,7 +71,7 @@ package org.tarotaro.flash.ar.layers
 
 		override public function update():void 
 		{
-			this.graphics.clear();
+			//this.graphics.clear();
 
 			try {
 				if (this._detector.detectMarkerLite(this._source, this._thresh) &&
@@ -80,7 +80,7 @@ package org.tarotaro.flash.ar.layers
 					this._model.setTransformMatrix(this._resultMat);
 					this._model.visible = true;
 					
-					this.drawSquare();
+					//this.drawSquare();
 				} else {
 					this._model.visible = false;
 				}
