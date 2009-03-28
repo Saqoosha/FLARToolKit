@@ -76,6 +76,14 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin {
 			var rect:Rectangle = outbmp.rect;
 			rect.inflate(-1, -1);
 			outbmp.threshold(this._tmp, rect, ONE_POINT, '<=', this._threshold, 0xffffffff, 0xff);
+			
+			// SOC:
+			/*
+			input bmpData (source image, e.g. from camera) is reduced to its brightness channel by applying MONO_FILTER.
+			output bmpData is initialized to a black rect.
+			pixels in B/W input that are <= this._threshold are set to 0xff.
+			...seems odd that dark pixels are made white, instead of black...?
+			*/ 
 		}
 	}
 }

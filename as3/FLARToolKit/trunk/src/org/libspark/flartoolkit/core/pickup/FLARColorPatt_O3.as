@@ -378,14 +378,23 @@ package org.libspark.flartoolkit.core.pickup {
 			}
 			/* <Optimize> */
 			var xdiv_x_ydiv:int = xdiv * ydiv;
+			var inv_xdiv_x_ydiv:Number = 1/xdiv_x_ydiv;
 			for (j = L_HEIGHT - 1; j >= 0; j--) {
 				extpat_j = L_extpat[j];
 				for (i = L_WIDTH - 1; i >= 0; i--) { 
+					/* 
 					// PRL 2006-06-08.
 					extpat_j_i = extpat_j[i];
 					extpat_j_i[0] /= (xdiv_x_ydiv);// ext_pat[j][i][0] =(byte)(ext_pat2[j][i][0] /(xdiv*ydiv));
 					extpat_j_i[1] /= (xdiv_x_ydiv);// ext_pat[j][i][1] =(byte)(ext_pat2[j][i][1] /(xdiv*ydiv));
 					extpat_j_i[2] /= (xdiv_x_ydiv);// ext_pat[j][i][2] =(byte)(ext_pat2[j][i][2] /(xdiv*ydiv));
+					*/
+					
+					// SOC 2009.02.22: multiplication is faster than division.
+					extpat_j_i = extpat_j[i];
+					extpat_j_i[0] *= inv_xdiv_x_ydiv;// ext_pat[j][i][0] =(byte)(ext_pat2[j][i][0] /(xdiv*ydiv));
+					extpat_j_i[1] *= inv_xdiv_x_ydiv;// ext_pat[j][i][1] =(byte)(ext_pat2[j][i][1] /(xdiv*ydiv));
+					extpat_j_i[2] *= inv_xdiv_x_ydiv;// ext_pat[j][i][2] =(byte)(ext_pat2[j][i][2] /(xdiv*ydiv));
 				}
 			}
 			return;

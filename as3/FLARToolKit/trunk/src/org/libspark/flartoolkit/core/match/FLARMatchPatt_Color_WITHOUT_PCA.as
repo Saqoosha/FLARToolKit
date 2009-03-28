@@ -169,9 +169,19 @@ package org.libspark.flartoolkit.core.match {
 			var i:int;
 			var k:int;
 			var sum2:Number;
+			
+			// run a comparison for each rotation (up, left, down, right)
+			// the rotation with the closest match is stored as .direction; the confidence stored as .cf
 			for (var j:int = 0;j < 4; j++) {
 				sum = 0;
 				pat_j = pat[j];
+				
+				// compare detected pattern against this pattern via this algorithm:
+				//		for each pattern pixel:
+				//			multiply each channel of the detected pattern with each channel of this pattern
+				//			sum those products
+				//		sum those values for each pattern pixel
+				//		divide the sum by ...
 				for (i = l_height - 1;i >= 0; i--) {
 					// for(int i=0;i<Config.AR_PATT_SIZE_Y;i++){
 					input_i = linput[i];
