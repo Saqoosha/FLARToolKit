@@ -107,7 +107,8 @@ package org.libspark.flartoolkit.detector {
 			for (var i:int = 1; i < i_number_of_code; i++) {
 				if (cw != i_code[i].getWidth() || ch != i_code[i].getHeight()) {
 					// 違う解像度のが混ざっている。
-					throw new FLARException();
+					//throw new FLARException();
+					throw new FLARException("all patterns in an application must be the same width and height.");
 				}
 			}
 			// 評価パターンのホルダを作る
@@ -144,23 +145,28 @@ package org.libspark.flartoolkit.detector {
 			}
 
 			// ラスタを２値イメージに変換する.
+			// SOC: threshold incoming image according to brightness
 			this._tobin_filter.setThreshold(i_threshold);
 			this._tobin_filter.doFilter(i_raster, this._bin_raster);
 
 			var l_square_list:FLARSquareStack = this._square_list;
 			// スクエアコードを探す
+			// SOC: begin by detecting all possible markers ('square' outlines (may be rotated in any of three axes relative to camera))
 			this._square_detect.detectMarker(this._bin_raster, l_square_list);
 
 			const number_of_square:int = l_square_list.getLength();
 			// コードは見つかった？
 			if (number_of_square < 1) {
 				// ないや。おしまい。
+				// SOC: if no markers found, exit
 				return 0;
 			}
 			// 保持リストのサイズを調整
+			// SOC: ensure enough FLARMultiMarkerDetectorResult instances to hold all possible detected markers
 			this._result_holder.reservHolder(number_of_square);
 
 			// 1スクエア毎に、一致するコードを決定していく
+			// SOC: loop through all found squares and compare each with all possible patterns
 			var i:int;
 			var square:FLARSquare;
 			var code_index:int;
@@ -171,35 +177,42 @@ package org.libspark.flartoolkit.detector {
 			for (i = 0; i < number_of_square; i++) {
 				square = l_square_list.getItem(i) as FLARSquare;
 				// 評価基準になるパターンをイメージから切り出す
+				// SOC: attempt to read a possible pattern from this found square
 				if (!this._patt.pickFromRaster(i_raster, square)) {
 					// イメージの切り出しは失敗することもある。
+					// SOC: if a pattern cannot be extracted, skip to next square
 					continue;
 				}
 				// パターンを評価器にセット
+				// SOC: not clear on this part...
 				if (!this._match_patt.setPatt(this._patt)) {
 					// 計算に失敗した。
 					throw new FLARException();
 				}
 				// コードと順番に比較していく
+				// SOC: first, match against first pattern
 				code_index = 0;
 				_match_patt.evaluate(_codes[0]);
 				confidence = _match_patt.getConfidence();
 				direction = _match_patt.getDirection();
-				trace(i,0, confidence,"(",square.label.area,")");
+				//trace(i,0, confidence,"(",square.label.area,")");
 				for (i2 = 1;i2 < this._number_of_code; i2++) {
 					// コードと比較する
+					// SOC: then, match against each additional pattern, looking for the best possible match
 					_match_patt.evaluate(_codes[i2]);
 					c2 = _match_patt.getConfidence();
-					trace(i, i2, c2,"(",square.label.area,")");
+					//trace(i, i2, c2,"(",square.label.area,")");
 					if (confidence > c2) {
 						continue;
 					}
 					// より一致するARCodeの情報を保存
+					// SOC: if a better match, store values
 					code_index = i2;
 					direction = _match_patt.getDirection();
 					confidence = c2;
 				}
 				// i番目のパターン情報を保存する。
+				// SOC: store the values corresponding to the best pattern match
 				var result:FLARMultiMarkerDetectorResult = this._result_holder.result_array[i];
 				result._codeId = code_index;
 				result._confidence = confidence;
@@ -264,7 +277,9 @@ package org.libspark.flartoolkit.detector {
 		 * @return
 		 */
 		public function getARCodeIndex(i_index:int):int {
-			return this._result_holder.result_array[i_index].arcode_id;
+			// SOC: incorrect property name.
+			//return this._result_holder.result_array[i_index].arcode_id;
+			return this._result_holder.result_array[i_index].codeId;
 		}
 
 		/**
