@@ -35,5 +35,6 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin {
 	public interface IFLARRasterFilter_RgbToBin {
 
 		function doFilter(i_input:IFLARRgbRaster, i_output:IFLARRaster):void
+		function setThreshold(i_threshold:int):void
 	}
 }

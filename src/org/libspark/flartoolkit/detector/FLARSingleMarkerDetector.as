@@ -44,6 +44,7 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
@@ -77,7 +78,11 @@ package org.libspark.flartoolkit.detector {
 
 		private var _patt:IFLARColorPatt;
 		private var _bin_raster:IFLARRaster;
-		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold;
+		private var _tobin_filter:IFLARRasterFilter_RgbToBin;
+
+		public function get filter ():IFLARRasterFilter_RgbToBin { return _tobin_filter; }
+		public function set filter (f:IFLARRasterFilter_RgbToBin):void { if (f != null) _tobin_filter = f; }
+
 		/**
 		 * 検出するARCodeとカメラパラメータから、1個のARCodeを検出するFLARSingleDetectMarkerインスタンスを作ります。
 		 * 

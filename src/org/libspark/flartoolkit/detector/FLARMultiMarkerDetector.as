@@ -32,6 +32,7 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
@@ -126,7 +127,11 @@ package org.libspark.flartoolkit.detector {
 		private var _bin_raster:IFLARRaster;
 
 //		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
-		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
+//		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
+		private var _tobin_filter:IFLARRasterFilter_RgbToBin = new FLARRasterFilter_BitmapDataThreshold(100);
+
+		public function get filter ():IFLARRasterFilter_RgbToBin { return _tobin_filter; }
+		public function set filter (f:IFLARRasterFilter_RgbToBin):void { if (f != null) _tobin_filter = f; }
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
