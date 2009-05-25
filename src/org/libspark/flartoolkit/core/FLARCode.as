@@ -29,6 +29,7 @@
  */
 
 package org.libspark.flartoolkit.core {
+	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
 	import org.libspark.flartoolkit.utils.ArrayUtil;	
 
@@ -154,15 +155,19 @@ package org.libspark.flartoolkit.core {
 			var i1:int;
 			var val:int;
 			var j:int;
+			// SOC: loop through each of four marker orientations...
 			for (h = 0;h < 4; h++) {
-				
+				// SOC: loop through blue, green, red channel in this marker orientation...
 				for (i3 = 0;i3 < 3; i3++) {
+					// SOC: parse this channel row-by-row... 
 					for (i2 = 0;i2 < height; i2++) {
 						for (i1 = 0;i1 < width; i1++) {
 							// 数値のみ読み出す
 							val = parseInt(token.shift());
 							if (isNaN(val)) {
-								throw new Error();
+								// SOC: more descriptive error
+								throw new FLARException("syntax error in pattern file.");
+								//throw new Error();
 							}
 							//								switch (st.nextToken()) {// if( fscanf(fp, "%d",&j) != 1 ) {
 							//									case StreamTokenizer.TT_NUMBER:
@@ -184,6 +189,8 @@ package org.libspark.flartoolkit.core {
 									pat[h][i2][i1][0] = j;
 									break;// pat[patno][h][(i2*Config.AR_PATT_SIZE_X+i1)*3+0]= j;break;
 							}
+							// SOC: calculate brightness-only (greyscale) version of pattern
+							//		(stored as patBW), by averaging r/g/b for each pattern pixel
 							// pat[patno][h][(i2*Config.AR_PATT_SIZE_X+i1)*3+i3]= j;
 							if (i3 == 0) {
 								patBW[h][i2][i1] = j;// patBW[patno][h][i2*Config.AR_PATT_SIZE_X+i1] = j;
@@ -205,16 +212,21 @@ package org.libspark.flartoolkit.core {
 					// for( i = 0; i < AR_PATT_SIZE_Y*AR_PATT_SIZE_X*3;i++ ) {
 					for (i2 = 0;i2 < width; i2++) {
 						for (i3 = 0;i3 < 3; i3++) {
+							// SOC: express each value as deviation from average over the whole orientation
 							pat[h][i][i2][i3] -= l;
+							// SOC: calculate sum of all deviations squared... 
 							m += (pat[h][i][i2][i3] * pat[h][i][i2][i3]);
 						}
 					}
 				}
+				// SOC: ...and store this value for each orientation in patpow.
 				patpow[h] = Math.sqrt(m);
 				if (patpow[h] == 0.0) {
+					// SOC: avoid division by 0
 					patpow[h] = 0.0000001;
 				}
-
+				
+				// SOC: repeat average deviation process for greyscale pattern.
 				m = 0;
 				for (i = 0;i < height; i++) {
 					for (i2 = 0;i2 < width; i2++) {
