@@ -6,7 +6,7 @@
  * http://nyatla.jp/nyatoolkit/
  *
  * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008,2009 Saqoosha
+ * Copyright (C)2008 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,36 +28,26 @@
  * 
  */
 
-package org.libspark.flartoolkit.pv3d {
+package org.libspark.flartoolkit.away3d {
+	
+	import away3d.containers.ObjectContainer3D;
+	import away3d.core.math.Matrix3D;
 	
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.objects.DisplayObject3D;
 
-	public class FLARBaseNode extends DisplayObject3D {
+	public class FLARBaseNode extends ObjectContainer3D {
 		
-		public static const AXIS_MODE_ORIGINAL:int = 0;
-		public static const AXIS_MODE_PV3D:int = 2;
-		
-		public var axisMode:int;
-		
-		public function FLARBaseNode(axisMode:int = AXIS_MODE_ORIGINAL) {
-			super();
-			this.axisMode = axisMode;
+		public function FLARBaseNode(...initarray) {
+			super(initarray);
 		}
-		
+
+		private var _tmp:Matrix3D = new Matrix3D();
 		public function setTransformMatrix(r:FLARTransMatResult):void {
-			var m:Matrix3D = this.transform;
-			if (this.axisMode == AXIS_MODE_PV3D) {
-				m.n11 =  r.m00;  m.n12 =  r.m01;  m.n13 = -r.m02;  m.n14 =  r.m03;
-				m.n21 = -r.m10;  m.n22 = -r.m11;  m.n23 =  r.m12;  m.n24 = -r.m13;
-				m.n31 =  r.m20;  m.n32 =  r.m21;  m.n33 = -r.m22;  m.n34 =  r.m23;
-			} else {
-				// ARToolKit original
-				m.n11 =  r.m01;  m.n12 =  r.m00;  m.n13 =  r.m02;  m.n14 =  r.m03;
-				m.n21 = -r.m11;  m.n22 = -r.m10;  m.n23 = -r.m12;  m.n24 = -r.m13;
-				m.n31 =  r.m21;  m.n32 =  r.m20;  m.n33 =  r.m22;  m.n34 =  r.m23;
-			}
+			var m:Matrix3D = this._tmp;
+			m.sxx =  r.m00; m.sxy =  r.m02; m.sxz =  r.m01; m.tx =  r.m03;
+			m.syx = -r.m10; m.syy = -r.m12; m.syz = -r.m11; m.ty = -r.m13;
+			m.szx =  r.m20; m.szy =  r.m22; m.szz =  r.m21; m.tz =  r.m23;
+			this.transform = m;
 		}
 	}
 }

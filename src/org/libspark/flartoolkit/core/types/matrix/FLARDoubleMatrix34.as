@@ -29,6 +29,8 @@
  */
 
 package org.libspark.flartoolkit.core.types.matrix {
+	
+	import flash.utils.getQualifiedClassName;
 
 	public class FLARDoubleMatrix34 implements IFLARDoubleMatrix {
 
@@ -75,6 +77,13 @@ package org.libspark.flartoolkit.core.types.matrix {
 			o_value[10] = this.m22;
 			o_value[11] = this.m23;
 			return;
-		}	
+		}
+
+		public function toString():String {
+			return '[' + getQualifiedClassName(this) + '\n' + 
+					'\t' + int(this.m00 * 1000) / 1000 + ',\t' + int(this.m01 * 1000) / 1000 + ',\t' + int(this.m02 * 1000) / 1000 + ',\t' + int(this.m03 * 1000) / 1000 + ',\n' +
+					'\t' + int(this.m10 * 1000) / 1000 + ',\t' + int(this.m11 * 1000) / 1000 + ',\t' + int(this.m12 * 1000) / 1000 + ',\t' + int(this.m13 * 1000) / 1000 + ',\n' +
+					'\t' + int(this.m20 * 1000) / 1000 + ',\t' + int(this.m21 * 1000) / 1000 + ',\t' + int(this.m22 * 1000) / 1000 + ',\t' + int(this.m23 * 1000) / 1000 + '\n]';
+		}
 	}
 }
