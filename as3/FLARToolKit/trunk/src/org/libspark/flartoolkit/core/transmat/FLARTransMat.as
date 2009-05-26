@@ -1,12 +1,12 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the NyARToolkit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
  * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008 Saqoosha
+ * Copyright (C)2008,2009 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,15 +29,21 @@
  */
 
 package org.libspark.flartoolkit.core.transmat {
+	
+	import __AS3__.vec.Vector;
+	
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.param.FLARPerspectiveProjectionMatrix;
 	import org.libspark.flartoolkit.core.transmat.fitveccalc.FLARFitVecCalculator;
-	import org.libspark.flartoolkit.core.transmat.optimize.FLARRotTransOptimize;
+	import org.libspark.flartoolkit.core.transmat.optimize.FLARRotTransOptimize_O2;
+	import org.libspark.flartoolkit.core.transmat.optimize.IFLARRotTransOptimize;
 	import org.libspark.flartoolkit.core.transmat.rotmatrix.FLARRotMatrix;
+	import org.libspark.flartoolkit.core.transmat.rotmatrix.FLARRotMatrix_NyARToolKit;
 	import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
-	import org.libspark.flartoolkit.core.types.FLARDoublePoint3d;	
+	import org.libspark.flartoolkit.core.types.FLARDoublePoint3d;
+	import org.libspark.flartoolkit.core.types.FLARLinear;	
 
 	/**
 	 * This class calculates ARMatrix from square information and holds it. --
@@ -48,19 +54,32 @@ package org.libspark.flartoolkit.core.transmat {
 
 		private static const AR_GET_TRANS_CONT_MAT_MAX_FIT_ERROR:Number = 1.0;
 
-		private var _rotmatrix:FLARRotMatrix;
 		private const _center:FLARDoublePoint2d = new FLARDoublePoint2d(0, 0);
-		private var _calculator:FLARFitVecCalculator;
 		private const _offset:FLARTransOffset = new FLARTransOffset();
-		private var _mat_optimize:FLARRotTransOptimize;
+		protected var _rotmatrix:FLARRotMatrix;
+		protected var _calculator:FLARFitVecCalculator;
+		protected var _mat_optimize:IFLARRotTransOptimize;
 
 		
+//		/**
+//		 * 派生クラスで自分でメンバオブジェクトを指定したい場合はこちらを使う。
+//		 *
+//		 */
+//		protected FLARTransMat()
+//		{
+//			//_calculator,_rotmatrix,_mat_optimizeをコンストラクタの終了後に
+//			//作成して割り当ててください。
+//			return;
+//		}
 		public function FLARTransMat(i_param:FLARParam) {
 			const dist:FLARCameraDistortionFactor = i_param.getDistortionFactor();
 			const pmat:FLARPerspectiveProjectionMatrix = i_param.getPerspectiveProjectionMatrix();
 			this._calculator = new FLARFitVecCalculator(pmat, dist);
-			this._rotmatrix = new FLARRotMatrix(pmat);
-			this._mat_optimize = new FLARRotTransOptimize(pmat);
+			//互換性が重要な時は、FLARRotMatrix_ARToolKitを使うこと。
+			//理屈はFLARRotMatrix_FLARToolKitもFLARRotMatrix_ARToolKitも同じだけど、少しだけ値がずれる。
+			this._rotmatrix = new FLARRotMatrix_NyARToolKit(pmat);
+	//		this._rotmatrix = new FLARRotMatrix_ARToolKit(pmat);
+			this._mat_optimize = new FLARRotTransOptimize_O2(pmat);
 		}
 
 		public function setCenter(i_x:Number, i_y:Number):void {
@@ -78,7 +97,7 @@ package org.libspark.flartoolkit.core.transmat {
 		 * @param o_sqvertex_ref	FLARDoublePoint2d[]
 		 * @param o_liner_ref	FLARLinear[]
 		 */
-		private function initVertexOrder(i_square:FLARSquare, i_direction:int, o_sqvertex_ref:Array, o_liner_ref:Array):void {
+		private function initVertexOrder(i_square:FLARSquare, i_direction:int, o_sqvertex_ref:Vector.<FLARDoublePoint2d>, o_liner_ref:Vector.<FLARLinear>):void {
 			//頂点順序を考慮した矩形の頂点情報
 			o_sqvertex_ref[0] = i_square.sqvertex[(4 - i_direction) % 4];
 			o_sqvertex_ref[1] = i_square.sqvertex[(5 - i_direction) % 4];
@@ -92,8 +111,8 @@ package org.libspark.flartoolkit.core.transmat {
 		}
 
 		
-		private const __transMat_sqvertex_ref:Array = new Array(4); // FLARDoublePoint2d[]
-		private const __transMat_linear_ref:Array = new Array(4); // FLARLinear[]
+		private const __transMat_sqvertex_ref:Vector.<FLARDoublePoint2d> = new Vector.<FLARDoublePoint2d>(4, true); // FLARDoublePoint2d[]
+		private const __transMat_linear_ref:Vector.<FLARLinear> = new Vector.<FLARLinear>(4, true); // FLARLinear[]
 		private const __transMat_trans:FLARDoublePoint3d = new FLARDoublePoint3d();
 
 		/**
@@ -107,9 +126,9 @@ package org.libspark.flartoolkit.core.transmat {
 		 * @throws FLARException
 		 */
 		public function transMat(i_square:FLARSquare, i_direction:int, i_width:Number, o_result_conv:FLARTransMatResult):void {
-			const sqvertex_ref:Array = __transMat_sqvertex_ref; 
+			const sqvertex_ref:Vector.<FLARDoublePoint2d> = __transMat_sqvertex_ref; 
 			// FLARDoublePoint2d[]
-			const linear_ref:Array = __transMat_linear_ref; 
+			const linear_ref:Vector.<FLARLinear> = __transMat_linear_ref; 
 			// FLARLinear[]
 			const trans:FLARDoublePoint3d = this.__transMat_trans;
 		
@@ -135,7 +154,7 @@ package org.libspark.flartoolkit.core.transmat {
 			this._mat_optimize.optimize(this._rotmatrix, trans, this._calculator);
 		
 			// マトリクスの保存
-			o_result_conv.updateMatrixValue(this._rotmatrix, this._offset.point, trans);
+			this.updateMatrixValue(this._rotmatrix, this._offset.point, trans, o_result_conv);
 			return;
 		}
 
@@ -152,18 +171,19 @@ package org.libspark.flartoolkit.core.transmat {
 		 * @throws FLARException
 		 */
 		public function transMatContinue(i_square:FLARSquare, i_direction:int, i_width:Number, io_result_conv:FLARTransMatResult):void {
-			const sqvertex_ref:Array = __transMat_sqvertex_ref; 
-			// FLARDoublePoint2d[]
-			const linear_ref:Array = __transMat_linear_ref; 
-			// FLARLinear[]
+			const sqvertex_ref:Vector.<FLARDoublePoint2d> = __transMat_sqvertex_ref; // FLARDoublePoint2d[]
+			const linear_ref:Vector.<FLARLinear> = __transMat_linear_ref; // FLARLinear[]
 			const trans:FLARDoublePoint3d = this.__transMat_trans;
 
 			// io_result_convが初期値なら、transMatで計算する。
-			if (!io_result_conv.hasValue()) {
+			if (!io_result_conv.has_value) {
 				this.transMat(i_square, i_direction, i_width, io_result_conv);
 				return;
 			}
 		
+			//計算用に頂点情報を初期化（順番調整）
+			initVertexOrder(i_square, i_direction, sqvertex_ref, linear_ref);
+
 			//基準矩形を設定
 			this._offset.setSquare(i_width, this._center);
 
@@ -183,7 +203,7 @@ package org.libspark.flartoolkit.core.transmat {
 			const err:Number = this._mat_optimize.optimize(this._rotmatrix, trans, this._calculator);
 		
 			//計算結果を保存
-			io_result_conv.updateMatrixValue(this._rotmatrix, this._offset.point, trans);
+			this.updateMatrixValue(this._rotmatrix, this._offset.point, trans, io_result_conv);
 
 			// エラー値が許容範囲でなければTransMatをやり直し
 			if (err > AR_GET_TRANS_CONT_MAT_MAX_FIT_ERROR) {
@@ -196,10 +216,38 @@ package org.libspark.flartoolkit.core.transmat {
 				//エラー値が低かったら値を差換え
 				if (err2 < err) {
 					// 良い値が取れたら、差換え
-					io_result_conv.updateMatrixValue(this._rotmatrix, this._offset.point, trans);
+					this.updateMatrixValue(this._rotmatrix, this._offset.point, trans, io_result_conv);
 				}
 			}
 			return;
 		}
+
+		/**
+		 * パラメータで変換行列を更新します。
+		 * 
+		 * @param i_rot
+		 * @param i_off
+		 * @param i_trans
+		 */
+		public function updateMatrixValue(i_rot:FLARRotMatrix, i_off:FLARDoublePoint3d, i_trans:FLARDoublePoint3d, o_result:FLARTransMatResult):void {
+			o_result.m00 = i_rot.m00;
+			o_result.m01 = i_rot.m01;
+			o_result.m02 = i_rot.m02;
+			o_result.m03 = i_rot.m00 * i_off.x + i_rot.m01 * i_off.y + i_rot.m02 * i_off.z + i_trans.x;
+	
+			o_result.m10 = i_rot.m10;
+			o_result.m11 = i_rot.m11;
+			o_result.m12 = i_rot.m12;
+			o_result.m13 = i_rot.m10 * i_off.x + i_rot.m11 * i_off.y + i_rot.m12 * i_off.z + i_trans.y;
+	
+			o_result.m20 = i_rot.m20;
+			o_result.m21 = i_rot.m21;
+			o_result.m22 = i_rot.m22;
+			o_result.m23 = i_rot.m20 * i_off.x + i_rot.m21 * i_off.y + i_rot.m22 * i_off.z + i_trans.z;
+	
+			o_result.angle.copyFrom(i_rot.refAngle());
+			o_result.has_value = true;
+			return;
+		}	
 	}
 }
