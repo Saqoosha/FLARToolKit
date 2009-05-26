@@ -6,7 +6,7 @@
  * http://nyatla.jp/nyatoolkit/
  *
  * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008,2009 Saqoosha
+ * Copyright (C)2008 Saqoosha
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,12 +30,10 @@
 
 package org.libspark.flartoolkit.pv3d {
 	
-	import __AS3__.vec.Vector;
-	
 	import org.libspark.flartoolkit.core.FLARMat;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.types.FLARIntSize;
-	import org.libspark.flartoolkit.utils.VectorUtil;
+	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.math.Matrix3D;
 
@@ -51,8 +49,8 @@ package org.libspark.flartoolkit.pv3d {
 			var m_projection:Array = new Array(16);
 			var trans_mat:FLARMat = new FLARMat(3,4);
 			var icpara_mat:FLARMat = new FLARMat(3,4);
-			var p:Vector.<Vector.<Number>> = VectorUtil.createNumber2d(3, 3);
-			var q:Vector.<Vector.<Number>> = VectorUtil.createNumber2d(4, 4);
+			var p:Array = ArrayUtil.createJaggedArray(3, 3);
+			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
 			const size:FLARIntSize = param.getScreenSize();
@@ -61,8 +59,8 @@ package org.libspark.flartoolkit.pv3d {
 			
 			param.getPerspectiveProjectionMatrix().decompMat(icpara_mat, trans_mat);
 			
-			var icpara:Vector.<Vector.<Number>> = icpara_mat.getArray();
-			var trans:Vector.<Vector.<Number>> = trans_mat.getArray();
+			var icpara:Array = icpara_mat.getArray();
+			var trans:Array = trans_mat.getArray();
 			for (i = 0; i < 4; i++) {
 				icpara[1][i] = (height - 1) * (icpara[2][i]) - icpara[1][i];
 			}
@@ -109,10 +107,12 @@ package org.libspark.flartoolkit.pv3d {
 			}
 			
 			this.useProjectionMatrix = true;
+			// 巣の GreatWhite のままだと _projection が Camera3D の private プロパティなのでエラる。
+			// ので protected とかにしてください。無理やり。害はない。つーかまーそれ以外に方法がない。
 			this._projection = new Matrix3D(m_projection);
 		}
 		
-		override public function transformView(transform:Matrix3D = null):void {
+		override public function transformView(transform:Matrix3D=null):void {
 			// Camera3D の transformView はいらんことしやがるので super.transformView() しない。
 			// ただし CameraObject3D の transformView は必要なのでそこでやってる処理をここに移植。
 			this.eye.calculateMultiply(this.transform, _flipY);
