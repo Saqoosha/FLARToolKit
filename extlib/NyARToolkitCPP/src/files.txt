@@ -1,0 +1,7 @@
+You can get NyARToolkitCPP source codes followed URL.
+
+http://sourceforge.jp/projects/nyartoolkit/svn/view/NyARToolkitCPP/?root=nyartoolkit
+
+NyARToolkitCPPの構成ファイルは、下記URLから入手できます。
+
+http://sourceforge.jp/projects/nyartoolkit/svn/view/NyARToolkitCPP/?root=nyartoolkit
