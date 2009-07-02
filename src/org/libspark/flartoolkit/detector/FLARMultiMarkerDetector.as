@@ -192,7 +192,7 @@ package org.libspark.flartoolkit.detector {
 				// SOC: not clear on this part...
 				if (!this._match_patt.setPatt(this._patt)) {
 					// 計算に失敗した。
-					throw new FLARException();
+					continue;
 				}
 				// コードと順番に比較していく
 				// SOC: first, match against first pattern
