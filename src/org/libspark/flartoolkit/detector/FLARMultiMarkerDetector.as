@@ -29,10 +29,8 @@
  */
 
 package org.libspark.flartoolkit.detector {
-	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
-	import org.libspark.flartoolkit.core.raster.IFLARRaster;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
+	import flash.display.BitmapData;
+	
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
@@ -42,9 +40,10 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.pickup.FLARColorPatt_O3;
 	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
-	import org.libspark.flartoolkit.core.raster.FLARBinRaster;
+	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_ARToolkitThreshold;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
@@ -127,11 +126,7 @@ package org.libspark.flartoolkit.detector {
 		private var _bin_raster:IFLARRaster;
 
 //		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
-//		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
-		private var _tobin_filter:IFLARRasterFilter_RgbToBin = new FLARRasterFilter_BitmapDataThreshold(100);
-
-		public function get filter ():IFLARRasterFilter_RgbToBin { return _tobin_filter; }
-		public function set filter (f:IFLARRasterFilter_RgbToBin):void { if (f != null) _tobin_filter = f; }
+		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -192,7 +187,7 @@ package org.libspark.flartoolkit.detector {
 				// SOC: not clear on this part...
 				if (!this._match_patt.setPatt(this._patt)) {
 					// 計算に失敗した。
-					continue;
+					throw new FLARException();
 				}
 				// コードと順番に比較していく
 				// SOC: first, match against first pattern
@@ -306,7 +301,24 @@ package org.libspark.flartoolkit.detector {
 		public function set sizeCheckEnabled(value:Boolean):void {
 			this._sizeCheckEnabled = value;
 		}
-
+		
+		/**
+		 * SOC: added accessor for thresholded BitmapData of source image,
+		 * for use in debugging.
+		 */
+		public function get thresholdedBitmapData () :BitmapData {
+			try {
+				return FLARRaster_BitmapData(this._bin_raster).bitmapData;
+			} catch (e:Error) {
+				return null;
+			}
+			
+			return null;
+		}
+		
+		public function get labelingBitmapData () :BitmapData {
+			return FLARSquareDetector(this._square_detect).labelingBitmapData;
+		}
 	}
 }
 
