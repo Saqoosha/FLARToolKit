@@ -29,6 +29,8 @@
  */
 
 package org.libspark.flartoolkit.core {
+	import flash.display.BitmapData;
+	
 	import org.libspark.flartoolkit.core.labeling.FLARLabelingImageBitmapData;
 	import org.libspark.flartoolkit.core.labeling.FLARLabelingLabel;
 	import org.libspark.flartoolkit.core.labeling.FLARLabelingLabelStack;
@@ -105,6 +107,14 @@ package org.libspark.flartoolkit.core {
 
 		//	private final int[] __detectMarker_mkvertex = new int[5];
 		private var __detectMarker_mkvertex:Array = new Array(5);
+		
+		/**
+		 * SOC: added accessor for labeled BitmapData of source image,
+		 * for use in debugging.
+		 */
+		public function get labelingBitmapData () :BitmapData {
+			return FLARLabelingImageBitmapData(this._limage).bitmapData;
+		}
 
 		/**
 		 * ARMarkerInfo2 *arDetectMarker2( ARInt16 *limage, int label_num, int *label_ref,int *warea, double *wpos, int *wclip,int area_max, int area_min, double
