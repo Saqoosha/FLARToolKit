@@ -136,23 +136,28 @@ package org.libspark.flartoolkit.core {
 			o_square_stack.clear();
 
 			// ラベリング
+			// SOC: the labeling process searches for contiguous areas of black in the thresholded image.
+			//		these areas will then be analyzed to determine if they are marker outlines.
 			labeling_proc.labeling(i_raster);
 
 			// ラベル数が0ならここまで
+			// SOC: exit if no black areas found
 			const label_num:int = limage.getLabelStack().getLength();
 			if (label_num < 1) {
 				return;
 			}
-
+			
 			const stack:FLARLabelingLabelStack = limage.getLabelStack();
 			const labels:Array = stack.getArray(); 
 			// FLARLabelingLabel[]
 		
 		
 			// ラベルを大きい順に整列
+			// SOC: arrange labeled areas in order of size
 			stack.sortByArea();
 
 			// デカいラベルを読み飛ばし
+			// SOC: analyze only the labeled areas smaller than AR_AREA_MAX 
 			var i:int;
 			for (i = 0;i < label_num; i++) {
 				// 検査対象内のラベルサイズになるまで無視
