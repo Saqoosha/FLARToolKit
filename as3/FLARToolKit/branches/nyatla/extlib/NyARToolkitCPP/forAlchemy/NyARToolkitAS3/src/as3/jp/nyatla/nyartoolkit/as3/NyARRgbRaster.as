@@ -36,6 +36,23 @@ package jp.nyatla.nyartoolkit.as3{
 		public static const BUFFERFORMAT_INT1D_X8R8G8B8_32:int = INT1D|0x0102;
 		public static const BUFFERFORMAT_BYTE1D_B8G8R8X8_32:int = BYTE1D|0x0101;
 		public static const BUFFERFORMAT_BYTE1D_X8R8G8B8_32:int = BYTE1D|0x0102;
+		
+		/**
+		 * function NyARRgbRaster(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+		 */		
+		public function NyARRgbRaster(...args:Array)
+		{		
+			switch(args.length){
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}
+			default:
+			}
+			throw new Error();
+		}		
 	}
 }
 

@@ -34,15 +34,8 @@
 package org.libspark.flartoolkit.alchemy.core
 {
 	import jp.nyatla.nyartoolkit.as3.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.alchemy.*;
 	import org.libspark.flartoolkit.FLARException;
-	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
-	/**
-	 * ARToolKitのマーカーコードを1個保持します。
-	 * 
-	 */
-	public class FLxARCode implements IFLxAR
+	public class FLxARCode extends NyARCode
 	{
 		public var _ny:NyARCode;
 		public function FLxARCode(i_width:int, 
@@ -50,45 +43,17 @@ package org.libspark.flartoolkit.alchemy.core
 								 i_markerPercentWidth:uint = 50, 
 								 i_markerPercentHeight:uint = 50)
 		{
+			super(i_width,i_height);
 			if (i_markerPercentHeight != 50 || i_markerPercentWidth != 50)
 			{
 				throw new FLARException("i_markerPercentHeight != 50 || i_markerPercentWidth != 50");
 			}
-			//bind AlchemyMaster class
-			this._ny = NyARCode.createInstance(i_width, i_height);
 			return;
 		}
-		public function dispose():void
+		public override function dispose():void
 		{
-			//dispose AlchemyMaster class
-			this._ny.dispose();
-			this._ny = null;
+			super.dispose();
 			return;
 		}
-
-		
-		public function get averageOfPattern():int { FLARException.notImplement(); return 0; }
-		public function get markerPercentWidth():uint {FLARException.notImplement();return 0;}
-		public function get markerPercentHeight():uint{FLARException.notImplement();return 0;}
-		public function set markerPercentHeight(value:uint):void {FLARException.notImplement();return;}
-		public function getPat():Array{FLARException.notImplement(); return null; }
-		public function getPatPow():Array {FLARException.notImplement();return null;}
-		public function getPatBW():Array{FLARException.notImplement();return null;}
-		public function getPatPowBW():Array { FLARException.notImplement(); return null;}
-		
-		public function getWidth():int { FLARException.notImplement(); return -1;}
-
-		public function getHeight():int {FLARException.notImplement(); return -1;}
-
-		public function loadARPatt(i_stream:String):void
-		{
-			//call AlchemyMaster Class 
-			this._ny.loadARPattFromFile(i_stream);
-			return;
-		}
-
-		public function fromPattern(pattern:IFLARColorPatt):void{FLARException.notImplement();}
-		public function toString():String{FLARException.notImplement(); return null; }
-		private function generatePatFileString(pat:Array):String{FLARException.notImplement(); return null; }
 	}
 }

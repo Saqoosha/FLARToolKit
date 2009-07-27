@@ -31,6 +31,7 @@ package jp.nyatla.alchemymaster
 	public class AlchemyClassProxy
 	{
 		protected var _alchemy_stub:Object;
+		public var _has_alchemy_object:Boolean=false;
 		public var _alchemy_ptr:uint;
 		protected var _ma:Marshal=new Marshal();
 		public var debug_str:String=new String();
@@ -47,12 +48,61 @@ package jp.nyatla.alchemymaster
 			}
 			return s;
 		}
-
 		public function dispose():void
 		{
+			if(this._alchemy_stub==null){
+				return;
+			}
+			//スタブを持っていたら解放
 			this._alchemy_stub.dispose(this._alchemy_ptr);
+
 			this._alchemy_stub=null;
+			this._alchemy_ptr =0;
 			return;
 		}
+		
+		public final function attachAlchemyObject(i_alchemy_stub:Object):void
+		{
+			//有効なオブジェクトしかアタッチできない。
+			if(i_alchemy_stub==null){
+				throw new Error("AlchemyClassProxy::attachAlchemyObject failed");
+			}
+			setAlchemyObject(i_alchemy_stub);
+			//保持フラグをON
+			this._has_alchemy_object=true;
+			return;
+		}
+
+		//proxyの初期化
+		public final function setAlchemyObject(i_alchemy_stub:Object):void
+		{
+			//既にアタッチ済みのオブジェクトにアタッチすることはできない。
+			if(this._has_alchemy_object==true){
+				throw new Error("AlchemyClassProxy::setAlchemyObject failed");
+			}
+			//参照をセットする。
+			if(i_alchemy_stub!=null){
+				this._alchemy_stub=i_alchemy_stub;
+				this._alchemy_ptr=this._alchemy_stub.ptr;
+			}else{
+				this._alchemy_stub=null;
+				this._alchemy_ptr=0;
+			}
+			return;
+		}
+/*		
+		//このインスタンスに、新しいアルケミオブジェクトを作成します。
+		public function createObject()
+		{
+			throw new Error("AlchemyClassProxy::createObject");
+			//この関数をオーバライドして下さい。
+		}
+		//このインスタンスに、引数のアルケミオブジェクトを設定します。
+		public function wrapObject(i_alchemy_stub:Object)
+		{
+			//この関数をオーバライドして下さい。
+			throw new Error("AlchemyClassProxy::wrapObject");
+		}
+*/		
 	}
 }

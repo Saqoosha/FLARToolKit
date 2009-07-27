@@ -15,15 +15,14 @@
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
-	
-	import org.libspark.flartoolkit.alchemy.core.*;
-	import org.libspark.flartoolkit.alchemy.detector.*;
-	import org.libspark.flartoolkit.alchemy.core.transmat.*;
 	import org.libspark.flartoolkit.alchemy.core.raster.rgb.*;
+	import org.libspark.flartoolkit.alchemy.detector.*;
 	import org.libspark.flartoolkit.alchemy.core.param.*;
-	import org.libspark.flartoolkit.alchemy.*;
+	import org.libspark.flartoolkit.alchemy.core.transmat.*;
+	import org.libspark.flartoolkit.alchemy.core.*;
+
 	
-	import jp.nyatla.nyartoolkit.as3.*;
+//	import jp.nyatla.nyartoolkit.as3.*;
 	import jp.nyatla.as3utils.*;
 	
 	[Event(name="init",type="flash.events.Event")]
@@ -67,7 +66,7 @@
 				function(data:ByteArray):void
 				{
 					_param = new FLxARParam();
-					_param.loadARParam(data);
+					_param.loadARParamFile(data);
 					_param.changeScreenSize(320,240);
 				});
 			mf.addTarget(
@@ -75,7 +74,7 @@
 				function(data:String):void
 				{
 					_code = new FLxARCode(16, 16);
-					_code.loadARPatt(data);
+					_code.loadARPattFromFile(data);
 				}
 			);
             //終了後mainに遷移するよ―に設定
@@ -98,7 +97,6 @@
 			// setup ARToolkit
 			this._raster = new FLxARRgbRaster(320,240);
 			this._detector =new FLxARSingleMarkerDetector(this._param, this._code, this._codeWidth);
-			this._code = null;
 			this.dispatchEvent(new Event(Event.INIT));
 		}
 		

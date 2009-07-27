@@ -32,17 +32,47 @@ package jp.nyatla.nyartoolkit.as3
 	
 	public class NyARDoubleMatrix34 extends AlchemyClassProxy
 	{
+		/**
+		 * function NyARDoubleMatrix34()
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARDoubleMatrix34(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。 		 * function NyARDoubleMatrix34(arg:CONST_WRAPCLASS)
+ 		 * 	AlchemyObjectをラップするインスタンスを作成します。
+		 */
+		public function NyARDoubleMatrix34(...args:Array)
+		{
+			switch(args.length){
+			case 0:
+				//function NyARDoubleMatrix34()
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARDoubleMatrix34_createInstance()
+				);
+				return;
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}else if(args[0] is CONST_WRAPCLASS){
+					//function NyARDoubleMatrix34(arg:CONST_WRAPCLASS)
+					//Empty Wrapper
+					return;
+				}
+				break;
+			default:
+			}
+			throw new Error();
+		}
+/*				
 		public static function createInstance():NyARDoubleMatrix34
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARDoubleMatrix34(NyARToolkitAS3._cmodule.NyARDoubleMatrix34_createInstance());
+			var inst:NyARDoubleMatrix34=new NyARDoubleMatrix34();
+			inst.attachAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARDoubleMatrix34_createInstance()
+			);
+			return inst;		
 		}
-		public function NyARDoubleMatrix34(i_alchemy_stub:Object)
-		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			return;
-		}
+*/
 		//OK
 		public function setValue(i_value:Array):void
 		{

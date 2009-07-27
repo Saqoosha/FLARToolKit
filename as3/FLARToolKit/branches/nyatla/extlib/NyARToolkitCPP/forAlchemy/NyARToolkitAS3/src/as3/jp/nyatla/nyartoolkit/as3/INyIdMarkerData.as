@@ -1,16 +1,10 @@
-﻿/* 
- * PROJECT: FLARToolKit
+/* 
+ * PROJECT: NyARToolkitCPP Alchemy bind
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
- *   R.Iizuka (nyatla)
- * http://nyatla.jp/nyatoolkit/
+ * The NyARToolkitCPP Alchemy bind is stub/proxy classes for NyARToolkitCPP and Adobe Alchemy.
+ * 
+ * Copyright (C)2009 Ryo Iizuka
  *
- * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008 Saqoosha
- * 
- * 2009.06.11:nyatla
- * Branched for Alchemy version FLARToolKit.
- * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -26,20 +20,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  * For further information please contact.
- *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
- *	<saq(at)saqoosha.net>
+ *	http://nyatla.jp/nyatoolkit/
+ *	<airmail(at)ebony.plala.or.jp>
  * 
  */
-package org.libspark.flartoolkit.alchemy
+package jp.nyatla.nyartoolkit.as3
 {
+	import jp.nyatla.alchemymaster.*;
+	import flash.utils.ByteArray;
+	import jp.nyatla.as3utils.*;	
 	
-	/**
-	* ...
-	* @author DefaultUser (Tools -> Custom Arguments...)
-	*/
-	public interface IFLxAR 
+	public class INyIdMarkerData extends AlchemyClassProxy
 	{
-		function dispose():void;
 	}
-	
 }

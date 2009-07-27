@@ -33,22 +33,40 @@ package jp.nyatla.nyartoolkit.as3
 	public class NyARSingleDetectMarker extends AlchemyClassProxy
 	{
 		/**
-		 * i_codeはアンマネージ領域で所有権移転が発生するので、関数内でdisposeされます。
-		 * i_paramは生成したNyARSingleDetectMarkerをdisposeするまでの間、disposeしないでください。
-		 **/
+		 * function NyARSingleDetectMarker(i_param:NyARParam,i_code:NyARCode,i_width:Number, i_raster_type:int)
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * 	i_code,i_paramは生成したNyARSingleDetectMarkerをdisposeするまでの間、disposeしないでください。 		 * function NyARSingleDetectMarker(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+		 */
+		public function NyARSingleDetectMarker(...args:Array)
+		{
+			switch(args.length){
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}
+				break;				
+			case 4:
+				//function NyARRgbRaster_XRGB32(i_param:NyARParam,i_code:NyARCode,i_width:Number, i_raster_type:int)
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARSingleDetectMarker_createInstance(NyARParam(args[0])._alchemy_ptr,NyARCode(args[1])._alchemy_ptr,Number(args[2]),int(args[3]))
+				);
+				return;
+			default:
+			}
+			throw new Error();
+		}
+/*				 
 		public static function createInstance(i_param:NyARParam,i_code:NyARCode,i_width:Number, i_raster_type:int):NyARSingleDetectMarker
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			var inst:NyARSingleDetectMarker=new NyARSingleDetectMarker(NyARToolkitAS3._cmodule.NyARSingleDetectMarker_createInstance(i_param._alchemy_ptr,i_code._alchemy_ptr,i_width,i_raster_type));
-			i_code.dispose();
-			return inst;
-		}		
-		public function NyARSingleDetectMarker(i_alchemy_stub:Object)
-		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			return;
-		}
+			var inst:NyARSingleDetectMarker=new NyARSingleDetectMarker();
+			inst.attachAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARSingleDetectMarker_createInstance(i_param._alchemy_ptr,i_code._alchemy_ptr,i_width,i_raster_type)
+			);
+			return inst;			
+		}*/
 		public function detectMarkerLite(i_raster:NyARRgbRaster,i_threshold:int):Boolean
 		{
 			return this._alchemy_stub.detectMarkerLite(this._alchemy_ptr,i_raster._alchemy_ptr,i_threshold);

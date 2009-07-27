@@ -31,18 +31,43 @@ package jp.nyatla.nyartoolkit.as3{
 	
 	public class NyARRgbRaster_XRGB32 extends NyARRgbRaster
 	{
+		/**
+		 * function NyARRgbRaster_XRGB32(i_width:int,i_height:int)
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARRgbRaster_XRGB32(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+		 */		
+		public function NyARRgbRaster_XRGB32(...args:Array)
+		{
+			super(NyARToolkitAS3.BASECLASS);			
+			switch(args.length){
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}
+				break;				
+			case 2:
+				//function NyARRgbRaster_XRGB32(i_width:int,i_height:int)
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARRgbRaster_XRGB32_createInstance(int(args[0]),int(args[1]))
+				);
+				return;
+			default:
+			}
+			throw new Error();
+		}		
+/*		
 		public static function createInstance(i_width:int,i_height:int):NyARRgbRaster_XRGB32
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARRgbRaster_XRGB32(NyARToolkitAS3._cmodule.NyARRgbRaster_XRGB32_createInstance(i_width,i_height));
+			var inst:NyARRgbRaster_XRGB32=new NyARRgbRaster_XRGB32();
+			inst.attachAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARRgbRaster_XRGB32_createInstance(i_width,i_height)
+			);
+			return inst;			
 		}
-		public function NyARRgbRaster_XRGB32(i_alchemy_stub:Object)
-		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			return;
-		}
-		
+*/
 		//現在の位置からXRGB(BYTE)形式データを読み込みます。
 		public function setByteArray(i_source:ByteArray):void
 		{

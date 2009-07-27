@@ -11,7 +11,6 @@
 		{
 			NyARToolkitAS3.initialize();
 		}
-		
 	}
 	
 }

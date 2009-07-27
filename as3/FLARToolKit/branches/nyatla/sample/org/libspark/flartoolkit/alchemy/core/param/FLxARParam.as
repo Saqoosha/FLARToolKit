@@ -34,10 +34,6 @@
 package org.libspark.flartoolkit.alchemy.core.param
 {
 	import jp.nyatla.nyartoolkit.as3.*;
-	import org.libspark.flartoolkit.FLARException;
-	import org.libspark.flartoolkit.core.param.FLARPerspectiveProjectionMatrix;
-	import org.libspark.flartoolkit.core.types.FLARIntSize;
-	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
 	import org.libspark.flartoolkit.alchemy.*;
 	
 	import flash.utils.ByteArray;
@@ -46,44 +42,13 @@ package org.libspark.flartoolkit.alchemy.core.param
 	/**
 	 * typedef struct { int xsize, ysize; double mat[3][4]; double dist_factor[4]; } ARParam;
 	 * FLARの動作パラメータを格納するクラス
-	 *
 	 */
-	public class FLxARParam implements IFLxAR
+	public class FLxARParam extends NyARParam
 	{
-		public var _ny:NyARParam;
 		public function FLxARParam()
 		{
-			//create AlchemyMaster class
-			this._ny = NyARParam.createInstance();
+			super();
 			return;
 		}
-		public function dispose():void
-		{
-			//dispose AlchemyMaster class
-			this._ny.dispose();
-			this._ny = null;
-			return;
-		}
-		
-		public function changeScreenSize(i_xsize:int, i_ysize:int):void
-		{
-			//call AlchemyMaster class
-			this._ny.changeScreenSize(i_xsize,i_ysize);
-			return;
-		}
-		public function loadARParam(i_stream:ByteArray):void
-		{
-			//call AlchemyMaster class
-			this._ny.loadARParamFile(i_stream);
-			return;
-		}
-		public function getPerspectiveProjectionMatrix():FLxARPerspectiveProjectionMatrix
-		{
-			//returned object has not unmanaged resource.
-			return new FLxARPerspectiveProjectionMatrix(this._ny.getPerspectiveProjectionMatrix());
-		}
-
-		public function getScreenSize():FLARIntSize	{FLARException.notImplement(); return null; }
-		public function getDistortionFactor():FLARCameraDistortionFactor{FLARException.notImplement(); return null; }
 	}
 }

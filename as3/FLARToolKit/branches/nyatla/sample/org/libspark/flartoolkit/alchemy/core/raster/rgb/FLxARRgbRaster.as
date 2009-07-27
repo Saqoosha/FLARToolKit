@@ -32,13 +32,6 @@ package org.libspark.flartoolkit.alchemy.core.raster.rgb
 {
 	import flash.utils.ByteArray;
 	import flash.geom.Rectangle;
-	import org.libspark.flartoolkit.alchemy.IFLxAR;
-	import org.libspark.flartoolkit.core.rasterreader.FLARBitmapDataReader;	
-	import org.libspark.flartoolkit.core.raster.FLARRaster_BasicClass;
-	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.libspark.flartoolkit.core.rasterreader.IFLARBufferReader;
-	import org.libspark.flartoolkit.core.rasterreader.IFLARRgbPixelReader;
-	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	import org.libspark.flartoolkit.FLARException;
 	import jp.nyatla.nyartoolkit.as3.*;
 	
@@ -47,31 +40,24 @@ package org.libspark.flartoolkit.alchemy.core.raster.rgb
 	/**
 	 * @author Saqoosha
 	 */
-	public class FLxARRgbRaster implements IFLxAR
+	public class FLxARRgbRaster extends NyARRgbRaster_XRGB32
 	{
-		public var _ny:NyARRgbRaster_XRGB32;
 		public function FLxARRgbRaster(i_width:int,i_height:int)
 		{
-			this._ny = NyARRgbRaster_XRGB32.createInstance(i_width, i_height);
+			super(i_width,i_height);
 			return;
 		}
-		public function dispose():void
+		public override function dispose():void
 		{
-			//dispose AlchemyMaster class
-			this._ny.dispose();
-			this._ny = null;
+			super.dispose();
 			return;			
 		}
 		public function setBitmapData(i_bmp:BitmapData):void
 		{
 			var b:ByteArray = i_bmp.getPixels(new Rectangle(0, 0, i_bmp.width,i_bmp.height));
 			b.position = 0;
-			this._ny.setByteArray(b);
+			this.setByteArray(b);
 			b = null;
 		}
-
-		public function getRgbPixelReader():IFLARRgbPixelReader {FLARException.notImplement();return null;}
-		public function getBufferReader():IFLARBufferReader {FLARException.notImplement(); return null;}
-		public function get bitmapData():BitmapData { FLARException.notImplement(); return null;}
 	}
 }

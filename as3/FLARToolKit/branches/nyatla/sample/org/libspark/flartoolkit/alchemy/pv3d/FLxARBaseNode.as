@@ -33,6 +33,7 @@
 
 package org.libspark.flartoolkit.alchemy.pv3d
 {
+	import jp.nyatla.nyartoolkit.as3.*;
 	import org.libspark.flartoolkit.alchemy.core.*;
 	import org.libspark.flartoolkit.alchemy.core.transmat.*;
 	import org.libspark.flartoolkit.alchemy.core.param.*;
@@ -51,9 +52,9 @@ package org.libspark.flartoolkit.alchemy.pv3d
 			this.axisMode = axisMode;
 		}
 		private var _wk:Array = new Array(16);
-		public function setTransformMatrix(r:FLxARTransMatResult):void {
+		public function setTransformMatrix(r:NyARTransMatResult):void {
 			var w:Array = this._wk;
-			r._ny.getValue(w);
+			r.getValue(w);
 			var m:Matrix3D = this.transform;
 			if (this.axisMode == AXIS_MODE_PV3D) {
 				m.n11 =  w[0*4+0];  m.n12 =  w[0*4+1];  m.n13 = -w[0*4+2];  m.n14 =  w[0*4+2];

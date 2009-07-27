@@ -33,79 +33,23 @@
 
 package org.libspark.flartoolkit.alchemy.detector
 {
-	import org.libspark.flartoolkit.alchemy.*;
-	import org.libspark.flartoolkit.alchemy.core.*;
-	import org.libspark.flartoolkit.alchemy.core.param.*;
-	import org.libspark.flartoolkit.alchemy.core.raster.rgb.*;
-	import org.libspark.flartoolkit.alchemy.core.transmat.*;
 	import jp.nyatla.nyartoolkit.as3.*;
 	import org.libspark.flartoolkit.FLARException;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
-	import org.libspark.flartoolkit.core.FLARSquare;
-	import org.libspark.flartoolkit.core.FLARSquareStack;
-	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-
 	/**
 	 * 画像からARCodeに最も一致するマーカーを1個検出し、その変換行列を計算するクラスです。
 	 * 
 	 */
-	public class FLxARSingleMarkerDetector implements IFLxAR
-	{
-		public var _ny:NyARSingleDetectMarker;
-		
-		
-		/**
-		 * 
-		 * @param	i_param
-		 * @param	i_code
-		 * コンストラクタはi_codeのアンマネージオブジェクトの所有権を奪い、disposeします。
-		 * 関数からもどったら、渡した変数に必ずnullを代入して、使わないでください。
-		 * @param	i_marker_width
-		 */
-		public function FLxARSingleMarkerDetector(i_param:FLxARParam, i_code:FLxARCode, i_marker_width:Number)
+	public class FLxARSingleMarkerDetector extends NyARSingleDetectMarker
+	{		
+		public function FLxARSingleMarkerDetector(i_param:NyARParam, i_code:NyARCode, i_marker_width:Number)
 		{
-			this._ny = NyARSingleDetectMarker.createInstance(i_param._ny, i_code._ny, i_marker_width,NyARRgbRaster.BUFFERFORMAT_BYTE1D_X8R8G8B8_32);
+			super(i_param, i_code, i_marker_width,NyARRgbRaster.BUFFERFORMAT_BYTE1D_X8R8G8B8_32);
 			return;
 		}
-		public function dispose():void
+		public override function dispose():void
 		{
-			//dispose AlchemyMaster class
-			this._ny.dispose();
-			this._ny = null;
+			super.dispose();
 			return;
 		}
-		
-		
-		
-		
-		
-		public function get filter ():IFLARRasterFilter_RgbToBin { FLARException.notImplement(); return null; }
-		public function set filter (f:IFLARRasterFilter_RgbToBin):void {FLARException.notImplement();}
-
-		public function detectMarkerLite(i_raster:FLxARRgbRaster, i_threshold:int):Boolean
-		{
-			return this._ny.detectMarkerLite(i_raster._ny, i_threshold);
-		}
-
-		public function getTransformMatrix(o_result:FLxARTransMatResult):void
-		{
-			this._ny.getTransmationMatrix(o_result._ny);
-			return;
-		}
-
-		public function getConfidence():Number
-		{
-			return this._ny.getConfidence();
-		}
-		public function getDirection():int
-		{
-			return this._ny.getDirection();
-		}
-		
-		public function setContinueMode(i_is_continue:Boolean):void {FLARException.notImplement();}
-		public function getSquare():FLARSquare{FLARException.notImplement();return null;}
-		public function getSquareList():FLARSquareStack{FLARException.notImplement();return null;}
-		public function get sizeCheckEnabled():Boolean { FLARException.notImplement(); return false; }
-		public function set sizeCheckEnabled(value:Boolean):void {FLARException.notImplement();}
 	}
 }

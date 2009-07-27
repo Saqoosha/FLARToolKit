@@ -31,17 +31,53 @@ package jp.nyatla.nyartoolkit.as3
 	import jp.nyatla.as3utils.*;	
 	
 	public class NyARPerspectiveProjectionMatrix extends NyARDoubleMatrix34
-	{		
+	{
+		/**
+		 * function NyARPerspectiveProjectionMatrix()
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARPerspectiveProjectionMatrix(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+ 		 * function NyARPerspectiveProjectionMatrix(arg:CONST_WRAPCLASS)
+ 		 * 	AlchemyObjectをラップするインスタンスを作成します。
+		 */		
+		public function NyARPerspectiveProjectionMatrix(...args:Array)
+		{
+			super(NyARToolkitAS3.BASECLASS);
+			switch(args.length){
+			case 0:
+				//function NyARPerspectiveProjectionMatrix()
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARPerspectiveProjectionMatrix_createInstance()
+				);
+				return;
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}else if(args[0] is CONST_WRAPCLASS){
+					//function NyARPerspectiveProjectionMatrix(arg:CONST_WRAPCLASS)
+					//Empty Wrapper
+					return;
+				}
+				break;
+			default:
+			}
+			throw new Error();
+		}
+		/*		
 		public static function createInstance():NyARPerspectiveProjectionMatrix
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARPerspectiveProjectionMatrix(NyARToolkitAS3._cmodule.NyARPerspectiveProjectionMatrix_createInstance());
+			var inst:NyARPerspectiveProjectionMatrix=new NyARPerspectiveProjectionMatrix();
+			inst.attachAlchemyObject(NyARToolkitAS3._cmodule.NyARPerspectiveProjectionMatrix_createInstance());
+			return inst;			
 		}
-		public function NyARPerspectiveProjectionMatrix(i_alchemy_stub:Object)
+		public static function createReference(i_alchemy_stub:Object):NyARPerspectiveProjectionMatrix
 		{
-			super(i_alchemy_stub);
-			return;
-		}
+			var inst:NyARPerspectiveProjectionMatrix=new NyARPerspectiveProjectionMatrix();
+			//Wrapper
+			return inst;
+		}*/
 		public function decompMat(o_cpara:Array,o_trans:Array):void
 		{
 			var ma:Marshal=this._ma;
@@ -56,5 +92,6 @@ package jp.nyatla.nyartoolkit.as3
 			}
 			return;
 		}
+		
 	}
 }

@@ -32,17 +32,51 @@ package jp.nyatla.nyartoolkit.as3
 	
 	public class NyARCode extends AlchemyClassProxy
 	{
+		/**
+		 * function NyARCode(width:int,height:int)
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARCode(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+ 		 * function NyARCode(arg:CONST_WRAPCLASS)
+ 		 * 	AlchemyObjectをラップするインスタンスを作成します。
+		 */		
+		public function NyARCode(...args:Array)
+		{
+			switch(args.length){
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}else if(args[0] is CONST_WRAPCLASS){
+					//function NyARCode(arg:CONST_WRAPCLASS)
+					//Empty Wrapper
+					return;
+				}
+				break;
+			case 2:
+				//function NyARCode(width:int,height:int)
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARCode_createInstance(int(args[0]),int(args[1]))
+				);
+				return;
+			default:
+			}
+			throw new Error();
+		}		
+		
+/*		
 		public static function createInstance(i_width:int,i_height:int):NyARCode
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARCode(NyARToolkitAS3._cmodule.NyARCode_createInstance(i_width,i_height));
-		}
-		public function NyARCode(i_alchemy_stub:Object)
-		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			return;
-		}
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
+			var inst:NyARCode=new NyARCode();
+			inst.setAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARCode_createInstance(
+					i_width,i_height),true
+			);
+			return inst;
+		}		
+*/
 		//i_streamのカレント位置から読みだします。
 		public function loadARPattFromFile(i_stream:String):void
 		{

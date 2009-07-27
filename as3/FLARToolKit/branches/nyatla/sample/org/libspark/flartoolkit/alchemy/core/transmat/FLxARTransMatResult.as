@@ -34,34 +34,17 @@
 package org.libspark.flartoolkit.alchemy.core.transmat
 {	
 	import jp.nyatla.nyartoolkit.as3.*;
-	import org.libspark.flartoolkit.core.types.FLARDoublePoint3d;
-	import org.libspark.flartoolkit.core.transmat.rotmatrix.FLARRotMatrix;
-	
-	import org.libspark.flartoolkit.alchemy.*;
-	import org.libspark.flartoolkit.FLARException;
-	import org.libspark.flartoolkit.core.transmat.*;
-	import org.libspark.flartoolkit.core.types.*;
-
-	public class FLxARTransMatResult implements IFLxAR
+	public class FLxARTransMatResult extends NyARTransMatResult
 	{
-		public var _ny:NyARTransMatResult;
 		public function FLxARTransMatResult()
 		{
-			//create AlchemyMaster class
-			this._ny = NyARTransMatResult.createInstance();
+			super();
 			return;
 		}
-		public function dispose():void
+		public override function dispose():void
 		{
-			//dispose AlchemyMaster class
-			this._ny.dispose();
-			this._ny = null;
+			super.dispose();
 			return;
 		}		
-		public function hasValue():Boolean
-		{
-			return this._ny.getHasValue();
-		}
-		public function updateMatrixValue(i_rot:FLARRotMatrix, i_off:FLARDoublePoint3d, i_trans:FLARDoublePoint3d):void{FLARException.notImplement();}
 	}
 }
