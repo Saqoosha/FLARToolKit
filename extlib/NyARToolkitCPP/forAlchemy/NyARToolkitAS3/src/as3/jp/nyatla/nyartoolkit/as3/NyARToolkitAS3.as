@@ -29,6 +29,9 @@ package jp.nyatla.nyartoolkit.as3
 	import cmodule.nyartoolkit.CLibInit;
 	public class NyARToolkitAS3
 	{
+		public static var WRAPCLASS:CONST_WRAPCLASS=new CONST_WRAPCLASS();
+		public static var BASECLASS:CONST_BASECLASS=new CONST_BASECLASS();
+		
 		public static var _cmodule:Object=null;
 		public static function initialize():void
 		{

@@ -34,32 +34,77 @@ package jp.nyatla.nyartoolkit.as3
 	{
 		private var _projection_matrix:NyARPerspectiveProjectionMatrix;
 		private var _screen_size:NyARIntSize;
+		/**
+		 * function NyARParam()
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARParam(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+		 */
+		public function NyARParam(...args:Array)
+		{
+			//メンバオブジェクト
+			this._screen_size=new NyARIntSize(NyARToolkitAS3.WRAPCLASS);
+			this._projection_matrix=new NyARPerspectiveProjectionMatrix(NyARToolkitAS3.WRAPCLASS);
+			//
+			switch(args.length){
+			case 0:
+				//function NyARParam()
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARParam_createInstance()
+				);
+				return;
+			case 1:
+				//function NyARParam(i_class:CONST_BASECLASS)
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}
+				return;			
+			default:
+			}
+			throw new Error();
+		}
+/*
+
+
 		public static function createInstance():NyARParam
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARParam(NyARToolkitAS3._cmodule.NyARParam_createInstance());
+			var inst:NyARParam=new NyARParam();
+			inst.attachAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARParam_createInstance()
+				);
+			return inst;
 		}
-		public function NyARParam(i_alchemy_stub:Object)
+		public override function setAlchemyObject(i_alchemy_stub:Object):void
 		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			this._screen_size=new NyARIntSize(this._alchemy_stub.getScreenSize(this._alchemy_ptr));
-			this._projection_matrix=new NyARPerspectiveProjectionMatrix(this._alchemy_stub.getPerspectiveProjectionMatrix(this._alchemy_ptr));
+			super.setAlchemyObject(i_alchemy_stub);			
+
 			return;
 		}
+*/
 
 		public function changeScreenSize(i_xsize:int, i_ysize:int):void
 		{
 			this._alchemy_stub.changeScreenSize(this._alchemy_ptr,i_xsize,i_ysize);
 			return;	
 		}
-		//リファレンスを返すので、disposeしないこと。
+		/**
+		 * この関数の返すオブジェクトの寿命は、NyARParamと同期しています。
+		 * NyARParamをdisposeした瞬間に、オブジェクトは正しい値を返さなくなります。注意してください。
+		 */
 		public function getPerspectiveProjectionMatrix():NyARPerspectiveProjectionMatrix
 		{
+			this._projection_matrix.setAlchemyObject(this._alchemy_stub.getPerspectiveProjectionMatrix(this._alchemy_ptr))
 			return this._projection_matrix;
 		}
+		/**
+		 * この関数の返すオブジェクトの寿命は、NyARParamと同期しています。
+		 * NyARParamをdisposeした瞬間に、オブジェクトは正しい値を返さなくなります。注意してください。
+		 */
 		public function getScreenSize():NyARIntSize
 		{
+			this._screen_size.setAlchemyObject(this._alchemy_stub.getScreenSize(this._alchemy_ptr));
 			return this._screen_size;
 		}
 		
@@ -74,9 +119,7 @@ package jp.nyatla.nyartoolkit.as3
 		}
 		public override function dispose():void
 		{
-			this._projection_matrix.dispose();
 			this._projection_matrix=null;
-			this._screen_size.dispose();
 			this._screen_size=null;
 			super.dispose();
 			return;

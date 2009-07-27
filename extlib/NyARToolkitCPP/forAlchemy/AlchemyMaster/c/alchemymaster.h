@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <assert.h>
 #include "AS3.h"
 
 
@@ -73,6 +74,7 @@ template<class T> class AlchemyClassStub
 public:
 	T* m_inst;
 	const T* m_ref;
+	AS3_Val m_as3;
 protected:
 	//初期化済みスタブオブジェクト(i_inst)をAS3オブジェクト化します。
 	//AS3オブジェクトを生成するためにこの関数をオーバライドしてください。
@@ -87,18 +89,29 @@ public:
 	virtual void initRelStub(T* i_inst)
 	{
 		this->m_inst=i_inst;
-		this->m_ref=this->m_inst;		
+		this->m_ref=this->m_inst;
+		this->m_as3=NULL;
 		return;
 	}
-public:
 	//この関数はすでにあるCオブジェクトi_refをラップします。
 	//基本的にオーバライドの必要はありません。
 	virtual void initRefStub(const T* i_ref)
 	{
 		this->m_inst=NULL;
 		this->m_ref=i_ref;
+		this->m_as3=NULL;
 		return;
 	}
+	//この関数はラッパーオブジェクトを初期化します。
+	//基本的にオーバライドの必要はありません。
+	virtual void initWrapStub()
+	{
+		this->m_inst=NULL;
+		this->m_ref=NULL;
+		this->m_as3=NULL;
+		return;
+	}
+
 public:
 	//この関数は現在所有しているインスタンスをデタッチします。
 	//m_instをトリガに他のメンバ所有権を管理するクラスでは、その所有権も移譲するようにしてください。
@@ -112,15 +125,28 @@ public:
 	{
 		return this->m_ref;
 	}
+	virtual void wrapRef(const T* i_ref)
+	{
+		//assert(this->m_inst==NULL);
+		this->m_ref=i_ref;
+		return;
+	}
 public:	
 	//インスタンスをAS3オブジェクトに変換します。
 	//この関数は継承クラスのcreateInstanceから呼び出して下さい。
 	AS3_Val toAS3Object()
 	{
+		assert(this->m_as3==NULL);
 		AS3_Val result = AS3_Object("");
 		AS3ObjectBuilder builder(result);
 		this->initAS3Object(builder);
 		return result;
+	}
+	//インスタンスをAS3ホルダオブジェクトに変換します。
+	//ホルダオブジェクトは、m_as3メンバ変数が有効です。
+	void toHolderObject()
+	{
+		this->m_as3=toAS3Object();
 	}
 
 	virtual ~AlchemyClassStub<T>()
@@ -128,6 +154,9 @@ public:
 		if(this->m_inst!=NULL){
 			delete this->m_inst;
 			this->m_inst=NULL;
+		}
+		if(this->m_as3!=NULL){
+			AS3_Release(this->m_as3);
 		}
 		return;
 	}
@@ -139,6 +168,7 @@ public:
 	    if(inst==NULL){
 			return AS3_False();
 	    }
+	    assert(inst->m_as3==NULL);//HolderObjectをdisposeしてはいけない。
 	    delete inst;
 		return AS3_True();
 	}

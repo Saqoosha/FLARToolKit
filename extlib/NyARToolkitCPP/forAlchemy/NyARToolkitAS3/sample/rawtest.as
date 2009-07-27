@@ -6,7 +6,8 @@
  * C:\WINDOWS\system32\Macromed\Flash\FlashPlayerTrust
  * 
  * 
- *  */
+ * 
+ */
 
 
 package{
@@ -26,7 +27,7 @@ package{
 		
 		public function msg(i_msg:String):void
 		{
-            myTextBox.text =i_msg;			
+            myTextBox.text =i_msg+","+myTextBox.text;			
 		}
 		//private var cpara:ByteArray;
 		private var code:NyARCode;
@@ -49,14 +50,14 @@ package{
 				"camera_para.dat",URLLoaderDataFormat.BINARY,
 				function(data:ByteArray):void
 				{
- 		            param=NyARParam.createInstance();
+ 		            param=new NyARParam();
             		param.loadARParamFile(data);
 				});
 			mf.addTarget(
 				"patt.hiro",URLLoaderDataFormat.TEXT,
 				function(data:String):void
 				{
-					code=NyARCode.createInstance(16, 16);
+					code=new NyARCode(16, 16);
 					code.loadARPattFromFile(data);
 				}
 			);
@@ -64,18 +65,9 @@ package{
 				"320x240ABGR.raw",URLLoaderDataFormat.BINARY,
 				function(data:ByteArray):void
 				{
-					var r:NyARRgbRaster_BGRA=NyARRgbRaster_BGRA.createInstance(320,240);
+					var r:NyARRgbRaster_BGRA=new NyARRgbRaster_BGRA(320,240);
             		r.setFromByteArray(data);
             		raster_bgra=r;
-            		var r2:NyARRgbRaster_XRGB32=NyARRgbRaster_XRGB32.createInstance(320,240);
-            		r2.setFromByteArray(data);
-//            		var b:ByteArray=new ByteArray();
-//            		for(var i:int=0;i<320*240;i++){
-//            			b.writeInt(0);
-//            		}
-//            		b.position=0;
-//            		r2.setFromByteArray(b);
-            		raster_xrgb=r2;
 				});
             //終了後mainに遷移するよ―に設定
 			mf.addEventListener(Event.COMPLETE,main);
@@ -87,10 +79,10 @@ package{
 			msg("ready!");
 			param.changeScreenSize(320,240);
 			msg("main:-1");			
-			var detector:NyARSingleDetectMarker=NyARSingleDetectMarker.createInstance(param,code,80.0,NyARRgbRaster.BUFFERFORMAT_BYTE1D_X8R8G8B8_32);
-			code=null;//所有権移転
+			var detector:NyARSingleDetectMarker=new NyARSingleDetectMarker(param,code,80.0,NyARRgbRaster.BUFFERFORMAT_BYTE1D_B8G8R8X8_32);
 			msg("main:0");
-			
+
+
 			
 			var m:NyARPerspectiveProjectionMatrix=param.getPerspectiveProjectionMatrix();
 			var c:Array=new Array(12);
@@ -101,10 +93,18 @@ package{
 			
 			
 			msg("main:1");
-			msg(detector.detectMarkerLite(raster_xrgb,100).toString());
+			msg(detector.detectMarkerLite(raster_bgra,100).toString());
 			msg(detector.getConfidence().toString());
+			msg("main:3");
+			
+			detector.dispose();
+			param.dispose();
+			code.dispose();
+			raster_bgra.dispose();
+			msg("main:finish");
 
 /*
+
 			var ss:NyARIntSize=param.getScreenSize();
 			var sss:Array=new Array(2);
 			ss.getValue(sss);

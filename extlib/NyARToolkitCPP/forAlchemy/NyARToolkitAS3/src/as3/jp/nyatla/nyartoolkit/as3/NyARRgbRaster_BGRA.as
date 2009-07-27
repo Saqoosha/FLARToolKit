@@ -31,18 +31,43 @@ package jp.nyatla.nyartoolkit.as3{
 	
 	public class NyARRgbRaster_BGRA extends NyARRgbRaster
 	{
+		/**
+		 * function NyARRgbRaster_BGRA(i_width:int,i_height:int)
+		 * 	AlchemyObjectを所有するインスタンスを作成します。
+		 * function NyARRgbRaster_BGRA(arg:CONST_BASECLASS) 
+		 * 	継承用コンストラクタです。
+		 */
+		public function NyARRgbRaster_BGRA(...args:Array)
+		{
+			super(NyARToolkitAS3.BASECLASS);			
+			switch(args.length){
+			case 1:
+				if(args[0] is CONST_BASECLASS)
+				{	//Base Class
+					return;
+				}
+				break;				
+			case 2:
+				//function NyARRgbRaster_BGRA(i_width:int,i_height:int)
+				this.attachAlchemyObject(
+					NyARToolkitAS3._cmodule.NyARRgbRaster_BGRA_createInstance(int(args[0]),int(args[1]))
+				);
+				return;
+			default:
+			}
+			throw new Error();
+		}
+/*				
 		public static function createInstance(i_width:int,i_height:int):NyARRgbRaster_BGRA
 		{
 			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
-			return new NyARRgbRaster_BGRA(NyARToolkitAS3._cmodule.NyARRgbRaster_BGRA_createInstance(i_width,i_height));
+			var inst:NyARRgbRaster_BGRA=new NyARRgbRaster_BGRA();
+			inst.attachAlchemyObject(
+				NyARToolkitAS3._cmodule.NyARRgbRaster_BGRA_createInstance(i_width,i_height)
+			);
+			return inst;			
 		}
-		public function NyARRgbRaster_BGRA(i_alchemy_stub:Object)
-		{
-			this._alchemy_stub=i_alchemy_stub;
-			this._alchemy_ptr=this._alchemy_stub.ptr;
-			return;
-		}
-		
+*/		
 		//現在の位置からBGRA(BYTE)形式データを読み込みます。
 		public function setFromByteArray(i_source:ByteArray):void
 		{

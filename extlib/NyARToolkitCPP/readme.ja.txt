@@ -1,7 +1,7 @@
 ARToolkit C++ class library NyARToolkitCPP.
-Copyright (C)2008 R.Iizuka
+Copyright (C)2008-2009 R.Iizuka
 
-version 0.9.1
+version 0.10.0
 
 http://nyatla.jp/
 airmail(at)ebony.plala.or.jp
@@ -10,7 +10,7 @@ airmail(at)ebony.plala.or.jp
 
 ・NyARToolkitCPP
 
-NyARToolkitCPPは、NyARToolkit for Java 2.0系をベースにした、C++
+NyARToolkitCPPは、NyARToolkit for Java 2.3系をベースにした、C++
 によるNyARToolkit互換のクラスライブラリです。
 
 処理性能は、オリジナルARToolKit比で、約30%～40%程度高速です。

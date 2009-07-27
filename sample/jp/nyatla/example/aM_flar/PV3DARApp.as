@@ -3,14 +3,8 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.*;
-	
-	import org.libspark.flartoolkit.alchemy.*;
-	import org.libspark.flartoolkit.alchemy.core.*;
-	import org.libspark.flartoolkit.alchemy.detector.*;
 	import org.libspark.flartoolkit.alchemy.core.transmat.*;
-	import org.libspark.flartoolkit.alchemy.core.param.*;
 	import org.libspark.flartoolkit.alchemy.pv3d.*;
-	
 	import org.libspark.flartoolkit.alchemy.*;
 	import org.papervision3d.render.LazyRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
@@ -79,7 +73,7 @@
 			this._raster.setBitmapData(this._capture.bitmapData);
 
 			if (this._detector.detectMarkerLite(this._raster, 80)&& this._detector.getConfidence() > 0.3) {
-				this._detector.getTransformMatrix(this._resultMat);
+				this._detector.getTransmationMatrix(this._resultMat);
 				this._baseNode.setTransformMatrix(this._resultMat);
 				this._baseNode.visible = true;
 			} else {

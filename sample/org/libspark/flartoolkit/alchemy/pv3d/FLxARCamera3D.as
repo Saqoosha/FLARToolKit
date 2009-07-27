@@ -32,10 +32,7 @@
  */
 
 package org.libspark.flartoolkit.alchemy.pv3d
-{
-	import org.libspark.flartoolkit.alchemy.core.*;
-	import org.libspark.flartoolkit.alchemy.core.param.*;
-	
+{	
 	import jp.nyatla.nyartoolkit.as3.*;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
@@ -46,7 +43,7 @@ package org.libspark.flartoolkit.alchemy.pv3d
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
 		
-		public function FLxARCamera3D(param:FLxARParam) {
+		public function FLxARCamera3D(param:NyARParam) {
 			super();
 			this.z = 0;
 			
@@ -55,13 +52,13 @@ package org.libspark.flartoolkit.alchemy.pv3d
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:NyARIntSize = param._ny.getScreenSize();
+			const size:NyARIntSize = param.getScreenSize();
 			const width:int  = 320;//size.w;
 			const height:int = 240;// size.h;
 			
 			var icpara:Array = new Array(12);// icpara_mat.getArray();
 			var trans:Array = new Array(12);//trans_mat.getArray();
-			param._ny.getPerspectiveProjectionMatrix().decompMat(icpara, trans);
+			param.getPerspectiveProjectionMatrix().decompMat(icpara, trans);
 			
 			for (i = 0; i < 4; i++) {
 				icpara[1*4+i] = (height - 1) * (icpara[2*4+i]) - icpara[1*4+i];
