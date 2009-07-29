@@ -1,0 +1,1 @@
+.fla files can be published with Flash CS4 or later.
