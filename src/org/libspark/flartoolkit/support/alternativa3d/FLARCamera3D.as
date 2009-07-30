@@ -28,7 +28,7 @@
  * 
  */
 
-package org.libspark.flartoolkit.alternativa3D {
+package org.libspark.flartoolkit.support.alternativa3d {
 	
 	import alternativa.engine3d.core.Camera3D;
 	import alternativa.types.Matrix3D;

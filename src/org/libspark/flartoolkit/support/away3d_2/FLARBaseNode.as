@@ -28,7 +28,7 @@
  * 
  */
 
-package org.libspark.flartoolkit.away3d {
+package org.libspark.flartoolkit.support.away3d_2 {
 	
 	import away3d.containers.ObjectContainer3D;
 	import away3d.core.math.Matrix3D;
