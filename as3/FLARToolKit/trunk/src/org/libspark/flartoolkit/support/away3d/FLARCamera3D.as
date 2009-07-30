@@ -28,7 +28,7 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.away3d_2 {
+package org.libspark.flartoolkit.support.away3d {
 	
 	import away3d.cameras.*;
 	import away3d.cameras.lenses.*;
@@ -41,7 +41,7 @@ package org.libspark.flartoolkit.support.away3d_2 {
 
 	public class FLARCamera3D extends Camera3D {
 		
-		private var _projectionMatrix:Matrix3D;
+		private var _projectionMatrix:MatrixAway3D;
 		
 		public function FLARCamera3D(init:Object = null) {
 			super(init);
@@ -107,7 +107,7 @@ package org.libspark.flartoolkit.support.away3d_2 {
 				m_projection[i*4 + 3] = q[i][0] * trans[0][3] + q[i][1] * trans[1][3] + q[i][2] * trans[2][3] + q[i][3];
 			}
 			
-			var m:Matrix3D = _projectionMatrix = new Matrix3D();
+			var m:MatrixAway3D = _projectionMatrix = new MatrixAway3D();
 			m.sxx =  m_projection[0];
 			m.sxy =  m_projection[1];
 			m.sxz =  m_projection[2];
@@ -126,7 +126,7 @@ package org.libspark.flartoolkit.support.away3d_2 {
 			m.tw  =  m_projection[15];
 		}
 		
-		public override function get viewMatrix():Matrix3D
+		public override function get viewMatrix():MatrixAway3D
         {
         	invViewMatrix.inverse(_projectionMatrix)
         	return _projectionMatrix;

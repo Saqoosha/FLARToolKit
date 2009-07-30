@@ -28,7 +28,7 @@
  * 
  */
 
-package org.libspark.flartoolkit.pv3d {
+package org.libspark.flartoolkit.support.pv3d {
 	
 	import org.libspark.flartoolkit.core.FLARMat;
 	import org.libspark.flartoolkit.core.param.FLARParam;
@@ -42,10 +42,16 @@ package org.libspark.flartoolkit.pv3d {
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
 		
-		public function FLARCamera3D(param:FLARParam) {
+		public function FLARCamera3D(param:FLARParam=null) {
 			super();
 			this.z = 0;
 			
+			if (param) {
+				this.setParam(param);
+			}
+		}
+		
+		public function setParam (param:FLARParam) :void {	
 			var m_projection:Array = new Array(16);
 			var trans_mat:FLARMat = new FLARMat(3,4);
 			var icpara_mat:FLARMat = new FLARMat(3,4);
