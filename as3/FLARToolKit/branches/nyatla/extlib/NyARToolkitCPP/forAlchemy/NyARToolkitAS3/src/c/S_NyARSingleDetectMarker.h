@@ -28,6 +28,7 @@ public:
 		i_builder.addFunction("getTransmationMatrix",S_NyARSingleDetectMarker::getTransmationMatrix);
 		i_builder.addFunction("getConfidence",S_NyARSingleDetectMarker::getConfidence);
 		i_builder.addFunction("getDirection",S_NyARSingleDetectMarker::getDirection);
+		i_builder.addFunction("setContinueMode",S_NyARSingleDetectMarker::setContinueMode);
 		return;
 	}
 private:
@@ -60,6 +61,14 @@ private:
 		S_NyARTransMatResult* v;
 		AS3_ArrayValue(args, "PtrType,PtrType", &inst,&v);
 		((NyARSingleDetectMarker*)(inst->m_ref))->getTransmationMatrix(*((NyARTransMatResult*)(v->m_ref)));
+		return AS3_Null();
+	}
+	static AS3_Val setContinueMode(void* self, AS3_Val args)
+	{
+		S_NyARSingleDetectMarker* inst;
+		int v;
+		AS3_ArrayValue(args, "PtrType,IntType", &inst,&v);
+		((NyARSingleDetectMarker*)(inst->m_ref))->setContinueMode(v!=0?true:false);
 		return AS3_Null();
 	}
 };

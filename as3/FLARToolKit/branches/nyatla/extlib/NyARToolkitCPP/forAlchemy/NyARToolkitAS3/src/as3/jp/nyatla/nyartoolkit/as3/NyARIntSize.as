@@ -46,7 +46,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyARIntSize()
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARIntSize_createInstance()
+					NyARToolkitAS3.cmodule.NyARIntSize_createInstance()
 				);
 				return;
 			case 1:

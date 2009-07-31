@@ -45,7 +45,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyARDoubleMatrix34()
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARDoubleMatrix34_createInstance()
+					NyARToolkitAS3.cmodule.NyARDoubleMatrix34_createInstance()
 				);
 				return;
 			case 1:

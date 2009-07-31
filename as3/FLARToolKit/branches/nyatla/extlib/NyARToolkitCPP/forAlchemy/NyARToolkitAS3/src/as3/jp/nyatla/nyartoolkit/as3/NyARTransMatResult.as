@@ -47,7 +47,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyARTransMatResult(width:int,height:int)
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARTransMatResult_createInstance()
+					NyARToolkitAS3.cmodule.NyARTransMatResult_createInstance()
 				);
 				return;
 			case 1:

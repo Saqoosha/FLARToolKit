@@ -40,8 +40,6 @@ package{
 			myTextBox2.y=30;
             addChild(myTextBox);
             addChild(myTextBox2);
-            //システムを初期化
-            NyARToolkitAS3.initialize();
  
 
 			//ファイルをメンバ変数にロードする。
@@ -88,7 +86,7 @@ package{
 			var c:Array=new Array(12);
 			var v:Array=new Array(12);
 			m.decompMat(c,v);
-			msg(c.toString());
+			msg("C["+c.toString()+"]");
 			
 			
 			
@@ -97,6 +95,15 @@ package{
 			msg(detector.getConfidence().toString());
 			msg("main:3");
 			
+			var result:NyARTransMatResult=new NyARTransMatResult();
+			detector.getTransformMatrix(result);
+			result.getValue(v);
+			msg("transN["+v.toString()+"]");
+			detector.setContinueMode(true);
+			detector.getTransformMatrix(result);
+			result.getValue(v);
+			msg("transC["+v.toString()+"]");
+			result.dispose();
 			detector.dispose();
 			param.dispose();
 			code.dispose();

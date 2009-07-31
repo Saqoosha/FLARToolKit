@@ -62,7 +62,7 @@ package jp.nyatla.nyartoolkit.as3
 				this._wrap_data=encoder.createIdMarkerDataWrapper();
 				//function SingleNyIdMarkerProcesser(param:NyARParam,encoder:INyIdMarkerDataEncoder,)
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.SingleNyIdMarkerProcesser_createInstance(
+					NyARToolkitAS3.cmodule.SingleNyIdMarkerProcesser_createInstance(
 					this,
 					NyARParam(args[0])._alchemy_ptr,
 					encoder._alchemy_ptr,

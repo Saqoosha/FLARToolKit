@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyARParam()
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARParam_createInstance()
+					NyARToolkitAS3.cmodule.NyARParam_createInstance()
 				);
 				return;
 			case 1:

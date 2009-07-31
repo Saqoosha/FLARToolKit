@@ -31,7 +31,6 @@
 		
 		public function PV3DARApp()
 		{
-			FLxARToolKit.initialize();//おまじない
 			this._resultMat = new FLxARTransMatResult();
 
 		}
@@ -73,7 +72,7 @@
 			this._raster.setBitmapData(this._capture.bitmapData);
 
 			if (this._detector.detectMarkerLite(this._raster, 80)&& this._detector.getConfidence() > 0.3) {
-				this._detector.getTransmationMatrix(this._resultMat);
+				this._detector.getTransformMatrix(this._resultMat);
 				this._baseNode.setTransformMatrix(this._resultMat);
 				this._baseNode.visible = true;
 			} else {
