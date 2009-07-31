@@ -47,7 +47,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyARPerspectiveProjectionMatrix()
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARPerspectiveProjectionMatrix_createInstance()
+					NyARToolkitAS3.cmodule.NyARPerspectiveProjectionMatrix_createInstance()
 				);
 				return;
 			case 1:

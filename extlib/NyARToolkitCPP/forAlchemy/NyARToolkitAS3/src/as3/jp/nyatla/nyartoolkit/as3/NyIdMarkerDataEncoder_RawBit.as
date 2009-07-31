@@ -44,7 +44,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 0:
 				//function NyIdMarkerDataEncoder_RawBit()
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyIdMarkerDataEncoder_RawBit_createInstance()
+					NyARToolkitAS3.cmodule.NyIdMarkerDataEncoder_RawBit_createInstance()
 				);
 				return;
 			case 1:

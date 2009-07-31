@@ -56,7 +56,7 @@ package jp.nyatla.nyartoolkit.as3
 			case 2:
 				//function NyARCode(width:int,height:int)
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARCode_createInstance(int(args[0]),int(args[1]))
+					NyARToolkitAS3.cmodule.NyARCode_createInstance(int(args[0]),int(args[1]))
 				);
 				return;
 			default:

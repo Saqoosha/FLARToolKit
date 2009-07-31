@@ -40,7 +40,6 @@ package{
             addChild(myTextBox);
             addChild(myTextBox2);
             //システムを初期化
-            NyARToolkitAS3.initialize();
  
 
 			//ファイルをメンバ変数にロードする。

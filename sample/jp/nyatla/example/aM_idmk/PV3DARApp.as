@@ -31,7 +31,6 @@
 		
 		public function PV3DARApp()
 		{
-			FLxARToolKit.initialize();//おまじない
 			this._resultMat = new FLxARTransMatResult();
 		}
 		

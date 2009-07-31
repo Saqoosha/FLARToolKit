@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3{
 			case 2:
 				//function NyARRgbRaster_BGRA(i_width:int,i_height:int)
 				this.attachAlchemyObject(
-					NyARToolkitAS3._cmodule.NyARRgbRaster_BGRA_createInstance(int(args[0]),int(args[1]))
+					NyARToolkitAS3.cmodule.NyARRgbRaster_BGRA_createInstance(int(args[0]),int(args[1]))
 				);
 				return;
 			default:
