@@ -69,10 +69,10 @@ package jp.nyatla.nyartoolkit.as3
 		
 		public static function createInstance():NyARIntSize
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARIntSize=new NyARIntSize();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARIntSize_createInstance()
+				NyARToolkitAS3._cmodule.NyARIntSize_createInstance()
 				);
 			return inst;
 		}

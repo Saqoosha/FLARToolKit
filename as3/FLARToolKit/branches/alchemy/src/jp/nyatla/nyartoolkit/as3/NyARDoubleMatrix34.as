@@ -65,10 +65,10 @@ package jp.nyatla.nyartoolkit.as3
 /*				
 		public static function createInstance():NyARDoubleMatrix34
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARDoubleMatrix34=new NyARDoubleMatrix34();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARDoubleMatrix34_createInstance()
+				NyARToolkitAS3._cmodule.NyARDoubleMatrix34_createInstance()
 			);
 			return inst;		
 		}

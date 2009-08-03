@@ -67,10 +67,10 @@ package jp.nyatla.nyartoolkit.as3
 /*			
 		public static function createInstance():NyARTransMatResult
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARTransMatResult=new NyARTransMatResult();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARTransMatResult_createInstance()
+				NyARToolkitAS3._cmodule.NyARTransMatResult_createInstance()
 			);
 			return inst;			
 		}

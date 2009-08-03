@@ -80,10 +80,10 @@ package jp.nyatla.nyartoolkit.as3
 			i_encoder:INyIdMarkerDataEncoder,
 			i_raster_type:int):SingleNyIdMarkerProcesser
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:SingleNyIdMarkerProcesser=new SingleNyIdMarkerProcesser();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.SingleNyIdMarkerProcesser_createInstance(
+				NyARToolkitAS3._cmodule.SingleNyIdMarkerProcesser_createInstance(
 					inst,
 					i_param._alchemy_ptr,
 					i_encoder._alchemy_ptr,

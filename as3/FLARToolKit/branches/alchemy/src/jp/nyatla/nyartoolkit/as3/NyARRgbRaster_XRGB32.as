@@ -60,10 +60,10 @@ package jp.nyatla.nyartoolkit.as3{
 /*		
 		public static function createInstance(i_width:int,i_height:int):NyARRgbRaster_XRGB32
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARRgbRaster_XRGB32=new NyARRgbRaster_XRGB32();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARRgbRaster_XRGB32_createInstance(i_width,i_height)
+				NyARToolkitAS3._cmodule.NyARRgbRaster_XRGB32_createInstance(i_width,i_height)
 			);
 			return inst;			
 		}

@@ -67,11 +67,11 @@ package jp.nyatla.nyartoolkit.as3
 /*		
 		public static function createInstance(i_width:int,i_height:int):NyARCode
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARCode=new NyARCode();
 			inst.setAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARCode_createInstance(
+				NyARToolkitAS3._cmodule.NyARCode_createInstance(
 					i_width,i_height),true
 			);
 			return inst;
