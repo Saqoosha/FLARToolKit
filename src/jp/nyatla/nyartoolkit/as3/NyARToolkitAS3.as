@@ -32,19 +32,22 @@ package jp.nyatla.nyartoolkit.as3
 		public static const WRAPCLASS:CONST_WRAPCLASS=new CONST_WRAPCLASS();
 		public static const BASECLASS:CONST_BASECLASS=new CONST_BASECLASS();
 		
-		public static const cmodule:Object=(new CLibInit()).init();
-//		public static function initialize():void
-//		{
-//			trace('initialize');
-//			if(NyARToolkitAS3.cmodule!=null)
-//			{
-//				return;
-//			}
-//			NyARToolkitAS3.cmodule=(new CLibInit()).init();
-//		}
-//		public static function finalize():void
-//		{
-//			//no work!
-//		}
+		public static const cmodule:Object=(new CLibInit()).init();		
+		/*初期化タイミングの調整が必要な場合は、こちらを使ってください。
+		public static var cmodule:Object=null;
+		public static function initialize():void
+		{
+			if(NyARToolkitAS3.cmodule!=null)
+			{
+				return;
+			}
+			NyARToolkitAS3.cmodule=(new CLibInit()).init();
+		}
+		public static function finalize():void
+		{
+			//no work!
+			NyARToolkitAS3.cmodule=null;//??
+		}
+		*/
 	}
 }

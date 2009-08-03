@@ -57,16 +57,7 @@ package jp.nyatla.nyartoolkit.as3
 			}
 			throw new Error();
 		}
-/*				 
-		public static function createInstance(i_param:NyARParam,i_code:NyARCode,i_width:Number, i_raster_type:int):NyARSingleDetectMarker
-		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
-			var inst:NyARSingleDetectMarker=new NyARSingleDetectMarker();
-			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARSingleDetectMarker_createInstance(i_param._alchemy_ptr,i_code._alchemy_ptr,i_width,i_raster_type)
-			);
-			return inst;			
-		}*/
+
 		public function detectMarkerLite(i_raster:NyARRgbRaster,i_threshold:int):Boolean
 		{
 			return this._alchemy_stub.detectMarkerLite(this._alchemy_ptr,i_raster._alchemy_ptr,i_threshold);
@@ -82,6 +73,11 @@ package jp.nyatla.nyartoolkit.as3
 		public function getTransformMatrix(o_result:NyARTransMatResult):void
 		{
 			this._alchemy_stub.getTransmationMatrix(this._alchemy_ptr,o_result._alchemy_ptr);
+			return;
+		}
+		public function setContinueMode(i_is_continue:Boolean):void
+		{
+			this._alchemy_stub.setContinueMode(this._alchemy_ptr,i_is_continue?1:0);
 			return;
 		}
 	}

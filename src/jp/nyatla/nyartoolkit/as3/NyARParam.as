@@ -69,10 +69,10 @@ package jp.nyatla.nyartoolkit.as3
 
 		public static function createInstance():NyARParam
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARParam=new NyARParam();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyARParam_createInstance()
+				NyARToolkitAS3._cmodule.NyARParam_createInstance()
 				);
 			return inst;
 		}

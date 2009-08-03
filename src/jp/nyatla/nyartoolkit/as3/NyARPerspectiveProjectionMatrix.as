@@ -67,9 +67,9 @@ package jp.nyatla.nyartoolkit.as3
 		/*		
 		public static function createInstance():NyARPerspectiveProjectionMatrix
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyARPerspectiveProjectionMatrix=new NyARPerspectiveProjectionMatrix();
-			inst.attachAlchemyObject(NyARToolkitAS3.cmodule.NyARPerspectiveProjectionMatrix_createInstance());
+			inst.attachAlchemyObject(NyARToolkitAS3._cmodule.NyARPerspectiveProjectionMatrix_createInstance());
 			return inst;			
 		}
 		public static function createReference(i_alchemy_stub:Object):NyARPerspectiveProjectionMatrix

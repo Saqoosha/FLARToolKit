@@ -60,10 +60,10 @@ package jp.nyatla.nyartoolkit.as3
 /*		
 		public static function createInstance():NyIdMarkerDataEncoder_RawBit
 		{
-			NyAS3Utils.assert(NyARToolkitAS3.cmodule!=null);
+			NyAS3Utils.assert(NyARToolkitAS3._cmodule!=null);
 			var inst:NyIdMarkerDataEncoder_RawBit=new NyIdMarkerDataEncoder_RawBit();
 			inst.attachAlchemyObject(
-				NyARToolkitAS3.cmodule.NyIdMarkerDataEncoder_RawBit_createInstance()
+				NyARToolkitAS3._cmodule.NyIdMarkerDataEncoder_RawBit_createInstance()
 			);
 			return inst;			
 		}
