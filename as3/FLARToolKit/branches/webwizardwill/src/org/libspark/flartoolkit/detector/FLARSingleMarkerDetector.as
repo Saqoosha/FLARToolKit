@@ -29,7 +29,6 @@
  */
 
 package org.libspark.flartoolkit.detector {
-	import org.libspark.flartoolkit.core.pickup.FLARDynamicRatioColorPatt_O3;
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.FLARSquare;
@@ -44,7 +43,6 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
@@ -77,11 +75,6 @@ package org.libspark.flartoolkit.detector {
 		private var _detected_square:FLARSquare;
 
 		private var _patt:IFLARColorPatt;
-		private var _bin_raster:IFLARRaster;
-		private var _tobin_filter:IFLARRasterFilter_RgbToBin;
-
-		public function get filter ():IFLARRasterFilter_RgbToBin { return _tobin_filter; }
-		public function set filter (f:IFLARRasterFilter_RgbToBin):void { if (f != null) _tobin_filter = f; }
 
 		/**
 		 * 検出するARCodeとカメラパラメータから、1個のARCodeを検出するFLARSingleDetectMarkerインスタンスを作ります。
@@ -102,27 +95,18 @@ package org.libspark.flartoolkit.detector {
 			// 比較コードを保存
 			this._code = i_code;
 			this._marker_width = i_marker_width;
-
 			// 評価パターンのホルダを作る
-
-			//マーカ幅を算出
-			var markerWidthByDec:Number = this._code.markerPercentWidth/10;
-			//マーカ高を算出
-			var markerHeightByDec:Number = this._code.markerPercentHeight / 10;
-
-			//評価パターンのホルダを作成
-			this._patt = new FLARDynamicRatioColorPatt_O3(this._code.getWidth(), 
-														  this._code.getHeight(),
-														  markerWidthByDec,
-														  markerHeightByDec);
-
+			this._patt = new FLARColorPatt_O3(_code.getWidth(), _code.getHeight());
 			// 評価器を作る。
 			this._match_patt = new FLARMatchPatt_Color_WITHOUT_PCA();
 			//２値画像バッファを作る
+//			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
 			this._bin_raster = new FLARRaster_BitmapData(scr_size.w, scr_size.h);
-			//2値画像化フィルタの作成
-			this._tobin_filter= new FLARRasterFilter_BitmapDataThreshold(100);
 		}
+
+		private var _bin_raster:IFLARRaster;
+//		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
+		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -135,13 +119,8 @@ package org.libspark.flartoolkit.detector {
 		 */
 		public function detectMarkerLite(i_raster:IFLARRgbRaster, i_threshold:int):Boolean {
 			//サイズチェック
-			if (!this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
-				if (this._sizeCheckEnabled ) 
-					throw new FLARException("サイズ不一致(" + this._bin_raster.getSize() + ":" + i_raster.getSize());
-				else {
-					//サイズに合わせて、２値画像バッファを作る
-					this._bin_raster = new FLARRaster_BitmapData(i_raster.getSize().w, i_raster.getSize().h);
-				}
+			if(this._sizeCheckEnabled && !this._bin_raster.getSize().isEqualSizeO(i_raster.getSize())) {
+				throw new FLARException();
 			}
 
 			//ラスタを２値イメージに変換する.
@@ -169,7 +148,7 @@ package org.libspark.flartoolkit.detector {
 			// パターンを評価器にセット
 			if (!this._match_patt.setPatt(this._patt)) {
 				// 計算に失敗した。
-				return false;
+				throw new FLARException();
 			}
 			// コードと比較する
 			this._match_patt.evaluate(this._code);
