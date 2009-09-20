@@ -30,6 +30,7 @@
 
 package org.libspark.flartoolkit.detector {
 	import flash.display.BitmapData;
+	import flash.geom.Point;
 	
 	import org.libspark.flartoolkit.FLARException;
 	import org.libspark.flartoolkit.core.FLARSquare;
@@ -42,6 +43,7 @@ package org.libspark.flartoolkit.detector {
 	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
 	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
@@ -145,9 +147,19 @@ package org.libspark.flartoolkit.detector {
 			}
 
 			// ラスタを２値イメージに変換する.
-			// SOC: threshold incoming image according to brightness
-			this._tobin_filter.setThreshold(i_threshold);
-			this._tobin_filter.doFilter(i_raster, this._bin_raster);
+			// SOC: threshold incoming image according to brightness.
+			//		passing -1 for threshold allows developers to apply custom thresholding algorithms
+			//		prior to passing source image to FLARToolkit.
+			if (i_threshold != -1) {
+				// apply FLARToolkit thresholding
+				this._tobin_filter.setThreshold(i_threshold);
+				this._tobin_filter.doFilter(i_raster, this._bin_raster);
+			} else {
+				// copy source BitmapData as-is, without applying FLARToolkit thresholding
+				var srcBitmapData:BitmapData = FLARRgbRaster_BitmapData(i_raster).bitmapData;
+				var dstBitmapData:BitmapData = FLARRaster_BitmapData(this._bin_raster).bitmapData;
+				dstBitmapData.copyPixels(srcBitmapData, srcBitmapData.rect, new Point());
+			}
 
 			var l_square_list:FLARSquareStack = this._square_list;
 			// スクエアコードを探す
