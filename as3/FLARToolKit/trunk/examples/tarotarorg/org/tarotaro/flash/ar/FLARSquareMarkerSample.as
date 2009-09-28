@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -54,7 +54,7 @@ package org.tarotaro.flash.ar
 	[SWF(width="640", height="480", backgroundColor="0xFFFFFF", frameRate="30")]
 	public class FLARSquareMarkerSample extends Sprite
 	{
-		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]
+		[Embed(source = "assets/camera_para.dat", mimeType = "application/octet-stream")]
 		private var CParam:Class;
 		private var _capture:Bitmap;
 		private var _video:Video;

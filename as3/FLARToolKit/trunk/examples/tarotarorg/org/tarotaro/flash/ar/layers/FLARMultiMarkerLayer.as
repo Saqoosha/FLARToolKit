@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -47,7 +47,7 @@ package org.tarotaro.flash.ar.layers
 	 */
 	public class FLARMultiMarkerLayer extends FLARLayer
 	{
-		protected var _detector:CubeMarkerDetector;
+		protected var _detector:FLARMultiMarkerDetector;
 		protected var _resultMat:FLARTransMatResult;
 		protected var _confidence:Number;
 		
@@ -73,24 +73,24 @@ package org.tarotaro.flash.ar.layers
 			var g:Graphics = this.graphics;
 			g.clear();
 
-			//var numDetected:int = this._detector.detectMarkerLite(this._source, this._thresh);
-			var r:FLARMultiMarkerDetectorResult = this._detector.detectMarkerLite(this._source, this._thresh);
-			if (r != null) {
-			//if (numDetected > 0) {
-				//trace(numDetected);
-				//for (var i:uint = 0; i < numDetected; i++) {
-					//var r:FLARMultiMarkerDetectorResult = this._detector.getResult(i);
+			var numDetected:int = this._detector.detectMarkerLite(this._source, this._thresh);
+			//var r:FLARMultiMarkerDetectorResult = this._detector.detectMarkerLite(this._source, this._thresh);
+			//if (r != null) {
+			if (numDetected > 0) {
+				trace(numDetected);
+				for (var i:uint = 0; i < numDetected; i++) {
+					var r:FLARMultiMarkerDetectorResult = this._detector.getResult(i);
 					trace(r.codeId,":",r.confidence);
-					//if (r.confidence <= this._confidence) {
-						//continue;
-					//}
+					if (r.confidence <= this._confidence) {
+						continue;
+					}
 					var v:Array = r.square.sqvertex;
 					g.lineStyle(2, colors[r.codeId]);
 					g.moveTo(v[3].x, v[3].y);
 					for (var vi:int = 0; vi < v.length; vi++) {
 						g.lineTo(v[vi].x, v[vi].y);
 					}
-				//}
+				}
 			}
 		}
 		

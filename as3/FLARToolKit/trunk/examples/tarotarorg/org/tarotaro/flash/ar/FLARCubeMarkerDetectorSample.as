@@ -1,4 +1,4 @@
-﻿package org.tarotaro.flash.ar 
+package org.tarotaro.flash.ar 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -8,7 +8,6 @@
 	import flash.media.Camera;
 	import flash.media.Video;
 	import flash.utils.ByteArray;
-	import net.saqoosha.utils.FPSMeter;
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
@@ -25,7 +24,7 @@
 	public class FLARCubeMarkerDetectorSample extends Sprite
 	{
 		
-		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]private var CParam:Class;
+		[Embed(source = "assets/camera_para.dat", mimeType = "application/octet-stream")]private var CParam:Class;
 		[Embed(source = "assets/top.pat", mimeType = "application/octet-stream")]private var TopCode:Class;
 		[Embed(source = "assets/front.pat", mimeType = "application/octet-stream")]private var FrontCode:Class;
 		[Embed(source = "assets/left.pat", mimeType = "application/octet-stream")]private var LeftCode:Class;
@@ -84,7 +83,6 @@
 			this._arSprite.scaleX = this._arSprite.scaleY = 2;
 			this.addChild(this._arSprite);
 
-			this.addChild(new FPSMeter());
 
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
