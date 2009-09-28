@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -56,12 +56,12 @@ package org.tarotaro.flash.ar
 	public class FLARPanoramaSphere extends Sprite
 	{
 		//フォルダ構造の変更に注意すること！！
-		[Embed(source = "../../../../Data/camera_para.dat", mimeType = "application/octet-stream")]
+		[Embed(source = "assets/camera_para.dat", mimeType = "application/octet-stream")]
 		private var CParam:Class;
-		[Embed(source = "../../../../Data/patt.hiro", mimeType = "application/octet-stream")]
+		[Embed(source = "assets/patt.hiro", mimeType = "application/octet-stream")]
 		private var CodeData:Class;
 		//panorama.jpgはFlickrなどから調達して、Data以下に格納してください。
-		[Embed(source = '../../../../Data/panorama.jpg')]private var PanoBitmap:Class;
+		[Embed(source = 'assets/panorama.jpg')]private var PanoBitmap:Class;
 		private var _capture:Bitmap;
 		private var _video:Video;
 		private var _layer:FLARPanoramaSphereLayer;

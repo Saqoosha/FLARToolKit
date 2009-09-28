@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -39,7 +39,7 @@ package org.tarotaro.flash.ar.layers
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetector;
 	import org.libspark.flartoolkit.detector.FLARMultiMarkerDetectorResult;
-	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
+	import org.libspark.flartoolkit.support.pv3d.FLARBaseNode;
 	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.materials.shadematerials.FlatShadeMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
