@@ -18,14 +18,14 @@ package {
 			_earth = new DAE();
 			_earth.load('model/earth.dae');
 			_earth.scale = 10;
-			_earth.rotationX = -90;
+			_earth.rotationX = 90;
 			_markerNode.addChild(_earth);
 			
 			addEventListener(Event.ENTER_FRAME, _update);
 		}
 		
 		private function _update(e:Event):void {
-			_earth.rotationZ += 0.5
+			_earth.rotationZ -= 0.5
 		}
 	}
 }

@@ -44,7 +44,7 @@ package {
 			_camera3d = new FLARCamera3D(_param);
 			
 			_scene = new Scene3D();
-			_markerNode = _scene.addChild(new FLARBaseNode(FLARBaseNode.AXIS_MODE_PV3D)) as FLARBaseNode;
+			_markerNode = _scene.addChild(new FLARBaseNode()) as FLARBaseNode;
 			
 			_renderer = new LazyRenderEngine(_scene, _camera3d, _viewport);
 			
