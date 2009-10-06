@@ -29,6 +29,7 @@ package {
 			// マーカーと同じサイズを Plane を作ってみる。
 			var wmat:WireframeMaterial = new WireframeMaterial(0xff0000, 1, 2); // with wireframe. / ワイヤーフレームで。
 			_plane = new Plane(wmat, 80, 80); // 80mm x 80mm。
+			_plane.rotationX = 180;
 			_markerNode.addChild(_plane); // attach to _markerNode to follow the marker. / _markerNode に addChild するとマーカーに追従する。
 
 			// Place the light at upper front.
@@ -42,7 +43,7 @@ package {
 			// Cube を作る。
 			var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xff22aa, 0x75104e); // Color is ping. / ピンク色。
 			_cube = new Cube(new MaterialsList({all: fmat}), 40, 40, 40); // 40mm x 40mm x 40mm
-			_cube.z = -20; // Move the cube to upper (minus Z) direction Half height of the Cube. / 立方体の高さの半分、上方向(-Z方向)に移動させるとちょうどマーカーにのっかる形になる。
+			_cube.z = 20; // Move the cube to upper (minus Z) direction Half height of the Cube. / 立方体の高さの半分、上方向(-Z方向)に移動させるとちょうどマーカーにのっかる形になる。
 			_markerNode.addChild(_cube);
 			
 			stage.addEventListener(MouseEvent.CLICK, _onClick);
