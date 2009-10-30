@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -28,7 +28,7 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.sandy3d {
+package org.libspark.flartoolkit.support.sandy {
 
 	import org.libspark.flartoolkit.core.FLARMat;
 	import org.libspark.flartoolkit.core.param.FLARParam;
