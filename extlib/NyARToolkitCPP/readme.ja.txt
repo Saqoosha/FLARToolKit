@@ -1,7 +1,7 @@
 ARToolkit C++ class library NyARToolkitCPP.
 Copyright (C)2008-2009 R.Iizuka
 
-version 0.10.0
+version 2.4.0
 
 http://nyatla.jp/
 airmail(at)ebony.plala.or.jp
@@ -10,16 +10,14 @@ airmail(at)ebony.plala.or.jp
 
 ・NyARToolkitCPP
 
-NyARToolkitCPPは、NyARToolkit for Java 2.3系をベースにした、C++
+NyARToolkitCPPは、NyARToolkit for Java 2.4系をベースにした、C++
 によるNyARToolkit互換のクラスライブラリです。
 
-処理性能は、オリジナルARToolKit比で、約30%～40%程度高速です。
+処理性能は、オリジナルARToolKit比で、約400%程度高速です。
 NyARToolkitと同様に、検出数が多くなるほど高速になります。
 
 
-****現在β版につき、いくつか機能不足な点があります。****
-
-※現在は計算用のコアクラスのみの実装となっています。
+※現在は計算用クラスのみの実装となっています。
 　カメラ入力・3D出力部のコードはまだ実装されていません。
 
 ※マーカ検出クラスは、SingleMarkerDetectorのみ（単一マーカ検出クラス）
@@ -52,6 +50,7 @@ forLinux
 
 forAlchemy
  Adobe alchemy用のswcを作成するmakefileがあります。
+ コンパイル方法は、NyARToolkitAS3以下にあるhow_to_compile.txtを見てください。
 
  
 ・ディレクトリ構成
@@ -98,7 +97,21 @@ NyARToolkitと同一です。
 
 
 ・ライセンス
+
+NyARToolkitCPP本体は、商用ライセンスとGPLv3以降のデュアルライセンスを採用しています。
+(Version/2.4.0より、GPLv3ライセンスになりました。)
 extlib以下のものは、各モジュールのライセンスに従ってください。
-NyARToolkitは、特にソースに表記の無い限り、GPLライセンスです。
-詳しくはLICENCE.txtをみてください。
+
+ -GPL
+ GPLについては、LICENCE.txtをお読みください。
+
+ -商用ライセンス
+ 商用ライセンスについては、ARToolWorks社に管理を委託しております。
+ http://www.artoolworks.com/Home.html
+
+ 日本国内での販売については、下記にお問い合わせ下さい。
+ http://www.msoft.co.jp/pressrelease/press090928-1.html
+
+
+
 

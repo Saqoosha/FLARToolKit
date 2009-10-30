@@ -97,6 +97,7 @@
 			// setup ARToolkit
 			this._raster = new FLxARRgbRaster(320,240);
 			this._detector =new FLxARSingleMarkerDetector(this._param, this._code, this._codeWidth);
+			this._detector.setContinueMode(true);
 			this.dispatchEvent(new Event(Event.INIT));
 		}
 		
