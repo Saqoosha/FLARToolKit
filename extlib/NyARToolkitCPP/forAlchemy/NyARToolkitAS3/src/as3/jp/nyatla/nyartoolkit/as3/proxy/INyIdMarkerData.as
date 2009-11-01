@@ -53,11 +53,14 @@ package jp.nyatla.nyartoolkit.as3.proxy
 		public function isEqual(i_target:INyIdMarkerData):Boolean
 		{
 			return this._alchemy_stub.isEqual(
+				this._alchemy_stub._native,
 				i_target._alchemy_stub._native);
 		}
 		public function copyFrom(i_source:INyIdMarkerData):void
 		{
-			this._alchemy_stub.copyFrom(this._alchemy_stub._native,i_source._alchemy_stub._native);
+			this._alchemy_stub.copyFrom(
+				this._alchemy_stub._native,
+				i_source._alchemy_stub._native);
 		}	
 	}
 }

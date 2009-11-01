@@ -58,7 +58,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error("NyARIntSize");
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
 		 * [SET] w:int,h:int		 */
 		public function setValue(i_argument:Marshal):void
 		{
@@ -67,7 +67,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			return;
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
  		 * [GET] w:int,h:int
 		 */
 		public function getValue(o_argument:Marshal):void

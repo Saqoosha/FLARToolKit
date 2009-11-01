@@ -26,7 +26,6 @@ protected:
 	/*　AS3 Argument protocol
 	 * _native	:NyARSquareStack
 	 * return   :AS3_Val
-	 * 					as int dir,TNyARLinear line[4],TNyARDoublePoint2d sqpos[4],TNyARIntPoint2d impos[4]
 	 * 					as int　dir,int impos[4,2],double[4*3] line,double sqpos[4,2]
 	 */
 	static AS3_Val getValue(void* self, AS3_Val args)

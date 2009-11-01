@@ -33,7 +33,7 @@
 
 package org.libspark.flartoolkit.alchemy.core.param
 {
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
 	import org.libspark.flartoolkit.alchemy.*;
 	
 	import flash.utils.ByteArray;

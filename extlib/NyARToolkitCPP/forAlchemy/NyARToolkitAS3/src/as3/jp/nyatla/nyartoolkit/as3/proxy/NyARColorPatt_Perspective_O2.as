@@ -58,8 +58,16 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error("NyARColorPatt_Perspective_O2");
 		}
 		/**
-		 * この関数は、イメージのINTデータをByteArrayで返します。
-		 * ByteArrayの現在位置から、w*h個のintデータを保存します。		 */
+		 * This function write all pixel data to o_dest. Pixel format is INT-XRGB by little endian.
+		 * The function does not change current position of BytreArray.
+		 * --
+		 * この関数は、イメージのピクセルデータを、Int形式にして、o_destに書き込みます。
+		 * ピクセルフォーマットはLittle endianのXRGB形式で、o_destの初期位置から
+		 * w*h個のintデータを保存します。
+		 * 
+		 * Marshaling format
+		 * [GET] int[0],int[1]....int[w*h-1]
+		 * 		 */
 		public function getData(o_dest:ByteArray):void
 		{
 			var old:int=o_dest.position;

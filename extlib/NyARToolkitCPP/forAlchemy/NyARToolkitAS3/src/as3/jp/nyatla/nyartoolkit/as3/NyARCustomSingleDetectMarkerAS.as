@@ -1,4 +1,4 @@
-﻿package jp.nyatla.nyartoolkit.as3
+package jp.nyatla.nyartoolkit.as3
 {
 	import jp.nyatla.alchemymaster.*;
 	import flash.utils.ByteArray;
@@ -174,7 +174,7 @@
 	 * 変換行列を受け取るオブジェクトを指定します。
 	 * @throws NyARException
 	 */
-	public function getTransmationMatrix(o_result:NyARTransMatResult):void
+	public function getTransformMatrix(o_result:NyARTransMatResult):void
 	{
 		// 一番一致したマーカーの位置とかその辺を計算
 		if (this._is_continue) {

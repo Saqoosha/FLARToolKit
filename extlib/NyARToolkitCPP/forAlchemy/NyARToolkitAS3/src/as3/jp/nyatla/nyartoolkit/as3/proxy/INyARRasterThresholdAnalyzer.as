@@ -53,7 +53,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 		}
 		public function analyzeRaster(i_input:INyARRgbRaster):void
 		{
-			this._alchemy_stub.detectMarker(
+			this._alchemy_stub.analyzeRaster(
 				this._alchemy_stub._native,
 				i_input._alchemy_stub._native);
 			return;			
@@ -61,7 +61,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 	
 		public function getThreshold():int
 		{
-			return this._alchemy_stub.detectMarker(
+			return this._alchemy_stub.getThreshold(
 				this._alchemy_stub._native);
 		}
 		

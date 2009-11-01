@@ -57,7 +57,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error();
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
 		 * [SET] int[12]
 		 */
 		public function setValue(i_argument:Marshal):void
@@ -67,7 +67,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			return;
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
  		 * [GET] int[12]		 */
 		public function getValue(o_argument:Marshal):void
 		{

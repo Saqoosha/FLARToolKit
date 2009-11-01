@@ -58,7 +58,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error("NyARMatchPattResult");
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
 		 * [SET] direction:int,confidence:double		 */
 		public function setValue(i_argument:Marshal):void
 		{
@@ -67,7 +67,7 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			return;
 		}
 		/**
-		 * Marshal
+		 * Marshaling format
 		 * [GET] direction:int,confidence:double
 		 */
 		public function getValue(o_argument:Marshal):void
