@@ -176,7 +176,7 @@ package{
 			d.detectMarkerLite(raster_bgra,100);
 			msg("cf="+d.getConfidence());
 			mret.getValue(ma);
-			d.getTransmationMatrix(mret);
+			d.getTransformMatrix(mret);
 			mret.getValue(ma);
 			ma.prepareRead();
 			for(var i2:int=0;i2<12;i2++){
@@ -201,7 +201,7 @@ package{
 			var date : Date = new Date();
 			for(i2=0;i2<1000;i2++){
 				d.detectMarkerLite(raster_bgra,100);
-				d.getTransmationMatrix(mret);
+				d.getTransformMatrix(mret);
 			}
 			var date2 : Date = new Date();
 			msg((date2.valueOf()-date.valueOf()).toString());
@@ -228,7 +228,7 @@ package{
 				msg("no="+i);
 				t.getConfidence(i);
 				t.getDirection(i);
-				t.getTransmationMatrix(i,mret);
+				t.getTransformMatrix(i,mret);
 				mret.getValue(ma);
 				ma.prepareRead();
 				for(var i2:int=0;i2<12;i2++){

@@ -33,7 +33,7 @@ package org.libspark.flartoolkit.alchemy.core.raster.rgb
 	import flash.utils.ByteArray;
 	import flash.geom.Rectangle;
 	import org.libspark.flartoolkit.FLARException;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
 	
 	import flash.display.BitmapData;	
 

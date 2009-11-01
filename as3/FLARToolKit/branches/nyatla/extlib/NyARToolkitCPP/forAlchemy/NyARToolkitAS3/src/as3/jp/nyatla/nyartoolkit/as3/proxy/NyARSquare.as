@@ -52,6 +52,11 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			}
 			throw new Error();
 		}
+		/**
+		 * Marshaling format
+		 * [GET]
+		 * dir:int,impos[4,2]:int,line:double[4*3],sqpos[4,2]:double
+		 */
 		public function getValue(o_argument:Marshal):void
 		{
 			o_argument.prepareCallAlchmy();

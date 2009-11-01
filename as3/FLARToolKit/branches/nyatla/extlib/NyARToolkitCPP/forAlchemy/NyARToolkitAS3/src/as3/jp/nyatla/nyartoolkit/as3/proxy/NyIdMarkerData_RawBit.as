@@ -58,8 +58,9 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error();
 		}
 		/**
-		 * Marshal
- 		 * [GET] int　l int[l] data
+		 * Marshaling format
+ 		 * [GET]
+ 		 * length:int,data[length]:int
 		 */		
 		public function getValue(o_argument:Marshal):void
 		{

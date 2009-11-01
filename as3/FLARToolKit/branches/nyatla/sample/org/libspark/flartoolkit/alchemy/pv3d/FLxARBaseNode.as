@@ -33,7 +33,8 @@
 
 package org.libspark.flartoolkit.alchemy.pv3d
 {
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
+	import jp.nyatla.alchemymaster.*;
 	import org.libspark.flartoolkit.alchemy.core.*;
 	import org.libspark.flartoolkit.alchemy.core.transmat.*;
 	import org.libspark.flartoolkit.alchemy.core.param.*;
@@ -46,26 +47,52 @@ package org.libspark.flartoolkit.alchemy.pv3d
 		public static const AXIS_MODE_PV3D:int = 2;
 		
 		public var axisMode:int;
+		private var _ma:Marshal=new Marshal();
 		
-		public function FLxARBaseNode(axisMode:int = AXIS_MODE_ORIGINAL) {
+		public function FLxARBaseNode(axisMode:int = AXIS_MODE_PV3D) {
 			super();
 			this.axisMode = axisMode;
 		}
 		private var _wk:Array = new Array(16);
-		public function setTransformMatrix(r:NyARTransMatResult):void {
-			var w:Array = this._wk;
-			r.getValue(w);
+		public function setTransformMatrix(r:NyARTransMatResult):void 
+		{
 			var m:Matrix3D = this.transform;
+			var ma:Marshal = this._ma;
+			r.getValue(ma);
+			ma.prepareRead();
 			if (this.axisMode == AXIS_MODE_PV3D) {
-				m.n11 =  w[0*4+0];  m.n12 =  w[0*4+1];  m.n13 = -w[0*4+2];  m.n14 =  w[0*4+2];
-				m.n21 = -w[1*4+0];  m.n22 = -w[1*4+1];  m.n23 =  w[1*4+2];  m.n24 = -w[1*4+2];
-				m.n31 =  w[2*4+0];  m.n32 =  w[2*4+1];  m.n33 = -w[2*4+2];  m.n34 =  w[2*4+2];
-			} else {
+				m.n11 =  ma.readDouble();//w[0 * 4 + 0];
+				m.n12 =  ma.readDouble();//w[0 * 4 + 1];
+				m.n13 = -ma.readDouble();//-w[0 * 4 + 2];
+				m.n14 =  ma.readDouble();//w[0*4+3];
+				
+				m.n21 = -ma.readDouble();//-w[1 * 4 + 0];
+				m.n22 = -ma.readDouble();//-w[1 * 4 + 1];
+				m.n23 =  ma.readDouble();//w[1 * 4 + 2];
+				m.n24 = -ma.readDouble();//-w[1*4+3];
+				
+				m.n31 =  ma.readDouble();//w[2 * 4 + 0];
+				m.n32 =  ma.readDouble();//w[2 * 4 + 1];
+				m.n33 = -ma.readDouble();//-w[2 * 4 + 2];
+				m.n34 =  ma.readDouble();//w[2*4+3];
+
+
+				} else {
 				// ARToolKit original
-				m.n11 =  w[0*4+1];  m.n12 =  w[0*4+0];  m.n13 =  w[0*4+2];  m.n14 =  w[0*4+3];
-				m.n21 = -w[1*4+1];  m.n22 = -w[1*4+0];  m.n23 = -w[1*4+2];  m.n24 = -w[1*4+3];
-				m.n31 =  w[2*4+1];  m.n32 =  w[2*4+0];  m.n33 =  w[2*4+2];  m.n34 =  w[2*4+3];
+				m.n11 =  ma.readDouble();//w[0 * 4 + 1];
+				m.n12 =  ma.readDouble();//w[0 * 4 + 0];
+				m.n13 =  ma.readDouble();//w[0 * 4 + 2];
+				m.n14 =  ma.readDouble();//w[0*4+3];
+				m.n21 =  -ma.readDouble();//-w[1 * 4 + 1];
+				m.n22 =  -ma.readDouble();//-w[1 * 4 + 0];
+				m.n23 =  -ma.readDouble();//-w[1 * 4 + 2];
+				m.n24 =  -ma.readDouble();//-w[1*4+3];
+				m.n31 =  ma.readDouble();//w[2 * 4 + 1];
+				m.n32 =  ma.readDouble();//w[2 * 4 + 0];
+				m.n33 =  ma.readDouble();//w[2 * 4 + 2];
+				m.n34 =  ma.readDouble();//w[2*4+3];
 			}
+
 		}
 	}
 }

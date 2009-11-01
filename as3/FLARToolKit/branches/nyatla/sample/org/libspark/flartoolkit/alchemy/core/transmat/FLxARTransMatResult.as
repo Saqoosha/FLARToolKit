@@ -33,9 +33,11 @@
 
 package org.libspark.flartoolkit.alchemy.core.transmat
 {	
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
+	import jp.nyatla.alchemymaster.*;
 	public class FLxARTransMatResult extends NyARTransMatResult
 	{
+		private var _ma:Marshal=new Marshal();
 		public function FLxARTransMatResult()
 		{
 			super();
@@ -45,6 +47,6 @@ package org.libspark.flartoolkit.alchemy.core.transmat
 		{
 			super.dispose();
 			return;
-		}		
+		}
 	}
 }

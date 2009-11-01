@@ -40,7 +40,7 @@
 			light.z = -1000;
 			var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xff22aa, 0x0);
 			this._cube = new Cube(new MaterialsList({all: fmat}), 40, 40, 40);
-			this._cube.z += 20;
+			this._cube.z = -20;
 			this._baseNode.addChild(this._cube);
 			
 			this.stage.addEventListener(MouseEvent.CLICK, this._onClick);

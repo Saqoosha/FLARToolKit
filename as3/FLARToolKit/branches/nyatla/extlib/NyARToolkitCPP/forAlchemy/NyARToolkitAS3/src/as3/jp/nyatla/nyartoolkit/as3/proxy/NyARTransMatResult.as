@@ -62,8 +62,8 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			return this._alchemy_stub.getHasValue(this._alchemy_stub._native);
 		}
 		/**
-		 * Marshal
- 		 * [GET] int[3]
+		 * Marshaling format
+ 		 * [GET] x:double,y:double,z:double
 		 */		
 		public function getZXYAngle(o_argument:Marshal):void
 		{

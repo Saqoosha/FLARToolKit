@@ -1,4 +1,4 @@
-﻿package jp.nyatla.example.aM_idmk{
+package jp.nyatla.example.aM_idmk{
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -27,7 +27,7 @@
 		protected var _renderer:LazyRenderEngine;
 		protected var _baseNode:FLxARBaseNode;//FLxAR
 		protected var _resultMat:FLxARTransMatResult;
-		private var _listener:TestListener;
+		protected var _detector:MarkerProcesser;
 		
 		public function PV3DARApp()
 		{
@@ -57,10 +57,8 @@
 			
 			this._scene = new Scene3D();
 			this._baseNode = this._scene.addChild(new FLxARBaseNode()) as FLxARBaseNode;
-			//イベントリスナ作成
-			this._listener = new TestListener(this._baseNode);
-			//リスナセット
-			this._detector.setListener(this._listener);	
+			//プロセッサ作成
+			this._detector = new MarkerProcesser(this._param,this._baseNode);
 			
 			this._renderer = new LazyRenderEngine(this._scene, this._camera3d, this._viewport);
 			
@@ -75,7 +73,7 @@
 			this._raster.setBitmapData(this._capture.bitmapData);
 			this._detector.detectMarker(this._raster);
 
-			this._baseNode.visible =this._listener.active;
+			this._baseNode.visible =this._detector.active;
 			this._renderer.render();
 		}
 		
@@ -96,38 +94,42 @@
 		
 	}
 }
+
+
 import org.libspark.flartoolkit.alchemy.pv3d.*;
 import jp.nyatla.nyartoolkit.as3.*;
-class TestListener extends SingleNyIdMarkerProcesserListener
+import jp.nyatla.nyartoolkit.as3.proxy.*;
+import org.libspark.flartoolkit.alchemy.idmarker.*;
+import org.libspark.flartoolkit.alchemy.core.param.*;
+class MarkerProcesser extends FLxSingleNyIdMarkerProcesser
 {
+	protected var _detector:MarkerProcesser;
 	private var _baseNode:FLxARBaseNode;
 	public var active:Boolean;
-	public function TestListener(i_baseNode:FLxARBaseNode)
+	public function MarkerProcesser(i_param:FLxARParam,i_baseNode:FLxARBaseNode)
 	{
+		super(i_param,new FLxNyIdMarkerDataEncoder_RawBit());
 		this._baseNode = i_baseNode;
 		this.active = false;
 		return;
 	}
-	public override function onEnterHandler(i_data:INyIdMarkerData):void
+	protected override function onEnterHandler(i_code:INyIdMarkerData):void
 	{
 		this.active = true;
-		var raw:NyIdMarkerData_RawBit=i_data as NyIdMarkerData_RawBit;
-		var p:Array=new Array();
-		raw.getPacket(p);
-		//pにIDのデータグラムが入ってる。
-		this.active = true;
+		var raw:NyIdMarkerData_RawBit=i_code as NyIdMarkerData_RawBit;
+		this.active = true;		
 	}
-	public override function onLeaveHandler():void
+	protected override function onLeaveHandler():void
 	{
-		this.active = false;
+		trace("onLeaveHandler");
+		this.active = false;		
 	}
-	public override function onUpdateHandler(i_square:NyARSquare,i_transmat:NyARTransMatResult):void
+	protected override function onUpdateHandler(i_square:NyARSquare, result:NyARTransMatResult):void
 	{
-		var c:Array=new Array(3);
-		i_transmat.getAngle(c);
-		//cにはangleのデータが取れますよ。
 
 		//座標を更新
-		this._baseNode.setTransformMatrix(i_transmat);
+		this._baseNode.setTransformMatrix(result);		
 	}
+
 }
+

@@ -66,8 +66,8 @@ package jp.nyatla.nyartoolkit.as3.proxy
 			throw new Error("NyARPerspectiveProjectionMatrix");
 		}
 		/**
-		 * OUT:
-		 * o_cpara[12]:int,o_trans[12]:int		 */
+		 * Marshaling format		 * [GET]
+		 * o_cpara[12]:double,o_trans[12]:double		 */
 		public function decompMat(o_argument:Marshal):void
 		{
 			o_argument.prepareCallAlchmy();

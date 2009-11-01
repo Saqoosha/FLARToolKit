@@ -209,7 +209,7 @@ package jp.nyatla.nyartoolkit.as3
 		 * 結果値を受け取るオブジェクトを指定してください。
 		 * @throws NyARException
 		 */
-		public function getTransmationMatrix(i_index:int,o_result:NyARTransMatResult):void
+		public function getTransformMatrix(i_index:int,o_result:NyARTransMatResult):void
 		{
 			var result:NyARDetectMarkerResult = this._result_holder.result_array[i_index];
 			// 一番一致したマーカーの位置とかその辺を計算

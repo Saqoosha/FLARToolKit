@@ -20,7 +20,7 @@ protected:
 	{
 		T* native;
 		INyARRaster* input;
-		AS3_ArrayValue(args, "PtrType", &native,&input);
+		AS3_ArrayValue(args, "PtrType,PtrType", &native,&input);
 		native->analyzeRaster(*input);
 		return AS3_Null();
 	}

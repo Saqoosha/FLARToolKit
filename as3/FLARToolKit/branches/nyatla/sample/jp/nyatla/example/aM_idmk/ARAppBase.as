@@ -39,7 +39,6 @@
 		
 		protected var _param:FLxARParam;
 		protected var _raster:FLxARRgbRaster;
-		protected var _detector:FLxSingleNyIdMarkerProcesser;
 		
 		protected var _webcam:Camera;
 		protected var _video:Video;
@@ -85,10 +84,10 @@
 			
 			// setup ARToolkit
 			this._raster = new FLxARRgbRaster(320,240);
-			this._detector = new FLxSingleNyIdMarkerProcesser(this._param, new FLxNyIdMarkerDataEncoder_RawBit());
 			this.dispatchEvent(new Event(Event.INIT));
 		}
 		
 	}
 	
 }
+

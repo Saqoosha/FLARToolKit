@@ -33,15 +33,18 @@
 
 package org.libspark.flartoolkit.alchemy.pv3d
 {	
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.alchemymaster.Marshal;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
+	import org.papervision3d.core.geom.renderables.VectorShapeRenderable;
 	import org.papervision3d.core.math.Matrix3D;
 
 	public class FLxARCamera3D extends Camera3D {
 		
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
+		private var _ma:Marshal=new Marshal();
 		
 		public function FLxARCamera3D(param:NyARParam) {
 			super();
@@ -55,10 +58,21 @@ package org.libspark.flartoolkit.alchemy.pv3d
 			const size:NyARIntSize = param.getScreenSize();
 			const width:int  = 320;//size.w;
 			const height:int = 240;// size.h;
+			var icpara:Vector.<int> = new Vector.<int>(12);// icpara_mat.getArray();
+			var trans:Vector.<int> = new Vector.<int>(12);//trans_mat.getArray();
 			
-			var icpara:Array = new Array(12);// icpara_mat.getArray();
-			var trans:Array = new Array(12);//trans_mat.getArray();
-			param.getPerspectiveProjectionMatrix().decompMat(icpara, trans);
+			var ma:Marshal=this._ma;
+			param.getPerspectiveProjectionMatrix().decompMat(ma);
+			ma.prepareRead();
+			//Convert to Argument
+			for (i = 0; i < 12; i++)
+			{
+				icpara[i] = ma.readDouble();
+			}
+			for (i = 0; i < 12; i++)
+			{
+				trans[i]  = ma.readDouble();
+			}
 			
 			for (i = 0; i < 4; i++) {
 				icpara[1*4+i] = (height - 1) * (icpara[2*4+i]) - icpara[1*4+i];

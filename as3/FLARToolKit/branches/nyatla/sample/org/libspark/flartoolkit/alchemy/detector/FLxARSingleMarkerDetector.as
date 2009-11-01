@@ -33,22 +33,18 @@
 
 package org.libspark.flartoolkit.alchemy.detector
 {
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
 	import jp.nyatla.nyartoolkit.as3.*;
 	import org.libspark.flartoolkit.FLARException;
 	/**
 	 * 画像からARCodeに最も一致するマーカーを1個検出し、その変換行列を計算するクラスです。
 	 * 
 	 */
-	public class FLxARSingleMarkerDetector extends NyARSingleDetectMarker
+	public class FLxARSingleMarkerDetector extends NyARSingleDetectMarkerAS
 	{		
 		public function FLxARSingleMarkerDetector(i_param:NyARParam, i_code:NyARCode, i_marker_width:Number)
 		{
-			super(i_param, i_code, i_marker_width,NyARRgbRaster.BUFFERFORMAT_BYTE1D_X8R8G8B8_32);
-			return;
-		}
-		public override function dispose():void
-		{
-			super.dispose();
+			super(i_param, i_code, i_marker_width,INyARBufferReader.BUFFERFORMAT_BYTE1D_X8R8G8B8_32);
 			return;
 		}
 	}
