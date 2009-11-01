@@ -97,10 +97,15 @@ NyARToolkitと同一です。
 
 
 ・ライセンス
-
-NyARToolkitCPP本体は、商用ライセンスとGPLv3以降のデュアルライセンスを採用しています。
+後述するモジュールを除いたNyARToolkitCPP主要コンポーネントは、商用ライセンス
+とGPLv3以降のデュアルライセンスを採用しています。
 (Version/2.4.0より、GPLv3ライセンスになりました。)
-extlib以下のものは、各モジュールのライセンスに従ってください。
+
+
+以下のディレクトリ配下にあるものについては、各モジュールのライセンスに従ってください。
+forAlchemy/AlchemyMaster
+forAlchemy/NyARToolkitAS3
+
 
  -GPL
  GPLについては、LICENCE.txtをお読みください。
