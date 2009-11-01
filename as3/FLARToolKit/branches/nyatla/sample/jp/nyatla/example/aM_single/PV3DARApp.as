@@ -1,4 +1,4 @@
-package jp.nyatla.example.aM_idmk{
+package jp.nyatla.example.aM_single{
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -11,6 +11,7 @@ package jp.nyatla.example.aM_idmk{
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.stats.StatsView;
 	import flash.utils.*;
+	import jp.nyatla.nyartoolkit.as3.proxy.*;
 	
 
 	[SWF(width=640,height=480,frameRate=60,backgroundColor=0x0)]
@@ -59,6 +60,9 @@ package jp.nyatla.example.aM_idmk{
 			this._baseNode = this._scene.addChild(new FLxARBaseNode()) as FLxARBaseNode;
 			//プロセッサ作成
 			this._detector = new MarkerProcesser(this._param,this._baseNode);
+			var codes:Vector.<NyARCode>=new Vector.<NyARCode>(1);
+			codes[0] = this._code;
+	        this._detector.setARCodeTable(codes,16,80.0);
 			
 			this._renderer = new LazyRenderEngine(this._scene, this._camera3d, this._viewport);
 			
@@ -100,47 +104,22 @@ import jp.nyatla.alchemymaster.Marshal;
 import org.libspark.flartoolkit.alchemy.pv3d.*;
 import jp.nyatla.nyartoolkit.as3.*;
 import jp.nyatla.nyartoolkit.as3.proxy.*;
-import org.libspark.flartoolkit.alchemy.idmarker.*;
+import org.libspark.flartoolkit.alchemy.processor.*;
 import org.libspark.flartoolkit.alchemy.core.param.*;
-class MarkerProcesser extends FLxSingleNyIdMarkerProcesser
+class MarkerProcesser extends FLxSingleARMarkerProcesser
 {
-	protected var _detector:MarkerProcesser;
 	private var _baseNode:FLxARBaseNode;
 	public var active:Boolean;
 	public function MarkerProcesser(i_param:FLxARParam,i_baseNode:FLxARBaseNode)
 	{
-		super(i_param,new FLxNyIdMarkerDataEncoder_RawBit());
+		super(i_param);
 		this._baseNode = i_baseNode;
 		this.active = false;
 		return;
 	}
-	protected override function onEnterHandler(i_code:INyIdMarkerData):void
+	protected override function onEnterHandler(i_code:int):void
 	{
-		this.active = true;
-		var raw:NyIdMarkerData_RawBit = i_code as NyIdMarkerData_RawBit;
-		var ma :Marshal= new Marshal();
-		raw.getValue(ma);
-		ma.prepareRead();
-		ma.prepareRead();
-		var len:int =ma.readInt();
-		var data:Array=new Array();
-		
-		var i:int;
-		for(i=0;i<len;i++){
-			data[i]=ma.readInt();
-		}
-		var current_id:int;
-		if(len>4){
-			//4バイト以上の時はint変換しない。
-			current_id=-1;//undefined_id
-		}else{
-			current_id=0;
-			//最大4バイト繋げて１個のint値に変換
-			for(i=0;i<len;i++){
-				current_id=(current_id<<8)|data[i];
-			}
-		}
-		trace("ID="+current_id);
+		trace("ID="+i_code);
 		this.active = true;		
 	}
 	protected override function onLeaveHandler():void
