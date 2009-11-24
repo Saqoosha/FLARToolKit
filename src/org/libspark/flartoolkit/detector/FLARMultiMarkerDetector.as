@@ -33,13 +33,14 @@ package org.libspark.flartoolkit.detector {
 	import flash.geom.Point;
 	
 	import org.libspark.flartoolkit.FLARException;
+	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
 	import org.libspark.flartoolkit.core.FLARSquareStack;
 	import org.libspark.flartoolkit.core.IFLARSquareDetector;
 	import org.libspark.flartoolkit.core.match.FLARMatchPatt_Color_WITHOUT_PCA;
 	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.pickup.FLARColorPatt_O3;
+	import org.libspark.flartoolkit.core.pickup.FLARDynamicRatioColorPatt_O3;
 	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
 	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
 	import org.libspark.flartoolkit.core.raster.IFLARRaster;
@@ -106,15 +107,35 @@ package org.libspark.flartoolkit.detector {
 			// 比較コードの解像度は全部同じかな？（違うとパターンを複数種つくらないといけないから）
 			const cw:int = i_code[0].getWidth();
 			const ch:int = i_code[0].getHeight();
+			const mpw:uint = FLARCode(i_code[0]).markerPercentWidth;
+			const mph:uint = FLARCode(i_code[0]).markerPercentHeight;
 			for (var i:int = 1; i < i_number_of_code; i++) {
 				if (cw != i_code[i].getWidth() || ch != i_code[i].getHeight()) {
 					// 違う解像度のが混ざっている。
 					//throw new FLARException();
 					throw new FLARException("all patterns in an application must be the same width and height.");
 				}
+				
+				// SOC: added markerPercentWidth/Height checking
+				if (mpw != i_code[i].markerPercentWidth || mph != i_code[i].markerPercentHeight) {
+					throw new FLARException("all patterns in an application must have the same ratio of pattern-to-border width and height.");
+				}
 			}
-			// 評価パターンのホルダを作る
-			this._patt = new FLARColorPatt_O3(cw, ch);
+			
+			// SOC: replaced FLARColorPatt_O3 with FLARDynamicRatioColorPatt_O3,
+			//		to match FLARSingleMarkerDetector and
+			//		to enable better tracking of variable-border-width markers. 
+//			// 評価パターンのホルダを作る
+//			this._patt = new FLARColorPatt_O3(cw, ch);
+			
+			//マーカ幅を算出
+			var markerWidthByDec:Number = i_code[0].markerPercentWidth / 10;
+			//マーカ高を算出
+			var markerHeightByDec:Number = i_code[0].markerPercentHeight / 10;
+
+			//評価パターンのホルダを作成
+			this._patt = new FLARDynamicRatioColorPatt_O3(cw, ch, markerWidthByDec, markerHeightByDec);
+			
 			this._number_of_code = i_number_of_code;
 
 			this._marker_width = i_marker_width;
