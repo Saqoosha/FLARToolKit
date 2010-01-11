@@ -38,7 +38,7 @@ package jp.nyatla.nyartoolkit.as3.core.analyzer.raster
 	
 	public class NyARRasterAnalyzer_Histgram
 	{
-		private var _histImpl:ICreateHistgramImpl;
+		protected var _histImpl:ICreateHistgramImpl;
 		/**
 		 * ヒストグラム解析の縦方向スキップ数。継承クラスはこのライン数づつ
 		 * スキップしながらヒストグラム計算を行うこと。
@@ -46,7 +46,13 @@ package jp.nyatla.nyartoolkit.as3.core.analyzer.raster
 		protected var _vertical_skip:int;
 		
 		
-		public function NyARRasterAnalyzer_Histgram(i_raster_format:int,i_vertical_interval:int)
+		public function NyARRasterAnalyzer_Histgram(i_raster_format:int, i_vertical_interval:int)
+		{
+			if(!initInstance(i_raster_format,i_vertical_interval)){
+				throw new NyARException();
+			}
+		}
+		protected function initInstance(i_raster_format:int,i_vertical_interval:int):Boolean
 		{
 			switch (i_raster_format) {
 			case INyARBufferReader.BUFFERFORMAT_INT1D_GRAY_8:
@@ -56,10 +62,11 @@ package jp.nyatla.nyartoolkit.as3.core.analyzer.raster
 				this._histImpl = new NyARRasterThresholdAnalyzer_Histgram_INT1D_X8R8G8B8_32();
 				break;
 			default:
-				throw new NyARException();
+				return false;
 			}
 			//初期化
 			this._vertical_skip=i_vertical_interval;
+			return true;
 		}
 		public function setVerticalInterval(i_step:int):void
 		{

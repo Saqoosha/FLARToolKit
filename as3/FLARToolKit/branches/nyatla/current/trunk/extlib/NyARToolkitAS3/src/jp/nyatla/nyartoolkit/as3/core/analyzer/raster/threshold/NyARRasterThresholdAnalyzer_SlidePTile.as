@@ -35,26 +35,35 @@ package jp.nyatla.nyartoolkit.as3.core.analyzer.raster.threshold
 	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import jp.nyatla.nyartoolkit.as3.*;
 	import jp.nyatla.as3utils.*;
 	
 	public class NyARRasterThresholdAnalyzer_SlidePTile implements INyARRasterThresholdAnalyzer
 	{
-		private var _raster_analyzer:NyARRasterAnalyzer_Histgram;
+		protected var _raster_analyzer:NyARRasterAnalyzer_Histgram;
 		private var _sptile:NyARHistgramAnalyzer_SlidePTile;
 		private var _histgram:NyARHistgram;
+		public function NyARRasterThresholdAnalyzer_SlidePTile(i_persentage:int, i_raster_format:int, i_vertical_interval:int)
+		{
+			NyAS3Utils.assert (0 <= i_persentage && i_persentage <= 50);
+			//初期化
+			if(!initInstance(i_raster_format,i_vertical_interval)){
+				throw new NyARException();
+			}
+			this._sptile=new NyARHistgramAnalyzer_SlidePTile(i_persentage);
+			this._histgram=new NyARHistgram(256);
+		}
+		protected function initInstance(i_raster_format:int,i_vertical_interval:int):Boolean
+		{
+			this._raster_analyzer=new NyARRasterAnalyzer_Histgram(i_raster_format,i_vertical_interval);
+			return true;
+		}
 		public function setVerticalInterval(i_step:int):void
 		{
 			this._raster_analyzer.setVerticalInterval(i_step);
 			return;
 		}
-		public function NyARRasterThresholdAnalyzer_SlidePTile(i_persentage:int,i_raster_format:int,i_vertical_interval:int)
-		{
-			NyAS3Utils.assert (0 <= i_persentage && i_persentage <= 50);
-			//初期化
-			this._sptile=new NyARHistgramAnalyzer_SlidePTile(i_persentage);
-			this._histgram=new NyARHistgram(256);
-			this._raster_analyzer=new NyARRasterAnalyzer_Histgram(i_raster_format,i_vertical_interval);
-		}
+
 		
 		public function analyzeRaster(i_input:INyARRaster):int
 		{

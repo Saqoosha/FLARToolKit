@@ -28,6 +28,7 @@
  */
 package org.libspark.flartoolkit.detector
 {
+	import flash.display.*;
 	import jp.nyatla.nyartoolkit.as3.core.match.*;
 	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
 	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
@@ -132,7 +133,7 @@ package org.libspark.flartoolkit.detector
 		 * 変換行列を受け取るオブジェクトを指定します。
 		 * @throws NyARException
 		 */
-		public function getTransmationMatrix(o_result:FLARTransMatResult):void
+		public function getTransformMatrix(o_result:FLARTransMatResult):void
 		{
 			// 一番一致したマーカーの位置とかその辺を計算
 			if (this._is_continue) {
