@@ -24,13 +24,6 @@
 package{
 
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARDoublePoint3d;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
-	import jp.nyatla.nyartoolkit.as3.detector.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
 	import flash.net.*;
 	import flash.text.*;
     import flash.display.*; 
@@ -46,6 +39,7 @@ package{
 	
 	public class Main extends Sprite 
 	{
+		public static var win:Main;
         private var textbox:TextField = new TextField();
 		private var param:FLARParam;
 		private var code:FLARCode;
@@ -58,6 +52,7 @@ package{
 
 		public function Main():void 
 		{
+			Main.win = this;
 			//デバック用のテキストボックス
 			this.textbox.x = 0; this.textbox.y = 0;
 			this.textbox.width=640,this.textbox.height=480; 
@@ -91,25 +86,24 @@ package{
 					var r:FLARRgbRaster_BitmapData = new FLARRgbRaster_BitmapData(320,240);
 					var b:BitmapData =	BitmapData(r.getBufferReader().getBuffer());
 					data.endian = Endian.LITTLE_ENDIAN;
-					var t:BitmapData = BitmapData(r.getBufferReader().getBuffer());
 					for (var i:int = 0; i < 320 * 240; i++) {
-						t.setPixel(i%320,i/320,data.readInt());
+						b.setPixel(i%320,i/320,data.readInt());
 					}
             		raster_bgra = r;
 				});
-/*
+
 			mf.addTarget(
 				"../../../data/320x240NyId.raw",URLLoaderDataFormat.BINARY,
 				function(data:ByteArray):void
 				{
-					var r:NyARRgbRaster = new NyARRgbRaster(new NyARIntSize(320, 240), INyARBufferReader.BUFFERFORMAT_INT1D_X8R8G8B8_32);
-					var b:Vector.<int> =	Vector.<int>(r.getBufferReader().getBuffer());
+					var r:FLARRgbRaster_BitmapData = new FLARRgbRaster_BitmapData(320, 240);
+					var b:BitmapData =	BitmapData(r.getBufferReader().getBuffer());
 					data.endian = Endian.LITTLE_ENDIAN;
 					for (var i:int = 0; i < 320 * 240; i++) {
-						b[i]=data.readInt();
+						b.setPixel(i%320,i/320,data.readInt());
 					}
             		id_bgra=r;
-				});*/
+				});
             //終了後mainに遷移するよ―に設定
 			mf.addEventListener(Event.COMPLETE,main);
             mf.multiLoad();//ロード開始
@@ -123,7 +117,7 @@ package{
 			d.detectMarkerLite(raster_bgra,100);
 			msg("cf=" + d.getConfidence());
 			{
-				d.getTransmationMatrix(mat);
+				d.getTransformMatrix(mat);
 				msg("getTransmationMatrix");
 				msg(mat.m00 + "," + mat.m01 + "," + mat.m02 + "," + mat.m03);
 				msg(mat.m10 + "," + mat.m11 + "," + mat.m12 + "," + mat.m13);
@@ -137,7 +131,7 @@ package{
 				var date : Date = new Date();
 				for(var i2:int=0;i2<100;i2++){
 					d.detectMarkerLite(raster_bgra,100);
-					d.getTransmationMatrix(mat);
+					d.getTransformMatrix(mat);
 				}
 				var date2 : Date = new Date();
 				msg(((date2.valueOf() - date.valueOf()).toString())+"[ms] par 100 frame");
@@ -158,7 +152,7 @@ package{
 			for(var i:int=0;i<num_of_detect;i++){
 				msg("no="+i);
 				t.getConfidence(i);
-				t.getTransmationMatrix(i,mat);
+				t.getTransformMatrix(i,mat);
 				msg("getTransmationMatrix");
 				msg(mat.m00 + "," + mat.m01 + "," + mat.m02 + "," + mat.m03);
 				msg(mat.m10 + "," + mat.m11 + "," + mat.m12 + "," + mat.m13);
@@ -167,25 +161,25 @@ package{
 				mat.getZXYAngle(ang);
 				msg(ang.x + "," + ang.y + "," + ang.z);
 			}		
-		}/*
+		}
 		private function testSingleProcessor():void
 		{
-			var codes:Vector.<NyARCode>=new Vector.<NyARCode>();
+			var codes:Vector.<FLARCode>=new Vector.<FLARCode>();
 			var codes_width:Vector.<Number>=new Vector.<Number>();
 			codes[0]=code;
 			codes_width[0]=80.0;
-			var t3:SingleProcessor=new SingleProcessor(param,INyARBufferReader.BUFFERFORMAT_INT1D_X8R8G8B8_32,this);
+			var t3:SingleProcessor=new SingleProcessor(param,this);
 			t3.setARCodeTable(codes,16,80.0);
 			t3.detectMarker(raster_bgra);
 		}
 		private function testIdMarkerProcessor():void
 		{
-			var t:IdMarkerProcessor=new IdMarkerProcessor(param,INyARBufferReader.BUFFERFORMAT_INT1D_X8R8G8B8_32,this);
+			var t:IdMarkerProcessor=new IdMarkerProcessor(param,this);
 			t.detectMarker(id_bgra);
-		}	*/	
+		}	
 		private function main(e:Event):void
 		{
-			//addChild(new Bitmap(BitmapData(this.raster_bgra.getBufferReader().getBuffer())));
+//			addChild(new Bitmap(BitmapData(this.id_bgra.getBufferReader().getBuffer())));
 			
 
 			var mat:FLARTransMatResult=new FLARTransMatResult();
@@ -210,19 +204,19 @@ package{
 				testNyARSingleDetectMarker();
 			}
 			{
-				msg("<NyARDetectMarker>");
+				msg("<FLARDetectMarker>");
 				testNyARDetectMarker();
 			}
-/*			
+			
 			{
-				msg("<IdMarkerProcessor>");
+				msg("<FLIdMarkerProcessor>");
 				testIdMarkerProcessor();
 			}
 			{
 				msg("<SingleProcessor>");
 				testSingleProcessor();
 			}
-*/			msg("#finish!");
+			msg("#finish!");
 			return;
 		}
 		
@@ -230,102 +224,108 @@ package{
 
 }
 
-//import jp.nyatla.nyartoolkit.as3.processor.*;
-//import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-//import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
-//import jp.nyatla.nyartoolkit.as3.nyidmarker.data.*;
-//import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-//import jp.nyatla.nyartoolkit.as3.core.param.*;
-//
-//class SingleProcessor extends SingleARMarkerProcesser
-//{
-	//public var transmat:NyARTransMatResult=null;
-	//public var current_code:int=-1;
-	//private var _parent:Main;
-	//public function SingleProcessor(i_cparam:NyARParam,i_raster_format:int,i_parent:Main)
-	//{
-		//super();
-		//this._parent=i_parent;
-		//initInstance(i_cparam,i_raster_format);
-	//}
-	//
-	//protected override function onEnterHandler(i_code:int):void
-	//{
-		//current_code=i_code;
-		//_parent.msg("onEnterHandler:"+i_code);
-	//}
-//
-	//protected override function onLeaveHandler():void
-	//{
-	//}
-//
-	//protected override function onUpdateHandler(i_square:NyARSquare,result:NyARTransMatResult):void
-	//{
-		//_parent.msg("onUpdateHandler:" + current_code);
-		//_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);
-		//_parent.msg(result.m10 + "," + result.m11 + "," + result.m12 + "," + result.m13);
-		//_parent.msg(result.m20 + "," + result.m21 + "," + result.m22 + "," + result.m23);
-		//this.transmat=result;
-	//}	
-//}
-//
-//class IdMarkerProcessor extends SingleNyIdMarkerProcesser
-//{	
-	//public var transmat:NyARTransMatResult=null;
-	//public var current_id:int=-1;
-	//private var _parent:Main;
-	//private var _encoder:NyIdMarkerDataEncoder_RawBit;
-//
-	//public function IdMarkerProcessor(i_cparam:NyARParam,i_raster_format:int,i_parent:Main)
-	//{
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.param.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.transmat.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.detector.*;
+import org.libspark.flartoolkit.processor.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+
+import jp.nyatla.nyartoolkit.as3.nyidmarker.data.*;
+import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
+
+class SingleProcessor extends FLSingleARMarkerProcesser
+{
+	public var transmat:FLARTransMatResult=null;
+	public var current_code:int=-1;
+	private var _parent:Main;
+	public function SingleProcessor(i_cparam:FLARParam,i_parent:Main)
+	{
+		super();
+		this._parent=i_parent;
+		initInstance(i_cparam);
+	}
+	
+	protected override function onEnterHandler(i_code:int):void
+	{
+		current_code=i_code;
+		_parent.msg("onEnterHandler:"+i_code);
+	}
+
+	protected override function onLeaveHandler():void
+	{
+	}
+
+	protected override function onUpdateHandler(i_square:FLARSquare,result:FLARTransMatResult):void
+	{
+		_parent.msg("onUpdateHandler:" + current_code);
+		_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);
+		_parent.msg(result.m10 + "," + result.m11 + "," + result.m12 + "," + result.m13);
+		_parent.msg(result.m20 + "," + result.m21 + "," + result.m22 + "," + result.m23);
+		this.transmat=result;
+	}	
+}
+
+class IdMarkerProcessor extends FLSingleNyIdMarkerProcesser
+{	
+	public var transmat:FLARTransMatResult=null;
+	public var current_id:int=-1;
+	private var _parent:Main;
+	private var _encoder:NyIdMarkerDataEncoder_RawBit;
+
+	public function IdMarkerProcessor(i_cparam:FLARParam,i_parent:Main)
+	{
 		//アプリケーションフレームワークの初期化
-		//super();
-		//this._parent=i_parent;
-		//this._encoder=new NyIdMarkerDataEncoder_RawBit();
-		//initInstance(i_cparam,this._encoder,100,i_raster_format);
-		//return;
-	//}
-	//
-	///**
-	 //* アプリケーションフレームワークのハンドラ（マーカ出現）
-	 //*/
-	//protected override function onEnterHandler(i_code:INyIdMarkerData):void
-	//{
-		//var code:NyIdMarkerData_RawBit=i_code as NyIdMarkerData_RawBit;
-		//
+		super();
+		this._parent=i_parent;
+		this._encoder=new NyIdMarkerDataEncoder_RawBit();
+		initInstance(i_cparam,this._encoder,100);
+		return;
+	}
+	
+	/**
+	 * アプリケーションフレームワークのハンドラ（マーカ出現）
+	 */
+	protected override function onEnterHandler(i_code:INyIdMarkerData):void
+	{
+		var code:NyIdMarkerData_RawBit=i_code as NyIdMarkerData_RawBit;
+		
 		//read data from i_code via Marsial--Marshal経由で読み出す
-		//var i:int;
-		//if(code.length>4){
+		var i:int;
+		if(code.length>4){
 			//4バイト以上の時はint変換しない。
-			//this.current_id=-1;//undefined_id
-		//}else{
-			//this.current_id=0;
+			this.current_id=-1;//undefined_id
+		}else{
+			this.current_id=0;
 			//最大4バイト繋げて１個のint値に変換
-			//for(i=0;i<code.length;i++){
-				//this.current_id=(this.current_id<<8)|code.packet[i];
-			//}
-		//}
-		//_parent.msg("onEnterHandler:"+this.current_id);
-		//this.transmat=null;
-	//}
-	///**
-	 //* アプリケーションフレームワークのハンドラ（マーカ消滅）
-	 //*/
-	//protected override function onLeaveHandler():void
-	//{
-		//this.current_id=-1;
-		//this.transmat=null;
-		//return;
-	//}
-	///**
-	 //* アプリケーションフレームワークのハンドラ（マーカ更新）
-	 //*/
-	//protected override function onUpdateHandler(i_square:NyARSquare,result:NyARTransMatResult):void
-	//{
-		//_parent.msg("onUpdateHandler:"+this.current_id);
-		//_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);
-		//_parent.msg(result.m10 + "," + result.m11 + "," + result.m12 + "," + result.m13);
-		//_parent.msg(result.m20 + "," + result.m21 + "," + result.m22 + "," + result.m23);
-		//this.transmat=result;
-	//}
-//}
+			for(i=0;i<code.length;i++){
+				this.current_id=(this.current_id<<8)|code.packet[i];
+			}
+		}
+		_parent.msg("onEnterHandler:"+this.current_id);
+		this.transmat=null;
+	}
+	/**
+	 * アプリケーションフレームワークのハンドラ（マーカ消滅）
+	 */
+	protected override function onLeaveHandler():void
+	{
+		this.current_id=-1;
+		this.transmat=null;
+		return;
+	}
+	/**
+	 * アプリケーションフレームワークのハンドラ（マーカ更新）
+	 */
+	protected override function onUpdateHandler(i_square:FLARSquare,result:FLARTransMatResult):void
+	{
+		_parent.msg("onUpdateHandler:"+this.current_id);
+		_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);
+		_parent.msg(result.m10 + "," + result.m11 + "," + result.m12 + "," + result.m13);
+		_parent.msg(result.m20 + "," + result.m21 + "," + result.m22 + "," + result.m23);
+		this.transmat=result;
+	}
+}

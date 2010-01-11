@@ -42,6 +42,9 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 
 	public class FLARLabeling
 	{
+		private static const AR_AREA_MAX:int = 100000;// #define AR_AREA_MAX 100000
+		private static const AR_AREA_MIN:int = 70;// #define AR_AREA_MIN 70
+		
 		private static const ZERO_POINT:Point = new Point();
 		private static const ONE_POINT:Point = new Point(1, 1);
 		
@@ -78,20 +81,22 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 					hSearch.copyPixels(label_img, hLineRect, ZERO_POINT);
 					hSearchRect = hSearch.getColorBoundsRect(0xffffff, 0xffffff, true);
 					
-					label = o_stack.prePush() as RleLabelFragmentInfo;
 					label_img.floodFill(hSearchRect.x, hLineRect.y, ++index);
 					labelRect = label_img.getColorBoundsRect(0xffffff, index, true);
-					label.area = labelRect.width * labelRect.height;
-					//ここから
-					label.clip_l = labelRect.left;
-					label.clip_r = labelRect.right - 1;
-					label.clip_t = labelRect.top;
-					label.clip_b = labelRect.bottom - 1;
-					label.pos_x = (labelRect.left + labelRect.right - 1) * 0.5;
-					label.pos_y = (labelRect.top + labelRect.bottom - 1) * 0.5;
-					//エントリ・ポイントを探す
-					label.entry_x=getTopClipTangentX(label_img,index,label);
-					//ここまであればおｋ
+					label = o_stack.prePush() as RleLabelFragmentInfo;
+					var area:int = labelRect.width * labelRect.height;
+					//エリア規制
+					if (area <= AR_AREA_MAX && area >= AR_AREA_MIN){
+						label.area = area;
+						label.clip_l = labelRect.left;
+						label.clip_r = labelRect.right - 1;
+						label.clip_t = labelRect.top;
+						label.clip_b = labelRect.bottom - 1;
+						label.pos_x = (labelRect.left + labelRect.right - 1) * 0.5;
+						label.pos_y = (labelRect.top + labelRect.bottom - 1) * 0.5;
+						//エントリ・ポイントを探す
+						label.entry_x=getTopClipTangentX(label_img,index,label);
+					}
 					currentRect = label_img.getColorBoundsRect(0xffffff, 0xffffff, true);
 				}
 			} catch (e:Error){
