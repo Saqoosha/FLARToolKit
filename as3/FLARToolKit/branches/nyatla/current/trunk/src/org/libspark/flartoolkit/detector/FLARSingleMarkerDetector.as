@@ -46,7 +46,7 @@ package org.libspark.flartoolkit.detector
 	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.transmat.*;
-	public class FLARSingleDetectMarker
+	public class FLARSingleMarkerDetector
 	{	
 		private var _is_continue:Boolean = false;
 		private var _square_detect:FLARSquareContourDetector;
@@ -58,7 +58,7 @@ package org.libspark.flartoolkit.detector
 		private var _offset:NyARRectOffset; 
 
 
-		public function FLARSingleDetectMarker(i_ref_param:FLARParam,i_ref_code:FLARCode,i_marker_width:Number)
+		public function FLARSingleMarkerDetector(i_ref_param:FLARParam,i_ref_code:FLARCode,i_marker_width:Number)
 		{
 			var th:INyARRasterFilter_RgbToBin=new FLARRasterFilter_Threshold(100);
 			var patt_inst:INyARColorPatt;

@@ -28,19 +28,15 @@
  */
 package org.libspark.flartoolkit.core 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	public class FLARCode extends NyARCode
+	import jp.nyatla.nyartoolkit.as3.core.*;	
+	public class FLARMat extends NyARMat
 	{
 		
-		public function FLARCode(i_width:int, i_height:int)
+		public function FLARMat(i_row:int,i_clm:int)
 		{
-			super(i_width,i_height);
+			super(i_row,i_clm);
 		}
-		public function loadARPatt(i_stream:String):void
-		{
-			super.loadARPattFromFile(i_stream);
-			return;
-		}		
+		
 	}
 
 }

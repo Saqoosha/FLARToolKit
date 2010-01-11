@@ -53,7 +53,7 @@ package org.libspark.flartoolkit.detector
 	 * 複数のマーカーを検出し、それぞれに最も一致するARコードを、コンストラクタで登録したARコードから 探すクラスです。最大300個を認識しますが、ゴミラベルを認識したりするので100個程度が限界です。
 	 * 
 	 */
-	public class FLARDetectMarker
+	public class FLARMultiMarkerDetector
 	{
 
 		private var _detect_cb:DetectSquareCB;
@@ -81,7 +81,7 @@ package org.libspark.flartoolkit.detector
 		 * 入力ラスタのピクセルタイプを指定します。この値は、INyARBufferReaderインタフェイスのgetBufferTypeの戻り値を指定します。
 		 * @throws NyARException
 		 */
-		public function FLARDetectMarker(i_param:FLARParam, i_code:Vector.<FLARCode>, i_marker_width:Vector.<Number>, i_number_of_code:int)
+		public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Vector.<FLARCode>, i_marker_width:Vector.<Number>, i_number_of_code:int)
 		{
 			initInstance(i_param,i_code,i_marker_width,i_number_of_code);
 			return;
