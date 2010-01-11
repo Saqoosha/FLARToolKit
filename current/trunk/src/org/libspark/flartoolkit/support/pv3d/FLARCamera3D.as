@@ -34,10 +34,12 @@ package org.libspark.flartoolkit.support.pv3d {
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
-	import org.papervision3d.cameras.Camera3D;
+	import org.papervision3d.cameras.*;
 	import org.papervision3d.core.math.Matrix3D;
 
-	public class FLARCamera3D extends Camera3D {
+	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	public class FLARCamera3D extends Camera3D
+	{
 		
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
@@ -59,14 +61,14 @@ package org.libspark.flartoolkit.support.pv3d {
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:FLARIntSize = param.getScreenSize();
+			const size:NyARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
 			param.getPerspectiveProjectionMatrix().decompMat(icpara_mat, trans_mat);
 			
-			var icpara:Array = icpara_mat.getArray();
-			var trans:Array = trans_mat.getArray();
+			var icpara:Vector.<Vector.<Number>> = icpara_mat.getArray();
+			var trans:Vector.<Vector.<Number>> = trans_mat.getArray();
 			for (i = 0; i < 4; i++) {
 				icpara[1][i] = (height - 1) * (icpara[2][i]) - icpara[1][i];
 			}
@@ -116,9 +118,8 @@ package org.libspark.flartoolkit.support.pv3d {
 			// 巣の GreatWhite のままだと _projection が Camera3D の private プロパティなのでエラる。
 			// ので protected とかにしてください。無理やり。害はない。つーかまーそれ以外に方法がない。
 			this._projection = new Matrix3D(m_projection);
-		}
-		
-		override public function transformView(transform:Matrix3D=null):void {
+		}		
+		public override function transformView(transform:Matrix3D=null):void {
 			// Camera3D の transformView はいらんことしやがるので super.transformView() しない。
 			// ただし CameraObject3D の transformView は必要なのでそこでやってる処理をここに移植。
 			this.eye.calculateMultiply(this.transform, _flipY);

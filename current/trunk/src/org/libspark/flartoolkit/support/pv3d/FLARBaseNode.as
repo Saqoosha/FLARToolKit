@@ -28,13 +28,15 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.pv3d {
+package org.libspark.flartoolkit.support.pv3d
+{
 	
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.objects.DisplayObject3D;
 
-	public class FLARBaseNode extends DisplayObject3D {
+	public class FLARBaseNode extends DisplayObject3D
+	{
 		
 		public static const AXIS_MODE_ORIGINAL:int = 0;
 		public static const AXIS_MODE_PV3D:int = 2;
