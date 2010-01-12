@@ -113,7 +113,7 @@ package{
 		{
 			var mat:FLARTransMatResult=new FLARTransMatResult();
 			var ang:FLARDoublePoint3d = new FLARDoublePoint3d();
-			var d:FLARSingleDetectMarker=new FLARSingleDetectMarker(this.param, this.code, 80.0);
+			var d:FLARSingleMarkerDetector=new FLARSingleMarkerDetector(this.param, this.code, 80.0);
 			d.detectMarkerLite(raster_bgra,100);
 			msg("cf=" + d.getConfidence());
 			{
@@ -146,7 +146,7 @@ package{
 			var codes_width:Vector.<Number>=new Vector.<Number>();
 			codes[0]=code;
 			codes_width[0]=80.0;
-			var t:FLARDetectMarker=new FLARDetectMarker(param,codes,codes_width,1);
+			var t:FLARMultiMarkerDetector=new FLARMultiMarkerDetector(param,codes,codes_width,1);
 			var num_of_detect:int=t.detectMarkerLite(raster_bgra,100);
 			msg("found="+num_of_detect);
 			for(var i:int=0;i<num_of_detect;i++){
