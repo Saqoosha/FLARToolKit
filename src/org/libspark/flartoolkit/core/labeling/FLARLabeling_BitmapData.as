@@ -42,7 +42,6 @@ package org.libspark.flartoolkit.core.labeling {
 	 * 
 	 */
 	public class FLARLabeling_BitmapData implements IFLARLabeling {
-		public static var minimumLabelSize:Number = 100;
 
 		private static const WORK_SIZE:int = 1024 * 32; // #define WORK_SIZE 1024*32
 		private const work_holder:FLARWorkHolder = new FLARWorkHolder(WORK_SIZE);
@@ -118,43 +117,23 @@ package org.libspark.flartoolkit.core.labeling {
 //			label_list.reserv(256);
 			var labels:Array = label_list.getArray();
 			var label:FLARLabelingLabel;
-			
-			// SOC: search image for contiguous areas of white (earlier thresholding process
-			//		turns dark areas of the image into white pixels), and store as FLARLabelingLabel instances,
-			//		which are areas marked for later analysis (for marker outline detection).
 			while (!currentRect.isEmpty()) {
 				hLineRect.y = currentRect.top;
-				
-				// SOC: grab one row of pixels to analyze
 				hSearch.copyPixels(label_img, hLineRect, ZERO_POINT);
-				
-				// SOC: find bounds of all white pixels in this pixel row
 				hSearchRect = hSearch.getColorBoundsRect(0xffffff, 0xffffff, true);
 				
-				// SOC: perform a flood fill starting with the leftmost white pixel in this row;
-				//		the color used to flood fill (index) becomes the id for this labeled area.
+				label = label_list.prePush() as FLARLabelingLabel;//labels[index++];
 				label_img.floodFill(hSearchRect.x, hLineRect.y, ++index);
-				
-				// SOC: get bounds of labeled (flood-filled) area
 				labelRect = label_img.getColorBoundsRect(0xffffff, index, true);
-				
-				// SOC: only store labeled area if it's larger than the minimum size
-				if (labelRect.width * labelRect.height > minimumLabelSize) {
-					// SOC: instantiate new FLARLabelingLabel
-					label = label_list.prePush() as FLARLabelingLabel;//labels[index++];
-					
-					// SOC: store information about labeled area
-					label.id = index;
-					label.area = labelRect.width * labelRect.height;
-					label.clip_l = labelRect.left;
-					label.clip_r = labelRect.right - 1;
-					label.clip_t = labelRect.top;
-					label.clip_b = labelRect.bottom - 1;
-					label.pos_x = (labelRect.left + labelRect.right - 1) * 0.5;
-					label.pos_y = (labelRect.top + labelRect.bottom - 1) * 0.5;
-				}
-				
-				// SOC: decrease area of analysis for next iteration
+//			trace(labelRect);
+				label.id = index;
+				label.area = labelRect.width * labelRect.height;
+				label.clip_l = labelRect.left;
+				label.clip_r = labelRect.right - 1;
+				label.clip_t = labelRect.top;
+				label.clip_b = labelRect.bottom - 1;
+				label.pos_x = (labelRect.left + labelRect.right - 1) * 0.5;
+				label.pos_y = (labelRect.top + labelRect.bottom - 1) * 0.5;
 				currentRect = label_img.getColorBoundsRect(0xffffff, 0xffffff, true);
 			}
 		}

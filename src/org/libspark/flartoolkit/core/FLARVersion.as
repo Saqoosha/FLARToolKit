@@ -41,31 +41,31 @@ package org.libspark.flartoolkit.core
 		/**
 		 * #define AR_HEADER_VERSION_MAJOR 2
 		 */
-		private static const AR_HEADER_VERSION_MAJOR:int = 2; 
+		private static const AR:int_HEADER_VERSION_MAJOR = 2; 
 		/**
 		 * #define AR_HEADER_VERSION_MINOR 72
 		 */
-		private static const AR_HEADER_VERSION_MINOR:int = 72;
+		private static const AR:int_HEADER_VERSION_MINOR = 72;
 		/**
 		 * #define AR_HEADER_VERSION_TINY 0
 		 */
-		private static const AR_HEADER_VERSION_TINY:int = 0;
+		private static const AR:int_HEADER_VERSION_TINY = 0;
 		/**
 		 * #define AR_HEADER_VERSION_BUILD 0
 		 */
-		private static const AR_HEADER_VERSION_BUILD:int = 0;
+		private static const AR:int_HEADER_VERSION_BUILD = 0;
 		/**
 		 * #define AR_HEADER_VERSION_STRING "2.72.0"
 		 */
-		private static const AR_HEADER_VERSION_STRING:String = "2.72.0";
+		private static const AR:String_HEADER_VERSION_STRING = "2.72.0";
 		/**
 		 * #define AR_HAVE_HEADER_VERSION_2
 		 */
-		public static const AR_HAVE_HEADER_VERSION_2:Boolean = true;
+		public static const AR:boolean_HAVE_HEADER_VERSION_2 = true;
 		/**
 		 * #define AR_HAVE_HEADER_VERSION_2_72
 		 */
-		public static const AR_HAVE_HEADER_VERSION_2_72:Boolean = true;
+		public static const AR:boolean_HAVE_HEADER_VERSION_2_72 = true;
 
 		public static function getARVersion():String
 		{
@@ -84,6 +84,8 @@ package org.libspark.flartoolkit.core
 					+ (int) (0x00000100 * (AR_HEADER_VERSION_TINY % 10))
 					+ (int) (0x00000010 * (AR_HEADER_VERSION_BUILD / 10))
 					+ (int) (0x00000001 * (AR_HEADER_VERSION_BUILD % 10));
+
 		}
 	}
+	
 }

@@ -29,24 +29,22 @@
  */
 
 package org.libspark.flartoolkit.detector {
-	import flash.display.BitmapData;
-	import flash.geom.Point;
-	
+	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.IFLARRasterFilter_RgbToBin;
 	import org.libspark.flartoolkit.FLARException;
-	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.FLARSquare;
 	import org.libspark.flartoolkit.core.FLARSquareDetector;
 	import org.libspark.flartoolkit.core.FLARSquareStack;
 	import org.libspark.flartoolkit.core.IFLARSquareDetector;
 	import org.libspark.flartoolkit.core.match.FLARMatchPatt_Color_WITHOUT_PCA;
 	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.pickup.FLARDynamicRatioColorPatt_O3;
+	import org.libspark.flartoolkit.core.pickup.FLARColorPatt_O3;
 	import org.libspark.flartoolkit.core.pickup.IFLARColorPatt;
-	import org.libspark.flartoolkit.core.raster.FLARRaster_BitmapData;
-	import org.libspark.flartoolkit.core.raster.IFLARRaster;
-	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
+	import org.libspark.flartoolkit.core.raster.FLARBinRaster;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_BitmapDataThreshold;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_ARToolkitThreshold;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
@@ -107,35 +105,15 @@ package org.libspark.flartoolkit.detector {
 			// 比較コードの解像度は全部同じかな？（違うとパターンを複数種つくらないといけないから）
 			const cw:int = i_code[0].getWidth();
 			const ch:int = i_code[0].getHeight();
-			const mpw:uint = FLARCode(i_code[0]).markerPercentWidth;
-			const mph:uint = FLARCode(i_code[0]).markerPercentHeight;
 			for (var i:int = 1; i < i_number_of_code; i++) {
 				if (cw != i_code[i].getWidth() || ch != i_code[i].getHeight()) {
 					// 違う解像度のが混ざっている。
 					//throw new FLARException();
 					throw new FLARException("all patterns in an application must be the same width and height.");
 				}
-				
-				// SOC: added markerPercentWidth/Height checking
-				if (mpw != i_code[i].markerPercentWidth || mph != i_code[i].markerPercentHeight) {
-					throw new FLARException("all patterns in an application must have the same ratio of pattern-to-border width and height.");
-				}
 			}
-			
-			// SOC: replaced FLARColorPatt_O3 with FLARDynamicRatioColorPatt_O3,
-			//		to match FLARSingleMarkerDetector and
-			//		to enable better tracking of variable-border-width markers. 
-//			// 評価パターンのホルダを作る
-//			this._patt = new FLARColorPatt_O3(cw, ch);
-			
-			//マーカ幅を算出
-			var markerWidthByDec:Number = i_code[0].markerPercentWidth / 10;
-			//マーカ高を算出
-			var markerHeightByDec:Number = i_code[0].markerPercentHeight / 10;
-
-			//評価パターンのホルダを作成
-			this._patt = new FLARDynamicRatioColorPatt_O3(cw, ch, markerWidthByDec, markerHeightByDec);
-			
+			// 評価パターンのホルダを作る
+			this._patt = new FLARColorPatt_O3(cw, ch);
 			this._number_of_code = i_number_of_code;
 
 			this._marker_width = i_marker_width;
@@ -149,7 +127,11 @@ package org.libspark.flartoolkit.detector {
 		private var _bin_raster:IFLARRaster;
 
 //		private var _tobin_filter:FLARRasterFilter_ARToolkitThreshold = new FLARRasterFilter_ARToolkitThreshold(100);
-		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
+//		private var _tobin_filter:FLARRasterFilter_BitmapDataThreshold = new FLARRasterFilter_BitmapDataThreshold(100);
+		private var _tobin_filter:IFLARRasterFilter_RgbToBin = new FLARRasterFilter_BitmapDataThreshold(100);
+
+		public function get filter ():IFLARRasterFilter_RgbToBin { return _tobin_filter; }
+		public function set filter (f:IFLARRasterFilter_RgbToBin):void { if (f != null) _tobin_filter = f; }
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -168,19 +150,9 @@ package org.libspark.flartoolkit.detector {
 			}
 
 			// ラスタを２値イメージに変換する.
-			// SOC: threshold incoming image according to brightness.
-			//		passing -1 for threshold allows developers to apply custom thresholding algorithms
-			//		prior to passing source image to FLARToolkit.
-			if (i_threshold != -1) {
-				// apply FLARToolkit thresholding
-				this._tobin_filter.setThreshold(i_threshold);
-				this._tobin_filter.doFilter(i_raster, this._bin_raster);
-			} else {
-				// copy source BitmapData as-is, without applying FLARToolkit thresholding
-				var srcBitmapData:BitmapData = FLARRgbRaster_BitmapData(i_raster).bitmapData;
-				var dstBitmapData:BitmapData = FLARRaster_BitmapData(this._bin_raster).bitmapData;
-				dstBitmapData.copyPixels(srcBitmapData, srcBitmapData.rect, new Point());
-			}
+			// SOC: threshold incoming image according to brightness
+			this._tobin_filter.setThreshold(i_threshold);
+			this._tobin_filter.doFilter(i_raster, this._bin_raster);
 
 			var l_square_list:FLARSquareStack = this._square_list;
 			// スクエアコードを探す
@@ -334,24 +306,7 @@ package org.libspark.flartoolkit.detector {
 		public function set sizeCheckEnabled(value:Boolean):void {
 			this._sizeCheckEnabled = value;
 		}
-		
-		/**
-		 * SOC: added accessor for thresholded BitmapData of source image,
-		 * for use in debugging.
-		 */
-		public function get thresholdedBitmapData () :BitmapData {
-			try {
-				return FLARRaster_BitmapData(this._bin_raster).bitmapData;
-			} catch (e:Error) {
-				return null;
-			}
-			
-			return null;
-		}
-		
-		public function get labelingBitmapData () :BitmapData {
-			return FLARSquareDetector(this._square_detect).labelingBitmapData;
-		}
+
 	}
 }
 

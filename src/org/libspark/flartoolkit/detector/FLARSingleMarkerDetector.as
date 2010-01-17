@@ -169,7 +169,7 @@ package org.libspark.flartoolkit.detector {
 			// パターンを評価器にセット
 			if (!this._match_patt.setPatt(this._patt)) {
 				// 計算に失敗した。
-				return false;
+				throw new FLARException();
 			}
 			// コードと比較する
 			this._match_patt.evaluate(this._code);

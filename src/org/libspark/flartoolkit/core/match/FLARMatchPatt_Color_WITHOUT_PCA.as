@@ -83,11 +83,10 @@ package org.libspark.flartoolkit.core.match {
 
 			// input配列のサイズとwhも更新// input=new int[height][width][3];
 			reallocInputArray(i_target_patt.getWidth(), i_target_patt.getHeight());
-			var lwidth:int = this.width;			// width of detected pattern (within detected square outline) to check
-			var lheight:int = this.height;			// height of detected pattern (within detected square outline) to check
-			linput = this.input;					// new int[height][width][3]
-			data = i_target_patt.getPatArray();		// contents of detected pattern (within detected square outline) to check.
-													// also an int[height][width][3] -- RGB per pixel of pattern
+			var lwidth:int = this.width;
+			var lheight:int = this.height;
+			linput = this.input;
+			data = i_target_patt.getPatArray();
 
 			var sum:int = 0;
 			var l_ave:int = 0;
@@ -108,10 +107,7 @@ package org.libspark.flartoolkit.core.match {
 					l_ave += 255 * 3 - data_i_k[0] - data_i_k[1] - data_i_k[2];
 				}
 			}
-			
-			// SOC: average pixel brightness of detected pattern
 			l_ave /= (lheight * lwidth * 3);
-			
 			for (i = lheight - 1;i >= 0; i--) {
 				// for(i=0;i<height;i++){//for(int i=0;i<Config.AR_PATT_SIZE_Y;i++){
 				input_i = linput[i];
@@ -123,10 +119,6 @@ package org.libspark.flartoolkit.core.match {
 					// input[i][i2][i3] = (255-data[i][i2][i3]) - l_ave;
 					// sum += input[i][i2][i3]*input[i][i2][i3];
 					// }
-					
-					// SOC: store per-pixel deviation from average pixel brightness for all three channels,
-					//		in linput (same as this.input)
-					
 					data_i_k = data_i[k];
 					input_i_k = input_i[k];
 					w_sum = (255 - data_i_k[0]) - l_ave;
@@ -143,15 +135,9 @@ package org.libspark.flartoolkit.core.match {
 				// </Optimize>
 				}
 			}
-			
-			// SOC: datapow is the average per-pixel deviation from the average brightness in the detected pattern,
-			//		and is used in evaluate() to reduce the confidence calculation to a value between 0 and 1.
 			datapow = Math.sqrt(sum);
 			if (datapow == 0.0) {
-				// SOC: set minimum value for datapow, to avoid dividing by 0 in evaluate()
-				datapow = 1/lwidth/lheight/3;
-				
-//				return false;// throw new FLARException();
+				return false;// throw new FLARException();
 			// dir.set(0);//*dir = 0;
 			// cf.set(-1.0);//*cf = -1.0;
 			// return -1;

@@ -6,14 +6,62 @@
 			<authoring_tool>Blender v:248 - Illusoft Collada Exporter v:0.3.160</authoring_tool>
 			<comments></comments>
 			<copyright></copyright>
-			<source_data>file:///Volumes/Data/FLARToolKit/libs/trunk/starter-kit/model/earth.blend</source_data>
+			<source_data>file:///Users/hiko/Desktop/earth.blend</source_data>
 		</contributor>
-		<created>2009-10-06T03:00:10.785648</created>
-		<modified>2009-10-06T03:00:10.785666</modified>
+		<created>2009-06-03T02:28:32.946589</created>
+		<modified>2009-06-03T02:28:32.946607</modified>
 		<unit meter="0.01" name="centimeter"/>
 		<up_axis>Z_UP</up_axis>
 	</asset>
 	<library_effects>
+		<effect id="i800px-Earthmap1000x50-fx" name="i800px-Earthmap1000x50-fx">
+			<profile_COMMON>
+				<newparam sid="i800px-Earthmap1000x50-surface">
+					<surface type="2D">
+						<init_from>800px-Earthmap1000x50-img</init_from>
+						<format>A8R8G8B8</format>
+					</surface>
+				</newparam>
+				<newparam sid="i800px-Earthmap1000x50-sampler">
+					<sampler2D>
+						<source>i800px-Earthmap1000x50-surface</source>
+						<minfilter>LINEAR_MIPMAP_LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="blender">
+					<phong>
+						<emission>
+							<color>0.00000 0.00000 0.00000 1</color>
+						</emission>
+						<ambient>
+							<color>0.40000 0.40000 0.40000 1</color>
+						</ambient>
+						<diffuse>
+							<texture texcoord="CHANNEL1" texture="i800px-Earthmap1000x50-sampler"/>
+						</diffuse>
+						<specular>
+							<color>0.50000 0.50000 0.50000 1</color>
+						</specular>
+						<shininess>
+							<float>12.5</float>
+						</shininess>
+						<reflective>
+							<color>1.00000 1.00000 1.00000 1</color>
+						</reflective>
+						<reflectivity>
+							<float>0.0</float>
+						</reflectivity>
+						<transparent>
+							<color>1 1 1 1</color>
+						</transparent>
+						<transparency>
+							<float>0.0</float>
+						</transparency>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
 		<effect id="shadow_png-fx" name="shadow_png-fx">
 			<profile_COMMON>
 				<newparam sid="shadow_png-surface">
@@ -62,114 +110,24 @@
 				</technique>
 			</profile_COMMON>
 		</effect>
-		<effect id="i800px-Earthmap100-fx" name="i800px-Earthmap100-fx">
-			<profile_COMMON>
-				<newparam sid="i800px-Earthmap100-surface">
-					<surface type="2D">
-						<init_from>800px-Earthmap100-img</init_from>
-						<format>A8R8G8B8</format>
-					</surface>
-				</newparam>
-				<newparam sid="i800px-Earthmap100-sampler">
-					<sampler2D>
-						<source>i800px-Earthmap100-surface</source>
-						<minfilter>LINEAR_MIPMAP_LINEAR</minfilter>
-						<magfilter>LINEAR</magfilter>
-					</sampler2D>
-				</newparam>
-				<technique sid="blender">
-					<phong>
-						<emission>
-							<color>0.00000 0.00000 0.00000 1</color>
-						</emission>
-						<ambient>
-							<color>0.40000 0.40000 0.40000 1</color>
-						</ambient>
-						<diffuse>
-							<texture texcoord="CHANNEL1" texture="i800px-Earthmap100-sampler"/>
-						</diffuse>
-						<specular>
-							<color>0.50000 0.50000 0.50000 1</color>
-						</specular>
-						<shininess>
-							<float>12.5</float>
-						</shininess>
-						<reflective>
-							<color>1.00000 1.00000 1.00000 1</color>
-						</reflective>
-						<reflectivity>
-							<float>0.0</float>
-						</reflectivity>
-						<transparent>
-							<color>1 1 1 1</color>
-						</transparent>
-						<transparency>
-							<float>0.0</float>
-						</transparency>
-					</phong>
-				</technique>
-			</profile_COMMON>
-		</effect>
 	</library_effects>
 	<library_images>
-		<image id="shadow_png-img" name="shadow_png-img">
-			<init_from>../../../volumes/data/flartoolkit/libs/trunk/starter-kit/model/shadow.png</init_from>
+		<image id="800px-Earthmap1000x50-img" name="800px-Earthmap1000x50-img">
+			<init_from>800px-earthmap1000x500.jpg</init_from>
 		</image>
-		<image id="800px-Earthmap100-img" name="800px-Earthmap100-img">
-			<init_from>../../../volumes/data/flartoolkit/libs/trunk/starter-kit/model/800px-earthmap1000x500.jpg</init_from>
+		<image id="shadow_png-img" name="shadow_png-img">
+			<init_from>shadow.png</init_from>
 		</image>
 	</library_images>
 	<library_materials>
+		<material id="i800px-Earthmap1000x50" name="i800px-Earthmap1000x50">
+			<instance_effect url="#i800px-Earthmap1000x50-fx"/>
+		</material>
 		<material id="shadow_png" name="shadow_png">
 			<instance_effect url="#shadow_png-fx"/>
 		</material>
-		<material id="i800px-Earthmap100" name="i800px-Earthmap100">
-			<instance_effect url="#i800px-Earthmap100-fx"/>
-		</material>
 	</library_materials>
 	<library_geometries>
-		<geometry id="Shadow-Geometry" name="Shadow-Geometry">
-			<mesh>
-				<source id="Shadow-Geometry-Position">
-					<float_array count="12" id="Shadow-Geometry-Position-array">1.00000 1.00000 -0.00000 1.00000 -1.00000 -0.00000 -1.00000 -1.00000 0.00000 -1.00000 1.00000 0.00000</float_array>
-					<technique_common>
-						<accessor count="4" source="#Shadow-Geometry-Position-array" stride="3">
-							<param type="float" name="X"></param>
-							<param type="float" name="Y"></param>
-							<param type="float" name="Z"></param>
-						</accessor>
-					</technique_common>
-				</source>
-				<source id="Shadow-Geometry-Normals">
-					<float_array count="3" id="Shadow-Geometry-Normals-array">0.00000 0.00000 1.00000</float_array>
-					<technique_common>
-						<accessor count="1" source="#Shadow-Geometry-Normals-array" stride="3">
-							<param type="float" name="X"></param>
-							<param type="float" name="Y"></param>
-							<param type="float" name="Z"></param>
-						</accessor>
-					</technique_common>
-				</source>
-				<source id="Shadow-Geometry-UV">
-					<float_array count="12" id="Shadow-Geometry-UV-array">1.00000 1.00000 0.00000 1.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 1.00000 1.00000</float_array>
-					<technique_common>
-						<accessor count="6" source="#Shadow-Geometry-UV-array" stride="2">
-							<param type="float" name="S"></param>
-							<param type="float" name="T"></param>
-						</accessor>
-					</technique_common>
-				</source>
-				<vertices id="Shadow-Geometry-Vertex">
-					<input semantic="POSITION" source="#Shadow-Geometry-Position"/>
-				</vertices>
-				<triangles count="2" material="shadow_png">
-					<input offset="0" semantic="VERTEX" source="#Shadow-Geometry-Vertex"/>
-					<input offset="1" semantic="NORMAL" source="#Shadow-Geometry-Normals"/>
-					<input offset="2" semantic="TEXCOORD" source="#Shadow-Geometry-UV"/>
-					<p>0 0 0 3 0 1 2 0 2 2 0 3 1 0 4 0 0 5</p>
-				</triangles>
-			</mesh>
-		</geometry>
 		<geometry id="Earth-Geometry" name="Earth-Geometry">
 			<mesh>
 				<source id="Earth-Geometry-Position">
@@ -204,7 +162,7 @@
 				<vertices id="Earth-Geometry-Vertex">
 					<input semantic="POSITION" source="#Earth-Geometry-Position"/>
 				</vertices>
-				<triangles count="320" material="i800px-Earthmap100">
+				<triangles count="320" material="i800px-Earthmap1000x50">
 					<input offset="0" semantic="VERTEX" source="#Earth-Geometry-Vertex"/>
 					<input offset="1" semantic="NORMAL" source="#Earth-Geometry-Normals"/>
 					<input offset="2" semantic="TEXCOORD" source="#Earth-Geometry-UV"/>
@@ -212,26 +170,51 @@
 				</triangles>
 			</mesh>
 		</geometry>
+		<geometry id="Plane-Geometry" name="Plane-Geometry">
+			<mesh>
+				<source id="Plane-Geometry-Position">
+					<float_array count="12" id="Plane-Geometry-Position-array">1.00000 1.00000 -0.00000 1.00000 -1.00000 -0.00000 -1.00000 -1.00000 0.00000 -1.00000 1.00000 0.00000</float_array>
+					<technique_common>
+						<accessor count="4" source="#Plane-Geometry-Position-array" stride="3">
+							<param type="float" name="X"></param>
+							<param type="float" name="Y"></param>
+							<param type="float" name="Z"></param>
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="Plane-Geometry-Normals">
+					<float_array count="3" id="Plane-Geometry-Normals-array">0.00000 0.00000 1.00000</float_array>
+					<technique_common>
+						<accessor count="1" source="#Plane-Geometry-Normals-array" stride="3">
+							<param type="float" name="X"></param>
+							<param type="float" name="Y"></param>
+							<param type="float" name="Z"></param>
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="Plane-Geometry-UV">
+					<float_array count="12" id="Plane-Geometry-UV-array">1.00000 1.00000 0.00000 1.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 1.00000 1.00000</float_array>
+					<technique_common>
+						<accessor count="6" source="#Plane-Geometry-UV-array" stride="2">
+							<param type="float" name="S"></param>
+							<param type="float" name="T"></param>
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="Plane-Geometry-Vertex">
+					<input semantic="POSITION" source="#Plane-Geometry-Position"/>
+				</vertices>
+				<triangles count="2" material="shadow_png">
+					<input offset="0" semantic="VERTEX" source="#Plane-Geometry-Vertex"/>
+					<input offset="1" semantic="NORMAL" source="#Plane-Geometry-Normals"/>
+					<input offset="2" semantic="TEXCOORD" source="#Plane-Geometry-UV"/>
+					<p>0 0 0 3 0 1 2 0 2 2 0 3 1 0 4 0 0 5</p>
+				</triangles>
+			</mesh>
+		</geometry>
 	</library_geometries>
 	<library_visual_scenes>
 		<visual_scene id="Scene" name="Scene">
-			<node layer="L1" id="Shadow" name="Shadow">
-				<matrix>
-					5.0 0.0 0.0 0.0 
-					0.0 5.0 0.0 0.0 
-					0.0 0.0 5.0 0.0 
-					0.0 0.0 0.0 1.0 
-				</matrix>
-				<instance_geometry url="#Shadow-Geometry">
-					<bind_material>
-						<technique_common>
-							<instance_material symbol="shadow_png" target="#shadow_png">
-								<bind_vertex_input input_semantic="TEXCOORD" input_set="1" semantic="CHANNEL1"/>
-							</instance_material>
-						</technique_common>
-					</bind_material>
-				</instance_geometry>
-			</node>
 			<node layer="L1" id="Earth" name="Earth">
 				<matrix>
 					5.0 0.0 0.0 0.0 
@@ -242,7 +225,24 @@
 				<instance_geometry url="#Earth-Geometry">
 					<bind_material>
 						<technique_common>
-							<instance_material symbol="i800px-Earthmap100" target="#i800px-Earthmap100">
+							<instance_material symbol="i800px-Earthmap1000x50" target="#i800px-Earthmap1000x50">
+								<bind_vertex_input input_semantic="TEXCOORD" input_set="1" semantic="CHANNEL1"/>
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_geometry>
+			</node>
+			<node layer="L1" id="Plane" name="Plane">
+				<matrix>
+					5.0 0.0 0.0 0.0 
+					0.0 5.0 0.0 0.0 
+					0.0 0.0 5.0 0.0 
+					0.0 0.0 0.0 1.0 
+				</matrix>
+				<instance_geometry url="#Plane-Geometry">
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="shadow_png" target="#shadow_png">
 								<bind_vertex_input input_semantic="TEXCOORD" input_set="1" semantic="CHANNEL1"/>
 							</instance_material>
 						</technique_common>

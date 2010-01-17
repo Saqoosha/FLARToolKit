@@ -102,16 +102,6 @@ package org.libspark.flartoolkit.core.param {
 			return;
 		}
 
-		public function FLARParam () {
-			this._screen_size.w = 640;
-			this._screen_size.h = 480;
-			this._projection_matrix.setValue([
-				700.9514702992245, 0, 316.5, 0, 0,
-				726.0941816535367, 241.5, 0, 0, 0,
-				1, 0 ]);
-			this._dist.setValue([
-				318.5, 263.5, 26.2, 1.0127565206658486 ]);
-		}
 		
 		/**
 		 * int arParamLoad( const char *filename, int num, ARParam *param, ...);
