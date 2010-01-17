@@ -21,7 +21,7 @@ package {
 			// Initalize application with the path of camera calibration file and patter definition file.
 			// カメラ補正ファイルとパターン定義ファイルのファイル名を渡して初期化。
 			addEventListener(Event.INIT, _onInit);
-			init('Data/camera_para.dat', 'Data/flarlogo.pat');
+			init('../resources/Data/camera_para.dat', '../resources/Data/flarlogo.pat');
 		}
 		
 		private function _onInit(e:Event):void {

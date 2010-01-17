@@ -11,12 +11,12 @@ package {
 		
 		public function Earth() {
 			addEventListener(Event.INIT, _onInit);
-			init('Data/camera_para.dat', 'Data/flarlogo.pat');
+			init('../resources/Data/camera_para.dat', '../resources/Data/flarlogo.pat');
 		}
 		
 		private function _onInit(e:Event):void {
 			_earth = new DAE();
-			_earth.load('model/earth.dae');
+			_earth.load('../resources/model/earth.dae');
 			_earth.scale = 10;
 			_earth.rotationX = 90;
 			_markerNode.addChild(_earth);
