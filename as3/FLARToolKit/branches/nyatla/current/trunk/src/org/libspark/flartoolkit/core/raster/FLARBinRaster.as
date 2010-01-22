@@ -38,15 +38,14 @@ package org.libspark.flartoolkit.core.raster
 	{
 		public function FLARBinRaster(i_width:int,i_height:int)
 		{
-			super(i_width,i_height,INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData);
+			super(i_width,i_height,NyARBufferType.OBJECT_AS3_BitmapData,true);
 		}
-		protected override function initInstance(i_size:NyARIntSize,i_buf_type:int):Boolean
+		protected override function initInstance(i_size:NyARIntSize,i_buf_type:int,i_is_alloc:Boolean):Boolean
 		{
-			if (i_buf_type != INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData) {
+			if (i_buf_type != NyARBufferType.OBJECT_AS3_BitmapData) {
 				throw new FLARException();
 			}
-			this._buf = new BitmapData(i_size.w,i_size.h,false);
-			this._buffer_reader=new NyARBufferReader(this._buf,INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData);
+			this._buf = i_is_alloc?new BitmapData(i_size.w,i_size.h,false):null;
 			return true;
 		}
 	}

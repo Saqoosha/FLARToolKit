@@ -59,7 +59,7 @@ package org.libspark.flartoolkit.detector
 		private var _detect_cb:DetectSquareCB;
 		public static const AR_SQUARE_MAX:int = 300;
 		private var _is_continue:Boolean = false;
-		private var _square_detect:INyARSquareContourDetector;
+		private var _square_detect:NyARSquareContourDetector;
 		protected var _transmat:INyARTransMat;
 		private var _offset:Vector.<NyARRectOffset>;
 
@@ -119,7 +119,7 @@ package org.libspark.flartoolkit.detector
 		
 		private var _bin_raster:FLARBinRaster;
 
-		private var _tobin_filter:INyARRasterFilter_RgbToBin;
+		private var _tobin_filter:INyARRasterFilter_Rgb2Bin;
 
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
@@ -223,7 +223,7 @@ import org.libspark.flartoolkit.core.*
 /**
  * detectMarkerのコールバック関数
  */
-class DetectSquareCB implements DetectMarkerCallback
+class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 {
 	//公開プロパティ
 	public var result_stack:NyARDetectMarkerResultStack=new NyARDetectMarkerResultStack(NyARDetectMarker.AR_SQUARE_MAX);
@@ -234,7 +234,7 @@ class DetectSquareCB implements DetectMarkerCallback
 	private var _deviation_data:NyARMatchPattDeviationColorData;
 	private var _match_patt:Vector.<NyARMatchPatt_Color_WITHOUT_PCA>;
 	private var __detectMarkerLite_mr:NyARMatchPattResult=new NyARMatchPattResult();
-	private var _coordline:Coord2Linear;
+	private var _coordline:NyARCoord2Linear;
 	
 	public function DetectSquareCB(i_inst_patt:INyARColorPatt, i_ref_code:Vector.<FLARCode>, i_num_of_code:int, i_param:NyARParam)
 	{
@@ -242,7 +242,7 @@ class DetectSquareCB implements DetectMarkerCallback
 		var ch:int = i_ref_code[0].getHeight();
 
 		this._inst_patt=i_inst_patt;
-		this._coordline=new Coord2Linear(i_param.getScreenSize(),i_param.getDistortionFactor());
+		this._coordline=new NyARCoord2Linear(i_param.getScreenSize(),i_param.getDistortionFactor());
 		this._deviation_data=new NyARMatchPattDeviationColorData(cw,ch);
 
 		//NyARMatchPatt_Color_WITHOUT_PCA[]の作成
@@ -262,7 +262,7 @@ class DetectSquareCB implements DetectMarkerCallback
 	 * 矩形が見付かるたびに呼び出されます。
 	 * 発見した矩形のパターンを検査して、方位を考慮した頂点データを確保します。
 	 */
-	public function onSquareDetect(i_sender:INyARSquareContourDetector,i_coordx:Vector.<int>,i_coordy:Vector.<int>,i_coor_num:int ,i_vertex_index:Vector.<int>):void
+	public function onSquareDetect(i_sender:NyARSquareContourDetector,i_coordx:Vector.<int>,i_coordy:Vector.<int>,i_coor_num:int ,i_vertex_index:Vector.<int>):void
 	{
 		var mr:NyARMatchPattResult=this.__detectMarkerLite_mr;
 		//輪郭座標から頂点リストに変換
@@ -338,7 +338,7 @@ class NyARDetectMarkerResult
 }
 
 
-class NyARDetectMarkerResultStack extends NyObjectStack
+class NyARDetectMarkerResultStack extends NyARObjectStack
 {
 	public function NyARDetectMarkerResultStack(i_length:int)
 	{

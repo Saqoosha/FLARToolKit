@@ -59,13 +59,13 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 			return;
 		}
 
-		public function labeling(i_bin_raster:NyARBinRaster,o_stack:RleLabelFragmentInfoStack):int
+		public function labeling(i_bin_raster:NyARBinRaster,o_stack:NyARRleLabelFragmentInfoStack):int
 		{
 			var label_img:BitmapData = this._tmp_bmp;
 			label_img.fillRect(label_img.rect, 0x0);
 			var rect:Rectangle = label_img.rect.clone();
 			rect.inflate(-1, -1);
-			label_img.copyPixels(BitmapData(i_bin_raster.getBufferReader().getBuffer()), rect, ONE_POINT);
+			label_img.copyPixels(BitmapData(i_bin_raster.getBuffer()), rect, ONE_POINT);
 			
 			var currentRect:Rectangle = label_img.getColorBoundsRect(0xffffff, 0xffffff, true);
 			hLineRect.y = 0;
@@ -73,7 +73,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 			var hSearchRect:Rectangle;
 			var labelRect:Rectangle;
 			var index:int = 0;
-			var label:RleLabelFragmentInfo;
+			var label:NyARRleLabelFragmentInfo;
 			o_stack.clear();
 			try {
 				while (!currentRect.isEmpty()) {
@@ -83,7 +83,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 					
 					label_img.floodFill(hSearchRect.x, hLineRect.y, ++index);
 					labelRect = label_img.getColorBoundsRect(0xffffff, index, true);
-					label = o_stack.prePush() as RleLabelFragmentInfo;
+					label = o_stack.prePush() as NyARRleLabelFragmentInfo;
 					var area:int = labelRect.width * labelRect.height;
 					//エリア規制
 					if (area <= AR_AREA_MAX && area >= AR_AREA_MIN){
@@ -104,7 +104,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 			}
 			return index;
 		}
-		private function getTopClipTangentX(i_image:BitmapData, i_index:int, i_label:RleLabelFragmentInfo):int
+		private function getTopClipTangentX(i_image:BitmapData, i_index:int, i_label:NyARRleLabelFragmentInfo):int
 		{
 			var w:int;
 			const clip1:int = i_label.clip_r;

@@ -6,9 +6,9 @@
   <compiler>
     <source-path append="true">
       <path-element>D:\sparkproject\FLARToolKit\branches\nyatla\current\trunk\sample\SimpleCube\src</path-element>
-      <path-element>D:\sparkproject\FLARToolKit\branches\nyatla\current\trunk\extlib\NyARToolkitAS3\src</path-element>
       <path-element>D:\sparkproject\FLARToolKit\branches\nyatla\current\trunk\src</path-element>
       <path-element>D:\sparkproject\FLARToolKit\branches\nyatla\current\trunk\extlib\paperVision</path-element>
+      <path-element>D:\sparkproject\FLARToolKit\branches\nyatla\current\trunk\extlib\NyARToolkitAS3-2.5.0\src</path-element>
       <path-element>D:\application.files\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">

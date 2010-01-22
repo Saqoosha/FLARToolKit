@@ -35,7 +35,7 @@ package org.libspark.flartoolkit.core.squaredetect
 	import jp.nyatla.as3utils.*;
 	import jp.nyatla.nyartoolkit.as3.*;
 	
-	public class FLContourPickup extends ContourPickup
+	public class FLContourPickup extends NyARContourPickup
 	{
 		
 		public function FLContourPickup() 
@@ -47,7 +47,7 @@ package org.libspark.flartoolkit.core.squaredetect
 			var xdir:Vector.<int> = _getContour_xdir;// static int xdir[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
 			var ydir:Vector.<int> = _getContour_ydir;// static int ydir[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
 
-			var i_buf:BitmapData=BitmapData(i_raster.getBufferReader().getBuffer());
+			var i_buf:BitmapData=BitmapData(i_raster.getBuffer());
 			var width:int=i_raster.getWidth();
 			var height:int=i_raster.getHeight();
 			//クリップ領域の上端に接しているポイントを得る。

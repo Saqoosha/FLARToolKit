@@ -28,7 +28,7 @@
  */
 package org.libspark.flartoolkit.core.analyzer.raster.threshold 
 {
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histgram.*;
+	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
 	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.threshold.*;
 	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
@@ -43,14 +43,14 @@ package org.libspark.flartoolkit.core.analyzer.raster.threshold
 	{
 		public function FLARRasterThresholdAnalyzer_SlidePTile(i_persentage:int, i_vertical_interval:int)
 		{
-			super(i_persentage, INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData,i_vertical_interval);
+			super(i_persentage, NyARBufferType.OBJECT_AS3_BitmapData,i_vertical_interval);
 		}
 		protected override function initInstance(i_raster_format:int,i_vertical_interval:int):Boolean
 		{
-			if (i_raster_format != INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData) {
+			if (i_raster_format != NyARBufferType.OBJECT_AS3_BitmapData) {
 				return false;
 			}
-			this._raster_analyzer=new FLARRasterAnalyzer_Histgram(i_vertical_interval);
+			this._raster_analyzer=new FLARRasterAnalyzer_Histogram(i_vertical_interval);
 			return true;
 		}
 	}

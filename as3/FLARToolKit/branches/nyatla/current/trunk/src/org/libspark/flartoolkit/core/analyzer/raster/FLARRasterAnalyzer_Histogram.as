@@ -28,7 +28,7 @@
  */
 package org.libspark.flartoolkit.core.analyzer.raster
 {
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.NyARRasterAnalyzer_Histgram;
+	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import jp.nyatla.nyartoolkit.as3.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
@@ -36,15 +36,15 @@ package org.libspark.flartoolkit.core.analyzer.raster
 	import jp.nyatla.as3utils.*;
 	import flash.display.BitmapData;
 	
-	public class FLARRasterAnalyzer_Histgram extends NyARRasterAnalyzer_Histgram
+	public class FLARRasterAnalyzer_Histogram extends NyARRasterAnalyzer_Histogram
 	{
-		public function FLARRasterAnalyzer_Histgram(i_vertical_interval:int)
+		public function FLARRasterAnalyzer_Histogram(i_vertical_interval:int)
 		{
-			super(INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData,i_vertical_interval);
+			super(NyARBufferType.OBJECT_AS3_BitmapData,i_vertical_interval);
 		}
 		protected override function initInstance(i_raster_format:int,i_vertical_interval:int):Boolean
 		{
-			if (i_raster_format != INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData) {
+			if (i_raster_format != NyARBufferType.OBJECT_AS3_BitmapData) {
 				return false;
 			}
 			return true;
@@ -56,7 +56,7 @@ package org.libspark.flartoolkit.core.analyzer.raster
 		 * @return
 		 * @throws NyARException
 		 */
-		public override function analyzeRaster(i_input:INyARRaster,o_histgram:NyARHistgram):int
+		public override function analyzeRaster(i_input:INyARRaster,o_histgram:NyARHistogram):int
 		{
 			var size:NyARIntSize=i_input.getSize();
 			//最大画像サイズの制限
@@ -69,13 +69,13 @@ package org.libspark.flartoolkit.core.analyzer.raster
 				h[i] = 0;
 			}
 			o_histgram.total_of_data=size.w*size.h/this._vertical_skip;
-			return createHistgram_AS3_BitmapData(i_input.getBufferReader(), size,h,this._vertical_skip);		
+			return createHistgram_AS3_BitmapData(i_input, size,h,this._vertical_skip);		
 		}
 		
-		private function createHistgram_AS3_BitmapData(i_reader:INyARBufferReader,i_size:NyARIntSize,o_histgram:Vector.<int>,i_skip:int):int
+		private function createHistgram_AS3_BitmapData(i_reader:INyARRaster,i_size:NyARIntSize,o_histgram:Vector.<int>,i_skip:int):int
 		{
 			//[Todo:]この方法だとパフォーマンスでないから、Bitmapdataの
-			NyAS3Utils.assert (i_reader.isEqualBufferType(INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData));
+			NyAS3Utils.assert (i_reader.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
 			var input:BitmapData=BitmapData(i_reader.getBuffer());
 			for (var y:int = i_size.h-1; y >=0 ; y-=i_skip){
 				var pt:int=y*i_size.w;
