@@ -28,7 +28,7 @@
  */
 package org.libspark.flartoolkit.core.rasterfilter.rgb2bin
 {
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.INyARRasterFilter_RgbToBin;
+	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
@@ -43,7 +43,7 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin
 	 * 定数閾値による2値化をする。
 	 * 
 	 */
-	public class FLARRasterFilter_Threshold implements INyARRasterFilter_RgbToBin
+	public class FLARRasterFilter_Threshold implements INyARRasterFilter_Rgb2Bin
 	{
 		private var _threshold:int;
 		private var _do_threshold_impl:IdoThFilterImpl;
@@ -62,11 +62,8 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin
 		}
 		public function doFilter(i_input:INyARRgbRaster, i_output:NyARBinRaster):void
 		{
-			var in_buffer_reader:INyARBufferReader=i_input.getBufferReader();	
-			var out_buffer_reader:INyARBufferReader=i_output.getBufferReader();
-
 			NyAS3Utils.assert (i_input.getSize().isEqualSize_NyARIntSize(i_output.getSize()) == true);
-			this._do_threshold_impl.doThFilter(in_buffer_reader,out_buffer_reader,i_output.getSize(), this._threshold);
+			this._do_threshold_impl.doThFilter(i_input,i_output,i_output.getSize(), this._threshold);
 			return;
 		}		
 		
@@ -82,7 +79,7 @@ import jp.nyatla.nyartoolkit.as3.core.types.*;
  */
 interface IdoThFilterImpl
 {
-	function doThFilter(i_input:INyARBufferReader,i_output:INyARBufferReader,i_size:NyARIntSize,i_threshold:int):void;
+	function doThFilter(i_input:INyARRaster,i_output:INyARRaster,i_size:NyARIntSize,i_threshold:int):void;
 }
 
 import flash.filters.ColorMatrixFilter;
@@ -101,10 +98,10 @@ class doThFilterImpl_BUFFERFORMAT_OBJECT_AS3_BitmapData implements IdoThFilterIm
 		0, 0, 0, 1, 0
 	]);
 	private var _tmp:BitmapData;	
-	public function doThFilter(i_input:INyARBufferReader,i_output:INyARBufferReader,i_size:NyARIntSize,i_threshold:int):void
+	public function doThFilter(i_input:INyARRaster,i_output:INyARRaster,i_size:NyARIntSize,i_threshold:int):void
 	{
-		NyAS3Utils.assert (i_input.isEqualBufferType(INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData));
-		NyAS3Utils.assert (i_output.isEqualBufferType(INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData));
+		NyAS3Utils.assert (i_input.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+		NyAS3Utils.assert (i_output.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
 		
 		var out_buf:BitmapData = BitmapData(i_output.getBuffer());
 		var in_buf:BitmapData= BitmapData(i_input.getBuffer());

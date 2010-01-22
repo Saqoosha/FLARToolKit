@@ -39,7 +39,7 @@ package org.libspark.flartoolkit.core.squaredetect
 	import org.libspark.flartoolkit.core.labeling.*;
 	import org.libspark.flartoolkit.core.raster.*;
 	
-	public class FLARSquareContourDetector implements INyARSquareContourDetector
+	public class FLARSquareContourDetector extends NyARSquareContourDetector
 	{
 		private static const AR_AREA_MAX:int = 100000;// #define AR_AREA_MAX 100000
 		private static const AR_AREA_MIN:int = 70;// #define AR_AREA_MIN 70
@@ -50,8 +50,8 @@ package org.libspark.flartoolkit.core.squaredetect
 
 		private var _overlap_checker:NyARLabelOverlapChecker = new NyARLabelOverlapChecker(32);
 		private var _cpickup:FLContourPickup=new FLContourPickup();
-		private var _stack:RleLabelFragmentInfoStack;
-		private var _coord2vertex:Coord2SquareVertexIndexes=new Coord2SquareVertexIndexes();
+		private var _stack:NyARRleLabelFragmentInfoStack;
+		private var _coord2vertex:NyARCoord2SquareVertexIndexes=new NyARCoord2SquareVertexIndexes();
 		
 		private var _max_coord:int;
 		private var _xcoord:Vector.<int>;
@@ -67,7 +67,7 @@ package org.libspark.flartoolkit.core.squaredetect
 			this._height = i_size.h;
 			//ラベリングのサイズを指定したいときはsetAreaRangeを使ってね。
 			this._labeling = new FLARLabeling(this._width,this._height);
-			this._stack=new RleLabelFragmentInfoStack(i_size.w*i_size.h*2048/(320*240)+32);//検出可能な最大ラベル数
+			this._stack=new NyARRleLabelFragmentInfoStack(i_size.w*i_size.h*2048/(320*240)+32);//検出可能な最大ラベル数
 			
 
 			// 輪郭の最大長は画面に映りうる最大の長方形サイズ。
@@ -82,9 +82,9 @@ package org.libspark.flartoolkit.core.squaredetect
 
 		private var __detectMarker_mkvertex:Vector.<int> = new Vector.<int>(4);
 		
-		public function detectMarkerCB(i_raster:NyARBinRaster ,i_callback:DetectMarkerCallback):void
+		public override function detectMarkerCB(i_raster:NyARBinRaster ,i_callback:NyARSquareContourDetector_IDetectMarkerCallback):void
 		{
-			var flagment:RleLabelFragmentInfoStack=this._stack;
+			var flagment:NyARRleLabelFragmentInfoStack=this._stack;
 			var overlap:NyARLabelOverlapChecker = this._overlap_checker;
 
 			// ラベル数が0ならここまで
@@ -95,7 +95,7 @@ package org.libspark.flartoolkit.core.squaredetect
 			//ラベルをソートしておく
 			flagment.sortByArea();
 			//ラベルリストを取得
-			var labels:Vector.<RleLabelFragmentInfo>=Vector.<RleLabelFragmentInfo>(flagment.getArray());
+			var labels:Vector.<NyARRleLabelFragmentInfo>=Vector.<NyARRleLabelFragmentInfo>(flagment.getArray());
 
 			var xsize:int = this._width;
 			var ysize:int = this._height;
@@ -109,7 +109,7 @@ package org.libspark.flartoolkit.core.squaredetect
 			overlap.setMaxLabels(label_num);
 
 			for (var i:int=0; i < label_num; i++) {
-				var label_pt:RleLabelFragmentInfo=labels[i];
+				var label_pt:NyARRleLabelFragmentInfo=labels[i];
 				var label_area:int = label_pt.area;
 			
 				// クリップ領域が画面の枠に接していれば除外
@@ -146,18 +146,4 @@ package org.libspark.flartoolkit.core.squaredetect
 			return;
 		}
 	}
-}
-import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-
-class NyARLabelOverlapChecker extends LabelOverlapChecker
-{
-	public function NyARLabelOverlapChecker(i_max_label:int)
-	{
-		super(i_max_label);
-	}
-	protected override function createArray(i_length:int):Vector.<*>
-	{
-		return new Vector.<NyARLabelInfo>(i_length);
-	}	
 }

@@ -31,81 +31,32 @@ package org.libspark.flartoolkit.core.raster.rgb
 	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
+	import org.libspark.flartoolkit.core.rasterreader.*;
 	import flash.display.BitmapData;
 
 	public class FLARRgbRaster_BitmapData extends NyARRgbRaster_BasicClass
 	{
 		private var _bitmapData:BitmapData;
-		private var _rgb_reader:RgbReader;
-		private var _buffer_reader:NyARBufferReader;
+		private var _rgb_reader:FLARRgbPixelReader_BitmapData;
 
 		public function FLARRgbRaster_BitmapData(i_width:int,i_height:int)
 		{
-			super(new NyARIntSize(i_width, i_height));
+			super(new NyARIntSize(i_width, i_height),NyARBufferType.OBJECT_AS3_BitmapData);
 			this._bitmapData = new BitmapData(i_width,i_height,false);
-			this._rgb_reader = new RgbReader(this._bitmapData);
-			this._buffer_reader = new NyARBufferReader(this._bitmapData, INyARBufferReader.BUFFERFORMAT_OBJECT_AS3_BitmapData);
+			this._rgb_reader = new FLARRgbPixelReader_BitmapData(this._bitmapData);
 		}
-
 		public override function getRgbPixelReader():INyARRgbPixelReader
 		{
 			return this._rgb_reader;
 		}
-
-		public override function getBufferReader():INyARBufferReader
+		public override function getBuffer():Object
 		{
-			return this._buffer_reader;
+			return this._bitmapData;
+		}
+		public override function hasBuffer():Boolean
+		{
+			return this._bitmapData != null;
 		}
 	}
-}
-
-import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
-import flash.display.BitmapData;
-import jp.nyatla.nyartoolkit.as3.*;
-
-
-
-	
-class RgbReader implements INyARRgbPixelReader
-{
-	private var _ref_bitmap:BitmapData;
-
-	public function RgbReader(i_buffer:BitmapData)
-	{
-		this._ref_bitmap = i_buffer;
-	}
-
-	public function getPixel(i_x:int, i_y:int, o_rgb:Vector.<int>):void
-	{
-		var c:int = this._ref_bitmap.getPixel(i_x, i_y);
-		o_rgb[0] = (c >> 16) & 0xff;// R
-		o_rgb[1] = (c >> 8) & 0xff;// G
-		o_rgb[2] = c & 0xff;// B
-		return;
-	}
-	
-	public function getPixelSet(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, o_rgb:Vector.<int>):void
-	{
-		var bmp:BitmapData = this._ref_bitmap;
-		var c:int;
-		var i:int;
-		for (i = 0; i < i_num; i++) {
-			c = bmp.getPixel(i_x[i], i_y[i]);
-			o_rgb[i*3+0] = (c >> 16) & 0xff;
-			o_rgb[i*3+1] = (c >> 8) & 0xff;
-			o_rgb[i*3+2] = c & 0xff;
-		}
-	}
-
-	public function setPixel(i_x:int, i_y:int, i_rgb:Vector.<int>):void
-	{
-		NyARException.notImplement();
-	}
-	public function setPixels(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, i_intrgb:Vector.<int>):void
-	{
-		NyARException.notImplement();
-	}
-	
-	
 }
 

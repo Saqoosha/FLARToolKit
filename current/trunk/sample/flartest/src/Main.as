@@ -84,7 +84,7 @@ package{
 				function(data:ByteArray):void
 				{
 					var r:FLARRgbRaster_BitmapData = new FLARRgbRaster_BitmapData(320,240);
-					var b:BitmapData =	BitmapData(r.getBufferReader().getBuffer());
+					var b:BitmapData =	BitmapData(r.getBuffer());
 					data.endian = Endian.LITTLE_ENDIAN;
 					for (var i:int = 0; i < 320 * 240; i++) {
 						b.setPixel(i%320,i/320,data.readInt());
@@ -97,7 +97,7 @@ package{
 				function(data:ByteArray):void
 				{
 					var r:FLARRgbRaster_BitmapData = new FLARRgbRaster_BitmapData(320, 240);
-					var b:BitmapData =	BitmapData(r.getBufferReader().getBuffer());
+					var b:BitmapData =	BitmapData(r.getBuffer());
 					data.endian = Endian.LITTLE_ENDIAN;
 					for (var i:int = 0; i < 320 * 240; i++) {
 						b.setPixel(i%320,i/320,data.readInt());

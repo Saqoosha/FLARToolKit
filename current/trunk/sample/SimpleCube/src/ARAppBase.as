@@ -90,7 +90,7 @@ package {
 			
 			// setup ARToolkit
 			_raster = new FLARRgbRaster_BitmapData(_width,_height);
-			_capture = new Bitmap(BitmapData(_raster.getBufferReader().getBuffer()), PixelSnapping.AUTO, true);
+			_capture = new Bitmap(BitmapData(_raster.getBuffer()), PixelSnapping.AUTO, true);
 			_detector = new FLARSingleMarkerDetector(_param, _code, _codeWidth);
 			_detector.setContinueMode(true);
 			

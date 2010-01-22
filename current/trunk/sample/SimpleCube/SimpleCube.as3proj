@@ -14,9 +14,9 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\..\extlib\NyARToolkitAS3\src" />
     <class path="..\..\src" />
     <class path="..\..\extlib\paperVision" />
+    <class path="..\..\extlib\NyARToolkitAS3-2.5.0\src" />
   </classpaths>
   <!-- Build options -->
   <build>

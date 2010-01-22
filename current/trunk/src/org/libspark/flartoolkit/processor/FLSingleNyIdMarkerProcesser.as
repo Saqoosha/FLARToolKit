@@ -239,7 +239,7 @@ import org.libspark.flartoolkit.core.squaredetect.*;
 /**
  * detectMarkerのコールバック関数
  */
-class DetectSquareCB implements DetectMarkerCallback
+class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 {
 	//公開プロパティ
 	public var square:FLARSquare=new FLARSquare();
@@ -252,7 +252,7 @@ class DetectSquareCB implements DetectMarkerCallback
 	//所有インスタンス
 	private var _current_data:INyIdMarkerData;
 	private var _id_pickup:NyIdMarkerPickup = new NyIdMarkerPickup();
-	private var _coordline:Coord2Linear;
+	private var _coordline:NyARCoord2Linear;
 	private var _encoder:INyIdMarkerDataEncoder;
 
 	
@@ -261,7 +261,7 @@ class DetectSquareCB implements DetectMarkerCallback
 	
 	public function DetectSquareCB(i_param:NyARParam,i_encoder:INyIdMarkerDataEncoder)
 	{
-		this._coordline=new Coord2Linear(i_param.getScreenSize(),i_param.getDistortionFactor());
+		this._coordline=new NyARCoord2Linear(i_param.getScreenSize(),i_param.getDistortionFactor());
 		this._data_temp=i_encoder.createDataInstance();
 		this._current_data=i_encoder.createDataInstance();
 		this._encoder=i_encoder;
@@ -284,7 +284,7 @@ class DetectSquareCB implements DetectMarkerCallback
 	 * 矩形が見付かるたびに呼び出されます。
 	 * 発見した矩形のパターンを検査して、方位を考慮した頂点データを確保します。
 	 */
-	public function onSquareDetect(i_sender:INyARSquareContourDetector,i_coordx:Vector.<int>,i_coordy:Vector.<int>,i_coor_num:int,i_vertex_index:Vector.<int>):void
+	public function onSquareDetect(i_sender:NyARSquareContourDetector,i_coordx:Vector.<int>,i_coordy:Vector.<int>,i_coor_num:int,i_vertex_index:Vector.<int>):void
 	{
 		//既に発見済なら終了
 		if(this.marker_data!=null){
