@@ -87,10 +87,10 @@ package {
 			_webcam.setMode(_width, _height, 30);
 			_video = new Video(_width, _height);
 			_video.attachCamera(_webcam);
-			_capture = new Bitmap(new BitmapData(_width, _height, false, 0), PixelSnapping.AUTO, true);
 			
 			// setup ARToolkit
-			_raster = new FLARRgbRaster_BitmapData(_capture.bitmapData);
+			_raster = new FLARRgbRaster_BitmapData(_width,_height);
+			_capture = new Bitmap(BitmapData(_raster.getBuffer()), PixelSnapping.AUTO, true);
 			_detector = new FLARSingleMarkerDetector(_param, _code, _codeWidth);
 			_detector.setContinueMode(true);
 			
