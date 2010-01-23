@@ -1,10 +1,10 @@
 ======================================================================
 FLARToolKit
- version 1.0.0
+ version 2.5.0
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
-Copyright (C)2008 Saqoosha
+Copyright (C)2010 Saqoosha, R.Iizuka(nyatla)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -22,55 +22,63 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 For further information please contact.
  http://www.libspark.org/wiki/saqoosha/FLARToolKit
- <saq(at)saqoosha.net>
+ <wm(at)nyatla.jp> or <saq(at)saqoosha.net>
 
 This work is based on the NyARToolKit developed by
   R.Iizuka (nyatla)
   http://nyatla.jp/nyatoolkit/
 
+contributors
+ eric socolofsky
+ makc
+ tarotaro http://tarotaro.org/
+ rokubou http://sixwish.jp/
+
 ----------------------------------------------------------------------
  About FLARToolKit
 ----------------------------------------------------------------------
- * ARToolKit ‚Ì AS3 ”Å‚Å‚·B
- * AŒÕ—(nyatla)‚ª Java ‚ÉˆÚA‚µ‚½ NyARToolkit ‚ğ
-   ‚³‚ç‚É ActionScript3 ‚ÉˆÚA‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚·B
- * FLARToolKit ‚Í“ü—Í‰æ‘œ‚©‚çƒ}[ƒJ[‚ğ”F¯‚µ‚ÄA3 ŸŒ³‹óŠÔ‚Å‚Ì
-   ƒJƒƒ‰ˆÊ’u‚ğŒvZ‚·‚é‚Æ‚±‚Ü‚Å‚ğ‚â‚Á‚Ä‚­‚ê‚Ü‚·B
- * 3D ƒOƒ‰ƒtƒBƒbƒNƒX‚Æ‚Ì‡¬‚È‚Ç‚ÍŠe©‚ÅÀ‘•‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
- * ‚½‚¾‚µŠÈ’P‚É‡¬‚Å‚«‚é‚æ‚¤‚Éƒwƒ‹ƒp[“I‚È‚à‚Ì‚Í‚Â‚¢‚Ä‚Ü‚·B
-   (Papervision3D, Away3D)
+ * ARToolKit ã® AS3 ç‰ˆã§ã™ã€‚
+ * Flash player 10 ç”¨
+ * Aè™ï¼ (nyatla)æ°ã® NyARToolkit for AS ã‚’åŸºç›¤ã«FLARToolKit v1.xã®
+   ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å¼•ãç¶™ã„ã ãƒ©ã‚¤ãƒ–ãƒ©ãƒªé›†ã§ã™ã€‚
+ * FLARToolKit ã¯å…¥åŠ›ç”»åƒã‹ã‚‰ãƒãƒ¼ã‚«ãƒ¼ã‚’èªè­˜ã—ã¦ã€3 æ¬¡å…ƒç©ºé–“ã§ã®
+   ã‚«ãƒ¡ãƒ©ä½ç½®ã‚’è¨ˆç®—ã™ã‚‹ã¨ã“ã¾ã§ã‚’ã‚„ã£ã¦ãã‚Œã¾ã™ã€‚
+ * 3D ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã¨ã®åˆæˆãªã©ã¯å„è‡ªã§å®Ÿè£…ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+ * ãŸã ã—ç°¡å˜ã«åˆæˆã§ãã‚‹ã‚ˆã†ã«ãƒ˜ãƒ«ãƒ‘ãƒ¼çš„ãªã‚‚ã®ã¯ã¤ã„ã¦ã¾ã™ã€‚
+   (Papervision3D, Away3D, Sandy3D, Alternativa3D)
 
  # AS3 ported version of ARToolKit.
- # Actually, FLARToolKit is based on NyARToolkit,
-   Java ported version of ARToolKit.
+ # Flash player 10 only
+ # This is a library collection that succeeded the interface of
+   FLARToolKit v1.x based on NyARToolkit for AS.
  # FLARToolKit recognize the marker from input image.
    and calculate its orientation and position in 3D world.
  # You should draw 3D graphics by your own.
  # But helper classes for major flash 3D engines
-   (Papervision3D, Away3D)
+   (Papervision3D, Away3D, Sandy3D, Alternativa3D)
 
 ----------------------------------------------------------------------
  FLARToolKit License
 ----------------------------------------------------------------------
-FLARToolKit‚ÍuGPLv‚ÆuCommercialƒ‰ƒCƒZƒ“ƒXv‚Ì
-ƒfƒ…ƒAƒ‹ƒ‰ƒCƒZƒ“ƒX•û®‚ğÌ—p‚µ‚Ä‚¢‚Ü‚·B
-‚Ü‚½AFLARToolKit‚ÍŠÖ˜A‚·‚é‚¢‚­‚Â‚©‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚àŠÜ‚ß‚Ä”z•z‚µ‚Ä‚¢‚Ü‚·B
-ŠÜ‚Ü‚ê‚éƒ‰ƒCƒuƒ‰ƒŠ‚ÍA‚»‚ê‚¼‚ê‚Ìƒ‰ƒCƒZƒ“ƒX‚ª“K‰‚³‚ê‚Ü‚·B
+FLARToolKitã¯ã€ŒGPLã€ã¨ã€ŒCommercialãƒ©ã‚¤ã‚»ãƒ³ã‚¹ã€ã®
+ãƒ‡ãƒ¥ã‚¢ãƒ«ãƒ©ã‚¤ã‚»ãƒ³ã‚¹æ–¹å¼ã‚’æ¡ç”¨ã—ã¦ã„ã¾ã™ã€‚
+ã¾ãŸã€FLARToolKitã¯é–¢é€£ã™ã‚‹ã„ãã¤ã‹ã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚‚å«ã‚ã¦é…å¸ƒã—ã¦ã„ã¾ã™ã€‚
+å«ã¾ã‚Œã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯ã€ãã‚Œãã‚Œã®ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãŒé©å¿œã•ã‚Œã¾ã™ã€‚
 
 [GPL License]
-ƒ‰ƒCƒZƒ“ƒX‚Ì“à—e‚ÍACOPYING.txt‚ğ‚²Šm”F‚­‚¾‚³‚¢
-‚Ü‚½AGPL(the GNU General Public License v3)‚ğ‘I‘ğ‚µ‚½ê‡A
-¤—pE”ñ¤—p‚ğ–â‚í‚¸A–³—¿‚Åg—p‰Â”\‚Å‚·B
-‚½‚¾‚µAGPL‚Å‰Û‚³‚ê‚Ä‚¢‚éğŒ‚É]‚¢AGPL‚ğ“K‰‚µ‚Ä‚¢‚é‚±‚Æ‚Ì’mA
-•À‚Ñ‚Éƒ†[ƒU[‚Ì—v‹‚É‰‚¶‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ\[ƒXƒR[ƒh‚Ì’ñ‹ŸA
-‚±‚ê‚ç‚ğŠÜ‚Ş‹`–±‚ğ—šs‚µ‚Ä‚­‚¾‚³‚¢B
+ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ã®å†…å®¹ã¯ã€COPYING.txtã‚’ã”ç¢ºèªãã ã•ã„
+ã¾ãŸã€GPL(the GNU General Public License v3)ã‚’é¸æŠã—ãŸå ´åˆã€
+å•†ç”¨ãƒ»éå•†ç”¨ã‚’å•ã‚ãšã€ç„¡æ–™ã§ä½¿ç”¨å¯èƒ½ã§ã™ã€‚
+ãŸã ã—ã€GPLã§èª²ã•ã‚Œã¦ã„ã‚‹æ¡ä»¶ã«å¾“ã„ã€GPLã‚’é©å¿œã—ã¦ã„ã‚‹ã“ã¨ã®å‘ŠçŸ¥ã€
+ä¸¦ã³ã«ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®è¦æ±‚ã«å¿œã˜ã¦ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®æä¾›ã€
+ã“ã‚Œã‚‰ã‚’å«ã‚€ç¾©å‹™ã‚’å±¥è¡Œã—ã¦ãã ã•ã„ã€‚
 
 [Commercial License]
-FLARToolKit‚ÍGPL‚ğó‚¯“ü‚ê‚é‚±‚Æ‚ª‚Å‚«‚È‚¢ƒ†[ƒU[‚Ì‚½‚ß‚ÉA
-Commercial License‚ª—L‚ÅARToolworks Inc.‚æ‚è’ñ‹Ÿ‚³‚ê‚Ä‚¢‚Ü‚·B
-ARToolworks Inc.‚æ‚è‹–‘ø‚ğó‚¯‚é‚±‚Æ‚É‚æ‚èAGPL‚Ì§–ñ‚©‚ç
-‰ğ•ú‚³‚ê‚Ü‚·B
-ğŒ‚âƒ‰ƒCƒZƒ“ƒX”ï—p‚É‚Â‚¢‚Ä‚ÍAARToolworks Inc.‚É–â‡‚¹‚Ä‚­‚¾‚³‚¢B
+FLARToolKitã¯GPLã‚’å—ã‘å…¥ã‚Œã‚‹ã“ã¨ãŒã§ããªã„ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãŸã‚ã«ã€
+Commercial LicenseãŒæœ‰å„Ÿã§ARToolworks Inc.ã‚ˆã‚Šæä¾›ã•ã‚Œã¦ã„ã¾ã™ã€‚
+ARToolworks Inc.ã‚ˆã‚Šè¨±è«¾ã‚’å—ã‘ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€GPLã®åˆ¶ç´„ã‹ã‚‰
+è§£æ”¾ã•ã‚Œã¾ã™ã€‚
+æ¡ä»¶ã‚„ãƒ©ã‚¤ã‚»ãƒ³ã‚¹è²»ç”¨ã«ã¤ã„ã¦ã¯ã€ARToolworks Inc.ã«å•åˆã›ã¦ãã ã•ã„ã€‚
 
 ARToolworks Inc. http://www.artoolworks.com/
 mailto : sales@artoolworks.com
@@ -97,13 +105,13 @@ Each license adjusts to the included library.
 ----------------------------------------------------------------------
  Attention
 ----------------------------------------------------------------------
-‚±‚Ìƒo[ƒWƒ‡ƒ“‚ÍA‰ß‹‚É”z•z‚³‚ê‚½Start-kit‚È‚Ç‚©‚ç•œŒ³‚³‚ê‚½‚à‚Ì‚Å‚·B
+ã“ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯ã€éå»ã«é…å¸ƒã•ã‚ŒãŸStart-kitãªã©ã‹ã‚‰å¾©å…ƒã•ã‚ŒãŸã‚‚ã®ã§ã™ã€‚
 This version is the one restored from Start-kit etc. distributed in the past.
 
 ----------------------------------------------------------------------
  Include External library
 ----------------------------------------------------------------------
-[papervision3d Public Beta 2.0]
+[papervision3d 2.1.920]
  Open Source realtime 3D engine for Flash
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
@@ -127,8 +135,21 @@ This version is the one restored from Start-kit etc. distributed in the past.
  License : Commercial licence / Free non-commercial licence
 
 ----------------------------------------------------------------------
+ Special thanks
+----------------------------------------------------------------------
+åŠ è—¤åšä¸€å…ˆç”Ÿ (Hirokazu Kato, Ph. D.)
+ http://www.hitl.washington.edu/artoolkit/
+
+Prof. Mark Billinghurst
+ http://www.hitlabnz.org/
+
+----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.0
+ * Merge NyARToolKit for AS3
+ * Flash plyaer 10 or above.
+
 1.0.0 (2010-01-20)
  * implemented support for debugging display of thresholded and
    labeled BitmapData objects, via accessors in FLARMultiMarkerDetector
