@@ -26,18 +26,32 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core.transmat 
+package org.libspark.flartoolkit.core.analyzer.raster.threshold 
 {
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
+	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
+	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.threshold.*;
+	import jp.nyatla.nyartoolkit.as3.core.analyzer.raster.*;
+	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
+	import jp.nyatla.as3utils.*;
 	
-	public class FLARTransMatResult extends NyARTransMatResult
+	import org.libspark.flartoolkit.core.analyzer.raster.threshold.*;
+	import org.libspark.flartoolkit.core.analyzer.raster.*;
+	
+	public class FLARRasterThresholdAnalyzer_SlidePTile extends NyARRasterThresholdAnalyzer_SlidePTile
 	{
-		
-		public function FLARTransMatResult() 
+		public function FLARRasterThresholdAnalyzer_SlidePTile(i_persentage:int, i_vertical_interval:int)
 		{
-			super();
+			super(i_persentage, NyARBufferType.OBJECT_AS3_BitmapData,i_vertical_interval);
 		}
-		
+		protected override function initInstance(i_raster_format:int,i_vertical_interval:int):Boolean
+		{
+			if (i_raster_format != NyARBufferType.OBJECT_AS3_BitmapData) {
+				return false;
+			}
+			this._raster_analyzer=new FLARRasterAnalyzer_Histogram(i_vertical_interval);
+			return true;
+		}
 	}
-
 }
