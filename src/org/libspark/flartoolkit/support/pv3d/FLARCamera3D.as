@@ -30,9 +30,10 @@
 
 package org.libspark.flartoolkit.support.pv3d {
 	
+	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	
 	import org.libspark.flartoolkit.core.FLARMat;
 	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.math.Matrix3D;
@@ -59,14 +60,14 @@ package org.libspark.flartoolkit.support.pv3d {
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:FLARIntSize = param.getScreenSize();
+			const size:NyARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
 			param.getPerspectiveProjectionMatrix().decompMat(icpara_mat, trans_mat);
 			
-			var icpara:Array = icpara_mat.getArray();
-			var trans:Array = trans_mat.getArray();
+			var icpara:Vector.<Vector.<Number>> = icpara_mat.getArray();
+			var trans:Vector.<Vector.<Number>> = trans_mat.getArray();
 			for (i = 0; i < 4; i++) {
 				icpara[1][i] = (height - 1) * (icpara[2][i]) - icpara[1][i];
 			}

@@ -34,9 +34,10 @@ package org.libspark.flartoolkit.support.away3d {
 	import away3d.cameras.lenses.*;
 	import away3d.core.math.*;
 	
+	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	
 	import org.libspark.flartoolkit.core.FLARMat;
 	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
@@ -58,7 +59,7 @@ package org.libspark.flartoolkit.support.away3d {
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:FLARIntSize = param.getScreenSize();
+			const size:NyARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
