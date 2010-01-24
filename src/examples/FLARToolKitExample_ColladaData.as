@@ -24,7 +24,7 @@
  *  saqoosha
  *  rokubou
  */
- package example {
+ package examples {
 
 	import flash.events.Event;
 	import org.papervision3d.objects.parsers.DAE;
