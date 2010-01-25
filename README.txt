@@ -31,13 +31,13 @@ This work is based on the NyARToolKit developed by
 ----------------------------------------------------------------------
  About FLARToolKit
 ----------------------------------------------------------------------
- * ARToolKit �� AS3 �łł��B
- * A�Ձ�(nyatla)���� Java �ɈڐA���� NyARToolkit ��
-   ����� ActionScript3 �ɈڐA�������C�u�����ł��B
- * FLARToolKit �͓��͉摜����}�[�J�[��F�����āA3 ������Ԃł�
-   �J�����ʒu���v�Z����Ƃ��܂ł�����Ă���܂��B
- * 3D �O���t�B�b�N�X�Ƃ̍����Ȃǂ͊e���Ŏ�������K�v������܂��B
- * �������ȒP�ɍ����ł���悤�Ƀw���p�[�I�Ȃ��̂͂��Ă܂��B
+ * ARToolKit の AS3 版です。
+ * A虎＠(nyatla)氏が Java に移植した NyARToolkit を
+   さらに ActionScript3 に移植したライブラリです。
+ * FLARToolKit は入力画像からマーカーを認識して、3 次元空間での
+   カメラ位置を計算するとこまでをやってくれます。
+ * 3D グラフィックスとの合成などは各自で実装する必要があります。
+ * ただし簡単に合成できるようにヘルパー的なものはついてます。
    (Papervision3D, Away3D)
 
  # AS3 ported version of ARToolKit.
@@ -52,25 +52,25 @@ This work is based on the NyARToolKit developed by
 ----------------------------------------------------------------------
  FLARToolKit License
 ----------------------------------------------------------------------
-FLARToolKit�́uGPL�v�ƁuCommercial���C�Z���X�v��
-�f���A�����C�Z���X�������̗p���Ă��܂��B
-�܂��AFLARToolKit�͊֘A���邢�����̃��C�u�������܂߂Ĕz�z���Ă��܂��B
-�܂܂�郉�C�u�����́A���ꂼ��̃��C�Z���X���K������܂��B
+FLARToolKitは「GPL」と「Commercialライセンス」の
+デュアルライセンス方式を採用しています。
+また、FLARToolKitは関連するいくつかのライブラリも含めて配布しています。
+含まれるライブラリは、それぞれのライセンスが適応されます。
 
 [GPL License]
-���C�Z���X�̓��e�́ACOPYING.txt�����m�F��������
-�܂��AGPL(the GNU General Public License v3)��I�������ꍇ�A
-���p�E�񏤗p���킸�A�����Ŏg�p�\�ł��B
-�������AGPL�ŉۂ���Ă�������ɏ]���AGPL��K�����Ă��邱�Ƃ̍��m�A
-���тɃ��[�U�[�̗v���ɉ����ăA�v���P�[�V�����̃\�[�X�R�[�h�̒񋟁A
-�������܂ދ`���𗚍s���Ă��������B
+ライセンスの内容は、COPYING.txtをご確認ください
+また、GPL(the GNU General Public License v3)を選択した場合、
+商用・非商用を問わず、無料で使用可能です。
+ただし、GPLで課されている条件に従い、GPLを適応していることの告知、
+並びにユーザーの要求に応じてアプリケーションのソースコードの提供、
+これらを含む義務を履行してください。
 
 [Commercial License]
-FLARToolKit��GPL���󂯓���邱�Ƃ��ł��Ȃ����[�U�[�̂��߂ɁA
-Commercial License���L����ARToolworks Inc.���񋟂���Ă��܂��B
-ARToolworks Inc.��苖�����󂯂邱�Ƃɂ��AGPL�̐��񂩂�
-�������܂��B
-�����⃉�C�Z���X��p�ɂ��ẮAARToolworks Inc.�ɖ⍇���Ă��������B
+FLARToolKitはGPLを受け入れることができないユーザーのために、
+Commercial Licenseが有償でARToolworks Inc.より提供されています。
+ARToolworks Inc.より許諾を受けることにより、GPLの制約から
+解放されます。
+条件やライセンス費用については、ARToolworks Inc.に問合せてください。
 
 ARToolworks Inc. http://www.artoolworks.com/
 mailto : sales@artoolworks.com
@@ -97,7 +97,7 @@ Each license adjusts to the included library.
 ----------------------------------------------------------------------
  Attention
 ----------------------------------------------------------------------
-���̃o�[�W�����́A�ߋ��ɔz�z���ꂽStart-kit�Ȃǂ��畜�����ꂽ���̂ł��B
+このバージョンは、過去に配布されたStart-kitなどから復元されたものです。
 This version is the one restored from Start-kit etc. distributed in the past.
 
 ----------------------------------------------------------------------
