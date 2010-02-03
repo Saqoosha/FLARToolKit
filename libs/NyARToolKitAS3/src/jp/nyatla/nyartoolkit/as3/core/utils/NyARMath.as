@@ -30,6 +30,7 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.utils 
 {
+	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	public class NyARMath
 	{
 		/**
@@ -38,16 +39,16 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @param i_p2
 		 * @return
 		 */
-		public static final function sqNorm(i_p1:NyARDoublePoint2d,i_p2:NyARDoublePoint2d ):Number
+		public static function sqNorm_NyARDoublePoint2d(i_p1:NyARDoublePoint2d,i_p2:NyARDoublePoint2d ):Number
 		{
-			var x,y:Number;
+			var x:Number,y:Number;
 			x=i_p2.x-i_p1.x;
 			y=i_p2.y-i_p1.y;
 			return x*x+y*y;
 		}
-		public static function sqNorm(i_p1x:Number,i_p1y:Number,i_p2x:Number,i_p2y:Number):Number
+		public static function sqNorm_Number(i_p1x:Number,i_p1y:Number,i_p2x:Number,i_p2y:Number):Number
 		{
-			var x,y:Number;
+			var x:Number,y:Number;
 			x=i_p2x-i_p1x;
 			y=i_p2y-i_p1y;
 			return x*x+y*y;
@@ -58,15 +59,25 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @param i_p2
 		 * @return
 		 */	
-		public static final function sqNorm(i_p1:NyARDoublePoint3d,i_p2:NyARDoublePoint3d):Number
+		public static function sqNorm_NyARDoublePoint3d(i_p1:NyARDoublePoint3d,i_p2:NyARDoublePoint3d):Number
 		{
-			var x, y, z:Number;
+			var x:Number, y:Number, z:Number;
 			x=i_p2.x-i_p1.x;
 			y=i_p2.y-i_p1.y;
 			z=i_p2.z-i_p1.z;
 			return x*x+y*y+z*z;
 		}
-
+		/**
+		 * 3乗根を求められないシステムで、３乗根を求めます。
+		 * http://aoki2.si.gunma-u.ac.jp/JavaScript/src/3jisiki.html
+		 * @param i_in
+		 * @return
+		 */
+		public static function cubeRoot(i_in:Number):Number
+		{
+			var res:Number = Math.pow(Math.abs(i_in), 1.0 / 3.0);
+			return (i_in >= 0) ? res : -res;
+		}
 
 	}
 

@@ -110,13 +110,13 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			q = (b * (i_c - 2 * b * b) - i_d) / 2;
 			if ((tmp = q * q - p * p * p) == 0) {
 				// 重根
-				q = cuberoot(q);
+				q = NyARMath.cubeRoot(q);
 				o_result[0] = 2 * q - b;
 				o_result[1] = -q - b;
 				return 2;
 			} else if (tmp > 0) {
 				// 実根1,虚根2
-				var a3:Number = cuberoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
+				var a3:Number = NyARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
 				var b3:Number = p / a3;
 				o_result[0] = a3 + b3 - b;
 				// 虚根:-0.5*(a3+b3)-b,Math.abs(a3-b3)*Math.sqrt(3.0)/2
@@ -259,17 +259,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 				return result_1st+result_2nd;
 			}
 		}
-		/**
-		 * 3乗根を求められないシステムで、３乗根を求めます。
-		 * http://aoki2.si.gunma-u.ac.jp/JavaScript/src/3jisiki.html
-		 * @param i_in
-		 * @return
-		 */
-		private static function cuberoot(i_in:Number):Number
-		{
-			var res:Number = Math.pow(Math.abs(i_in), 1.0 / 3.0);
-			return (i_in >= 0) ? res : -res;
-		}
+
 		/**
 		 * 3次方程式の実根を１個だけ求める。
 		 * 4字方程式で使う。
@@ -287,11 +277,11 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			q = (b * (i_c - 2 * b * b) - i_d) / 2;
 			if ((tmp = q * q - p * p * p) == 0) {
 				// 重根
-				q = cuberoot(q);
+				q = NyARMath.cubeRoot(q);
 				return 2 * q - b;
 			} else if (tmp > 0) {
 				// 実根1,虚根2
-				var a3:Number = cuberoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
+				var a3:Number = NyARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
 				var b3:Number = p / a3;
 				return a3 + b3 - b;
 			} else {
