@@ -32,9 +32,10 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 {
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	
 	public interface INyARRasterFilter_Rgb2Gs
 	{
-		public function doFilter(i_input:INyARRgbRaster,i_output:NyARGrayscaleRaster):void;
+		function doFilter(i_input:INyARRgbRaster,i_output:NyARGrayscaleRaster):void;
 	}
 	
 }
