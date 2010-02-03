@@ -60,7 +60,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		/**
 		 * 遅いからあんまり使わないでね。
 		 */
-		public override function setValue(i_value:Vector.<Number>):void
+		public function setValue(i_value:Vector.<Number>):void
 		{
 			this.m00=i_value[ 0];
 			this.m01=i_value[ 1];
@@ -83,7 +83,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		/**
 		 * 遅いからあんまり使わないでね。
 		 */
-		public override function getValue(o_value:Vector.<Number>):void
+		public function getValue(o_value:Vector.<Number>):void
 		{
 			o_value[ 0]=this.m00;
 			o_value[ 1]=this.m01;
@@ -152,7 +152,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 			t1=a23*a34-a24*a33;
 			t2=a24*a32-a22*a34;
 			t3=a22*a33-a23*a32;
-			t4=a24*a31-a21*a34;		
+			t4=a24*a31-a21*a34;
 			t5=a21*a33-a23*a31;
 			t6=a21*a32-a22*a31;
 
