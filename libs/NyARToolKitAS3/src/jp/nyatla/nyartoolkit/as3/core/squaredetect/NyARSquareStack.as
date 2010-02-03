@@ -30,7 +30,9 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.squaredetect 
 {
-	public class NyARSquareStack extends NyObjectStack
+	import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
+	
+	public class NyARSquareStack extends NyARObjectStack
 	{
 		public function NyARSquareStack(i_length:int)
 		{
@@ -42,7 +44,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 			for (var i:int =0; i < i_length; i++){
 				this._items[i] = new NyARSquare();
 			}
-			return ret;
+			return Vector.<*>(ret);
 		}
 	}
 
