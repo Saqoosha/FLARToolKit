@@ -30,10 +30,11 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.rasterfilter 
 {
+	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 	
 	public interface INyARRasterFilter
 	{
-		public function doFilter(i_input:INyARRaster,i_output:INyARRaster):void
+		function doFilter(i_input:INyARRaster,i_output:INyARRaster):void
 	}
 	
 }
