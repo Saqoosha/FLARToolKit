@@ -65,7 +65,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 				override_NyARBinRaster4(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
 			default:
-				hrow new NyARException();
+				throw new NyARException();
 			}
 		}
 
