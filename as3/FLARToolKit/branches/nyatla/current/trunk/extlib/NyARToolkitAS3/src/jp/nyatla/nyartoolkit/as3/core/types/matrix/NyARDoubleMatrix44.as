@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		public var m33:Number;
 		public static function createArray(i_number:int):Vector.<NyARDoubleMatrix44>
 		{
-			var ret=new Vector.<NyARDoubleMatrix44>(i_number);
+			var ret:Vector.<NyARDoubleMatrix44>=new Vector.<NyARDoubleMatrix44>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
 				ret[i]=new NyARDoubleMatrix44();
@@ -60,7 +60,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		/**
 		 * 遅いからあんまり使わないでね。
 		 */
-		public override function setValue(i_value:Vector.<Number>):void
+		public function setValue(i_value:Vector.<Number>):void
 		{
 			this.m00=i_value[ 0];
 			this.m01=i_value[ 1];
@@ -83,7 +83,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		/**
 		 * 遅いからあんまり使わないでね。
 		 */
-		public override function getValue(o_value:Vector.<Number>):void
+		public function getValue(o_value:Vector.<Number>):void
 		{
 			o_value[ 0]=this.m00;
 			o_value[ 1]=this.m01;
@@ -105,9 +105,9 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		}
 		public function inverse(i_src:NyARDoubleMatrix44):Boolean
 		{
-			var a11,a12,a13,a14,a21,a22,a23,a24,a31,a32,a33,a34,a41,a42,a43,a44:Number;
-			var b11,b12,b13,b14,b21,b22,b23,b24,b31,b32,b33,b34,b41,b42,b43,b44:Number;	
-			var t1,t2,t3,t4,t5,t6:Number;
+			var a11:Number,a12:Number,a13:Number,a14:Number,a21:Number,a22:Number,a23:Number,a24:Number,a31:Number,a32:Number,a33:Number,a34:Number,a41:Number,a42:Number,a43:Number,a44:Number;
+			var b11:Number,b12:Number,b13:Number,b14:Number,b21:Number,b22:Number,b23:Number,b24:Number,b31:Number,b32:Number,b33:Number,b34:Number,b41:Number,b42:Number,b43:Number,b44:Number;	
+			var t1:Number,t2:Number,t3:Number,t4:Number,t5:Number,t6:Number;
 			a11=i_src.m00;a12=i_src.m01;a13=i_src.m02;a14=i_src.m03;
 			a21=i_src.m10;a22=i_src.m11;a23=i_src.m12;a24=i_src.m13;
 			a31=i_src.m20;a32=i_src.m21;a33=i_src.m22;a34=i_src.m23;

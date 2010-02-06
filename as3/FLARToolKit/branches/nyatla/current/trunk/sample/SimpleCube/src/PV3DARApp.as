@@ -52,12 +52,14 @@ package {
 		}
 		
 		private function _onEnterFrame(e:Event = null):void {
-			_capture.bitmapData.draw(_video);
+			_capture.bitmapData.draw(this._video);
 			
 			var detected:Boolean = false;
 			try {
 				detected = _detector.detectMarkerLite(_raster, 80) && _detector.getConfidence() > 0.5;
-			} catch (e:Error) {}
+			} catch (e:Error) {
+				trace(e.getStackTrace());
+			}
 			if (detected) {
 				_detector.getTransformMatrix(_resultMat);
 				_markerNode.setTransformMatrix(_resultMat);

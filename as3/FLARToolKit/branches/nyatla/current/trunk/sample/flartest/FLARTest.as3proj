@@ -15,7 +15,7 @@
   <classpaths>
     <class path="src" />
     <class path="..\..\src" />
-    <class path="..\..\extlib\NyARToolkitAS3-2.5.0\src" />
+    <class path="..\..\extlib\NyARToolkitAS3\src" />
   </classpaths>
   <!-- Build options -->
   <build>

@@ -1,7 +1,7 @@
 ARToolKit ActionScript3 class library NyARToolkit.
 Copyright (C)2010 Ryo Iizuka
 
-version 2.5.0
+version 2.5.1
 
 http://nyatla.jp/nyartoolkit/
 airmail(at)ebony.plala.or.jp
@@ -11,10 +11,10 @@ wm(at)nyatla.jp
 
 
 
-・NyARToolkit/2.5
+・NyARToolkit/2.5.1
 
 NyARToolkitAS3は、NyARToolkitのActionScript版です。
-NyARToolkit 2.5.0をベースに構築されています。
+NyARToolkit 2.5.1をベースに構築されています。
 
 
 NyARToolkitAS3は、FLARToolKitへ最新のAPIを供給する目的で実装されています。

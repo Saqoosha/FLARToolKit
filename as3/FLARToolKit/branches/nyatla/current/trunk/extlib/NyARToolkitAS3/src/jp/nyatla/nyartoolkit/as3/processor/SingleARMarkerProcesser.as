@@ -154,7 +154,7 @@ package jp.nyatla.nyartoolkit.as3.processor
 			this._tobin_filter.doFilter(i_raster, this._bin_raster);
 
 			// スクエアコードを探す
-			this._detectmarker_cb.init(i_raster);
+			this._detectmarker_cb.init(i_raster,this._current_arcode_index);
 			this._square_detect.detectMarkerCB(this._bin_raster,this._detectmarker_cb);
 			
 			// 認識状態を更新
@@ -169,7 +169,16 @@ package jp.nyatla.nyartoolkit.as3.processor
 			
 			return;
 		}
-
+		/**
+		 * 
+		 * @param i_new_detect_cf
+		 * @param i_exist_detect_cf
+		 */
+		public function setConfidenceThreshold(i_new_cf:Number,i_exist_cf:Number):void
+		{
+			this._detectmarker_cb.cf_threshold_exist=i_exist_cf;
+			this._detectmarker_cb.cf_threshold_new=i_new_cf;
+		}
 		private var __NyARSquare_result:NyARTransMatResult = new NyARTransMatResult();
 
 		/**	オブジェクトのステータスを更新し、必要に応じてハンドル関数を駆動します。
@@ -206,7 +215,7 @@ package jp.nyatla.nyartoolkit.as3.processor
 				} else if (i_code_index == this._current_arcode_index) {// 同じARCodeの再認識
 					// イベント生成
 					// 変換行列を作成
-					this._transmat.transMat(i_square, this._offset, result);
+					this._transmat.transMatContinue(i_square, this._offset, result);
 					// OnUpdate
 					this.onUpdateHandler(i_square, result);
 					this._lost_delay_count = 0;
@@ -254,8 +263,8 @@ class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 	public var square:NyARSquare=new NyARSquare();
 	public var confidence:Number=0.0;
 	public var code_index:int=-1;		
-	public var cf_threshold_new:Number = 0.30;
-	public var cf_threshold_exist:Number = 0.15;
+	public var cf_threshold_new:Number = 0.50;
+	public var cf_threshold_exist:Number = 0.30;
 	
 	//参照
 	private var _ref_raster:INyARRgbRaster;
@@ -283,12 +292,15 @@ class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 		}
 	}
 	private var __tmp_vertex:Vector.<NyARIntPoint2d>=NyARIntPoint2d.createArray(4);
+	private var _target_id:int;
+
 	/**
 	 * Initialize call back handler.
 	 */
-	public function init(i_raster:INyARRgbRaster):void
+	public function init(i_raster:INyARRgbRaster,i_target_id:int):void
 	{
-		this._ref_raster=i_raster;
+		this._ref_raster = i_raster;
+		this._target_id=i_target_id;
 		this.code_index=-1;
 		this.confidence = Number.MIN_VALUE;
 	}
@@ -338,7 +350,7 @@ class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 		}
 		
 		//認識処理
-		if (this.code_index == -1) { // マーカ未認識
+		if (this._target_id == -1) { // マーカ未認識
 			//現在は未認識
 			if (c1 < this.cf_threshold_new) {
 				return;
@@ -352,7 +364,7 @@ class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 		}else{
 			//現在はマーカ認識中				
 			// 現在のマーカを認識したか？
-			if (lcode_index != this.code_index) {
+			if (lcode_index != this._target_id) {
 				// 認識中のマーカではないので無視
 				return;
 			}
@@ -364,6 +376,7 @@ class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 			if (this.confidence>c1) {
 				return;
 			}
+			this.code_index=this._target_id;
 		}
 		//新しく認識、または継続認識中に更新があったときだけ、Square情報を更新する。
 		//ココから先はこの条件でしか実行されない。
