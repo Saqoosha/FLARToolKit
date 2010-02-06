@@ -96,13 +96,15 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 						label.pos_y = (labelRect.top + labelRect.bottom - 1) * 0.5;
 						//エントリ・ポイントを探す
 						label.entry_x=getTopClipTangentX(label_img,index,label);
+					}else {
+						o_stack.pop();
 					}
 					currentRect = label_img.getColorBoundsRect(0xffffff, 0xffffff, true);
 				}
 			} catch (e:Error){
 				trace('Too many labeled area!! gave up....');
 			}
-			return index;
+			return o_stack.getLength();
 		}
 		private function getTopClipTangentX(i_image:BitmapData, i_index:int, i_label:NyARRleLabelFragmentInfo):int
 		{
