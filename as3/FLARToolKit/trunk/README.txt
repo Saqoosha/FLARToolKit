@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.0
+ version 2.5.1
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -135,6 +135,13 @@ This version is the one restored from Start-kit etc. distributed in the past.
  License : Commercial licence / Free non-commercial licence
 
 ----------------------------------------------------------------------
+ Development environment
+----------------------------------------------------------------------
+ * Flex Builder 3.0 (build 3.0.2)
+   (Eclipse Version: 3.4.2 + Flex Builder 3.0)
+ * FlashDevelop + Flex SDK 3.4
+ 
+----------------------------------------------------------------------
  Special thanks
 ----------------------------------------------------------------------
 加藤博一先生 (Hirokazu Kato, Ph. D.)
@@ -146,6 +153,9 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.1 alpha
+ * Bug fix: spell miss, interface, extends error and more.
+ 
 2.5.0
  * Merge NyARToolKit for AS3
  * Flash plyaer 10 or above.
