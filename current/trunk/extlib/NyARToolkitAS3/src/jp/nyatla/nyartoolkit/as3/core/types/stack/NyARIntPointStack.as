@@ -30,11 +30,12 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.types.stack 
 {
+	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class NyARIntPointStack
+	public class NyARIntPointStack extends NyARObjectStack
 	{
 		public function NyARIntPointStack(i_length:int)
 		{
@@ -42,11 +43,11 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		}
 		protected override function createArray(i_length:int):Vector.<*>
 		{
-			var ret:Vector.<NyARIntPoint>= new Vector.<NyARIntPoint>(i_length);
+			var ret:Vector.<NyARIntPoint2d>= new Vector.<NyARIntPoint2d>(i_length);
 			for (var i:int =0; i < i_length; i++){
-				ret[i] = new NyARIntPoint();
+				ret[i] = new NyARIntPoint2d();
 			}
-			return ret;
+			return Vector.<*>(ret);
 		}
 		
 	}

@@ -30,9 +30,10 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.types.stack 
 {
-	public class NyARIntRectStack
+	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	public class NyARIntRectStack extends NyARObjectStack
 	{
-		public function NyARIntPointStack(i_length:int)
+		public function NyARIntRectStack(i_length:int)
 		{
 			super(i_length);
 		}
@@ -42,7 +43,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 			for (var i:int =0; i < i_length; i++){
 				ret[i] = new  NyARIntRect();
 			}
-			return ret;
+			return Vector.<int>(ret);
 		}
 		
 	}

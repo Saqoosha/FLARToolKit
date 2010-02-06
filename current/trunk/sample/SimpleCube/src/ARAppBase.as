@@ -12,7 +12,11 @@ package {
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
-	
+	import flash.net.*;
+	import flash.text.*;
+    import flash.display.*; 
+    import flash.events.*;
+    import flash.utils.*;	
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
@@ -53,9 +57,22 @@ package {
 			
 			_loader = new URLLoader();
 			_loader.dataFormat = URLLoaderDataFormat.BINARY;
-			_loader.addEventListener(Event.COMPLETE, _onLoadParam);
+			_loader.addEventListener(Event.COMPLETE, _onLoadParam2);
 			_loader.addEventListener(IOErrorEvent.IO_ERROR, dispatchEvent);
 			_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, dispatchEvent);
+			_loader.load(new URLRequest("Data/test.raw"));
+		}
+		public var _capem:BitmapData;
+		private function _onLoadParam2(e:Event):void {
+			_loader.removeEventListener(Event.COMPLETE, _onLoadParam2);
+					var r:BitmapData = new BitmapData(320,240);
+					_loader.data.endian = Endian.LITTLE_ENDIAN;
+					for (var i:int = 0; i < 320 * 240; i++) {
+						r.setPixel(i%320,i/320,_loader.data.readInt());
+					}
+            		_capem = r;			
+			_loader.dataFormat = URLLoaderDataFormat.BINARY;
+			_loader.addEventListener(Event.COMPLETE, _onLoadParam);
 			_loader.load(new URLRequest(_cameraFile));
 		}
 		
