@@ -30,10 +30,11 @@
  */
 package jp.nyatla.nyartoolkit.as3.core.rasterfilter.gs2bin 
 {
+	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 
 	public interface INyARRasterFilter_Gs2Bin
 	{
-		public function doFilter(i_input:NyARGrayscaleRaster, i_output:NyARBinRaster):void;
+		function doFilter(i_input:NyARGrayscaleRaster, i_output:NyARBinRaster):void;
 	}
 	
 }
