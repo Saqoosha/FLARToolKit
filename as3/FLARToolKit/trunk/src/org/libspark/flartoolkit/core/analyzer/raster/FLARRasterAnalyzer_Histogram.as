@@ -46,6 +46,8 @@ package org.libspark.flartoolkit.core.analyzer.raster
 		{
 			if (i_raster_format != NyARBufferType.OBJECT_AS3_BitmapData) {
 				return false;
+			}else {
+				this._vertical_skip = i_vertical_interval;
 			}
 			return true;
 		}
@@ -81,7 +83,7 @@ package org.libspark.flartoolkit.core.analyzer.raster
 				var pt:int=y*i_size.w;
 				for (var x:int = i_size.w - 1; x >= 0; x--) {
 					var p:int=input.getPixel(x,y);
-					o_histgram[(((p>>8)&0xff)+((p>>16)&0xff)+(p&0xff))/3]++;
+					o_histgram[(int)((((p>>8)&0xff)+((p>>16)&0xff)+(p&0xff))/3)]++;
 					pt++;
 				}
 			}

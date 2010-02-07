@@ -63,6 +63,22 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 			this.m23 = i_value[11];
 			return;
 		}
+		public function setValue_NyARDoubleMatrix34(i_value:NyARDoubleMatrix34):void
+		{
+			this.m00=i_value.m00;
+			this.m01=i_value.m01;
+			this.m02=i_value.m02;
+			this.m03=i_value.m03;
+			this.m10=i_value.m10;
+			this.m11=i_value.m11;
+			this.m12=i_value.m12;
+			this.m13=i_value.m13;
+			this.m20=i_value.m20;
+			this.m21=i_value.m21;
+			this.m22=i_value.m22;
+			this.m23=i_value.m23;
+			return;
+		}
 
 		public function getValue(o_value:Vector.<Number>):void
 		{
