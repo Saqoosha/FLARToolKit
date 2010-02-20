@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FLARToolKit example launcher
  * --------------------------------------------------------------------------------
  * Copyright (C)2010 saqoosha
@@ -29,7 +29,6 @@ package {
 	
 	import flash.display.Sprite;
 	
-	[SWF(width="640", height="480", frameRate="30", backgroundColor="#EEEEEE")]
 	public class Main extends Sprite
 	{
 		public function Main():void
@@ -37,10 +36,13 @@ package {
 			// simply uncomment whichever tutorial/example you would like to launch.
 			
 			// Papervision3d(Simple cube)
-			//this.addChild(new FLARToolKitExample_PV3D());
+//			this.addChild(new FLARToolKitExample_PV3D());
 			
 			// Papervison3d collada model
 			this.addChild(new FLARToolKitExample_ColladaData());
+			
+			// Single
+//			this.addChild(new FLARTK_Example_SingleManager());
 		}
 	}
 }
