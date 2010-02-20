@@ -1,15 +1,15 @@
 ======================================================================
 FLARToolKit
- version 2.5.1 alpha
+ version 2.5.1
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
 Copyright (C)2010 Saqoosha, R.Iizuka(nyatla)
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,8 +17,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this framework; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 For further information please contact.
  http://www.libspark.org/wiki/saqoosha/FLARToolKit
@@ -138,8 +138,8 @@ This version is the one restored from Start-kit etc. distributed in the past.
  Development environment
 ----------------------------------------------------------------------
  * Flex Builder 3.0 (build 3.0.2)
-   (Eclipse Version: 3.4.2 + Flex Builder 3.0)
- * FlashDevelop + Flex SDK 3.4
+   (Eclipse Version: 3.4.2 + Flex Builder 3.0 + Flex SDK 3.4, 3.5)
+ * FlashDevelop + Flex SDK 3.4, 3.5
  
 ----------------------------------------------------------------------
  Special thanks
@@ -153,14 +153,14 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
-2.5.1 alpha
+2.5.1 (2010-Feb-20)
  * Bug fix: spell miss, interface, extends error and more.
  
 2.5.0
  * Merge NyARToolKit for AS3
  * Flash plyaer 10 or above.
 
-1.0.0 (2010-01-20)
+1.0.0 (2010-Jan-20)
  * implemented support for debugging display of thresholded and
    labeled BitmapData objects, via accessors in FLARMultiMarkerDetector
    and FLARSquareDetector.(ericsoco)
@@ -178,10 +178,10 @@ Prof. Mark Billinghurst
  * added away3d 3.3.3 support to support.away3d package.(ericsoco)
  * added away3dlite support(ericsoco)
 
-0.9.1 (2010-01-17)
+0.9.1 (2010-Jan-17)
 Re-packaging by rokubou. 
 
-0.9.0 (2009-06-03)
+0.9.0 (2009-Jun-03)
 packaging by saqoosha
  * Added stater sample(starter-kit)
 
