@@ -43,6 +43,10 @@ package {
 			
 			// Single
 //			this.addChild(new FLARTK_Example_SingleManager());
+			
+			// ID Marker
+//			this.addChild(new FLARTK_Example_SingleNyIDManager());
+			
 		}
 	}
 }
