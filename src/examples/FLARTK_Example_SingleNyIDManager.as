@@ -45,6 +45,11 @@ package examples
 	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.render.LazyRenderEngine;
 	import org.papervision3d.view.Viewport3D;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.typography.Font3D;
+	import org.papervision3d.materials.special.Letter3DMaterial;
+	import org.papervision3d.typography.Text3D;
+	import org.papervision3d.typography.fonts.HelveticaBold;
 
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
@@ -109,6 +114,8 @@ package examples
 		protected var _markerNode:FLARBaseNode;
 		
 		private var _plane:Plane;
+		private var _textdata:Text3D;
+		private var _container:DisplayObject3D
 		
 		/**
 		 * 認識中のマーカーのID
@@ -203,14 +210,30 @@ package examples
 			_scene = new Scene3D();
 			_markerNode = _scene.addChild(new FLARBaseNode()) as FLARBaseNode;
 			
+			// モデル格納用のコンテナ作成
+			_container = new DisplayObject3D();
+			
 			// Create Plane with same size of the marker with wireframe.
 			// ワイヤーフレームで,マーカーと同じサイズを Plane を作ってみる。
 			var wmat:WireframeMaterial = new WireframeMaterial(0xff0000, 1, 2);
 			_plane = new Plane(wmat, 80, 80); // 80mm x 80mm。
 			_plane.rotationX = 180;
+			
+			_container.addChild(_plane);
+			
+			//
+			// ID表示用のデータを作成する。
+			var textFormat:Letter3DMaterial = new Letter3DMaterial(0x000000, 0.9);
+			_textdata = new Text3D("aaa", new HelveticaBold(), textFormat, "textdata")
+			_textdata.rotationX = 180;
+			_textdata.rotationZ = 90;
+			_textdata.scale = 0.5;
+			
+			_container.addChild(_textdata);
+						
  			// attach to _markerNode to follow the marker.
  			// _markerNode に addChild するとマーカーに追従する。
- 			_markerNode.addChild(_plane);
+ 			_markerNode.addChild(_container);
 			
 			// Place the light at upper front.
 			// ライトの設定。手前、上のほう。
@@ -258,6 +281,10 @@ package examples
 				}
 			}
 			trace("[add] : ID = " + this.current_id);
+			
+			//　IDを表示する。
+			_textdata.text = this.current_id;
+	
 			this._markerNode.visible = true;
 		}
 		
