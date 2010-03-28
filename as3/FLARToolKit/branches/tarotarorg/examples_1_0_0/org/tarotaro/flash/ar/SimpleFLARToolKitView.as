@@ -1,14 +1,11 @@
-﻿package org.tarotaro.flash.ar {
+package org.tarotaro.flash.ar {
 	
 	import flash.display.DisplayObject;
-	import net.saqoosha.flartoolkit.example.ARAppBase;
-	import org.libspark.flartoolkit.pv3d.FLARBaseNode;
-	//import org.libspark.flartoolkit.core.FLARTransMatResult;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-	import org.libspark.flartoolkit.pv3d.FLARCamera3D;
-	//import org.libspark.flartoolkit.scene.FLARCamera3D;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import org.libspark.flartoolkit.support.pv3d.FLARBaseNode;
+	import org.libspark.flartoolkit.support.pv3d.FLARCamera3D;
 	
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
@@ -60,8 +57,7 @@
 		private var _viewport:Viewport3D;
 		private var _renderer:LazyRenderEngine;
 		
-		private var _transGrp:FLARBaseNode;
-		
+		private var _transGrp:FLARBaseNode;		
 		private var _resultMat:FLARTransMatResult = new FLARTransMatResult();
 		
 		private var _isMirror:Boolean = false;
@@ -139,19 +135,15 @@
 		 */
 		private function _onEnterFrame(e:Event = null):void {
 			this._capture.bitmapData.draw(this._video);
-			if (this._detector.detectMarkerLite(this._raster, 80)) {
-				//trace("confidence:", this._detector.getConfidence()," direction:",this._detector.getDirection());
-				if (this._detector.getConfidence() < .5) {
-					this._viewport.visible = false;
-					return;
-				}
+			if (this._detector.detectMarkerLite(this._raster, 80) && this._detector.getConfidence() >= .5) {
+				trace("confidence:", this._detector.getConfidence()," direction:",this._detector.getDirection());
 				this._detector.getTransformMatrix(this._resultMat);
 				this._transGrp.setTransformMatrix(this._resultMat);
 				this._viewport.visible = true;
-				this._renderer.render();
 			} else {
 				this._viewport.visible = false;
 			}
+			this._renderer.render();
 		}
 		
 		/**
