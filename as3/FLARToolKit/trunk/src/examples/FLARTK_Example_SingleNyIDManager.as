@@ -113,9 +113,14 @@ package examples
 		
 		protected var _markerNode:FLARBaseNode;
 		
+	protected var _camera3d:FLARCamera3D;
+		protected var _viewport:Viewport3D;
+		protected var _scene:Scene3D;
+		protected var _renderer:LazyRenderEngine;
+		
 		private var _plane:Plane;
 		private var _textdata:Text3D;
-		private var _container:DisplayObject3D
+		private var _container:DisplayObject3D;
 		
 		/**
 		 * 認識中のマーカーのID
@@ -139,7 +144,7 @@ package examples
 			// 各種サイズの初期化
 			this.captureWidth = 320;
 			this.captureHeight = 240;
-			this.canvasWidth = 640
+			this.canvasWidth = 640;
 			this.canvasHeight = 480;
 			this.codeWidth = 100;
 			// パラメータのロード
@@ -223,7 +228,7 @@ package examples
 			
 			//
 			// ID表示用のデータを作成する。
-			var textFormat:Letter3DMaterial = new Letter3DMaterial(0x000000, 0.9);
+			var textFormat:Letter3DMaterial = new Letter3DMaterial(0xcc0000, 0.9);
 			_textdata = new Text3D("aaa", new HelveticaBold(), textFormat, "textdata")
 			_textdata.rotationX = 180;
 			_textdata.rotationZ = 90;
@@ -283,7 +288,7 @@ package examples
 			trace("[add] : ID = " + this.current_id);
 			
 			//　IDを表示する。
-			_textdata.text = this.current_id;
+			_textdata.text = String(this.current_id);
 	
 			this._markerNode.visible = true;
 		}
