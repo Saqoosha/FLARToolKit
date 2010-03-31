@@ -64,8 +64,18 @@ package org.libspark.flartoolkit.detector
 			var patt_inst:INyARColorPatt;
 			var sqdetect_inst:FLARSquareContourDetector;
 			var transmat_inst:INyARTransMat;
-
+			
+			//評価パターンのホルダを作成
+			// NyARColorPatt_Perspective_O2のパラメータ
+			// 第1,2パラ…縦横の解像度(patデータ作ったときの分割数)
+			// 第3パラ…1ピクセルあたりの縦横サンプリング数。2なら2x2=4ポイントをサンプリングする。 
+			//       1,2,4,任意の数値のいずれか。値が大きいほど一致率ＵＰ、フレームレート低下。
+			//       解像度16、サンプリング数4がデフォルト。解像度が大きい場合は、サンプリング数を下げることでフレームレートの低下を回避できる。
+			// 第4パラ…エッジ幅の割合(ARToolKit標準と同じなら、25)->1.0系と数値の扱いが異なるので注意！
 			patt_inst=new NyARColorPatt_Perspective_O2(i_ref_code.getWidth(), i_ref_code.getHeight(),4,25);
+			// 縦横のエッジの割合が異なる場合にも対応できます。
+			// patt_inst.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
+
 			sqdetect_inst=new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
 			transmat_inst=new NyARTransMat(i_ref_param);
 			initInstance(patt_inst,sqdetect_inst,transmat_inst,th,i_ref_param,i_ref_code,i_marker_width);
