@@ -97,11 +97,25 @@ package org.libspark.flartoolkit.detector
 			// 解析オブジェクトを作る
 			var cw:int = i_ref_code[0].getWidth();
 			var ch:int = i_ref_code[0].getHeight();
-
+			
+			// 枠線の割合(ARToolKit標準と同じなら、25 -> 1.0系と数値の扱いが異なるので注意！)
+			var markerWidthByDec:Number = 25;
+			var markerHeightByDec:Number = 25;
+			
+			//評価パターンのホルダを作成
+			// NyARColorPatt_Perspective_O2のパラメータ
+			// 第1,2パラ…縦横の解像度(patデータ作ったときの分割数)
+			// 第3パラ…1ピクセルあたりの縦横サンプリング数。2なら2x2=4ポイントをサンプリングする。 
+			//       1,2,4,任意の数値のいずれか。値が大きいほど一致率ＵＰ、フレームレート低下。
+			//       解像度16、サンプリング数4がデフォルト。解像度が大きい場合は、サンプリング数を下げることでフレームレートの低下を回避できる。
+			// 第4パラ…エッジ幅の割合(ARToolKit標準と同じなら、25)->1.0系と数値の扱いが異なるので注意！
+			var patt:NyARColorPatt_Perspective_O2 = new NyARColorPatt_Perspective_O2(cw, ch, 4, markerWidthByDec);
+			// 縦横のエッジの割合が異なる場合にも対応できます。
+			patt.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
+			
 			//detectMarkerのコールバック関数
-			this._detect_cb=new DetectSquareCB(
-				new NyARColorPatt_Perspective_O2(cw, ch,4,25),
-				i_ref_code,i_number_of_code,i_ref_param);
+			this._detect_cb=new DetectSquareCB(patt,i_ref_code,i_number_of_code,i_ref_param);
+			
 			this._transmat = new NyARTransMat(i_ref_param);
 			//NyARToolkitプロファイル
 			this._square_detect =new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
