@@ -34,7 +34,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 	import org.libspark.flartoolkit.core.rasterreader.*;
 	import flash.display.BitmapData;
 
-	public class FLARRgbRaster_BitmapData extends NyARRgbRaster_BasicClass
+	public class FLARRgbRaster_BitmapData extends NyARRgbRaster_BasicClass implements INyARRgbRaster
 	{
 		private var _bitmapData:BitmapData;
 		private var _rgb_reader:FLARRgbPixelReader_BitmapData;
