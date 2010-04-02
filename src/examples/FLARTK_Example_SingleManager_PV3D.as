@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FLARToolKit example
  * --------------------------------------------------------------------------------
  * Copyright (C)2010 nyatla, rokubou
@@ -47,6 +47,7 @@ package examples
 	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.render.LazyRenderEngine;
 	import org.papervision3d.view.Viewport3D;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
@@ -127,7 +128,8 @@ package examples
 		protected var _renderer:LazyRenderEngine;
 
 		private var _plane:Plane;
-		
+		private var _container:DisplayObject3D;
+
 		/**
 		 * 
 		 * 初期化など
@@ -155,7 +157,7 @@ package examples
 		{
 			var mf:NyMultiFileLoader=new NyMultiFileLoader();
 			mf.addTarget(
-				"camera_para.dat",URLLoaderDataFormat.BINARY,
+				"../resources/Data/camera_para.dat",URLLoaderDataFormat.BINARY,
 				function(data:ByteArray):void
 				{
 	 				param=new FLARParam();
@@ -163,7 +165,7 @@ package examples
 					param.changeScreenSize(captureWidth,captureHeight);
 				});
 			mf.addTarget(
-				"flarlogo.pat",URLLoaderDataFormat.TEXT,
+				"../resources/Data/flarlogo.pat",URLLoaderDataFormat.TEXT,
 				function(data:String):void
 				{
 					code=new FLARCode(16, 16);
@@ -214,6 +216,9 @@ package examples
 			_scene = new Scene3D();
 			_markerNode = _scene.addChild(new FLARBaseNode()) as FLARBaseNode;
 			
+			// モデル格納用のコンテナ作成
+			_container = new DisplayObject3D();
+			
 			// Create Plane with same size of the marker with wireframe.
 			// ワイヤーフレームで,マーカーと同じサイズを Plane を作ってみる。
 			var wmat:WireframeMaterial = new WireframeMaterial(0xff0000, 1, 2);
@@ -221,18 +226,24 @@ package examples
 			_plane.rotationX = 180;
  			// attach to _markerNode to follow the marker.
  			// _markerNode に addChild するとマーカーに追従する。
- 			_markerNode.addChild(_plane);
+			_container.addChild(_plane);
 			
+			// Cube
+			var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xFF0000, 0x660000);
+			var cube:Cube = new Cube(new MaterialsList( { all:fmat } ), 40, 40, 40);
+			cube.z = 20;
+			_container.addChild(cube);
+			
+			// attach to _markerNode to follow the marker.
+			// _markerNode に addChild するとマーカーに追従する。
+			_markerNode.addChild(_container);
+
 			// Place the light at upper front.
 			// ライトの設定。手前、上のほう。
 			var light:PointLight3D = new PointLight3D();
 			light.x = 0;
 			light.y = 1000;
 			light.z = -1000;
-			var fmat:FlatShadeMaterial = new FlatShadeMaterial(light, 0xFF0000, 0x660000);
-			var cube:Cube = new Cube(new MaterialsList( { all:fmat } ), 40, 40, 40);
-			cube.z = 20;
-			_markerNode.addChild(cube);
 			
 			_renderer = new LazyRenderEngine(_scene, _camera3d, _viewport);
 			
@@ -272,6 +283,7 @@ package examples
 		{
 			// hide the square.
 			this._markerNode.visible = false;
+			_renderer.render();
 			trace("[remove]");
 		}
 		

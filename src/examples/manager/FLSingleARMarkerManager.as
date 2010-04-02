@@ -84,7 +84,7 @@ package examples.manager
 
 		private var _lost_delay_count:int = 0;
 
-		private var _lost_delay:int = 5;
+		private var _lost_delay:int = 10;
 
 		private var _square_detect:NyARSquareContourDetector;
 
@@ -222,12 +222,12 @@ package examples.manager
 				}
 			} else {// 認識中
 				if (i_code_index < 0) {// 認識から未認識の遷移
-					this._lost_delay_count++;
-					if (this._lost_delay < this._lost_delay_count) {
+//					this._lost_delay_count++;
+//					if (this._lost_delay < this._lost_delay_count) {
 						// OnLeave
 						this._current_arcode_index = -1;
 						this.onLeaveHandler();
-					}
+//					}
 					return false;
 				} else if (i_code_index == this._current_arcode_index) {// 同じARCodeの再認識
 					// イベント生成
