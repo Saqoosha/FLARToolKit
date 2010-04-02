@@ -1,4 +1,4 @@
-package org.libspark.flartoolkit.detector.single
+package org.libspark.flartoolkit.detector
 {
 	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
 	import jp.nyatla.nyartoolkit.as3.core.match.*;
@@ -14,7 +14,7 @@ package org.libspark.flartoolkit.detector.single
 	/**
 	 * detectMarkerのコールバック関数
 	 */
-	internal class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
+	internal class SingleDetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 	{
 		//公開プロパティ
 		public var confidence:Number;
@@ -29,7 +29,7 @@ package org.libspark.flartoolkit.detector.single
 		private var __detectMarkerLite_mr:NyARMatchPattResult=new NyARMatchPattResult();
 		private var _coordline:NyARCoord2Linear;
 		
-		public function DetectSquareCB(i_inst_patt:INyARColorPatt,i_ref_code:NyARCode,i_param:NyARParam)
+		public function SingleDetectSquareCB(i_inst_patt:INyARColorPatt,i_ref_code:NyARCode,i_param:NyARParam)
 		{
 			this._inst_patt=i_inst_patt;
 			this._deviation_data=new NyARMatchPattDeviationColorData(i_ref_code.getWidth(),i_ref_code.getHeight());
