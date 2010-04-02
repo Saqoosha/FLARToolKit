@@ -42,7 +42,7 @@ package examples {
 	import org.libspark.flartoolkit.core.FLARCode;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
-	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
+	import org.libspark.flartoolkit.detector.single.FLARSingleMarkerDetector;
 	
 	[Event(name="init",type="flash.events.Event")]
 	[Event(name="init",type="flash.events.Event")]

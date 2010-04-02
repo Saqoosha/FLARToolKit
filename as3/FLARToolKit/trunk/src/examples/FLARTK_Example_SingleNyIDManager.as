@@ -113,7 +113,7 @@ package examples
 		
 		protected var _markerNode:FLARBaseNode;
 		
-	protected var _camera3d:FLARCamera3D;
+		protected var _camera3d:FLARCamera3D;
 		protected var _viewport:Viewport3D;
 		protected var _scene:Scene3D;
 		protected var _renderer:LazyRenderEngine;
