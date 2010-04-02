@@ -97,7 +97,7 @@ package examples {
 		}
 		
 		private function _onLoadCode(e:Event):void {
-			_code = new FLARCode(16, 16);
+			_code = new FLARCode(16,16);
 			_code.loadARPatt(_loader.data);
 			
 			_loader.removeEventListener(Event.COMPLETE, _onLoadCode);
@@ -115,8 +115,8 @@ package examples {
 			_video.attachCamera(_webcam);
 			
 			// setup ARToolkit
-			_raster = new FLARRgbRaster_BitmapData(_width,_height);
-			_capture = new Bitmap(BitmapData(_raster.getBuffer()), PixelSnapping.AUTO, true);
+			_capture = new Bitmap(new BitmapData(_width, _height, false, 0), PixelSnapping.AUTO, true);
+			_raster = new FLARRgbRaster_BitmapData(_capture.bitmapData);
 			_detector = new FLARSingleMarkerDetector(_param, _code, _codeWidth);
 			_detector.setContinueMode(true);
 			
