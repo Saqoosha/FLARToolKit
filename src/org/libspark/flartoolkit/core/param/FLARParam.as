@@ -43,24 +43,16 @@ package org.libspark.flartoolkit.core.param
 		{
 			this._screen_size.w = 640;
 			this._screen_size.h = 480;
-			var dist:Vector.<Number> = new Vector.<Number>();
+			var dist:Vector.<Number> = new Vector.<Number>([
+				318.5, 263.5, 26.2, 1.0127565206658486 ]);
 			dist[0] = 318.5;
 			dist[1] = 263.5;
 			dist[2] = 26.2;
 			dist[3] = 1.0127565206658486;
-			var projection:Vector.<Number> = new Vector.<Number>();
-			projection[0] = 700.9514702992245;
-			projection[1] = 0;
-			projection[2] = 316.5;
-			projection[3] = 0;
-			projection[4] = 0;
-			projection[5] = 726.0941816535367;
-			projection[6] = 241.5;
-			projection[7] = 0;
-			projection[8] = 0;
-			projection[9] = 0;
-			projection[10] = 1;
-			projection[11] = 0;
+			var projection:Vector.<Number> = new Vector.<Number>([
+				700.9514702992245, 0, 316.5, 0, 0,
+				726.0941816535367, 241.5, 0, 0, 0,
+				1, 0 ]);
 			this.setValue(dist, projection);
 		}
 	}
