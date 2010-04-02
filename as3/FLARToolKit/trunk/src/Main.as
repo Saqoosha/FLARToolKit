@@ -36,17 +36,15 @@ package {
 			// simply uncomment whichever tutorial/example you would like to launch.
 			
 			// Papervision3d(Simple cube)
-//			this.addChild(new FLARToolKitExample_PV3D());
+			this.addChild(new FLARToolKitExample_PV3D());
 			
 			// Papervison3d collada model
 //			this.addChild(new FLARToolKitExample_ColladaData());
 			
-			// Single
-//			this.addChild(new FLARTK_Example_SingleManager());
-			
-			this.addChild(new FLARTK_Example_SingleManager_PV3D());
+			// Single Marker Manager sample
+//			this.addChild(new FLARTK_Example_SingleManager_PV3D());
 
-			// ID Marker
+			// ID Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleNyIDManager());
 			
 		}
