@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
  * This work is based on the NyARToolKit developed by
@@ -28,8 +28,6 @@
  */
 package org.libspark.flartoolkit.detector
 {
-	import flash.display.BitmapData;
-	
 	import jp.nyatla.nyartoolkit.as3.core.*;
 	import jp.nyatla.nyartoolkit.as3.*;
 	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
@@ -48,7 +46,6 @@ package org.libspark.flartoolkit.detector
 	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.transmat.*;
-	import org.libspark.flartoolkit.detector.multi.*;
 
 
 
@@ -59,7 +56,7 @@ package org.libspark.flartoolkit.detector
 	public class FLARMultiMarkerDetector
 	{
 
-		private var _detect_cb:FLARDetectSquareCB;
+		private var _detect_cb:MultiDetectSquareCB;
 		public static const AR_SQUARE_MAX:int = 300;
 		private var _is_continue:Boolean = false;
 		private var _square_detect:NyARSquareContourDetector;
@@ -100,10 +97,11 @@ package org.libspark.flartoolkit.detector
 			// 解析オブジェクトを作る
 			var cw:int = i_ref_code[0].getWidth();
 			var ch:int = i_ref_code[0].getHeight();
-			// 枠線の割合
-			var markerWidthByDec:Number = i_ref_code[0].markerPercentWidth;
-			var markerHeightByDec:Number = i_ref_code[0].markerPercentHeight;
-
+			
+			// 枠線の割合(ARToolKit標準と同じなら、25 -> 1.0系と数値の扱いが異なるので注意！)
+			var markerWidthByDec:Number = 25;
+			var markerHeightByDec:Number = 25;
+			
 			//評価パターンのホルダを作成
 			// NyARColorPatt_Perspective_O2のパラメータ
 			// 第1,2パラ…縦横の解像度(patデータ作ったときの分割数)
@@ -116,12 +114,12 @@ package org.libspark.flartoolkit.detector
 			patt.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
 			
 			//detectMarkerのコールバック関数
-			this._detect_cb=new FLARDetectSquareCB(
-				patt,i_ref_code,i_number_of_code,i_ref_param);
+			this._detect_cb=new MultiDetectSquareCB(patt,i_ref_code,i_number_of_code,i_ref_param);
+			
 			this._transmat = new NyARTransMat(i_ref_param);
 			//NyARToolkitプロファイル
 			this._square_detect =new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
-			this._tobin_filter = new FLARRasterFilter_Threshold(100);
+			this._tobin_filter=new FLARRasterFilter_Threshold(100);
 
 			//実サイズ保存
 			this._offset = NyARRectOffset.createArray(i_number_of_code);
@@ -177,7 +175,7 @@ package org.libspark.flartoolkit.detector
 		 */
 		public function getTransformMatrix(i_index:int, o_result:FLARTransMatResult):void
 		{
-			var result:FLARDetectMarkerResult = this._detect_cb.result_stack.getItem(i_index);
+			var result:NyARDetectMarkerResult = this._detect_cb.result_stack.getItem(i_index);
 			// 一番一致したマーカーの位置とかその辺を計算
 			if (_is_continue) {
 				_transmat.transMatContinue(result.square, this._offset[result.arcode_id], o_result);
@@ -221,39 +219,6 @@ package org.libspark.flartoolkit.detector
 		{
 			this._is_continue = i_is_continue;
 		}
-		
-		// ▼追加　2値化した画像
-		public function get thresholdedBitmapData () :BitmapData {
-			try {
-				return BitmapData(FLARBinRaster(this._bin_raster).getBuffer());
-			} catch (e:Error) {
-				return null;
-			}
-			
-			return null;
-		}
-		
-		// ▼追加　結果
-		public function getResult(i_index:int):FLARDetectMarkerResult
-		{
-			return this._detect_cb.result_stack.getItem(i_index);
-		}
-		
-		public function getbcthreshold():int
-		{
-			return this._detect_cb.threshold;
-		}
-		
-		/**
-		 * i_indexのマーカーの方位を返します。
-		 * 
-		 * @param i_index
-		 * マーカーのインデックス番号を指定します。 直前に実行したdetectMarkerLiteの戻り値未満かつ0以上である必要があります。
-		 * @return 0,1,2,3の何れかを返します。
-		 */
-		public function getDirection(i_index:int):int
-		{
-			return this._detect_cb.result_stack.getItem(i_index).direction;
-		}
+
 	}
 }
