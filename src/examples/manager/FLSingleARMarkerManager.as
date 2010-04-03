@@ -275,7 +275,7 @@ import org.libspark.flartoolkit.core.squaredetect.*;
 /**
  * detectMarkerのコールバック関数
  */
-class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
+internal class DetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 {
 	//公開プロパティ
 	public var square:FLARSquare=new FLARSquare();

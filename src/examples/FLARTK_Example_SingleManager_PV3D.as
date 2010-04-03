@@ -201,11 +201,12 @@ package examples
 			_camera3d = new FLARCamera3D(this.param);
 			
 			// setup ARToolkit
-			this.raster = new FLARRgbRaster_BitmapData( captureWidth, captureHeight);
-			this.capture = new Bitmap( BitmapData(this.raster.getBuffer()), PixelSnapping.AUTO, true);
+			this.capture = new Bitmap(new BitmapData(this.captureWidth, this.captureHeight, false, 0), PixelSnapping.AUTO, true);
 			capture.width = this.canvasWidth;
 			capture.height = this.canvasHeight;
 			this.addChild(this.capture);
+			
+			this.raster = new FLARRgbRaster_BitmapData(this.capture.bitmapData);
 			
 			_viewport = this.addChild(new Viewport3D(this.captureWidth, this.captureHeight)) as Viewport3D;
 			_viewport.scaleX = this.canvasWidth / this.captureWidth;
