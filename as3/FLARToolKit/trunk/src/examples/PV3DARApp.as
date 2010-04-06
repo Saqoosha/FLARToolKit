@@ -29,6 +29,7 @@ package examples {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import org.libspark.flartoolkit.core.analyzer.raster.threshold.FLARRasterThresholdAnalyzer_SlidePTile;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.support.pv3d.FLARBaseNode;
 	import org.libspark.flartoolkit.support.pv3d.FLARCamera3D;
@@ -36,19 +37,58 @@ package examples {
 	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.view.Viewport3D;
 	
-	import examples.ARAppBase;
-	
 	public class PV3DARApp extends ARAppBase {
-		
+		/**
+		 * @see flash.display.Sprite
+		 */
 		protected var _base:Sprite;
+		
+		/**
+		 * @see org.papervision3d.view.Viewport3D
+		 */
 		protected var _viewport:Viewport3D;
+		
+		/**
+		 * @see org.libspark.flartoolkit.support.pv3d.FLARCamera3D
+		 */
 		protected var _camera3d:FLARCamera3D;
+		
+		/**
+		 * @see org.papervision3d.scenes.Scene3D
+		 */
 		protected var _scene:Scene3D;
+		
+		/**
+		 * @see org.papervision3d.render.LazyRenderEngine
+		 */
 		protected var _renderer:LazyRenderEngine;
+		
+		/**
+		 * @see org.libspark.flartoolkit.support.pv3d.FLARBaseNode
+		 */
 		protected var _markerNode:FLARBaseNode;
 		
+		/**
+		 * @see org.libspark.flartoolkit.core.transmat.FLARTransMatResult
+		 */
 		protected var _resultMat:FLARTransMatResult = new FLARTransMatResult();
 		
+		/**
+		 * 画像二値化の際のしきい値
+		 * 固定値で使用する場合は、使用場所を想定して値を設定してください。
+		 * 認識に差が生じます。
+		 */
+		private var _threshold:int = 110;
+		
+		/**
+		 *  しきい値の自動調整用のクラス
+		 * @see org.libspark.flartoolkit.core.analyzer.raster.threshold.FLARRasterThresholdAnalyzer_SlidePTile
+		 */
+		private var _threshold_detect:FLARRasterThresholdAnalyzer_SlidePTile;
+		
+		/**
+		 * Constructor
+		 */
 		public function PV3DARApp() {
 		}
 		
@@ -76,6 +116,8 @@ package examples {
 			
 			_renderer = new LazyRenderEngine(_scene, _camera3d, _viewport);
 			
+			this._threshold_detect=new FLARRasterThresholdAnalyzer_SlidePTile(15,4);
+			
 			addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 		}
 		
@@ -84,7 +126,7 @@ package examples {
 			
 			var detected:Boolean = false;
 			try {
-				detected = _detector.detectMarkerLite(_raster, 80) && _detector.getConfidence() > 0.5;
+				detected = _detector.detectMarkerLite(_raster, _threshold) && _detector.getConfidence() > 0.5;
 			} catch (e:Error) {}
 			
 			if (detected) {
@@ -93,8 +135,12 @@ package examples {
 				_markerNode.visible = true;
 			} else {
 				_markerNode.visible = false;
+				// マーカがなければ、探索+DualPTailで基準輝度検索
+				// マーカーが見つからない場合、処理が重くなるので状況に応じてコメントアウトすると良い
+				var th:int=this._threshold_detect.analyzeRaster(_raster);
+				this._threshold=(this._threshold+th)/2;
+				// trace("[threshold] : " + this._threshold);
 			}
-			
 			_renderer.render();
 		}
 		
