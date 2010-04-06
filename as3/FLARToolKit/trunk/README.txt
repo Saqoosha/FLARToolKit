@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.1
+ version 2.5.1.1
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -102,12 +102,6 @@ Moreover, FLARToolKit is distributed including some relating libraries.
 Each license adjusts to the included library. 
 
 ----------------------------------------------------------------------
- Attention
-----------------------------------------------------------------------
-このバージョンは、過去に配布されたStart-kitなどから復元されたものです。
-This version is the one restored from Start-kit etc. distributed in the past.
-
-----------------------------------------------------------------------
  Include External library
 ----------------------------------------------------------------------
 [papervision3d 2.1.920]
@@ -115,14 +109,19 @@ This version is the one restored from Start-kit etc. distributed in the past.
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
 
-----------------------------------------------------------------------
- External library
-----------------------------------------------------------------------
-[Away3D, Away3D Lite]
+[Away3D 3.4.0]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
  License : Apache License, Version 2.0
- 
+
+[Away3D Lite 1.0.0]
+ Realtime 3D engine for Flash
+ URL     : http://away3d.com/
+ License : Apache License, Version 2.0
+
+----------------------------------------------------------------------
+ External library
+----------------------------------------------------------------------
 [Sandy3D]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
@@ -136,8 +135,11 @@ This version is the one restored from Start-kit etc. distributed in the past.
 ----------------------------------------------------------------------
  Development environment
 ----------------------------------------------------------------------
- * Flex Builder 3.0 (build 3.0.2)
+ * Adobe FLASH CS4 Professional (version 10.0.2)
+ * Adobe Flex Builder 3 Standard (build 3.0.2)
    (Eclipse Version: 3.4.2 + Flex Builder 3.0 + Flex SDK 3.4, 3.5)
+ * Adobe Flash Builder 4 Standard (Version 4.0 : build 272416)
+   (Flex SDK 4.0)
  * FlashDevelop + Flex SDK 3.4, 3.5
  
 ----------------------------------------------------------------------
@@ -152,6 +154,13 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.1.1 (2010-Apr-xx)
+ * Corrected that publish can be done with FLASH CS4.
+ * An initial value of default camera value that Mackc wrote in FLARParam is added.
+ * The regulating function of the threshold of the raster image is added to PV3DARApp.
+ * Construct of FLARRgbRaster_BitmapData is corrected.
+ * Corrected sample
+
 2.5.1 (2010-Feb-20)
  * Bug fix: spell miss, interface, extends error and more.
  
