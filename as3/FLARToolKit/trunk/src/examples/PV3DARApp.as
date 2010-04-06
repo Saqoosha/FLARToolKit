@@ -26,6 +26,7 @@
  */
 package examples {
 	
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -87,9 +88,20 @@ package examples {
 		private var _threshold_detect:FLARRasterThresholdAnalyzer_SlidePTile;
 		
 		/**
+		 * 二値化画像を重ねて表示する場合のフラグ
+		 * isRasterViewMode() を呼び出して切り替えてください
+		 */
+		protected var _is_raster_view:Boolean = false;
+		
+		/**
 		 * Constructor
 		 */
 		public function PV3DARApp() {
+		}
+		
+		public function isRasterViewMode(onView:Boolean = true):void
+		{
+			this._is_raster_view = onView;
 		}
 		
 		protected override function init(cameraFile:String, codeFile:String, canvasWidth:int = 320, canvasHeight:int = 240, codeWidth:int = 80):void {
@@ -117,6 +129,12 @@ package examples {
 			_renderer = new LazyRenderEngine(_scene, _camera3d, _viewport);
 			
 			this._threshold_detect=new FLARRasterThresholdAnalyzer_SlidePTile(15,4);
+			
+			// 二値化画像を見るための部分
+			if (this._is_raster_view) {
+				var binRasterBitmap:Bitmap = new Bitmap(this._detector.thresholdedBitmapData);
+				_base.addChild(binRasterBitmap);
+			}
 			
 			addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 		}

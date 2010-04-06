@@ -46,6 +46,9 @@ package examples {
 		private var _cube:Cube;
 		
 		public function FLARToolKitExample_PV3D() {
+			
+			// 二値化画像を表示するなら true をセットしてください。
+			this.isRasterViewMode(false);
 			// Initalize application with the path of camera calibration file and patter definition file.
 			// カメラ補正ファイルとパターン定義ファイルのファイル名を渡して初期化。
 			addEventListener(Event.INIT, _onInit);
