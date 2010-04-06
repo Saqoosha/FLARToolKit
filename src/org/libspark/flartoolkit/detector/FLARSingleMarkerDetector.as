@@ -174,6 +174,21 @@ package org.libspark.flartoolkit.detector
 		{
 			this._is_continue = i_is_continue;
 		}
+		
+		/**
+		 * 2値化した画像を返却します。
+		 * 
+		 * @return 画像情報を返却します
+		 */
+		public function get thresholdedBitmapData() :BitmapData
+		{
+			try {
+				return BitmapData(FLARBinRaster(this._bin_raster).getBuffer());
+			} catch (e:Error) {
+				return null;
+			}
+			return null;
+		}
 	}
 }
 
