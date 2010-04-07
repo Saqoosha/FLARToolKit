@@ -235,7 +235,7 @@ package org.libspark.flartoolkit.detector {
 		 * 検出したマーカーの変換行列を計算して、o_resultへ値を返します。
 		 * 直前に実行したdetectMarkerLiteが成功していないと使えません。
 		 * <span lang="en">Transformation matrix to calculate the detected markers, o_result to return a value. 
-		 * DetectMarkerLite not work before you run and have not been successful.</span">
+		 * DetectMarkerLite not work before you run and have not been successful.</span>
 		 * 
 		 * @param o_result 変換行列を受け取るオブジェクトを指定します。
 		 * <span lang="en">Specifies the object that receives the transformation matrix.</span>
