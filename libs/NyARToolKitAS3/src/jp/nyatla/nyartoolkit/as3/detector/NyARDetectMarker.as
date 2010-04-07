@@ -338,12 +338,12 @@ class NyARDetectMarkerResultStack extends NyARObjectStack
 	{
 		super(i_length);
 	}
-	protected override function createArray(i_length:int):Vector.<*>
+	protected override function createArray(i_length:int):Vector.<Object>
 	{
 		var ret:Vector.<NyARDetectMarkerResult>= new Vector.<NyARDetectMarkerResult>(i_length);
 		for (var i:int =0; i < i_length; i++){
 			ret[i] = new NyARDetectMarkerResult();
 		}
-		return Vector.<*>(ret);
+		return Vector.<Object>(ret);
 	}	
 }
