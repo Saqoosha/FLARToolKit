@@ -38,7 +38,7 @@ contributors
 ----------------------------------------------------------------------
  * ARToolKit の AS3 版です。
  * Flash player 10 用
- * A虎＠(nyatla)氏の NyARToolkit for AS を基盤にFLARToolKit v1.xの
+ * A虎＠(nyatla)氏の NyARToolkit for AS3 を基盤にFLARToolKit v1.xの
    インターフェースを引き継いだライブラリ集です。
  * FLARToolKit は入力画像からマーカーを認識して、3 次元空間での
    カメラ位置を計算するとこまでをやってくれます。
@@ -49,7 +49,7 @@ contributors
  # AS3 ported version of ARToolKit.
  # Flash player 10 only
  # This is a library collection that succeeded the interface of
-   FLARToolKit v1.x based on NyARToolkit for AS.
+   FLARToolKit v1.x based on NyARToolkit for AS3(NOT Alchemy version).
  # FLARToolKit recognize the marker from input image.
    and calculate its orientation and position in 3D world.
  # You should draw 3D graphics by your own.
@@ -155,6 +155,14 @@ Prof. Mark Billinghurst
  Change Log
 ----------------------------------------------------------------------
 2.5.1.1 (2010-Apr-xx)
+ * Add NyIDMarker sample
+ * Add Single Marker Manager sample
+ * Modify FLARCode
+   + add constructor params
+   + add function markerPercentWidth, markerPercentHeight
+ * Modify FLARParam
+   + add initial parameter value
+ * Add Camera parameter file(16x9)
  * Corrected that publish can be done with FLASH CS4.
  * An initial value of default camera value that Mackc wrote in FLARParam is added.
  * The regulating function of the threshold of the raster image is added to PV3DARApp.
