@@ -153,7 +153,7 @@ class RleLabelOverlapChecker extends NyARLabelOverlapChecker
 	{
 		super(i_max_label);
 	}
-	protected override function createArray(i_length:int):Vector.<*>
+	protected override function createArray(i_length:int):Vector.<NyARLabelInfo>
 	{
 		return new Vector.<NyARRleLabelFragmentInfo>(i_length);
 	}	
