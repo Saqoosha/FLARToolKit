@@ -294,8 +294,9 @@ package examples
 		 */
 		protected function supportLibsInit(): void
 		{
-			this.viewport3d = this.addChild(new Viewport3D(this.captureWidth,
-														   this.captureHeight)) as Viewport3D;
+			this.viewport3d = new Viewport3D(this.captureWidth,
+											  this.captureHeight);
+			this.addChild(this.viewport3d);
 			this.viewport3d.scaleX = this.canvasWidth / this.captureWidth;
 			this.viewport3d.scaleY = this.canvasHeight / this.captureHeight;
 			this.viewport3d.x = -4; // 4pix ???
