@@ -30,9 +30,9 @@
 
 package org.libspark.flartoolkit.support.away3d {
 	
-	import away3d.cameras.*;
-	import away3d.cameras.lenses.*;
-	import away3d.core.math.*;
+	import away3d.cameras.Camera3D;
+	import away3d.cameras.lenses.PerspectiveLens;
+	import away3d.core.math.MatrixAway3D;
 	
 	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
 	
@@ -65,8 +65,8 @@ package org.libspark.flartoolkit.support.away3d {
 			
 			param.getPerspectiveProjectionMatrix().decompMat(icpara_mat, trans_mat);
 			
-			var icpara:Array = icpara_mat.getArray();
-			var trans:Array = trans_mat.getArray();
+			var icpara:Vector.<Vector.<Number>> = icpara_mat.getArray();
+			var trans:Vector.<Vector.<Number>> = trans_mat.getArray();
 			for (i = 0; i < 4; i++) {
 				icpara[1][i] = (height - 1) * (icpara[2][i]) - icpara[1][i];
 			}
@@ -128,9 +128,9 @@ package org.libspark.flartoolkit.support.away3d {
 		}
 		
 		public override function get viewMatrix():MatrixAway3D
-        {
-        	invViewMatrix.inverse(_projectionMatrix)
-        	return _projectionMatrix;
-        }
+		{
+			invViewMatrix.inverse(_projectionMatrix)
+			return _projectionMatrix;
+		}
 	}
 }
