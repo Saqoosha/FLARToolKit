@@ -37,6 +37,7 @@ package examples
 	import jp.nyatla.as3utils.NyMultiFileLoader;
 	
 	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.analyzer.raster.threshold.FLARRasterThresholdAnalyzer_SlidePTile;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
@@ -128,6 +129,19 @@ package examples
 		 * @see org.libspark.flartoolkit.detector.FLARSingleMarkerDetector
 		 */
 		private var detector:FLARSingleMarkerDetector;
+		
+		/**
+		 * 画像二値化の際のしきい値
+		 * 固定値で使用する場合は、使用場所を想定して値を設定してください。
+		 * 認識に差が生じます。
+		 */
+		private var _threshold:int = 110;
+		
+		/**
+		 *  しきい値の自動調整用のクラス
+		 * @see org.libspark.flartoolkit.core.analyzer.raster.threshold.FLARRasterThresholdAnalyzer_SlidePTile
+		 */
+		private var _threshold_detect:FLARRasterThresholdAnalyzer_SlidePTile;
 		
 		/**
 		 * 3Dモデル表示用
@@ -277,6 +291,8 @@ package examples
 														  this.codeWidth);
 			// 継続認識モード発動
 			this.detector.setContinueMode(true);
+			// しきい値調整
+			this._threshold_detect=new FLARRasterThresholdAnalyzer_SlidePTile(15,4);
 			
 			// 初期化完了
 			dispatchEvent(new Event(Event.INIT));
@@ -398,7 +414,7 @@ package examples
 			// Marker detect
 			var detected:Boolean = false;
 			try {
-				detected = this.detector.detectMarkerLite(this.raster, 80) && this.detector.getConfidence() > 0.5;
+				detected = this.detector.detectMarkerLite(this.raster, this._threshold) && this.detector.getConfidence() > 0.5;
 			} catch (e:Error) {}
 			
 			// 認識時の処理
@@ -411,6 +427,10 @@ package examples
 			// 非認識時
 			} else {
 				this.dispatchEvent(new MarkerEvent(MarkerEvent.MARKER_REMOVED));
+				// マーカがなければ、探索+DualPTailで基準輝度検索
+				// マーカーが見つからない場合、処理が重くなるので状況に応じてコメントアウトすると良い
+				var th:int=this._threshold_detect.analyzeRaster(this.raster);
+				this._threshold=(this._threshold+th)/2;
 			}
 			this.renderer.render();
 		}
