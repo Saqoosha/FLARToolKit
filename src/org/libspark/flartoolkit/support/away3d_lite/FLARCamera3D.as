@@ -34,8 +34,9 @@ package org.libspark.flartoolkit.support.away3d_lite {
 	
 	import flash.geom.Matrix3D;
 	
+	import jp.nyatla.nyartoolkit.as3.core.param.NyARPerspectiveProjectionMatrix;
+	
 	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.param.FLARPerspectiveProjectionMatrix;
 	
 	use namespace arcane;
 	
@@ -61,7 +62,7 @@ package org.libspark.flartoolkit.support.away3d_lite {
 			this.y = 0;
 			this.z = 0;
 			
-			var fm:FLARPerspectiveProjectionMatrix = flarParams.getPerspectiveProjectionMatrix();
+			var fm:NyARPerspectiveProjectionMatrix = flarParams.getPerspectiveProjectionMatrix();
 			this.flarProjectionMatrix = new Matrix3D(Vector.<Number>([
 					fm.m00*viewportToSourceWidthRatio,	fm.m01,	0,	fm.m03,
 					fm.m10,	fm.m11*viewportToSourceWidthRatio,	0,	fm.m13,
