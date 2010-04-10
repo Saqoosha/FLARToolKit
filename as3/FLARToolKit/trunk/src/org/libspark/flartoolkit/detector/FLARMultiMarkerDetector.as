@@ -210,6 +210,23 @@ package org.libspark.flartoolkit.detector
 		}
 
 		/**
+		 * added by ericsoco for compliance with FLARToolkit 1.0.0
+		 */
+		public function getDirection(i_index:int):int
+		{
+			// i don't see an easy hook for this, so deferring for now.
+			return -1;
+		}
+		
+		/**
+		 * added by ericsoco for compliance with FLARToolkit 1.0.0
+		 */
+		public function getSquare(i_index:int):NyARSquare
+		{
+			return this._detect_cb.result_stack.getItem(i_index).square;
+		}
+
+		/**
 		 * getTransmationMatrixの計算モードを設定します。
 		 * 
 		 * @param i_is_continue
