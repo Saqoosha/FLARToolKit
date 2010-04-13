@@ -41,6 +41,18 @@ package {
 			// Papervison3d collada model
 //			this.addChild(new FLARToolKitExample_ColladaData());
 			
+			// Single Marker sample Papervision3D
+//			this.addChild(new FLARTK_Example_Single_SimpleCube_PV3D());
+			
+			// Multi pattern Marker sample Papervision3D
+//			this.addChild(new FLARTK_Example_Multiple_SimpleCube_PV3D());
+
+			// Single Marker sample Away3D
+//			this.addChild(new FLARTK_Example_Single_SimpleCube_Away3D());
+			
+			// Single Marker sample Away3D Lite
+//			this.addChild(new FLARTK_Example_Single_SimpleCube_Away3DLite());
+			
 			// Single Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleManager_PV3D());
 
