@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.1.1
+ version 2.5.2
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -28,10 +28,8 @@ This work is based on the NyARToolKit developed by
   http://nyatla.jp/nyatoolkit/
 
 contributors
- eric socolofsky
- makc
- tarotaro http://tarotaro.org/
- rokubou http://sixwish.jp/
+ eric socolofsky, makc
+ tarotaro, rokubou
 
 ----------------------------------------------------------------------
  About FLARToolKit
@@ -44,7 +42,7 @@ contributors
    カメラ位置を計算するとこまでをやってくれます。
  * 3D グラフィックスとの合成などは各自で実装する必要があります。
  * ただし簡単に合成できるようにヘルパー的なものはついてます。
-   (Papervision3D, Away3D, Sandy3D, Alternativa3D)
+   (Papervision3D, Away3D, Away3D Lite, Sandy3D, Alternativa3D)
 
  # AS3 ported version of ARToolKit.
  # Flash player 10 only
@@ -154,9 +152,7 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
-2.5.1.1 (2010-Apr-xx)
- * Add NyIDMarker sample
- * Add Single Marker Manager sample
+2.5.2 alpha (2010-Apr-14)
  * Modify FLARCode
    + add constructor params
    + add function markerPercentWidth, markerPercentHeight
@@ -167,7 +163,16 @@ Prof. Mark Billinghurst
  * An initial value of default camera value that Mackc wrote in FLARParam is added.
  * The regulating function of the threshold of the raster image is added to PV3DARApp.
  * Construct of FLARRgbRaster_BitmapData is corrected.
+ * Added method to FLARMultiMarkerDetector,FLARSingleMarkerDetector
+   + getDirection(i_index:int):int, getSquare(i_index:int):NyARSquare
+ * Add Away3D, Away3D Lite library.
+ * Add support.away3d_lite.FLARBaseNode.(experiment)
  * Corrected sample
+ * Add NyIDMarker sample
+ * Add Single Marker Manager sample
+ * Add Single Marker PV3D sample
+ * Add Single Marker Away3D sample
+ * Add Single Marker Away3D Lite sample(experiment)
 
 2.5.1 (2010-Feb-20)
  * Bug fix: spell miss, interface, extends error and more.
