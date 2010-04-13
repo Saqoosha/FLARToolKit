@@ -1,14 +1,13 @@
 package org.libspark.flartoolkit.detector
 {
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import jp.nyatla.nyartoolkit.as3.*;
 	import jp.nyatla.nyartoolkit.as3.core.*;
+	import jp.nyatla.nyartoolkit.as3.core.match.*;
+	import jp.nyatla.nyartoolkit.as3.core.param.*;
+	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	
 	/**
@@ -19,6 +18,7 @@ package org.libspark.flartoolkit.detector
 		//公開プロパティ
 		public var confidence:Number;
 		public var square:NyARSquare=new NyARSquare();
+		public var direction:int;
 		
 		//参照インスタンス
 		private var _ref_raster:INyARRgbRaster;
@@ -73,6 +73,7 @@ package org.libspark.flartoolkit.detector
 			//一致率の高い矩形があれば、方位を考慮して頂点情報を作成
 			var sq:NyARSquare=this.square;
 			this.confidence = mr.confidence;
+			this.direction = mr.direction;
 			//directionを考慮して、squareを更新する。
 			for(i=0;i<4;i++){
 				var idx:int=(i+4 - mr.direction) % 4;
