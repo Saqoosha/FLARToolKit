@@ -317,9 +317,12 @@ package examples
 			this.viewport3d.scaleY = this.canvasHeight / this.captureHeight;
 			this.viewport3d.x = -4; // 4pix ???
 			
+			// マーカーノードの初期化
+			this.markerNode = new FLARBaseNode();
+			
 			// シーンの生成
 			this.scene3d = new Scene3D();
-			this.markerNode = this.scene3d.addChild(new FLARBaseNode()) as FLARBaseNode;
+			this.scene3d.addChild(this.markerNode)
 			
 			// 3Dモデル表示時の視点を設定
 			this.camera3d = new FLARCamera3D(this.cameraParam);
