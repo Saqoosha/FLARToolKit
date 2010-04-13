@@ -28,27 +28,26 @@
  */
 package org.libspark.flartoolkit.detector
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
+	import flash.display.BitmapData;
 	
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.*;
-	import org.libspark.flartoolkit.core.squaredetect.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.raster.rgb.*;
-	import org.libspark.flartoolkit.core.transmat.*;
-
-
-
+	import jp.nyatla.nyartoolkit.as3.NyARException;
+	import jp.nyatla.nyartoolkit.as3.core.pickup.NyARColorPatt_Perspective_O2;
+	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.INyARRasterFilter_Rgb2Bin;
+	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARSquare;
+	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARSquareContourDetector;
+	import jp.nyatla.nyartoolkit.as3.core.transmat.INyARTransMat;
+	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARRectOffset;
+	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARTransMat;
+	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.raster.FLARBinRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_Threshold;
+	import org.libspark.flartoolkit.core.squaredetect.FLARSquareContourDetector;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	
 	/**
 	 * 複数のマーカーを検出し、それぞれに最も一致するARコードを、コンストラクタで登録したARコードから 探すクラスです。最大300個を認識しますが、ゴミラベルを認識したりするので100個程度が限界です。
 	 * 
@@ -77,8 +76,6 @@ package org.libspark.flartoolkit.detector
 		 * i_codeのマーカーサイズをミリメートルで指定した配列を指定します。 先頭からi_number_of_code個の要素には、有効な値を指定する必要があります。
 		 * @param i_number_of_code
 		 * i_codeに含まれる、ARCodeの数を指定します。
-		 * @param i_input_raster_type
-		 * 入力ラスタのピクセルタイプを指定します。この値は、INyARBufferReaderインタフェイスのgetBufferTypeの戻り値を指定します。
 		 * @throws NyARException
 		 */
 		public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Vector.<FLARCode>, i_marker_width:Vector.<Number>, i_number_of_code:int)
@@ -92,7 +89,6 @@ package org.libspark.flartoolkit.detector
 			i_marker_width:Vector.<Number>,
 			i_number_of_code:int):void
 		{
-
 			var scr_size:NyARIntSize=i_ref_param.getScreenSize();
 			// 解析オブジェクトを作る
 			var cw:int = i_ref_code[0].getWidth();
@@ -175,7 +171,7 @@ package org.libspark.flartoolkit.detector
 		 */
 		public function getTransformMatrix(i_index:int, o_result:FLARTransMatResult):void
 		{
-			var result:NyARDetectMarkerResult = this._detect_cb.result_stack.getItem(i_index);
+			var result:FLARDetectMarkerResult = this._detect_cb.result_stack.getItem(i_index);
 			// 一番一致したマーカーの位置とかその辺を計算
 			if (_is_continue) {
 				_transmat.transMatContinue(result.square, this._offset[result.arcode_id], o_result);

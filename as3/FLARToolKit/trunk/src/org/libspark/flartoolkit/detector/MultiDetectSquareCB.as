@@ -17,7 +17,7 @@ package org.libspark.flartoolkit.detector
 	internal class MultiDetectSquareCB implements NyARSquareContourDetector_IDetectMarkerCallback
 	{
 		//公開プロパティ
-		public var result_stack:NyARDetectMarkerResultStack=new NyARDetectMarkerResultStack(NyARDetectMarker.AR_SQUARE_MAX);
+		public var result_stack:FLARDetectMarkerResultStack=new FLARDetectMarkerResultStack(NyARDetectMarker.AR_SQUARE_MAX);
 		//参照インスタンス
 		public var _ref_raster:INyARRgbRaster;
 		//所有インスタンス
@@ -94,7 +94,7 @@ package org.libspark.flartoolkit.detector
 				confidence = mr.confidence;
 			}
 			//最も一致したマーカ情報を、この矩形の情報として記録する。
-			var result:NyARDetectMarkerResult = this.result_stack.prePush();
+			var result:FLARDetectMarkerResult = this.result_stack.prePush();
 			result.arcode_id = square_index;
 			result.confidence = confidence;
 
