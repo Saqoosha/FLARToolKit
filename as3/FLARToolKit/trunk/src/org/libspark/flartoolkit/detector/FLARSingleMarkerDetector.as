@@ -91,7 +91,7 @@ package org.libspark.flartoolkit.detector
 			i_ref_code:FLARCode,
 			i_marker_width:Number):void
 		{
-			var scr_size:NyARIntSize=i_ref_param.getScreenSize();		
+			var scr_size:NyARIntSize=i_ref_param.getScreenSize();
 			// 解析オブジェクトを作る
 			this._square_detect = i_sqdetect_inst;
 			this._transmat = i_transmat_inst;
@@ -164,6 +164,27 @@ package org.libspark.flartoolkit.detector
 		{
 			return this._detect_cb.confidence;
 		}
+		
+		/**
+		 * 検出したマーカーの方位を返します。
+		 * 0,1,2,3の何れかを返します。
+		 * 
+		 * @return Returns whether any of 0,1,2,3.
+		 */
+		public function getDirection():int
+		{
+			return this._detect_cb.direction;
+		}
+		
+		/**
+		 * 検出した FLARSquare 1 個返す。検出できなかったら null。
+		 * @return Total return detected FLARSquare 1. Detection Dekinakattara null.
+		 */
+		public function getSquare():NyARSquare
+		{
+			return this._detect_cb.square;
+		}
+		
 		/**
 		 * getTransmationMatrixの計算モードを設定します。 初期値はTRUEです。
 		 * 

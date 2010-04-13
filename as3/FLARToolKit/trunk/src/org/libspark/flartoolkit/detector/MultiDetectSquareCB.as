@@ -97,7 +97,8 @@ package org.libspark.flartoolkit.detector
 			var result:FLARDetectMarkerResult = this.result_stack.prePush();
 			result.arcode_id = square_index;
 			result.confidence = confidence;
-
+			result.direction = direction;
+			
 			var sq:NyARSquare=result.square;
 			//directionを考慮して、squareを更新する。
 			for(i=0;i<4;i++){

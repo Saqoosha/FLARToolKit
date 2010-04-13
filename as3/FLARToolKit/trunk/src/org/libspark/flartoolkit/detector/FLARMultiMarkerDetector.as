@@ -206,16 +206,19 @@ package org.libspark.flartoolkit.detector
 		}
 
 		/**
-		 * added by ericsoco for compliance with FLARToolkit 1.0.0
+		 * 検出したマーカーの方位を返します。
+		 * 0,1,2,3の何れかを返します。
+		 * 
+		 * @return Returns whether any of 0,1,2,3.
 		 */
 		public function getDirection(i_index:int):int
 		{
-			// i don't see an easy hook for this, so deferring for now.
-			return -1;
+			return this._detect_cb.result_stack.getItem(i_index).direction;
 		}
 		
 		/**
-		 * added by ericsoco for compliance with FLARToolkit 1.0.0
+		 * 検出した FLARSquare 1 個返す。検出できなかったら null。
+		 * @return Total return detected FLARSquare 1. Detection Dekinakattara null.
 		 */
 		public function getSquare(i_index:int):NyARSquare
 		{

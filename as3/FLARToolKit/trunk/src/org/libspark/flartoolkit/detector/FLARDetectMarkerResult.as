@@ -33,6 +33,7 @@ package org.libspark.flartoolkit.detector
 	{
 		public var arcode_id:int;
 		public var confidence:Number;
+		public var direction:int;
 
 		public var square:NyARSquare=new NyARSquare();
 	}
