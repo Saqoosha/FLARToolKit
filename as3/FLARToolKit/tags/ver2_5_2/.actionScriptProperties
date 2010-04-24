@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties mainApplicationPath="Main.as" version="3">
-  <compiler additionalCompilerArguments="-target-player=10.0.0" copyDependentFiles="true" enableModuleDebug="true" flexSDK="Flex 3.5" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersion="10.0.0" htmlPlayerVersionCheck="true" outputFolderPath="bin" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+  <compiler additionalCompilerArguments="-target-player=10.0.12" copyDependentFiles="true" enableModuleDebug="true" flexSDK="Flex 3.5" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersion="10.0.12" htmlPlayerVersionCheck="true" outputFolderPath="bin" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="libs/Papervision3D/src"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="libs/NyARToolKitAS3/src"/>
