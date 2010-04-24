@@ -152,6 +152,13 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.2 (2010-Apr-25)
+ * Fixed bug(NyARToolKit)
+   + NyARPerspectiveParamGenerator
+     (markers with a rotation of exactly 0, 90, 180, and 270 are detected,
+      but at a very low confidence)
+   + NyARDoubleMatrix22::inverse
+
 2.5.2 alpha (2010-Apr-14)
  * Modify FLARCode
    + add constructor params
