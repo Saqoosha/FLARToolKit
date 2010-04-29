@@ -62,6 +62,8 @@ package org.libspark.flartoolkit.detector
 		protected var _transmat:INyARTransMat;
 		private var _offset:Vector.<NyARRectOffset>;
 
+		// import が消える現象回避用
+		private var _flarcode:FLARCode;
 
 		/**
 		 * 複数のマーカーを検出し、最も一致するARCodeをi_codeから検索するオブジェクトを作ります。
@@ -90,13 +92,16 @@ package org.libspark.flartoolkit.detector
 			i_number_of_code:int):void
 		{
 			var scr_size:NyARIntSize=i_ref_param.getScreenSize();
+			// @todo この部分にマーカーの幅や高さ、枠線の割合がすべて一致するかのチェックを入れる
+			// もしくは、FLARCodeの生成時に強制的に同一の数値を入力する事
+			
 			// 解析オブジェクトを作る
 			var cw:int = i_ref_code[0].getWidth();
 			var ch:int = i_ref_code[0].getHeight();
 			
 			// 枠線の割合(ARToolKit標準と同じなら、25 -> 1.0系と数値の扱いが異なるので注意！)
-			var markerWidthByDec:Number = 25;
-			var markerHeightByDec:Number = 25;
+			var markerWidthByDec:Number = (100 - i_ref_code[0].markerPercentWidth) / 2;
+			var markerHeightByDec:Number = (100 - i_ref_code[0].markerPercentHeight) / 2;
 			
 			//評価パターンのホルダを作成
 			// NyARColorPatt_Perspective_O2のパラメータ
@@ -108,7 +113,7 @@ package org.libspark.flartoolkit.detector
 			var patt:NyARColorPatt_Perspective_O2 = new NyARColorPatt_Perspective_O2(cw, ch, 4, markerWidthByDec);
 			// 縦横のエッジの割合が異なる場合にも対応できます。
 			patt.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
-			
+//			trace('w:'+markerWidthByDec+'/h:'+markerHeightByDec);
 			//detectMarkerのコールバック関数
 			this._detect_cb=new MultiDetectSquareCB(patt,i_ref_code,i_number_of_code,i_ref_param);
 			

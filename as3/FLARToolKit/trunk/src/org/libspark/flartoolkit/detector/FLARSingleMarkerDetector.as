@@ -61,10 +61,14 @@ package org.libspark.flartoolkit.detector
 		public function FLARSingleMarkerDetector(i_ref_param:FLARParam,i_ref_code:FLARCode,i_marker_width:Number)
 		{
 			var th:INyARRasterFilter_Rgb2Bin=new FLARRasterFilter_Threshold(100);
-			var patt_inst:INyARColorPatt;
+			var patt_inst:NyARColorPatt_Perspective_O2;
 			var sqdetect_inst:FLARSquareContourDetector;
 			var transmat_inst:INyARTransMat;
 			
+			// 枠線の割合(ARToolKit標準と同じなら、25 -> 1.0系と数値の扱いが異なるので注意！)
+			var markerWidthByDec:Number = (100 - i_ref_code.markerPercentWidth) / 2;
+			var markerHeightByDec:Number = (100 - i_ref_code.markerPercentHeight) / 2;
+
 			//評価パターンのホルダを作成
 			// NyARColorPatt_Perspective_O2のパラメータ
 			// 第1,2パラ…縦横の解像度(patデータ作ったときの分割数)
@@ -72,10 +76,10 @@ package org.libspark.flartoolkit.detector
 			//       1,2,4,任意の数値のいずれか。値が大きいほど一致率ＵＰ、フレームレート低下。
 			//       解像度16、サンプリング数4がデフォルト。解像度が大きい場合は、サンプリング数を下げることでフレームレートの低下を回避できる。
 			// 第4パラ…エッジ幅の割合(ARToolKit標準と同じなら、25)->1.0系と数値の扱いが異なるので注意！
-			var edge:uint = (100 - i_ref_code.markerPercentWidth) / 2; trace("edge:",edge);
-			patt_inst=new NyARColorPatt_Perspective_O2(i_ref_code.getWidth(), i_ref_code.getHeight(),4,edge);
+			patt_inst = new NyARColorPatt_Perspective_O2(i_ref_code.getWidth(), i_ref_code.getHeight(), 4, markerWidthByDec);
 			// 縦横のエッジの割合が異なる場合にも対応できます。
-			// patt_inst.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
+			patt_inst.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
+//			trace('w:'+markerWidthByDec+'/h:'+markerHeightByDec);
 
 			sqdetect_inst=new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
 			transmat_inst=new NyARTransMat(i_ref_param);
