@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.2
+ version 2.5.3 Alpha
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -152,6 +152,12 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.3 alpha (2010-xxx-xx)
+ * Modify FLARMultiMarkerDetector
+   + Corresponds to markerPercentWidth, markerPercentHeight
+ * Modify FLARSingleMarkerDetector
+   + Delete debug trace()
+
 2.5.2 (2010-Apr-25)
  * Fixed bug(NyARToolKit)
    + NyARPerspectiveParamGenerator
