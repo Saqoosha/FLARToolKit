@@ -51,7 +51,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			var lty:Number = this._local_y;
 			var rbx:Number = ltx + this._width;
 			var rby:Number = lty + this._height;
-			
+
 			var det_1:Number;
 			var a13:Number, a14:Number, a23:Number, a24:Number, a33:Number, a34:Number, a43:Number, a44:Number;
 			var b11:Number, b12:Number, b13:Number, b14:Number, b21:Number, b22:Number, b23:Number, b24:Number, b31:Number, b32:Number, b33:Number, b34:Number, b41:Number, b42:Number, b43:Number, b44:Number;
@@ -72,64 +72,63 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 				a34 = -rby * v3;
 				a43 = -ltx * v4;
 				a44 = -rby * v4;
-				
+
 				t1 = a33 * a44 - a34 * a43;
 				t4 = a34 * ltx - rbx * a44;
 				t5 = rbx * a43 - a33 * ltx;
 				t2 = rby * (a34 - a44);
 				t3 = rby * (a43 - a33);
 				t6 = rby * (rbx - ltx);
-				
+
 				b21 = -a23 * t4 - a24 * t5 - rbx * t1;
 				b11 = (a23 * t2 + a24 * t3) + lty * t1;
 				b31 = (a24 * t6 - rbx * t2) + lty * t4;
 				b41 = (-rbx * t3 - a23 * t6) + lty * t5;
-				
+
 				t1 = a43 * a14 - a44 * a13;
 				t2 = a44 * lty - rby * a14;
 				t3 = rby * a13 - a43 * lty;
 				t4 = ltx * (a44 - a14);
 				t5 = ltx * (a13 - a43);
 				t6 = ltx * (lty - rby);
-				
+
 				b12 = -rby * t1 - a33 * t2 - a34 * t3;
 				b22 = (a33 * t4 + a34 * t5) + rbx * t1;
 				b32 = (-a34 * t6 - rby * t4) + rbx * t2;
 				b42 = (-rby * t5 + a33 * t6) + rbx * t3;
-				
+
 				t1 = a13 * a24 - a14 * a23;
 				t4 = a14 * rbx - ltx * a24;
 				t5 = ltx * a23 - a13 * rbx;
 				t2 = lty * (a14 - a24);
 				t3 = lty * (a23 - a13);
 				t6 = lty * (ltx - rbx);
-				
+
 				b23 = -a43 * t4 - a44 * t5 - ltx * t1;
 				b13 = (a43 * t2 + a44 * t3) + rby * t1;
 				b33 = (a44 * t6 - ltx * t2) + rby * t4;
 				b43 = (-ltx * t3 - a43 * t6) + rby * t5;
-				
+
 				t1 = a23 * a34 - a24 * a33;
 				t2 = a24 * rby - lty * a34;
 				t3 = lty * a33 - a23 * rby;
 				t4 = rbx * (a24 - a34);
 				t5 = rbx * (a33 - a23);
 				t6 = rbx * (rby - lty);
-				
+
 				b14 = -lty * t1 - a13 * t2 - a14 * t3;
 				b24 = a13 * t4 + a14 * t5 + ltx * t1;
 				b34 = -a14 * t6 - lty * t4 + ltx * t2;
 				b44 = -lty * t5 + a13 * t6 + ltx * t3;
-				
+
 				det_1 = (ltx * (b11 + b14) + rbx * (b12 + b13));
 				if (det_1 == 0) {
 					det_1=0.0001;
-					// 0 になるのは理論上有り得ないけれど念のために入れてある
-					//System.out.println("Could not get inverse matrix(1).");
+					//System.out.println("Could not get inverse matrix(1).");					
 					//return false;
 				}
 				det_1 = 1 / det_1;
-				
+
 				kx0 = (b11 * v1 + b12 * v2 + b13 * v3 + b14 * v4) * det_1;
 				kx1 = (b11 + b12 + b13 + b14) * det_1;
 				kx2 = (b21 * v1 + b22 * v2 + b23 * v3 + b24 * v4) * det_1;
@@ -152,64 +151,63 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 				a34 = -rby * v3;
 				a43 = -ltx * v4;
 				a44 = -rby * v4;
-				
+
 				t1 = a33 * a44 - a34 * a43;
 				t4 = a34 * ltx - rbx * a44;
 				t5 = rbx * a43 - a33 * ltx;
 				t2 = rby * (a34 - a44);
 				t3 = rby * (a43 - a33);
 				t6 = rby * (rbx - ltx);
-				
+
 				b21 = -a23 * t4 - a24 * t5 - rbx * t1;
 				b11 = (a23 * t2 + a24 * t3) + lty * t1;
 				b31 = (a24 * t6 - rbx * t2) + lty * t4;
 				b41 = (-rbx * t3 - a23 * t6) + lty * t5;
-				
+
 				t1 = a43 * a14 - a44 * a13;
 				t2 = a44 * lty - rby * a14;
 				t3 = rby * a13 - a43 * lty;
 				t4 = ltx * (a44 - a14);
 				t5 = ltx * (a13 - a43);
 				t6 = ltx * (lty - rby);
-				
+
 				b12 = -rby * t1 - a33 * t2 - a34 * t3;
 				b22 = (a33 * t4 + a34 * t5) + rbx * t1;
 				b32 = (-a34 * t6 - rby * t4) + rbx * t2;
 				b42 = (-rby * t5 + a33 * t6) + rbx * t3;
-				
+
 				t1 = a13 * a24 - a14 * a23;
 				t4 = a14 * rbx - ltx * a24;
 				t5 = ltx * a23 - a13 * rbx;
 				t2 = lty * (a14 - a24);
 				t3 = lty * (a23 - a13);
 				t6 = lty * (ltx - rbx);
-				
+
 				b23 = -a43 * t4 - a44 * t5 - ltx * t1;
 				b13 = (a43 * t2 + a44 * t3) + rby * t1;
 				b33 = (a44 * t6 - ltx * t2) + rby * t4;
 				b43 = (-ltx * t3 - a43 * t6) + rby * t5;
-				
+
 				t1 = a23 * a34 - a24 * a33;
 				t2 = a24 * rby - lty * a34;
 				t3 = lty * a33 - a23 * rby;
 				t4 = rbx * (a24 - a34);
 				t5 = rbx * (a33 - a23);
 				t6 = rbx * (rby - lty);
-				
+
 				b14 = -lty * t1 - a13 * t2 - a14 * t3;
 				b24 = a13 * t4 + a14 * t5 + ltx * t1;
 				b34 = -a14 * t6 - lty * t4 + ltx * t2;
 				b44 = -lty * t5 + a13 * t6 + ltx * t3;
-				
+
 				det_1 = (ltx * (b11 + b14) + rbx * (b12 + b13));
 				if (det_1 == 0) {
 					det_1=0.0001;
-					// 0 になるのは理論上有り得ないけれど念のために入れてある
 					//System.out.println("Could not get inverse matrix(2).");				
 					//return false;
 				}
 				det_1 = 1 / det_1;
-				
+
 				ky0 = (b11 * v1 + b12 * v2 + b13 * v3 + b14 * v4) * det_1;
 				ky1 = (b11 + b12 + b13 + b14) * det_1;
 				ky2 = (b21 * v1 + b22 * v2 + b23 * v3 + b24 * v4) * det_1;
@@ -219,7 +217,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 				ky6 = (b41 * v1 + b42 * v2 + b43 * v3 + b44 * v4) * det_1;
 				ky7 = (b41 + b42 + b43 + b44) * det_1;
 			}
-			
+
 			det_1 = kx5 * (-ky7) - (-ky5) * kx7;
 			if (det_1 == 0) {
 				det_1=0.0001;

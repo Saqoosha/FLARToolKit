@@ -57,7 +57,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * 
 		 * @param i_param
 		 */
-		public function NyARSquareContourDetector_Rle(i_dist_factor_ref:NyARCameraDistortionFactor,i_size:NyARIntSize)
+		public function NyARSquareContourDetector_Rle(i_size:NyARIntSize)
 		{
 			this._width = i_size.w;
 			this._height = i_size.h;
