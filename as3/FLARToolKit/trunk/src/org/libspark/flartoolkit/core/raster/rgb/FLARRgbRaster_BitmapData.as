@@ -38,9 +38,13 @@ package org.libspark.flartoolkit.core.raster.rgb
 	{
 		private var _bitmapData:BitmapData;
 		private var _rgb_reader:FLARRgbPixelReader_BitmapData;
-
+		
+		/**
+		 * 
+		 * @deprecated 次バージョンで次のように変更されます。 FLARRgbRaster_BitmapData(i_width:int,i_height:int)
+		 */
 		public function FLARRgbRaster_BitmapData(bitmapData:BitmapData) {
-			super(new NyARIntSize(bitmapData.width, bitmapData.height),NyARBufferType.OBJECT_AS3_BitmapData);
+			super(bitmapData.width, bitmapData.height,NyARBufferType.OBJECT_AS3_BitmapData);
 			this._bitmapData = bitmapData;
 			this._rgb_reader = new FLARRgbPixelReader_BitmapData(this._bitmapData);
 		}

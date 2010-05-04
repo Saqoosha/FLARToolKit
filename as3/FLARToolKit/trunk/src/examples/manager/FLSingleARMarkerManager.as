@@ -114,7 +114,7 @@ package examples.manager
 			
 			var scr_size:NyARIntSize = i_param.getScreenSize();
 			// 解析オブジェクトを作る
-			this._square_detect = new FLARSquareContourDetector(i_param.getDistortionFactor(), scr_size);
+			this._square_detect = new FLARSquareContourDetector(scr_size);
 			this._transmat = new NyARTransMat(i_param);
 			this._tobin_filter=new FLARRasterFilter_Threshold(110);
 

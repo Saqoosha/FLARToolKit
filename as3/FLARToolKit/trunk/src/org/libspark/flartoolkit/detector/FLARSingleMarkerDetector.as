@@ -81,7 +81,7 @@ package org.libspark.flartoolkit.detector
 			patt_inst.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
 //			trace('w:'+markerWidthByDec+'/h:'+markerHeightByDec);
 
-			sqdetect_inst=new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
+			sqdetect_inst=new FLARSquareContourDetector(i_ref_param.getScreenSize());
 			transmat_inst=new NyARTransMat(i_ref_param);
 			initInstance(patt_inst,sqdetect_inst,transmat_inst,th,i_ref_param,i_ref_code,i_marker_width);
 			return;

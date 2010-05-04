@@ -119,7 +119,7 @@ package org.libspark.flartoolkit.detector
 			
 			this._transmat = new NyARTransMat(i_ref_param);
 			//NyARToolkitプロファイル
-			this._square_detect =new FLARSquareContourDetector(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
+			this._square_detect =new FLARSquareContourDetector(i_ref_param.getScreenSize());
 			this._tobin_filter=new FLARRasterFilter_Threshold(100);
 
 			//実サイズ保存
