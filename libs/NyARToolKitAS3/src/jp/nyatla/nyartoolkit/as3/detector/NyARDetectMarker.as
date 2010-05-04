@@ -98,7 +98,7 @@ package jp.nyatla.nyartoolkit.as3.detector
 				i_ref_code,i_number_of_code,i_ref_param);
 			this._transmat = new NyARTransMat(i_ref_param);
 			//NyARToolkitプロファイル
-			this._square_detect =new NyARSquareContourDetector_Rle(i_ref_param.getDistortionFactor(),i_ref_param.getScreenSize());
+			this._square_detect =new NyARSquareContourDetector_Rle(i_ref_param.getScreenSize());
 			this._tobin_filter=new NyARRasterFilter_ARToolkitThreshold(100,i_input_raster_type);
 
 			//実サイズ保存
