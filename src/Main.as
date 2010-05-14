@@ -26,9 +26,11 @@
  */
 package {
 	import examples.*;
+	import examples.sandbox.FLARTK_Example_Single_Photo;
 	
 	import flash.display.Sprite;
 	
+	[SWF(width=640, height=480, backgroundColor=0x808080, frameRate=30)]
 	public class Main extends Sprite
 	{
 		public function Main():void
@@ -36,17 +38,20 @@ package {
 			// simply uncomment whichever tutorial/example you would like to launch.
 			
 			// Papervision3d(Simple cube)
-			this.addChild(new FLARToolKitExample_PV3D());
+//			this.addChild(new FLARToolKitExample_PV3D());
 			
 			// Papervison3d collada model
 //			this.addChild(new FLARToolKitExample_ColladaData());
 			
 			// Single Marker sample Papervision3D
-//			this.addChild(new FLARTK_Example_Single_SimpleCube_PV3D());
+			this.addChild(new FLARTK_Example_Single_SimpleCube_PV3D());
 			
 			// Multi pattern Marker sample Papervision3D
 //			this.addChild(new FLARTK_Example_Multiple_SimpleCube_PV3D());
-
+			
+			// Single Marker sample Papervision3D(Wide Display / 16:9)
+//			this.addChild(new FLARTK_Example_Single_SimpleCube_PV3D_Wide());
+			
 			// Single Marker sample Away3D
 //			this.addChild(new FLARTK_Example_Single_SimpleCube_Away3D());
 			
@@ -59,6 +64,7 @@ package {
 			// ID Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleNyIDManager());
 			
+//			this.addChild(new FLARTK_Example_Single_Photo());
 		}
 	}
 }
