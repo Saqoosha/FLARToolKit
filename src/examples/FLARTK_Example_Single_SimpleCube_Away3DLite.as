@@ -310,16 +310,23 @@ package examples
 			// シーンの生成
 			this.scene3d = new Scene3D();
 			
+			// 3Dモデル表示時の視点を設定
+			var _viewportToSourceWidthRatio:Number = this.canvasWidth/this.captureWidth;
+			trace("viewRatio :"+_viewportToSourceWidthRatio+"/width"+this.captureWidth);
+			this.camera3d = new FLARCamera3D(this.cameraParam, _viewportToSourceWidthRatio);
+			
+			
 			// PV3DのViewport3Dと似たようなもの
-			this.view3d = new View3D(this.scene3d, camera3d);
+			this.view3d = new View3D(this.scene3d, this.camera3d);
 			
 			// 微調整
-			this.view3d.x = this.captureWidth;
-			this.view3d.y = this.captureHeight;
-			this.addChild(this.view3d);
+			this.view3d.scaleX = this.canvasWidth;
+			this.view3d.scaleY = this.canvasHeight;
+//			this.view3d.x = this.canvasWidth/_viewportToSourceWidthRatio ;
+//			this.view3d.y = this.canvasHeight/_viewportToSourceWidthRatio;
+			this.view3d.z = 0;
 			
-			// 3Dモデル表示時の視点を設定
-			this.camera3d = new FLARCamera3D(this.cameraParam, this.view3d.width/this.captureWidth);
+			this.addChild(this.view3d);
 			
 			this.markerNode = new FLARBaseNode();
 		}
@@ -339,12 +346,11 @@ package examples
 			_plane.width = 80;
 			_plane.height = 80;
 			_plane.material = wmat;
-			_plane.rotationX = 90;
 			
 			// Cube
 			var mat:WireColorMaterial = new WireColorMaterial(0xFF1919, 1, 0x730000);
 			var _cube:Cube6 = new Cube6( mat, 40, 40, 40);
-			_cube.z = 0
+			_cube.y = -20
 			
  			// _container に 追加
 			this.container.addChild(_plane);
@@ -360,6 +366,7 @@ package examples
 		{
 			// モデル格納用のコンテナ作成
 			this.container = new ObjectContainer3D();
+			
 			// 3Dオブジェクト生成
 			this.createObject();
 			
@@ -386,7 +393,7 @@ package examples
 //			trace("[add]");
 			this.detector.getTransformMatrix(this.resultMat);
 			this.markerNode.setTransformMatrix(this.resultMat);
-			this.markerNode.visible = true;
+			this.view3d.visible = true;
 		}
 		
 		/**
@@ -403,7 +410,7 @@ package examples
 		 */
 		public function onMarkerRemoved(e:Event=null):void
 		{
-			this.markerNode.visible = false;
+			this.view3d.visible = false;
 		}
 		
 		/**

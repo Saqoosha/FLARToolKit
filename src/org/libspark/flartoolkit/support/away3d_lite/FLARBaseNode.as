@@ -49,10 +49,16 @@ package org.libspark.flartoolkit.support.away3d_lite {
 		}
 		
 		public function setTransformMatrix(r:FLARTransMatResult):void {
-			var m:Matrix3D = new Matrix3D (Vector.<Number>([
+//			var m:Matrix3D = new Matrix3D(Vector.<Number>([
+//					 r.m00,	 r.m10,	 r.m20, 0,
+//					-r.m01,	-r.m11,	-r.m21, 0,
+//					-r.m02,	-r.m12,	-r.m22, 0,
+//					 r.m03,	 r.m13,	 r.m23, 1
+//					]));
+			var m:Matrix3D = new Matrix3D(Vector.<Number>([
 					 r.m00,	 r.m10,	 r.m20, 0,
-					-r.m01,	-r.m11,	-r.m21, 0,
 					-r.m02,	-r.m12,	-r.m22, 0,
+					 r.m01,	 r.m11,	 r.m21, 0,
 					 r.m03,	 r.m13,	 r.m23, 1
 					]));
 			this.transform.matrix3D = m;
