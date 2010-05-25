@@ -1012,7 +1012,7 @@ class MarkerPattEncoder
 		o_out.ctrl_mask=control_bits%5;
 		o_out.ctrl_domain=control_bits/5;
 		if(o_out.ctrl_domain!=0 || o_out.ctrl_mask!=0){
-			return -1;
+			return -1;//ドメイン、マスクは現在0のみなので、それ以外の場合-1（失敗）を返す
 		}
 		//マスク解除処理を実装すること
 		return d;
