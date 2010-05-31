@@ -26,7 +26,6 @@
  */
 package {
 	import examples.*;
-	import examples.sandbox.FLARTK_Example_Single_Photo;
 	
 	import flash.display.Sprite;
 	
@@ -63,8 +62,6 @@ package {
 
 			// ID Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleNyIDManager());
-			
-//			this.addChild(new FLARTK_Example_Single_Photo());
 		}
 	}
 }
