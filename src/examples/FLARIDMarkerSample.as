@@ -35,6 +35,7 @@
 		private var _capture:Bitmap;
 		private var _renderer:LazyRenderEngine;
 		private var _textdata:Text3D;
+		private var _textFormat:Letter3DMaterial;
 		private var _markerNode:FLARBaseNode;
 		
 		private var _resultMat:FLARTransMatResult;
@@ -80,8 +81,8 @@
 			
 			var camera3d:FLARCamera3D = new FLARCamera3D(param);
 			// ID表示用のデータを作成する。
-			var textFormat:Letter3DMaterial = new Letter3DMaterial(0xcc0000, 0.9);
-			_textdata = new Text3D("aaa", new HelveticaBold(), textFormat, "textdata")
+			_textFormat = new Letter3DMaterial(0xcc0000, 0.9);
+			_textdata = new Text3D("aaa", new HelveticaBold(), _textFormat, "textdata")
 			_textdata.rotationX = 180;
 			_textdata.rotationZ = 90;
 			_textdata.scale = 0.5;
@@ -95,14 +96,11 @@
 		{
 			_capture.bitmapData.draw(_video);
 
-			//(2)-2 最新の画像を解析し、一致度が規定値（0.5）以上である事を確認
 			var detected:Boolean = false;
 			try {
 				detected = _detector.detectMarkerLite(_raster, 80);
 			} catch (e:Error) { trace(e); }
 			
-//(3)座標変換処理-----------------------------------------------------------
-			//(3)-1 マーカーが見つかった場合、変換行列を適用する
 			if (detected) {
 				var id:FLARIdMarkerData = _detector.getIdMarkerData();
 				//read data from i_code via Marsial--Marshal経由で読み出す
@@ -118,16 +116,19 @@
 				}
 				trace("[add] : ID = " + currId);
 				_textdata.text = "" + currId;
+				if (id.model == 3) {
+					_textFormat.fillColor = (id.getPacketData(1) << 26) | (id.getPacketData(2) << 8) | (id.getPacketData(3));
+				} else {
+					_textFormat.fillColor = 0xCC0000;
+				}
+				_textFormat.updateBitmap();
 				_detector.getTransformMatrix(_resultMat);
 				_markerNode.setTransformMatrix(_resultMat);
 				
-			//(3)-2 3Dオブジェクトを表示する
 				_markerNode.visible = true;
 			} else {
-			//(3)-2 マーカーが見つからなかった場合、3Dオブジェクトを隠す
 				_markerNode.visible = false;
 			}
-			//(3)-3 3Dオブジェクトのレンダリング
 			_renderer.render();
 		}
 		
