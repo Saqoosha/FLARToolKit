@@ -68,16 +68,19 @@ package org.libspark.flartoolkit.detector.idmarker.data
 			
 			//データドット数が、「(2 * model値 - 1)^2」となり、この2乗の元となる値がresolution_lenで、
 			//パケット数は「(int)(データドット数 / 8) + 1」（最後に足す1はパケット0）となる
-			var packet_length:int = (((resolution_len * resolution_len)) / 8) + 1; trace("packet", packet_length);
+			var packet_length:int = (((resolution_len * resolution_len)) / 8) + 1;
+			// trace("packet", packet_length);
 			dest.setPacketLength(packet_length);
 
 			var sum:int = 0;
 			for(var i:int=0;i<packet_length;i++){
-				dest.setPacketData(i, i_data.data[i]); trace("i_data[",i,"]",i_data.data[i]);
+				dest.setPacketData(i, i_data.data[i]);
+				// trace("i_data[",i,"]",i_data.data[i]);
 				sum += i_data.data[i];
 			}
 			//チェックドット値計算
-			sum = sum % _mod_data[i_data.model - 2]; trace("check dot", i_data.check, sum);
+			sum = sum % _mod_data[i_data.model - 2];
+			// trace("check dot", i_data.check, sum);
 			//チェックドット比較
 			if(i_data.check!=sum){
 				return false;
