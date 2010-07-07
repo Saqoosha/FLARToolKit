@@ -475,11 +475,14 @@ package examples
 				} else {
 //					trace("[rem] id : " + i +"[confidence]"+markerData.confidence);
 					this.markerNodeList[i].visible = false;
-					// マーカがなければ、探索+DualPTailで基準輝度検索
-					// マーカーが見つからない場合、処理が重くなるので状況に応じてコメントアウトすると良い
-					var th:int=this._threshold_detect.analyzeRaster(this.raster);
-					this._threshold=(this._threshold+th)/2;
 				}
+			}
+			
+			// マーカがなければ、探索+DualPTailで基準輝度検索
+			// マーカーが見つからない場合、処理が重くなるので状況に応じてコメントアウトすると良い
+			if (this.markerPatternList.length==0) {
+				var th:int=this._threshold_detect.analyzeRaster(this.raster);
+				this._threshold=(this._threshold+th)/2;
 			}
 			this.renderer.render();
 		}
