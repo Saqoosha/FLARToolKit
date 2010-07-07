@@ -320,10 +320,8 @@ package examples
 			this.view3d = new View3D(this.scene3d, this.camera3d);
 			
 			// 微調整
-			this.view3d.scaleX = this.canvasWidth;
-			this.view3d.scaleY = this.canvasHeight;
-//			this.view3d.x = this.canvasWidth/_viewportToSourceWidthRatio ;
-//			this.view3d.y = this.canvasHeight/_viewportToSourceWidthRatio;
+			this.view3d.x = 0.5 * this.canvasWidth as Number;
+			this.view3d.y = 0.5 * this.canvasHeight as Number;
 			this.view3d.z = 0;
 			
 			this.addChild(this.view3d);
@@ -336,24 +334,12 @@ package examples
 		 */
 		protected function createObject():void
 		{
-			
-			// ワイヤーフレームで,マーカーと同じサイズを Plane を作ってみる。
-			var wmat:WireframeMaterial = new WireframeMaterial(0x0000ff);
-			// 透過度を設定
-			wmat.alpha = 1;
-			
-			var _plane:Plane = new Plane(); // 80mm x 80mm。
-			_plane.width = 80;
-			_plane.height = 80;
-			_plane.material = wmat;
-			
 			// Cube
 			var mat:WireColorMaterial = new WireColorMaterial(0xFF1919, 1, 0x730000);
 			var _cube:Cube6 = new Cube6( mat, 40, 40, 40);
-			_cube.y = -20
+			_cube.z = -20
 			
  			// _container に 追加
-			this.container.addChild(_plane);
 			this.container.addChild(_cube);
 		}
 		
