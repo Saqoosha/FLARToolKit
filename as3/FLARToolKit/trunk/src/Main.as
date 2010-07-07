@@ -51,6 +51,12 @@ package {
 			// Single Marker sample Papervision3D(Wide Display / 16:9)
 //			this.addChild(new FLARTK_Example_Single_SimpleCube_PV3D_Wide());
 			
+			// Single ID Marker sample Papervision3D
+//			this.addChild(new FLARTK_Example_Single_IDMarker_PV3D());
+			
+			// Multi ID sample Papervision3D
+//			this.addChild(new FLARTK_Example_Multiple_IDMarker_PV3D());
+			
 			// Single Marker sample Away3D
 //			this.addChild(new FLARTK_Example_Single_SimpleCube_Away3D());
 			
@@ -59,8 +65,8 @@ package {
 			
 			// Single Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleManager_PV3D());
-
-			// ID Marker Manager sample
+			
+			// Single ID Marker Manager sample
 //			this.addChild(new FLARTK_Example_SingleNyIDManager());
 		}
 	}
