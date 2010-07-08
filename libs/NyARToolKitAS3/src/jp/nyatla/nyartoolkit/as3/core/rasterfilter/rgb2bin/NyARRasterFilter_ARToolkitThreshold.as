@@ -31,7 +31,7 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin
 			
 		}
 		/**
-		 * 画像を２値化するための閾値。暗点<=th<明点となります。
+		 * 画像を２値化するための閾値。暗点&lt;=th&lt;明点となります。
 		 * @param i_threshold
 		 */
 		public function setThreshold(i_threshold:int ):void 

@@ -38,7 +38,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 	 * 配列には実体を格納します。
 	 * 
 	 * 注意事項
-	 * JavaのGenericsの制限突破を狙ったものの、Vector.<*>では、不具合が多いため、Vector.<Object>に変更
+	 * JavaのGenericsの制限突破を狙ったものの、Vector.&lt;*&gt;では、不具合が多いため、Vector.&lt;Object&gt;に変更
 	 * いくつかの場所でエラーがでる場合がありますが、コンパイルオプションなどで、
 	 * strict = false を設定して回避してください。
 	 * 根本修正は次バージョン以降で対応する予定です。

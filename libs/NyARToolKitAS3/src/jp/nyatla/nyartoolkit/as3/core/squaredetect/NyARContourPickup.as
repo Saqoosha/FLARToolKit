@@ -47,7 +47,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * 
 		 * @param i_raster
 		 * @param i_th
-		 * 画像を２値化するための閾値。暗点<=i_th<明点となります。
+		 * 画像を２値化するための閾値。暗点&lt;=i_th&lt;明点となります。
 		 * @param i_entry_x
 		 * 輪郭の追跡開始点を指定します。
 		 * @param i_entry_y
