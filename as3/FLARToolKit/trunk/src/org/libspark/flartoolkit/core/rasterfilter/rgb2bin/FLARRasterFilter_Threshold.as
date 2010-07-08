@@ -54,7 +54,7 @@ package org.libspark.flartoolkit.core.rasterfilter.rgb2bin
 			this._do_threshold_impl = new doThFilterImpl_BUFFERFORMAT_OBJECT_AS3_BitmapData();
 		}
 		/**
-		 * 画像を２値化するための閾値。暗点<=th<明点となります。
+		 * 画像を２値化するための閾値。暗点&lt;=th&lt;明点となります。
 		 * @param i_threshold
 		 */
 		public function setThreshold(i_threshold:int ):void 

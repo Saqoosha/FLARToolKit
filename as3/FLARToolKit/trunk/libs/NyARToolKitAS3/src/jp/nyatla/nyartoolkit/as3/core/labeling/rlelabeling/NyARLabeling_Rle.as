@@ -172,7 +172,7 @@ package jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling
 		 * BINラスタをラベリングします。
 		 * @param i_gs_raster
 		 * @param i_th
-		 * 画像を２値化するための閾値。暗点<=th<明点となります。
+		 * 画像を２値化するための閾値。暗点&lt;=th&lt;明点となります。
 		 * @param i_top
 		 * @param i_bottom
 		 * @param o_stack
