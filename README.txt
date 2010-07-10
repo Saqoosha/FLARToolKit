@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.3
+ version 2.5.4
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -28,8 +28,10 @@ This work is based on the NyARToolKit developed by
   http://nyatla.jp/nyatoolkit/
 
 contributors
- eric socolofsky, makc
- tarotaro, rokubou
+ eric socolofsky
+ makc
+ taro - tarotaro.org
+ rokubou - sixwish.jp
 
 ----------------------------------------------------------------------
  About FLARToolKit
@@ -78,7 +80,7 @@ ARToolworks Inc.より許諾を受けることにより、GPLの制約から
 条件やライセンス費用については、ARToolworks Inc.に問合せてください。
 
 ARToolworks Inc. http://www.artoolworks.com/
-mailto : sales@artoolworks.com
+mailto : sales(at)artoolworks.com
 
 
 FLARToolKit is available for download and use under two licenses:
@@ -91,7 +93,7 @@ Commercial License: Source code of FLARToolKit applications can be
 protected with a commercial license, offered exclusively by ARToolworks.
 Applications using the commercial license do not have to provide
 source code, but must pay a licensing fee.
-Contact ARToolworks at sales@artoolworks.com for more information.
+Contact ARToolworks at sales(at)artoolworks.com for more information.
 
 ARToolworks Inc.
 http://www.artoolworks.com/
@@ -152,6 +154,16 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.4 (2010-Jul-10)
+ * Add NyID Marker Detector
+   + Single Id Marker Detector
+   + Multiple Id Marker Detector
+ * Add analytical size restriction function
+ * Add,Modify Samples
+   + Single/Multiple IDMarker sample
+   + Single/Multiple Marker PV3D sample
+   + Single Marker Away3D Lite sample
+
 2.5.3 (2010-May-15)
  * Modify FLARMultiMarkerDetector
    + Corresponds to markerPercentWidth, markerPercentHeight
@@ -199,20 +211,20 @@ Prof. Mark Billinghurst
 1.0.0 (2010-Jan-20)
  * implemented support for debugging display of thresholded and
    labeled BitmapData objects, via accessors in FLARMultiMarkerDetector
-   and FLARSquareDetector.(ericsoco)
+   and FLARSquareDetector.(Eric Socolofsky)
  * implemented option to skip internal thresholding process,
-   to allow use of custom thresholding algorithms(ericsoco)
+   to allow use of custom thresholding algorithms(Eric Socolofsky)
  * added variable marker border width to FLARMultiMarkerDetector,
-   to match FLARSingleMarkerDetector.(ericsoco)
+   to match FLARSingleMarkerDetector.(Eric Socolofsky)
  * FLARParam : default camera values(makc)
  * Move 3d framework support classes into
    org.libspark.flartoolkit.support package.(saqoosha)
- * adding makc's sandy3D support.(ericsoco,makc)
- * adding makc's alternativa3D support.(ericsoco,makc)
+ * adding makc's sandy3D support.(Eric Socolofsky,makc)
+ * adding makc's alternativa3D support.(Eric Socolofsky,makc)
  * corrected import statements in repackaged support (3d framework)
-   classes.(ericsoco)
- * added away3d 3.3.3 support to support.away3d package.(ericsoco)
- * added away3dlite support(ericsoco)
+   classes.(Eric Socolofsky)
+ * added away3d 3.3.3 support to support.away3d package.(Eric Socolofsky)
+ * added away3dlite support(Eric Socolofsky)
 
 0.9.1 (2010-Jan-17)
 Re-packaging by rokubou. 
