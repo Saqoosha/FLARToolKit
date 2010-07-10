@@ -58,7 +58,7 @@ package org.libspark.flartoolkit.detector
 		private var _detect_cb:MultiDetectSquareCB;
 		public static const AR_SQUARE_MAX:int = 300;
 		private var _is_continue:Boolean = false;
-		private var _square_detect:NyARSquareContourDetector;
+		private var _square_detect:FLARSquareContourDetector;
 		protected var _transmat:INyARTransMat;
 		private var _offset:Vector.<NyARRectOffset>;
 
@@ -229,7 +229,7 @@ package org.libspark.flartoolkit.detector
 		{
 			return this._detect_cb.result_stack.getItem(i_index).square;
 		}
-
+		
 		/**
 		 * getTransmationMatrixの計算モードを設定します。
 		 * 
@@ -240,6 +240,22 @@ package org.libspark.flartoolkit.detector
 		{
 			this._is_continue = i_is_continue;
 		}
+		
+		/**
+		 * 白領域の検査対象サイズ
+		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
+		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
+		 *  マーカー内部の判別には一辺30px～230pxとするのが妥当。
+		 *  640x480で取り込む場合は、i_maxを縦サイズの二乗を設定するべし
+		 *  
+		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
+		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
+		 */
+		public function setAreaRange(i_max:int, i_min:int=70):void
+		{
+			this._square_detect.setAreaRange( i_max, i_min);
+		}
+		
 		/**
 		 * 2値化した画像を返却します。
 		 * 

@@ -328,6 +328,10 @@ package examples
 														  this.markerPatternList.length);
 			// 継続認識モード発動
 			this.detector.setContinueMode(true);
+			
+			// 解析サイズ制限
+			// this.detector.setAreaRange( 40000, 900);
+			
 			// しきい値調整
 			this._threshold_detect=new FLARRasterThresholdAnalyzer_SlidePTile(15,4);
 			

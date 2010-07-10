@@ -28,17 +28,17 @@
  */
 package org.libspark.flartoolkit.core.labeling.fllabeling
 {
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	
-
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	
+	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
+	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	public class FLARLabeling
 	{
@@ -48,17 +48,36 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 		private static const ZERO_POINT:Point = new Point();
 		private static const ONE_POINT:Point = new Point(1, 1);
 		
-	    private var hSearch:BitmapData;
-	    private var hLineRect:Rectangle;
+		private var hSearch:BitmapData;
+		private var hLineRect:Rectangle;
 		private var _tmp_bmp:BitmapData;
+		
+		private var areaMax:int;
+		private var areaMin:int;
+		
 		public function FLARLabeling(i_width:int,i_height:int)
 		{
 			this._tmp_bmp = new BitmapData(i_width, i_height, false,0x00);
 			this.hSearch = new BitmapData(i_width, 1, false, 0x000000);
-			this.hLineRect = new Rectangle(0, 0, 1, 1);			
+			this.hLineRect = new Rectangle(0, 0, 1, 1);
+			this.setAreaRange(AR_AREA_MAX, AR_AREA_MIN);
 			return;
 		}
-
+		
+		/**
+		 * 白領域の検査対象サイズ
+		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
+		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
+		 *  
+		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗)
+		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗)
+		 */
+		public function setAreaRange(i_max:int, i_min:int):void
+		{
+			this.areaMax=i_max;
+			this.areaMin=i_min;
+		}
+		
 		public function labeling(i_bin_raster:NyARBinRaster,o_stack:NyARRleLabelFragmentInfoStack):int
 		{
 			var label_img:BitmapData = this._tmp_bmp;
@@ -86,7 +105,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 					label = o_stack.prePush() as NyARRleLabelFragmentInfo;
 					var area:int = labelRect.width * labelRect.height;
 					//エリア規制
-					if (area <= AR_AREA_MAX && area >= AR_AREA_MIN){
+					if (area <= this.areaMax && area >= this.areaMin){
 						label.area = area;
 						label.clip_l = labelRect.left;
 						label.clip_r = labelRect.right - 1;
