@@ -69,7 +69,6 @@ package org.libspark.flartoolkit.core.squaredetect
 			this._labeling = new FLARLabeling(this._width,this._height);
 			this._stack=new NyARRleLabelFragmentInfoStack(i_size.w*i_size.h*2048/(320*240)+32);//検出可能な最大ラベル数
 			
-
 			// 輪郭の最大長は画面に映りうる最大の長方形サイズ。
 			var number_of_coord:int= (this._width + this._height) * 2;
 
@@ -79,7 +78,20 @@ package org.libspark.flartoolkit.core.squaredetect
 			this._ycoord = new Vector.<int>(number_of_coord);
 			return;
 		}
-
+		
+		/**
+		 * 白領域の検査対象サイズ
+		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
+		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
+		 *  
+		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗)
+		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗)
+		 */
+		public function setAreaRange(i_max:int, i_min:int):void
+		{
+			this._labeling.setAreaRange(i_max, i_min);
+		}
+		
 		private var __detectMarker_mkvertex:Vector.<int> = new Vector.<int>(4);
 		
 		public override function detectMarkerCB(i_raster:NyARBinRaster ,i_callback:NyARSquareContourDetector_IDetectMarkerCallback):void

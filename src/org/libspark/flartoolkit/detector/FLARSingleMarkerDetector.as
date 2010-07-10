@@ -201,6 +201,21 @@ package org.libspark.flartoolkit.detector
 		}
 		
 		/**
+		 * 白領域の検査対象サイズ
+		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
+		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
+		 *  マーカー内部の判別には一辺30px～230pxとするのが妥当。
+		 *  640x480で取り込む場合は、i_maxを縦サイズの二乗を設定するべし
+		 *  
+		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
+		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
+		 */
+		public function setAreaRange(i_max:int, i_min:int=70):void
+		{
+			this._square_detect.setAreaRange( i_max, i_min);
+		}
+		
+		/**
 		 * 2値化した画像を返却します。
 		 * 
 		 * @return 画像情報を返却します
