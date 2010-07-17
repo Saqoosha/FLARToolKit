@@ -42,8 +42,8 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 
 	public class FLARLabeling
 	{
-		private static const AR_AREA_MAX:int = 100000;// #define AR_AREA_MAX 100000
-		private static const AR_AREA_MIN:int = 70;// #define AR_AREA_MIN 70
+		public static const AR_AREA_MAX:int = 100000;// #define AR_AREA_MAX 100000
+		public static const AR_AREA_MIN:int = 70;// #define AR_AREA_MIN 70
 		
 		private static const ZERO_POINT:Point = new Point();
 		private static const ONE_POINT:Point = new Point(1, 1);

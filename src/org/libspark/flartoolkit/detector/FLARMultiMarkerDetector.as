@@ -29,6 +29,7 @@
 package org.libspark.flartoolkit.detector
 {
 	import flash.display.BitmapData;
+	import flash.geom.Point;
 	
 	import jp.nyatla.nyartoolkit.as3.NyARException;
 	import jp.nyatla.nyartoolkit.as3.core.pickup.NyARColorPatt_Perspective_O2;
@@ -41,6 +42,7 @@ package org.libspark.flartoolkit.detector
 	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
 	
 	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.labeling.fllabeling.FLARLabeling;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.core.raster.FLARBinRaster;
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
@@ -154,8 +156,19 @@ package org.libspark.flartoolkit.detector
 			}
 
 			// ラスタを２値イメージに変換する.
-			(FLARRasterFilter_Threshold(this._tobin_filter)).setThreshold(i_threshold);
-			this._tobin_filter.doFilter(i_raster, this._bin_raster);
+			// SOC: threshold incoming image according to brightness.
+			//		passing -1 for threshold allows developers to apply custom thresholding algorithms
+			//		prior to passing source image to FLARToolkit.
+			if (i_threshold != -1) {
+				// apply FLARToolkit thresholding
+				(FLARRasterFilter_Threshold(this._tobin_filter)).setThreshold(i_threshold);
+				this._tobin_filter.doFilter(i_raster, this._bin_raster);
+			} else {
+				// copy source BitmapData as-is, without applying FLARToolkit thresholding
+				var srcBitmapData:BitmapData = BitmapData(i_raster.getBuffer());
+				var dstBitmapData:BitmapData = BitmapData(FLARBinRaster(this._bin_raster).getBuffer());
+				dstBitmapData.copyPixels(srcBitmapData, srcBitmapData.rect, new Point());
+			}
 
 			//detect
 			this._detect_cb.init(i_raster);
@@ -251,7 +264,7 @@ package org.libspark.flartoolkit.detector
 		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
 		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
 		 */
-		public function setAreaRange(i_max:int, i_min:int=70):void
+		public function setAreaRange(i_max:int=FLARLabeling.AR_AREA_MAX, i_min:int=FLARLabeling.AR_AREA_MIN):void
 		{
 			this._square_detect.setAreaRange( i_max, i_min);
 		}

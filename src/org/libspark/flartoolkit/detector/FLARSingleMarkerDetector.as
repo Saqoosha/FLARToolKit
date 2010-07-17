@@ -29,23 +29,27 @@
 package org.libspark.flartoolkit.detector
 {
 	import flash.display.*;
+	
 	import jp.nyatla.nyartoolkit.as3.core.match.*;
 	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.*;
 	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
 	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.*;
+	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
+	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
+	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.labeling.fllabeling.FLARLabeling;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.*;
 	import org.libspark.flartoolkit.core.squaredetect.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.transmat.*;
+
 	public class FLARSingleMarkerDetector
 	{	
 		private var _is_continue:Boolean = false;
@@ -210,7 +214,7 @@ package org.libspark.flartoolkit.detector
 		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
 		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
 		 */
-		public function setAreaRange(i_max:int, i_min:int=70):void
+		public function setAreaRange(i_max:int=FLARLabeling.AR_AREA_MAX, i_min:int=FLARLabeling.AR_AREA_MIN):void
 		{
 			this._square_detect.setAreaRange( i_max, i_min);
 		}
