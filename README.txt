@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 2.5.4
+ version 2.5.5
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -154,6 +154,10 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+2.5.5 
+ * Modify analytical size restriction function
+ * Bugfix Papervision3D QuadrantRenderEngine memory leak
+   http://forum.papervision3d.org/viewtopic.php?f=15&t=1701
 2.5.4 (2010-Jul-10)
  * Add NyID Marker Detector
    + Single Id Marker Detector
