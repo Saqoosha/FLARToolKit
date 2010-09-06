@@ -32,7 +32,7 @@
 		 */
 		public static var MIP_MAP_DEPTH :Number = 8;
 		/**		 * Precision mode indicates how triangles are created for precise texture render.		 */		public var precisionMode:int = PrecisionMode.ORIGINAL;		
-		public var uvMatrices:Dictionary = new Dictionary();
+		public var uvMatrices:Dictionary = new Dictionary(true);
 		
 		/**
 		* @private
@@ -72,7 +72,7 @@
 		*/
 		public function resetMapping():void
 		{
-			uvMatrices = new Dictionary();
+			for ( var obj:* in uvMatrices ) {				uvMatrices[obj] = null;			}
 		}
 		
 			
@@ -707,7 +707,7 @@
 		 */
 		 public function resetUVS():void
 		 {
-		 	uvMatrices = new Dictionary(false);
+			 for ( var obj:* in uvMatrices ) {				 uvMatrices[obj] = null;			}
 		 }
 		
 		/**
