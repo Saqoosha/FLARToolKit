@@ -259,13 +259,21 @@ package org.libspark.flartoolkit.detector
 		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
 		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
 		 *  マーカー内部の判別には一辺30px～230pxとするのが妥当。
-		 *  640x480で取り込む場合は、i_maxを縦サイズの二乗を設定するべし
+		 *  640x480で取り込む場合は、i_maxを縦サイズの二乗を設定する。
+		 *  なお、0 を指定した場合は FLARLabeling.AR_AREA_MAX、FLARLabeling.AR_AREA_MINが適応されます。
 		 *  
 		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
 		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
 		 */
-		public function setAreaRange(i_max:int=FLARLabeling.AR_AREA_MAX, i_min:int=FLARLabeling.AR_AREA_MIN):void
+		public function setAreaRange(i_max:int=100000, i_min:int=70):void
 		{
+			if ( i_max<0 ) { i_max = FLARLabeling.AR_AREA_MAX; }
+			if ( i_min<0 ) { i_min = FLARLabeling.AR_AREA_MIN; }
+			if (i_max < i_min) {
+				var tmp:int = i_max;
+				i_max = i_min;
+				i_min = tmp;
+			}
 			this._square_detect.setAreaRange( i_max, i_min);
 		}
 		
