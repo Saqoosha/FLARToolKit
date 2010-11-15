@@ -310,6 +310,8 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 		 */
 		private function getMinimumErrorAngleFromParam(iL:Number,iJ:Number,iK:Number,iM:Number,iN:Number,iO:Number,i_hint_angle:Number):Number
 		{
+			if (Math.abs (iL) < Number.MIN_VALUE) return 0;
+
 			var sin_table:Vector.<Number> = this.__sin_table;
 
 			var M:Number = (iN - iM)/iL;
