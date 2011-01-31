@@ -1,9 +1,9 @@
 package jp.nyatla.nyartoolkit.as3.core.param
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	
 	import flash.utils.ByteArray;
-	import flash.utils.Endian;	
+	import flash.utils.Endian;
+	
+	import jp.nyatla.nyartoolkit.as3.core.types.*;	
 	
 	/**
 	 * typedef struct { int xsize, ysize; double mat[3][4]; double dist_factor[4]; } ARParam;
@@ -51,13 +51,36 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param newparam
 		 * @return
 		 * 
+		 * ERICSOCO edit:
+		 * now responds to changes in both width and height (instead of just width).
 		 */
 		public function changeScreenSize(i_xsize:int,i_ysize:int):void
 		{
-			var scale:Number = Number(i_xsize) / Number(this._screen_size.w);// scale = (double)xsize / (double)(source->xsize);
 			//スケールを変更
-			this._dist.changeScale(scale);
-			this._projection_matrix.changeScale(scale);
+			var scaleX:Number = (i_xsize / this._screen_size.w);
+			var scaleY:Number = (i_ysize / this._screen_size.h);
+			var scaleXY:Number = (Math.sqrt(i_xsize*i_xsize+i_ysize*i_ysize) /
+									Math.sqrt(this._screen_size.w*this._screen_size.w + this._screen_size.h*this._screen_size.h));
+			
+			var distVector:Vector.<Number> = new Vector.<Number>(4, true);
+			this._dist.getValue(distVector);
+			distVector[0] *= scaleX;
+			distVector[1] *= scaleY;
+			distVector[2] /= (i_xsize * i_ysize);
+			this._dist.setValue(distVector);
+			
+			var projVector:Vector.<Number> = new Vector.<Number>(12, true);
+			this._projection_matrix.getValue(projVector);
+			projVector[0] *= scaleXY;
+			projVector[1] *= scaleXY;
+			projVector[2] *= scaleX;
+			projVector[3] *= scaleXY;
+			projVector[4] *= scaleXY;
+			projVector[5] *= scaleXY;
+			projVector[6] *= scaleY;
+			projVector[7] *= scaleXY;
+			this._projection_matrix.setValue(projVector);
+			
 			this._screen_size.w = i_xsize;// newparam->xsize = xsize;
 			this._screen_size.h = i_ysize;// newparam->ysize = ysize;
 			return;
