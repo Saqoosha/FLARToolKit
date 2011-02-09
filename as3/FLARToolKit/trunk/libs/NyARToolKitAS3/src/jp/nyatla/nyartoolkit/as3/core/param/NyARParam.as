@@ -66,7 +66,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 			this._dist.getValue(distVector);
 			distVector[0] *= scaleX;
 			distVector[1] *= scaleY;
-			distVector[2] /= (i_xsize * i_ysize);
+			distVector[2] /= (scaleX * scaleY);
 			this._dist.setValue(distVector);
 			
 			var projVector:Vector.<Number> = new Vector.<Number>(12, true);
