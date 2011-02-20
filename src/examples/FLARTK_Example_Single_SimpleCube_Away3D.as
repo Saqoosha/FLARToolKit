@@ -49,8 +49,8 @@ package examples
 	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
 	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
 	import org.libspark.flartoolkit.detector.FLARSingleMarkerDetector;
-	import org.libspark.flartoolkit.support.away3d.FLARBaseNode;
-	import org.libspark.flartoolkit.support.away3d.FLARCamera3D;
+	import org.libspark.flartoolkit.support.away3dv34.FLARBaseNode;
+	import org.libspark.flartoolkit.support.away3dv34.FLARCamera3D;
 	
 
 	public class FLARTK_Example_Single_SimpleCube_Away3D extends Sprite
