@@ -1,0 +1,15 @@
+<projectDescription>
+  <id>1306771430391</id>
+  <name>FLARToolKit</name>
+  <asVersion>0</asVersion>
+  <classPath>.</classPath>
+  <defaultApp>./src/Main.fla</defaultApp>
+  <rootURI>.</rootURI>
+  <flexSDK/>
+  <sources editable="false"/>
+  <libraries editable="false"/>
+  <externalLibraries editable="false"/>
+  <compileList editable="false"/>
+  <recentFiles editable="false"/>
+  <locations editable="false"/>
+</projectDescription>
