@@ -28,7 +28,6 @@
  */
 package org.libspark.flartoolkit.core.labeling.fllabeling
 {
-	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.*;
 	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
