@@ -58,7 +58,7 @@ package sketch
 		public override function setup():void
 		{
 			//setup content files...
-			this._fid[0]=this.setSketchFile("../../../../resource/data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
+			this._fid[0]=this.setSketchFile("../../../resources/Data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
 		}
 
 		public override function main():void
