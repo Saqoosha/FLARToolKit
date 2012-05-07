@@ -11,7 +11,6 @@ package sketch
 	import jp.nyatla.as3utils.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.pv3d.*;
 	import org.papervision3d.render.*;
@@ -55,8 +54,8 @@ package sketch
 		public override function setup():void
 		{
 			//setup content files...
-			this._fid[0]=this.setSketchFile("../../../data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
-			this._fid[1]=this.setSketchFile("../../../data/patt.hiro", URLLoaderDataFormat.TEXT);//1
+			this._fid[0]=this.setSketchFile("../../../resources/Data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
+			this._fid[1]=this.setSketchFile("../../../resources/Data/patt.hiro", URLLoaderDataFormat.TEXT);//1
 		}
 
 		public override function main():void

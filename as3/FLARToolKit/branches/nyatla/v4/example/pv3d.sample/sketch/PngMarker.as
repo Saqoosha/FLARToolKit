@@ -11,7 +11,6 @@ package sketch
 	import jp.nyatla.as3utils.*;
 	import jp.nyatla.nyartoolkit.as3.core.types.*;
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.pv3d.*;
 	import org.papervision3d.render.*;
@@ -56,9 +55,9 @@ package sketch
 		public override function setup():void
 		{
 			//setup content files...
-			this._fid[0]=this.setSketchFile("../../../data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
-			this._fid[1] = this.setSketchFile("../../../data/hiro.png","AS_OBJECT");//1
-			this._fid[2] = this.setSketchFile("../../../data/320x240ABGR.jpg","AS_OBJECT");//2
+			this._fid[0]=this.setSketchFile("../../../resources/Data/camera_para.dat", URLLoaderDataFormat.BINARY);//0
+			this._fid[1] = this.setSketchFile("../../../resources/Data/hiro.png","AS_OBJECT");//1
+			this._fid[2] = this.setSketchFile("../../../resources/Data/320x240ABGR.jpg","AS_OBJECT");//2
 		}
 		private var _patt:Bitmap;
 
