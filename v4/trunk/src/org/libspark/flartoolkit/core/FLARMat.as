@@ -30,9 +30,10 @@
  */
 package org.libspark.flartoolkit.core
 {	
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-	import jp.nyatla.nyartoolkit.as3.utils.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.analyzer.histogram.*;
+	import org.libspark.flartoolkit.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.utils.as3.*;
 	import jp.nyatla.as3utils.*;
 	/**
 	 * ARMat構造体に対応するクラス typedef struct { double *m; int row; int clm; }ARMat;

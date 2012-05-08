@@ -30,9 +30,9 @@
  */
 package org.libspark.flartoolkit.core
 {
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.match.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import jp.nyatla.as3utils.*;
 	/**
 	 * ARToolKitのマーカーコードを1個保持します。
@@ -112,12 +112,11 @@ package org.libspark.flartoolkit.core
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.types.*;
 	
 class FLARCodeFileReader
 {

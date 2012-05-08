@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,18 +30,18 @@
  */
 package org.libspark.flartoolkit.core.analyzer.histogram 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import jp.nyatla.as3utils.*;
-	public class NyARHistogramAnalyzer_SlidePTile implements INyARHistogramAnalyzer_Threshold
+	public class FLARHistogramAnalyzer_SlidePTile implements IFLARHistogramAnalyzer_Threshold
 	{
 		private var _persentage:int;
-		public function NyARHistogramAnalyzer_SlidePTile(i_persentage:int)
+		public function FLARHistogramAnalyzer_SlidePTile(i_persentage:int)
 		{
 			NyAS3Utils.assert (0 <= i_persentage && i_persentage <= 50);
 			//初期化
 			this._persentage=i_persentage;
 		}	
-		public function getThreshold(i_histgram:NyARHistogram):int
+		public function getThreshold(i_histgram:FLARHistogram):int
 		{
 			//総ピクセル数を計算
 			var n:int=i_histgram.length;

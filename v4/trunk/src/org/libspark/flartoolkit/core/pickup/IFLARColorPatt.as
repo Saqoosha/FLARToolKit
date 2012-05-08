@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,10 +30,10 @@
  */
 package org.libspark.flartoolkit.core.pickup {
 
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
 	
-	public interface INyARColorPatt extends INyARRgbRaster
+	public interface IFLARColorPatt extends IFLARRgbRaster
 	{
 		/**
 		 * ラスタイメージからi_square部分のカラーパターンを抽出して、thisメンバに格納します。
@@ -50,8 +50,8 @@ package org.libspark.flartoolkit.core.pickup {
 		 * True if sucessfull; otherwise false.
 		 * ----
 		 * ラスターの取得に成功するとTRUE/失敗するとFALSE
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function pickFromRaster(image:INyARRgbRaster,i_vertexs:Vector.<NyARIntPoint2d>):Boolean;
+		function pickFromRaster(image:IFLARRgbRaster,i_vertexs:Vector.<FLARIntPoint2d>):Boolean;
 	}
 }

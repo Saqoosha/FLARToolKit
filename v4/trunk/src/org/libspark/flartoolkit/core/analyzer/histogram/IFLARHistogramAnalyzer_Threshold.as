@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,10 +30,10 @@
  */
 package org.libspark.flartoolkit.core.analyzer.histogram 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public interface INyARHistogramAnalyzer_Threshold
+	import org.libspark.flartoolkit.core.types.*;
+	public interface IFLARHistogramAnalyzer_Threshold
 	{
-		function getThreshold(i_histgram:NyARHistogram):int;
+		function getThreshold(i_histgram:FLARHistogram):int;
 	}
 
 }

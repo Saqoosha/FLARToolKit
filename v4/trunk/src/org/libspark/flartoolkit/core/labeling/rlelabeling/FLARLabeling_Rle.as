@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,26 +30,26 @@
  */
 package org.libspark.flartoolkit.core.labeling.rlelabeling
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 
 
 	// RleImageをラベリングする。
-	public class NyARLabeling_Rle
+	public class FLARLabeling_Rle
 	{
 		private static const AR_AREA_MAX:int = 100000;// #define AR_AREA_MAX 100000
 		private static const AR_AREA_MIN:int = 70;// #define AR_AREA_MIN 70
 		
 		private var _rlestack:RleInfoStack;
-		private var _rle1:Vector.<NyARLabeling_Rle_RleElement>;
-		private var _rle2:Vector.<NyARLabeling_Rle_RleElement>;
+		private var _rle1:Vector.<FLARLabeling_Rle_RleElement>;
+		private var _rle2:Vector.<FLARLabeling_Rle_RleElement>;
 		private var _max_area:int;
 		private var _min_area:int;
-		protected var _raster_size:NyARIntSize=new NyARIntSize();
-		public function NyARLabeling_Rle(i_width:int,i_height:int)
+		protected var _raster_size:FLARIntSize=new FLARIntSize();
+		public function FLARLabeling_Rle(i_width:int,i_height:int)
 		{
 			this.initInstance(i_width, i_height);
 		}
@@ -58,8 +58,8 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 			this._raster_size.setValue(i_width,i_height);
 			var t:int=(int)((Number(i_width))*i_height*2048/(320*240)+32);//full HD support
 			this._rlestack=new RleInfoStack(t);
-			this._rle1 = NyARLabeling_Rle_RleElement.createArray(i_width/2+1);
-			this._rle2 = NyARLabeling_Rle_RleElement.createArray(i_width/2+1);
+			this._rle1 = FLARLabeling_Rle_RleElement.createArray(i_width/2+1);
+			this._rle2 = FLARLabeling_Rle_RleElement.createArray(i_width/2+1);
 			this._max_area=AR_AREA_MAX;
 			this._min_area=AR_AREA_MIN;
 			return;
@@ -79,12 +79,12 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 
 
 
-		private function addFragment(i_rel_img:NyARLabeling_Rle_RleElement,i_nof:int,i_row_index:int,o_stack:RleInfoStack):Boolean
+		private function addFragment(i_rel_img:FLARLabeling_Rle_RleElement,i_nof:int,i_row_index:int,o_stack:RleInfoStack):Boolean
 		{
 			var l:int =i_rel_img.l;
 			var len:int=i_rel_img.r - l;
 			i_rel_img.fid = i_nof;// REL毎の固有ID
-			var v:NyARRleLabelFragmentInfo = NyARRleLabelFragmentInfo(o_stack.prePush());
+			var v:FLARRleLabelFragmentInfo = FLARRleLabelFragmentInfo(o_stack.prePush());
 			if(v==null){
 				return false;
 			}
@@ -106,11 +106,11 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 		 * 入力画像。対応する形式は、クラスの説明を参照してください。
 		 * @param i_th
 		 * 敷居値を指定します。2値画像の場合は、0を指定してください。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function labeling(i_raster:INyARGrayscaleRaster,i_th:int):void
+		public function labeling(i_raster:IFLARGrayscaleRaster,i_th:int):void
 		{
-			var size:NyARIntSize=i_raster.getSize();
+			var size:FLARIntSize=i_raster.getSize();
 			this.imple_labeling(i_raster,i_th,0,0,size.w,size.h);
 		}
 		/**
@@ -122,26 +122,26 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 		 * ラべリングする画像内の範囲
 		 * @param i_th
 		 * 敷居値
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function labeling_2(i_raster:INyARGrayscaleRaster,i_area:NyARIntRect,i_th:int):void
+		public function labeling_2(i_raster:IFLARGrayscaleRaster,i_area:FLARIntRect,i_th:int):void
 		{
 			this.imple_labeling(i_raster,0,i_area.x,i_area.y,i_area.w,i_area.h);
 		}		
 
-		private var _last_input_raster:INyARRaster=null;
-		private var _image_driver:NyARLabeling_Rle_IRasterDriver;
+		private var _last_input_raster:IFLARRaster=null;
+		private var _image_driver:FLARLabeling_Rle_IRasterDriver;
 		
-		private function imple_labeling(i_raster:INyARRaster,i_th:int,i_left:int,i_top:int,i_width:int,i_height:int):void
+		private function imple_labeling(i_raster:IFLARRaster,i_th:int,i_left:int,i_top:int,i_width:int,i_height:int):void
 		{			
 			//assert(i_raster.getSize().isEqualSize(this._raster_size));
 			//ラスタドライバのチェック
 			if(_last_input_raster!=i_raster){
-				this._image_driver=NyARLabeling_Rle_IRasterDriver(i_raster.createInterface(NyARLabeling_Rle_IRasterDriver));
+				this._image_driver=FLARLabeling_Rle_IRasterDriver(i_raster.createInterface(FLARLabeling_Rle_IRasterDriver));
 			}
-			var pixdrv:NyARLabeling_Rle_IRasterDriver=this._image_driver;
-			var rle_prev:Vector.<NyARLabeling_Rle_RleElement> = this._rle1;
-			var rle_current:Vector.<NyARLabeling_Rle_RleElement> = this._rle2;
+			var pixdrv:FLARLabeling_Rle_IRasterDriver=this._image_driver;
+			var rle_prev:Vector.<FLARLabeling_Rle_RleElement> = this._rle1;
+			var rle_current:Vector.<FLARLabeling_Rle_RleElement> = this._rle2;
 			// リセット処理
 			var rlestack:RleInfoStack=this._rlestack;
 			rlestack.clear();
@@ -198,7 +198,7 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 							continue SCAN_CUR;
 						}
 						id=rle_prev[index_prev].fid;//ルートフラグメントid
-						var id_ptr:NyARRleLabelFragmentInfo = NyARRleLabelFragmentInfo(f_array[id]);
+						var id_ptr:FLARRleLabelFragmentInfo = FLARRleLabelFragmentInfo(f_array[id]);
 						//結合対象(初回)->prevのIDをコピーして、ルートフラグメントの情報を更新
 						rle_current[i].fid = id;//フラグメントIDを保存
 						//
@@ -228,7 +228,7 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 							
 							//結合するルートフラグメントを取得
 							var prev_id:int =rle_prev[index_prev].fid;
-							var prev_ptr:NyARRleLabelFragmentInfo = NyARRleLabelFragmentInfo(f_array[prev_id]);
+							var prev_ptr:FLARRleLabelFragmentInfo = FLARRleLabelFragmentInfo(f_array[prev_id]);
 							if (id != prev_id){
 								label_count--;
 								//prevとcurrentのフラグメントidを書き換える。
@@ -296,7 +296,7 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 					}
 				}
 				// prevとrelの交換
-				var tmp:Vector.<NyARLabeling_Rle_RleElement> = rle_prev;
+				var tmp:Vector.<FLARLabeling_Rle_RleElement> = rle_prev;
 				rle_prev = rle_current;
 				len_prev = len_current;
 				rle_current = tmp;
@@ -305,7 +305,7 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 			var max:int=this._max_area;
 			var min:int=this._min_area;
 			for(i=id_max-1;i>=0;i--){
-				var src_info:NyARRleLabelFragmentInfo=NyARRleLabelFragmentInfo(f_array[i]);
+				var src_info:FLARRleLabelFragmentInfo=FLARRleLabelFragmentInfo(f_array[i]);
 				var area:int=src_info.area;
 				if(area<min || area>max){//対象外のエリア0のもminではじく
 					continue;
@@ -326,9 +326,9 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 		 * コールバック関数から参照を使用する場合は、互換性を確認するために、念のため、assertで_af_label_array_safe_referenceフラグをチェックしてください。
 		 * @param i_label
 		 */
-		protected function onLabelFound(i_ref_label:NyARRleLabelFragmentInfo):void
+		protected function onLabelFound(i_ref_label:FLARRleLabelFragmentInfo):void
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		
 		/**
@@ -341,15 +341,15 @@ package org.libspark.flartoolkit.core.labeling.rlelabeling
 
 }
 
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.types.stack.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 
-final class RleInfoStack extends NyARObjectStack
+final class RleInfoStack extends FLARObjectStack
 {
 	public function RleInfoStack(i_length:int)
 	{
@@ -359,7 +359,7 @@ final class RleInfoStack extends NyARObjectStack
 	}
 	protected override function createElement():Object
 	{
-		return new NyARRleLabelFragmentInfo();
+		return new FLARRleLabelFragmentInfo();
 	}
 }
 
