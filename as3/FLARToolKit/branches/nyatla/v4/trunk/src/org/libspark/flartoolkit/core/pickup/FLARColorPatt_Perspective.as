@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,35 +31,35 @@
 package org.libspark.flartoolkit.core.pickup 
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	public class NyARColorPatt_Perspective implements INyARColorPatt
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.match.*;
+	public class FLARColorPatt_Perspective implements IFLARColorPatt
 	{
-		private var _edge:NyARIntPoint2d=new NyARIntPoint2d();
+		private var _edge:FLARIntPoint2d=new FLARIntPoint2d();
 		/** パターン格納用のバッファ*/
 		protected var _patdata:Vector.<int>;
 		/** サンプリング解像度*/
 		protected var _sample_per_pixel:int;
 		/** このラスタのサイズ*/	
-		protected var _size:NyARIntSize;
-		private var _pixelreader:INyARRgbPixelDriver;
-		private static const BUFFER_FORMAT:int=NyARBufferType.INT1D_X8R8G8B8_32;
+		protected var _size:FLARIntSize;
+		private var _pixelreader:IFLARRgbPixelDriver;
+		private static const BUFFER_FORMAT:int=FLARBufferType.INT1D_X8R8G8B8_32;
 		private function initInstance(i_width:int,i_height:int,i_point_per_pix:int):void
 		{
 			NyAS3Utils.assert(i_width>2 && i_height>2);
 			this._sample_per_pixel=i_point_per_pix;	
-			this._size=new NyARIntSize(i_width,i_height);
+			this._size=new FLARIntSize(i_width,i_height);
 			this._patdata = new Vector.<int>(i_height*i_width);
-			this._pixelreader=NyARRgbPixelDriverFactory.createDriver(this);
+			this._pixelreader=FLARRgbPixelDriverFactory.createDriver(this);
 			return;
 		}
-		public function NyARColorPatt_Perspective(...args:Array)
+		public function FLARColorPatt_Perspective(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -68,13 +68,13 @@ package org.libspark.flartoolkit.core.pickup
 				}
 				break;
 			case 3:
-				NyARColorPatt_Perspective_3iii(int(args[0]), int(args[1]),int(args[2]));
+				FLARColorPatt_Perspective_3iii(int(args[0]), int(args[1]),int(args[2]));
 				break;
 			case 4:
-				NyARColorPatt_Perspective_4iii(int(args[0]), int(args[1]),int(args[2]),int(args[3]));
+				FLARColorPatt_Perspective_4iii(int(args[0]), int(args[1]),int(args[2]),int(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 
@@ -88,9 +88,9 @@ package org.libspark.flartoolkit.core.pickup
 		 * 取得画像の解像度高さ
 		 * @param i_point_per_pix
 		 * 1ピクセルあたりの縦横サンプリング数。2なら2x2=4ポイントをサンプリングする。
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		private function NyARColorPatt_Perspective_3iii(i_width:int , i_height:int, i_point_per_pix:int):void
+		private function FLARColorPatt_Perspective_3iii(i_width:int , i_height:int, i_point_per_pix:int):void
 		{
 			this.initInstance(i_width,i_height,i_point_per_pix);
 			this._edge.setValue_3(0,0);
@@ -107,9 +107,9 @@ package org.libspark.flartoolkit.core.pickup
 		 * 1ピクセルあたりの解像度
 		 * @param i_edge_percentage
 		 * エッジ幅の割合(ARToolKit標準と同じなら、25)
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		private function NyARColorPatt_Perspective_4iii(i_width:int, i_height:int,i_point_per_pix:int,i_edge_percentage:int):void
+		private function FLARColorPatt_Perspective_4iii(i_width:int, i_height:int,i_point_per_pix:int,i_edge_percentage:int):void
 		{
 			this.initInstance(i_width,i_height,i_point_per_pix);
 			this._edge.setValue_3(i_edge_percentage, i_edge_percentage);
@@ -149,20 +149,20 @@ package org.libspark.flartoolkit.core.pickup
 		/**
 		 * この関数はラスタのサイズの参照値を返します。
 		 */
-		public function getSize():NyARIntSize
+		public function getSize():FLARIntSize
 		{
 			return 	this._size;
 		}
 		/**
 		 * この関数は、ラスタの画素読み取りオブジェクトの参照値を返します。
 		 */	
-		public function getRgbPixelDriver():INyARRgbPixelDriver
+		public function getRgbPixelDriver():IFLARRgbPixelDriver
 		{
 			return this._pixelreader;
 		}
 		/**
 		 * この関数は、ラスタ画像のバッファを返します。
-		 * バッファ形式は、{@link NyARBufferType#INT1D_X8R8G8B8_32}(int[])です。
+		 * バッファ形式は、{@link FLARBufferType#INT1D_X8R8G8B8_32}(int[])です。
 		 */	
 		public function getBuffer():Object
 		{
@@ -180,7 +180,7 @@ package org.libspark.flartoolkit.core.pickup
 		 */
 		public function wrapBuffer(i_ref_buf:Object):void
 		{
-			NyARException.notImplement();
+			FLARException.notImplement();
 		}
 		/**
 		 * この関数は、バッファタイプの定数を返します。
@@ -196,15 +196,15 @@ package org.libspark.flartoolkit.core.pickup
 		{
 			return BUFFER_FORMAT==i_type_value;
 		}
-		private var _last_input_raster:INyARRgbRaster=null;
-		private var _raster_driver:INyARPerspectiveCopy;
+		private var _last_input_raster:IFLARRgbRaster=null;
+		private var _raster_driver:IFLARPerspectiveCopy;
 		/**
 		 * この関数は、ラスタのi_vertexsで定義される四角形からパターンを取得して、インスタンスに格納します。
 		 */
-		public function pickFromRaster(image:INyARRgbRaster,i_vertexs:Vector.<NyARIntPoint2d>):Boolean
+		public function pickFromRaster(image:IFLARRgbRaster,i_vertexs:Vector.<FLARIntPoint2d>):Boolean
 		{
 			if(this._last_input_raster!=image){
-				this._raster_driver=INyARPerspectiveCopy(image.createInterface(INyARPerspectiveCopy));
+				this._raster_driver=IFLARPerspectiveCopy(image.createInterface(IFLARPerspectiveCopy));
 				this._last_input_raster=image;
 			}
 			//遠近法のパラメータを計算
@@ -213,13 +213,13 @@ package org.libspark.flartoolkit.core.pickup
 
 		public function createInterface(iIid:Class):Object
 		{
-			if(iIid==INyARPerspectiveCopy){
-				return NyARPerspectiveCopyFactory.createDriver(this);
+			if(iIid==IFLARPerspectiveCopy){
+				return FLARPerspectiveCopyFactory.createDriver(this);
 			}
-			if(iIid==NyARMatchPattDeviationColorData_IRasterDriver){
-				return NyARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
+			if(iIid==FLARMatchPattDeviationColorData_IRasterDriver){
+				return FLARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
 			}		
-			throw new NyARException();
+			throw new FLARException();
 		}
 
 	}

@@ -1,6 +1,6 @@
 package org.libspark.flartoolkit.core.param 
 {
-	public class NyARFrustum_FrustumParam 
+	public class FLARFrustum_FrustumParam 
 	{
 		public var far:Number;
 		public var near:Number;

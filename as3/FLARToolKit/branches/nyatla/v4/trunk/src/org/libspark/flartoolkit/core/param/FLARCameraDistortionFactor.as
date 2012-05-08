@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
  */
 package org.libspark.flartoolkit.core.param
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * カメラの歪み成分を格納するクラスと、補正関数群
 	 * http://www.hitl.washington.edu/artoolkit/Papers/ART02-Tutorial.pdf
@@ -41,14 +41,14 @@ package org.libspark.flartoolkit.core.param
 	 * p=(1-fd^2)
 	 * xd=px+x0,yd=py+y0
 	 */
-	public class NyARCameraDistortionFactor
+	public class FLARCameraDistortionFactor
 	{
 		private static const PD_LOOP:int = 3;
 		private var _f0:Number;//x0
 		private var _f1:Number;//y0
 		private var _f2:Number;//100000000.0*ｆ
 		private var _f3:Number;//s
-		public function copyFrom(i_ref:NyARCameraDistortionFactor):void
+		public function copyFrom(i_ref:FLARCameraDistortionFactor):void
 		{
 			this._f0=i_ref._f0;
 			this._f1=i_ref._f1;
@@ -91,7 +91,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param i_in
 		 * @param o_out
 		 */
-		public function ideal2Observ(i_in:NyARDoublePoint2d,o_out:NyARDoublePoint2d):void
+		public function ideal2Observ(i_in:FLARDoublePoint2d,o_out:FLARDoublePoint2d):void
 		{
 			var x:Number = (i_in.x - this._f0) * this._f3;
 			var y:Number = (i_in.y - this._f1) * this._f3;
@@ -111,7 +111,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param i_in
 		 * @param o_out
 		 */
-		public function ideal2Observ_2(i_in:NyARDoublePoint2d,o_out:NyARIntPoint2d):void
+		public function ideal2Observ_2(i_in:FLARDoublePoint2d,o_out:FLARIntPoint2d):void
 		{
 			this.ideal2Observ_3(i_in.x,i_in.y,o_out);
 			return;
@@ -123,7 +123,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param i_y
 		 * @param o_out
 		 */
-		public function ideal2Observ_3(i_x:Number,i_y:Number,o_out:NyARIntPoint2d):void
+		public function ideal2Observ_3(i_x:Number,i_y:Number,o_out:FLARIntPoint2d):void
 		{
 			var x:Number = (i_x - this._f0) * this._f3;
 			var y:Number = (i_y - this._f1) * this._f3;
@@ -145,7 +145,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param o_out
 		 * @param i_size
 		 */
-		public function ideal2ObservBatch(i_in:Vector.<NyARDoublePoint2d>,o_out:Vector.<NyARDoublePoint2d>,i_size:int):void
+		public function ideal2ObservBatch(i_in:Vector.<FLARDoublePoint2d>,o_out:Vector.<FLARDoublePoint2d>,i_size:int):void
 		{
 			var x:Number,y:Number;
 			var d0:Number = this._f0;
@@ -173,7 +173,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param o_out
 		 * @param i_size
 		 */
-		public final function ideal2ObservBatch_2(i_in:Vector.<NyARDoublePoint2d>, o_out:Vector.<NyARIntPoint2d>,i_size:int):void
+		public final function ideal2ObservBatch_2(i_in:Vector.<FLARDoublePoint2d>, o_out:Vector.<FLARIntPoint2d>,i_size:int):void
 		{
 			var x:Number, y:Number;
 			var d0:Number = this._f0;
@@ -202,7 +202,7 @@ package org.libspark.flartoolkit.core.param
 		 * @param iy
 		 * @param o_point
 		 */
-		public function observ2Ideal(ix:Number,iy:Number,o_point:NyARDoublePoint2d):void 
+		public function observ2Ideal(ix:Number,iy:Number,o_point:FLARDoublePoint2d):void 
 		{
 			var z02:Number, z0:Number, p:Number, q:Number, z:Number, px:Number, py:Number, opttmp_1:Number;
 			var d0:Number = this._f0;
@@ -238,12 +238,12 @@ package org.libspark.flartoolkit.core.param
 		}
 
 		/**
-		 * {@link #observ2Ideal(double, double, NyARDoublePoint2d)}の出力型違い。o_veclinearのx,yフィールドに値を出力する。
+		 * {@link #observ2Ideal(double, double, FLARDoublePoint2d)}の出力型違い。o_veclinearのx,yフィールドに値を出力する。
 		 * @param ix
 		 * @param iy
 		 * @param o_veclinear
 		 */
-		public function observ2Ideal_2(ix:Number,iy:Number,o_veclinear:NyARVecLinear2d):void
+		public function observ2Ideal_2(ix:Number,iy:Number,o_veclinear:FLARVecLinear2d):void
 		{
 			var z02:Number, z0:Number, p:Number, q:Number, z:Number, px:Number, py:Number, opttmp_1:Number;
 			var d0:Number = this._f0;

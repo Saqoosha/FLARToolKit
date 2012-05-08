@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,15 +29,15 @@
  * 
  */
 package org.libspark.flartoolkit.core.match {
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 
 	/**
 	 * ARColorPattのマッチング計算をするインタフェイスです。 基準Patに対して、計算済みのARCodeデータとの間で比較演算をします。
 	 * pattern_match関数を分解した３種類のパターン検出クラスを定義します。
 	 * 
 	 */
-	public interface INyARMatchPatt
+	public interface IFLARMatchPatt
 	{
-		function setARCode(i_code:NyARCode):void;
+		function setARCode(i_code:FLARCode):void;
 	}
 }
