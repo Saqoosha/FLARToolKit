@@ -27,7 +27,7 @@ package org.libspark.flartoolkit.markersystem
 	 * 
 	 * このクラスは、FLARMarkerSystemをFLARToolkit向けに改造したものです。
 	 */
-	public class FLARMarkerSystem extends  FLARMarkerSystem
+	public class FLARMarkerSystem extends  FLARMarkerSystem_BaseClass_
 	{
 		
 		/**

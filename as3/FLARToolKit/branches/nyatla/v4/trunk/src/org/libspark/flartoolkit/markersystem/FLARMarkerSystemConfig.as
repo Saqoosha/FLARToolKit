@@ -5,7 +5,7 @@ package org.libspark.flartoolkit.markersystem
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.core.param.*;
 	import flash.utils.*;	
-	public class FLARMarkerSystemConfig extends FLARMarkerSystemConfig
+	public class FLARMarkerSystemConfig extends FLARMarkerSystemConfig_BaseClass_
 	{
 		public function FLARMarkerSystemConfig(...args:Array)
 		{

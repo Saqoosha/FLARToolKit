@@ -39,10 +39,10 @@ package org.libspark.flartoolkit.markersystem
 	 * このクラスは、FLARToolkitの姿勢推定アルゴリズムに調整したコンフィギュレーションクラスです。
 	 *
 	 */
-	public class FLARMarkerSystemConfig implements IFLARMarkerSystemConfig
+	public class FLARMarkerSystemConfig_BaseClass_ implements IFLARMarkerSystemConfig
 	{
 		protected var _param:FLARParam;
-		public function FLARMarkerSystemConfig(...args:Array)
+		public function FLARMarkerSystemConfig_BaseClass_(...args:Array)
 		{
 			switch(args.length) {
 			case 1:

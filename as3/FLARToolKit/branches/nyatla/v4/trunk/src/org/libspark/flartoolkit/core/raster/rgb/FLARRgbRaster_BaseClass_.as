@@ -8,7 +8,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 	import org.libspark.flartoolkit.core.*;
 	import jp.nyatla.as3utils.*;
 	
-	public class FLARRgbRaster extends FLARRgbRaster_BasicClass
+	public class FLARRgbRaster_BaseClass_ extends FLARRgbRaster_BasicClass
 	{
 		protected var _buf:Object;
 		/** ピクセルリーダ*/
@@ -19,7 +19,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 		protected var _is_attached_buffer:Boolean;
 
 		
-		public function FLARRgbRaster(...args:Array)
+		public function FLARRgbRaster_BaseClass_(...args:Array)
 		{
 			super(NyAS3Const_Inherited);
 			switch(args.length){

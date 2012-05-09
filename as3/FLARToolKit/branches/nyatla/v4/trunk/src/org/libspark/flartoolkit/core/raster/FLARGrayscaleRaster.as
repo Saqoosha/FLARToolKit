@@ -45,11 +45,11 @@ package org.libspark.flartoolkit.core.raster
 	/**
 	 * このクラスは、BitmapDataをバッファ荷物グレースケールラスタです。
 	 */
-	public final class FLARGrayscaleRaster extends FLARGrayscaleRaster
+	public class FLARGrayscaleRaster extends FLARGrayscaleRaster_BaseClass_
 	{
-		public function FLARGrayscaleRaster(i_width:int,i_height:int,i_is_alloc:Boolean=true)
+		public function FLARGrayscaleRaster(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean=true)
 		{
-			super(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,i_is_alloc);
+			super(i_width,i_height,i_raster_type,i_is_alloc);
 		}
 		protected override function initInstance(i_size:FLARIntSize, i_raster_type:int, i_is_alloc:Boolean):void
 		{
