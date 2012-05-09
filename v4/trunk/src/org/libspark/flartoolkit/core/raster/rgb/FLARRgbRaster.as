@@ -45,7 +45,7 @@ package org.libspark.flartoolkit.core.raster.rgb
     /**
      * bitmapと互換性のあるラスタです。
      */
-    public class FLARRgbRaster extends FLARRgbRaster
+    public class FLARRgbRaster extends FLARRgbRaster_BaseClass_
     {
 		public function FLARRgbRaster(...args:Array)
 		{

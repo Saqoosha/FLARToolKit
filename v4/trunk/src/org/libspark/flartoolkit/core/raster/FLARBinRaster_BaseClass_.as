@@ -38,7 +38,7 @@ package org.libspark.flartoolkit.core.raster
 	/**
 	 * このクラスは、0/ 255 の二値GrayscaleRasterです。
 	 */
-	public class FLARBinRaster extends FLARGrayscaleRaster
+	public class FLARBinRaster_BaseClass_ extends FLARGrayscaleRaster_BaseClass_
 	{
 		/**
 		 * コンストラクタです。
@@ -50,7 +50,7 @@ package org.libspark.flartoolkit.core.raster
 		 * ラスタのサイズ
 		 * @throws FLARException
 		 */
-		public function FLARBinRaster(i_width:int,i_height:int,i_raster_type:int=-1,i_is_attach:Boolean=true)
+		public function FLARBinRaster_BaseClass_(i_width:int,i_height:int,i_raster_type:int=-1,i_is_attach:Boolean=true)
 		{
 			super(i_width,i_height,i_raster_type==-1?FLARBufferType.INT1D_BIN_8:i_raster_type,i_is_attach);
 		}

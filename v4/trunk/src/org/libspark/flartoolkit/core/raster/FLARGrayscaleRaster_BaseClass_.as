@@ -48,7 +48,7 @@ package org.libspark.flartoolkit.core.raster
 	 * このクラスは、グレースケース画像を格納するラスタクラスです。
 	 * 外部バッファ、内部バッファの両方に対応します。
 	 */
-	public class FLARGrayscaleRaster implements IFLARGrayscaleRaster
+	public class FLARGrayscaleRaster_BaseClass_ implements IFLARGrayscaleRaster
 	{
 
 		protected var _size:FLARIntSize;
@@ -101,7 +101,7 @@ package org.libspark.flartoolkit.core.raster
 		protected var _pixdrv:IFLARGsPixelDriver;
 
 		
-		public function FLARGrayscaleRaster(...args:Array)
+		public function FLARGrayscaleRaster_BaseClass_(...args:Array)
 		{
 			switch(args.length) {
 			case 1:

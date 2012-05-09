@@ -42,7 +42,7 @@ package org.libspark.flartoolkit.markersystem
 	 * 管理している情報は、元画像（カラー）、グレースケール画像、ヒストグラムです。
 	 * このインスタンスは{@link FLARMarkerSystem#update(FLARSensor)}関数により、{@link FLARMarkerSystem}に入力します。
 	 */
-	public class FLARSensor
+	public class FLARSensor_BaseClass_
 	{
 		protected var _gs_hist:FLARHistogram;
 		protected var _ref_raster:IFLARRgbRaster;
@@ -56,7 +56,7 @@ package org.libspark.flartoolkit.markersystem
 		 * 画像のサイズ。
 		 * @throws FLARException
 		 */
-		public function FLARSensor(i_size:FLARIntSize)
+		public function FLARSensor_BaseClass_(i_size:FLARIntSize)
 		{
 			this.initInstance(i_size);
 			this._hist_drv=IFLARHistogramFromRaster(this._gs_raster.createInterface(IFLARHistogramFromRaster));

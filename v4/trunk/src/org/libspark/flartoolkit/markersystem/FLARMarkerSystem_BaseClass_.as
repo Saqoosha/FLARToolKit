@@ -46,7 +46,7 @@ package org.libspark.flartoolkit.markersystem
 	 * このクラスは、ARToolKit固有の座標系を出力します。他の座標系を出力するときには、継承クラスで変換してください。
 	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link FLARGlMarkerSystem}クラスがあります。
 	 */
-	public class FLARMarkerSystem
+	public class FLARMarkerSystem_BaseClass_
 	{
 		/**　定数値。自動敷居値を示す値です。　*/
 		public const THLESHOLD_AUTO:int=0xffffffff;
@@ -83,7 +83,7 @@ package org.libspark.flartoolkit.markersystem
 		 * 初期化済の{@link MarkerSystem}を指定します。
 		 * @throws FLARException
 		 */
-		public function FLARMarkerSystem(i_config:IFLARMarkerSystemConfig)
+		public function FLARMarkerSystem_BaseClass_(i_config:IFLARMarkerSystemConfig)
 		{
 			this._ref_param=i_config.getFLARParam();
 			this._frustum=new FLARFrustum();

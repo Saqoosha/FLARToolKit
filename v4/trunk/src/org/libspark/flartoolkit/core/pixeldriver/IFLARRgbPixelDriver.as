@@ -25,7 +25,6 @@
 package org.libspark.flartoolkit.core.pixeldriver
 {
 
-	import jp.nyatla.nyartoolkit.*;
 	import org.libspark.flartoolkit.core.FLARException;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.raster.*;
