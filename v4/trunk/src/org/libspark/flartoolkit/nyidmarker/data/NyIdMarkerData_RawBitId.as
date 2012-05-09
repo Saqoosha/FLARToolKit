@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.nyidmarker.data
+package org.libspark.flartoolkit.nyidmarker.data
 {
 
 

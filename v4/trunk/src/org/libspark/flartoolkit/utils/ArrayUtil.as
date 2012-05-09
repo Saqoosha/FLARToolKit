@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *

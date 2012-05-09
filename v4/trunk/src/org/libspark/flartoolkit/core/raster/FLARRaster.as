@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,23 +28,23 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.raster 
+package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import org.libspark.flartoolkit.core.rasterreader.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
-	/**このクラスは、単機能のNyARRasterです。
+	/**このクラスは、単機能のFLARRasterです。
 	 *
 	 */
-	public class NyARRaster extends NyARRaster_BasicClass
+	public class FLARRaster extends FLARRaster_BasicClass
 	{
 		protected var _buf:Object;
 		/**
 		 * バッファオブジェクトがアタッチされていればtrue
 		 */
 		protected var _is_attached_buffer:Boolean;
-		public function NyARRaster(...args:Array)
+		public function FLARRaster(...args:Array)
 		{
 			super(NyAS3Const_Inherited);
 			switch(args.length) {
@@ -54,13 +54,13 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 				}
 				break;
 			case 3:
-				overload_NyARRaster3(int(args[0]), int(args[1]),int(args[2]));
+				overload_FLARRaster3(int(args[0]), int(args[1]),int(args[2]));
 				break;
 			case 4:
-				overload_NyARRaster4(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
+				overload_FLARRaster4(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 
@@ -69,33 +69,33 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		 * @param i_width
 		 * @param i_height
 		 * @param i_buffer_type
-		 * NyARBufferTypeに定義された定数値を指定してください。
+		 * FLARBufferTypeに定義された定数値を指定してください。
 		 * @param i_is_alloc
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARRaster4(i_width:int, i_height:int, i_buffer_type:int, i_is_alloc:Boolean):void
+		protected function overload_FLARRaster4(i_width:int, i_height:int, i_buffer_type:int, i_is_alloc:Boolean):void
 		{
-			super.overload_NyARRaster_BasicClass(i_width,i_height,i_buffer_type);
+			super.overload_FLARRaster_BasicClass(i_width,i_height,i_buffer_type);
 			if(!initInstance(this._size,i_buffer_type,i_is_alloc)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			return;
 		}	
 
-		protected function overload_NyARRaster3(i_width:int, i_height:int, i_buffer_type:int):void
+		protected function overload_FLARRaster3(i_width:int, i_height:int, i_buffer_type:int):void
 		{
-			super.overload_NyARRaster_BasicClass(i_width,i_height,i_buffer_type);
+			super.overload_FLARRaster_BasicClass(i_width,i_height,i_buffer_type);
 			if(!initInstance(this._size,i_buffer_type,true)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			return;
 		}	
-		protected function initInstance(i_size:NyARIntSize,i_buf_type:int,i_is_alloc:Boolean):Boolean
+		protected function initInstance(i_size:FLARIntSize,i_buf_type:int,i_is_alloc:Boolean):Boolean
 		{
 			switch(i_buf_type)
 			{
-				case NyARBufferType.INT1D:
-				case NyARBufferType.INT1D_X8R8G8B8_32:
+				case FLARBufferType.INT1D:
+				case FLARBufferType.INT1D_X8R8G8B8_32:
 					this._buf=i_is_alloc?new Vector.<int>(i_size.w*i_size.h):null;
 					break;
 				default:

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.labeling 
+package org.libspark.flartoolkit.core.labeling 
 {
-	public class NyARLabelOverlapChecker
+	public class FLARLabelOverlapChecker
 	{
 		private var _labels:Vector.<Object>;
 		private var _length:int;
 		/*
 		*/
-		public function NyARLabelOverlapChecker(i_max_label:int)
+		public function FLARLabelOverlapChecker(i_max_label:int)
 		{
 			this._labels = createArray(i_max_label);
 		}
@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3.core.labeling
 		 * 
 		 * @param i_label_ref
 		 */
-		public function push(i_label_ref:NyARLabelInfo):void
+		public function push(i_label_ref:FLARLabelInfo):void
 		{
 			this._labels[this._length] = i_label_ref;
 			this._length++;
@@ -62,14 +62,14 @@ package jp.nyatla.nyartoolkit.as3.core.labeling
 		 * @param i_label
 		 * @return 何れかのラベルの内側にあるならばfalse,独立したラベルである可能性が高ければtrueです．
 		 */
-		public function check(i_label:NyARLabelInfo):Boolean
+		public function check(i_label:FLARLabelInfo):Boolean
 		{
 			// 重なり処理かな？
 			var label_pt:Vector.<Object>  = this._labels;
 			var px1:int = (int)(i_label.pos_x);
 			var py1:int = (int)(i_label.pos_y);
 			for (var i:int = this._length - 1; i >= 0; i--) {
-				var label_ptr:NyARLabelInfo = (NyARLabelInfo)(label_pt[i]);
+				var label_ptr:FLARLabelInfo = (FLARLabelInfo)(label_pt[i]);
 				var px2:int = (int)(label_ptr.pos_x);
 				var py2:int = (int)(label_ptr.pos_y);
 				var d:int = (px1 - px2) * (px1 - px2) + (py1 - py2) * (py1 - py2);

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,25 +28,25 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.match
+package org.libspark.flartoolkit.core.match
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 
-	public class NyARMatchPatt_Color_WITHOUT_PCA implements INyARMatchPatt
+	public class FLARMatchPatt_Color_WITHOUT_PCA implements IFLARMatchPatt
 	{
-		protected var _code_patt:NyARCode;
+		protected var _code_patt:FLARCode;
 
 		protected var _optimize_for_mod:int;
 		protected var _rgbpixels:int;
 
-		public function NyARMatchPatt_Color_WITHOUT_PCA(...args:Array)
+		public function FLARMatchPatt_Color_WITHOUT_PCA(...args:Array)
 		{
 			switch(args.length){
 			case 1:
-				{	//public function NyARMatchPatt_Color_WITHOUT_PCA(i_code_ref:NyARCode)
-					var i_code_ref:NyARCode=NyARCode(args[0]);
+				{	//public function FLARMatchPatt_Color_WITHOUT_PCA(i_code_ref:FLARCode)
+					var i_code_ref:FLARCode=FLARCode(args[0]);
 					var w:int=i_code_ref.getWidth();
 					var h:int=i_code_ref.getHeight();
 					//最適化定数の計算
@@ -57,7 +57,7 @@ package jp.nyatla.nyartoolkit.as3.core.match
 				}
 				break;
 			case 2:
-				{	//public function NyARMatchPatt_Color_WITHOUT_PCA(i_width:int,i_height:int)
+				{	//public function FLARMatchPatt_Color_WITHOUT_PCA(i_width:int,i_height:int)
 				
 					var i_width:int = int(args[0]), i_height:int = int(args[1]);
 					//最適化定数の計算
@@ -69,13 +69,13 @@ package jp.nyatla.nyartoolkit.as3.core.match
 			default:
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 		/**
 		 * 比較対象のARCodeをセットします。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function setARCode(i_code_ref:NyARCode):void
+		public function setARCode(i_code_ref:FLARCode):void
 		{
 			this._code_patt=i_code_ref;
 			return;
@@ -83,19 +83,19 @@ package jp.nyatla.nyartoolkit.as3.core.match
 		/**
 		 * 現在セットされているARコードとi_pattを比較します。
 		 */
-		public function evaluate(i_patt:NyARMatchPattDeviationColorData,o_result:NyARMatchPattResult):Boolean
+		public function evaluate(i_patt:FLARMatchPattDeviationColorData,o_result:FLARMatchPattResult):Boolean
 		{
 			NyAS3Utils.assert(this._code_patt!=null);
 			//
 			var linput:Vector.<int> = i_patt.getData();
 			var sum:int;
 			var max:Number = 0;
-			var res:int = NyARMatchPattResult.DIRECTION_UNKNOWN;
+			var res:int = FLARMatchPattResult.DIRECTION_UNKNOWN;
 			var for_mod:int=this._optimize_for_mod;
 			for (var j:int = 0; j < 4; j++) {
 				//合計値初期化
 				sum=0;
-				var code_patt:NyARMatchPattDeviationColorData=this._code_patt.getColorData(j);
+				var code_patt:FLARMatchPattDeviationColorData=this._code_patt.getColorData(j);
 				var pat_j:Vector.<int> = code_patt.getData();
 				//<全画素について、比較(FORの1/16展開)>
 				var i:int;

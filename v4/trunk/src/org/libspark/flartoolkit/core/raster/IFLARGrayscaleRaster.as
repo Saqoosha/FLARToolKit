@@ -1,9 +1,9 @@
-package jp.nyatla.nyartoolkit.as3.core.raster 
+package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	public interface INyARGrayscaleRaster extends INyARRaster
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	public interface IFLARGrayscaleRaster extends IFLARRaster
 	{
-		function getGsPixelDriver() :INyARGsPixelDriver;
+		function getGsPixelDriver() :IFLARGsPixelDriver;
 	}
 	
 }

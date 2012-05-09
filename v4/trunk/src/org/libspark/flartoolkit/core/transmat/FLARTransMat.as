@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,83 +28,83 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat
+package org.libspark.flartoolkit.core.transmat
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.optimize.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.solver.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.transmat.rotmatrix.*;
+	import org.libspark.flartoolkit.core.transmat.optimize.*;
+	import org.libspark.flartoolkit.core.transmat.solver.*;
 	/**
 	 * This class calculates ARMatrix from square information and holds it. --
 	 * 変換行列を計算して、結果を保持するクラス。
 	 * 
 	 */
-	public class NyARTransMat implements INyARTransMat
+	public class FLARTransMat implements IFLARTransMat
 	{	
-		private var _ref_projection_mat:NyARPerspectiveProjectionMatrix;
-		protected var _rotmatrix:NyARRotMatrix;
-		protected var _transsolver:INyARTransportVectorSolver;
-		protected var _mat_optimize:NyARPartialDifferentiationOptimize;
+		private var _ref_projection_mat:FLARPerspectiveProjectionMatrix;
+		protected var _rotmatrix:FLARRotMatrix;
+		protected var _transsolver:IFLARTransportVectorSolver;
+		protected var _mat_optimize:FLARPartialDifferentiationOptimize;
 
 
-		private var _ref_dist_factor:NyARCameraDistortionFactor;
+		private var _ref_dist_factor:FLARCameraDistortionFactor;
 
 		/**
 		 * この関数は、コンストラクタから呼び出してください。
 		 * @param i_distfactor
 		 * 歪みの逆矯正に使うオブジェクト。
 		 * @param i_projmat
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function initInstance(i_distfactor:NyARCameraDistortionFactor,i_projmat:NyARPerspectiveProjectionMatrix):void
+		private function initInstance(i_distfactor:FLARCameraDistortionFactor,i_projmat:FLARPerspectiveProjectionMatrix):void
 		{
-			this._transsolver=new NyARTransportVectorSolver(i_projmat,4);
-			//互換性が重要な時は、NyARRotMatrix_ARToolKitを使うこと。
-			//理屈はNyARRotMatrix_NyARToolKitもNyARRotMatrix_ARToolKitも同じだけど、少しだけ値がずれる。
-			this._rotmatrix = new NyARRotMatrix(i_projmat);
-			this._mat_optimize=new NyARPartialDifferentiationOptimize(i_projmat);
+			this._transsolver=new FLARTransportVectorSolver(i_projmat,4);
+			//互換性が重要な時は、FLARRotMatrix_ARToolKitを使うこと。
+			//理屈はFLARRotMatrix_FLARToolKitもFLARRotMatrix_ARToolKitも同じだけど、少しだけ値がずれる。
+			this._rotmatrix = new FLARRotMatrix(i_projmat);
+			this._mat_optimize=new FLARPartialDifferentiationOptimize(i_projmat);
 			this._ref_dist_factor=i_distfactor;
 			this._ref_projection_mat=i_projmat;
 			return;
 		}
-		public function NyARTransMat(...args:Array)
+		public function FLARTransMat(...args:Array)
 		{
 			switch(args.length){
 			case 1:
-				{	//NyARTransMat(NyARParam i_param) throws NyARException
-					var i_param:NyARParam = NyARParam(args[0]);
+				{	//FLARTransMat(FLARParam i_param) throws FLARException
+					var i_param:FLARParam = FLARParam(args[0]);
 					//最適化定数の計算
 					this.initInstance(i_param.getDistortionFactor(),i_param.getPerspectiveProjectionMatrix());
 					return;
 				}
 				break;
 			case 2:
-				{	//NyARTransMat(NyARCameraDistortionFactor i_ref_distfactor,NyARPerspectiveProjectionMatrix i_ref_projmat)
+				{	//FLARTransMat(FLARCameraDistortionFactor i_ref_distfactor,FLARPerspectiveProjectionMatrix i_ref_projmat)
 					//最適化定数の計算	
-					this.initInstance(NyARCameraDistortionFactor(args[0]),NyARPerspectiveProjectionMatrix(args[1]));
+					this.initInstance(FLARCameraDistortionFactor(args[0]),FLARPerspectiveProjectionMatrix(args[1]));
 					return;				
 				}
 				break;
 			default:
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}		
 
-		private var __transMat_vertex_2d:Vector.<NyARDoublePoint2d> = NyARDoublePoint2d.createArray(4);
-		private var __transMat_vertex_3d:Vector.<NyARDoublePoint3d> = NyARDoublePoint3d.createArray(4);
-		private var __transMat_trans:NyARDoublePoint3d=new NyARDoublePoint3d();
+		private var __transMat_vertex_2d:Vector.<FLARDoublePoint2d> = FLARDoublePoint2d.createArray(4);
+		private var __transMat_vertex_3d:Vector.<FLARDoublePoint3d> = FLARDoublePoint3d.createArray(4);
+		private var __transMat_trans:FLARDoublePoint3d=new FLARDoublePoint3d();
 		
 		/**
 		 * 頂点情報を元に、エラー閾値を計算します。
 		 * @param i_vertex
 		 */
-		private function makeErrThreshold(i_vertex:Vector.<NyARDoublePoint2d>):Number
+		private function makeErrThreshold(i_vertex:Vector.<FLARDoublePoint2d>):Number
 		{
 			var a:Number,b:Number,l1:Number,l2:Number;
 			a=i_vertex[0].x-i_vertex[2].x;
@@ -120,18 +120,18 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		 * double arGetTransMat( ARMarkerInfo *marker_info,double center[2], double width, double conv[3][4] )
 		 * 
 		 * @param i_square
-		 * 計算対象のNyARSquareオブジェクト
+		 * 計算対象のFLARSquareオブジェクト
 		 * @param i_direction
 		 * @param i_width
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function transMat(i_square:NyARSquare,i_offset:NyARRectOffset,o_result:NyARTransMatResult):Boolean
+		public function transMat(i_square:FLARSquare,i_offset:FLARRectOffset,o_result:FLARTransMatResult):Boolean
 		{
-			var trans:NyARDoublePoint3d=this.__transMat_trans;
+			var trans:FLARDoublePoint3d=this.__transMat_trans;
 			var err_threshold:Number=makeErrThreshold(i_square.sqvertex);
 
-			var vertex_2d:Vector.<NyARDoublePoint2d>;
+			var vertex_2d:Vector.<FLARDoublePoint2d>;
 			if(this._ref_dist_factor!=null){
 				//歪み復元必要
 				vertex_2d=this.__transMat_vertex_2d;
@@ -147,7 +147,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 			//回転行列を計算
 			this._rotmatrix.initRotBySquare(i_square.line,i_square.sqvertex);
 			//回転後の3D座標系から、平行移動量を計算
-			var vertex_3d:Vector.<NyARDoublePoint3d>=this.__transMat_vertex_3d;
+			var vertex_3d:Vector.<FLARDoublePoint3d>=this.__transMat_vertex_3d;
 			this._rotmatrix.getPoint3dBatch(i_offset.vertex,vertex_3d,4);
 			this._transsolver.solveTransportVector(vertex_3d,trans);
 			
@@ -158,11 +158,11 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 
 		/*
 		 * (non-Javadoc)
-		 * @see jp.nyatla.nyartoolkit.core.transmat.INyARTransMat#transMatContinue(jp.nyatla.nyartoolkit.core.NyARSquare, int, double, jp.nyatla.nyartoolkit.core.transmat.NyARTransMatResult)
+		 * @see jp.nyatla.nyartoolkit.core.transmat.IFLARTransMat#transMatContinue(jp.nyatla.nyartoolkit.core.FLARSquare, int, double, jp.nyatla.nyartoolkit.core.transmat.FLARTransMatResult)
 		 */
-		public function transMatContinue(i_square:NyARSquare,i_offset:NyARRectOffset,i_prev_result:NyARTransMatResult,o_result:NyARTransMatResult):Boolean
+		public function transMatContinue(i_square:FLARSquare,i_offset:FLARRectOffset,i_prev_result:FLARTransMatResult,o_result:FLARTransMatResult):Boolean
 		{
-			var trans:NyARDoublePoint3d=this.__transMat_trans;
+			var trans:FLARDoublePoint3d=this.__transMat_trans;
 			// io_result_convが初期値なら、transMatで計算する。
 			if (!i_prev_result.has_value) {
 				return this.transMat(i_square,i_offset, o_result);
@@ -175,7 +175,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 
 			
 			//平行移動量計算機に、2D座標系をセット
-			var vertex_2d:Vector.<NyARDoublePoint2d>;
+			var vertex_2d:Vector.<FLARDoublePoint2d>;
 			if(this._ref_dist_factor!=null){
 				vertex_2d=this.__transMat_vertex_2d;
 				this._ref_dist_factor.ideal2ObservBatch(i_square.sqvertex, vertex_2d,4);		
@@ -185,11 +185,11 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 			this._transsolver.set2dVertex(vertex_2d,4);
 
 			//回転行列を計算
-			var rot:NyARRotMatrix=this._rotmatrix;
+			var rot:FLARRotMatrix=this._rotmatrix;
 			rot.initRotByPrevResult(i_prev_result);
 			
 			//回転後の3D座標系から、平行移動量を計算
-			var vertex_3d:Vector.<NyARDoublePoint3d>=this.__transMat_vertex_3d;
+			var vertex_3d:Vector.<FLARDoublePoint3d>=this.__transMat_vertex_3d;
 			rot.getPoint3dBatch(i_offset.vertex,vertex_3d,4);
 			this._transsolver.solveTransportVector(vertex_3d,trans);
 
@@ -228,11 +228,11 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 			}
 			return true;
 		}
-		private var __rot:NyARDoubleMatrix33=new NyARDoubleMatrix33();
-		private function optimize(iw_rotmat:NyARRotMatrix,iw_transvec:NyARDoublePoint3d,i_solver:INyARTransportVectorSolver,i_offset_3d:Vector.<NyARDoublePoint3d>,i_2d_vertex:Vector.<NyARDoublePoint2d>,i_err_threshold:Number,o_result:NyARTransMatResult):void
+		private var __rot:FLARDoubleMatrix33=new FLARDoubleMatrix33();
+		private function optimize(iw_rotmat:FLARRotMatrix,iw_transvec:FLARDoublePoint3d,i_solver:IFLARTransportVectorSolver,i_offset_3d:Vector.<FLARDoublePoint3d>,i_2d_vertex:Vector.<FLARDoublePoint2d>,i_err_threshold:Number,o_result:FLARTransMatResult):void
 		{
 			//System.out.println("START");
-			var vertex_3d:Vector.<NyARDoublePoint3d>=this.__transMat_vertex_3d;
+			var vertex_3d:Vector.<FLARDoublePoint3d>=this.__transMat_vertex_3d;
 			//初期のエラー値を計算
 			var min_err:Number=errRate(iw_rotmat, iw_transvec, i_offset_3d, i_2d_vertex,4,vertex_3d);
 			o_result.setValue_3(iw_rotmat,iw_transvec,min_err);
@@ -255,9 +255,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		}
 		
 		//エラーレート計算機
-		public function errRate(i_rot:NyARDoubleMatrix33,i_trans:NyARDoublePoint3d,i_vertex3d:Vector.<NyARDoublePoint3d>,i_vertex2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int,o_rot_vertex:Vector.<NyARDoublePoint3d>):Number
+		public function errRate(i_rot:FLARDoubleMatrix33,i_trans:FLARDoublePoint3d,i_vertex3d:Vector.<FLARDoublePoint3d>,i_vertex2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int,o_rot_vertex:Vector.<FLARDoublePoint3d>):Number
 		{
-			var cp:NyARPerspectiveProjectionMatrix = this._ref_projection_mat;
+			var cp:FLARPerspectiveProjectionMatrix = this._ref_projection_mat;
 			var cp00:Number=cp.m00;
 			var cp01:Number=cp.m01;
 			var cp02:Number=cp.m02;

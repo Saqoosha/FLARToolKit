@@ -1,6 +1,6 @@
-package jp.nyatla.nyartoolkit.as3.nyidmarker.data 
+package org.libspark.flartoolkit.nyidmarker.data 
 {
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
+	import org.libspark.flartoolkit.nyidmarker.*;
 	public class NyIdMarkerDataEncoder_RawBitId extends NyIdMarkerDataEncoder_RawBit
 	{
 		private var _tmp:NyIdMarkerData_RawBit=new NyIdMarkerData_RawBit();

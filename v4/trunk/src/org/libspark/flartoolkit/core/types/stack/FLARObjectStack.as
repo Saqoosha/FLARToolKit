@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,18 +28,18 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types.stack
+package org.libspark.flartoolkit.core.types.stack
 {	
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 	/**
 	 * スタック型の可変長配列。
 	 * 配列には実体を格納します。
 	 * AS3にはテンプレートが無いので、全てobject型の要素で実装します。
 	 */
-	public class NyARObjectStack extends NyARPointerStack
+	public class FLARObjectStack extends FLARPointerStack
 	{
-		public function NyARObjectStack()
+		public function FLARObjectStack()
 		{
 			return;
 		}
@@ -49,7 +49,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		 * @param i_length
 		 * @param i_element_type
 		 * @param i_param
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		protected override function initInstance(i_length:int):void
 		{
@@ -66,7 +66,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		 * @param i_length
 		 * @param i_element_type
 		 * @param i_param
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		protected function initInstance_2(i_length:int,i_param:Object):void
 		{
@@ -79,18 +79,18 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		}
 		protected function createElement():Object
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		protected function createElement_2(i_param:Object):Object
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		
 		/**
 		 * 新しい領域を予約します。
 		 * @return
 		 * 失敗するとnull
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function prePush():Object
 		{
@@ -121,7 +121,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		{
 			// 必要に応じてアロケート
 			if (i_reserv_length >= this._items.length){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			this._length=i_reserv_length;
 		}	

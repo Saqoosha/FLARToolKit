@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,21 +28,21 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat 
+package org.libspark.flartoolkit.core.transmat 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * 矩形の頂点情報を格納します。
 	 */
-	final public class NyARRectOffset
+	final public class FLARRectOffset
 	{
-		public var vertex:Vector.<NyARDoublePoint3d>=NyARDoublePoint3d.createArray(4);
-		public static function createArray(i_number:int):Vector.<NyARRectOffset>
+		public var vertex:Vector.<FLARDoublePoint3d>=FLARDoublePoint3d.createArray(4);
+		public static function createArray(i_number:int):Vector.<FLARRectOffset>
 		{
-			var ret:Vector.<NyARRectOffset>=new Vector.<NyARRectOffset>(i_number);
+			var ret:Vector.<FLARRectOffset>=new Vector.<FLARRectOffset>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
-				ret[i]=new NyARRectOffset();
+				ret[i]=new FLARRectOffset();
 			}
 			return ret;
 		}	
@@ -54,7 +54,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		{
 			var w_2:Number = i_width / 2.0;
 			
-			var vertex3d_ptr:NyARDoublePoint3d;
+			var vertex3d_ptr:FLARDoublePoint3d;
 			vertex3d_ptr= this.vertex[0];
 			vertex3d_ptr.x = -w_2;
 			vertex3d_ptr.y =  w_2;
@@ -86,7 +86,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		{ 
 			var w_2:Number = i_width / 2.0 ;
 			var h_2:Number = i_height / 2.0 ;
-			var vertex3d_ptr:NyARDoublePoint3d ;
+			var vertex3d_ptr:FLARDoublePoint3d ;
 			vertex3d_ptr = this.vertex[0] ;
 			vertex3d_ptr.x = -w_2 ;
 			vertex3d_ptr.y = h_2 ;

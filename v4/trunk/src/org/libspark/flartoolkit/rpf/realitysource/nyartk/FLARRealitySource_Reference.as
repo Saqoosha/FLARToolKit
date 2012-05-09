@@ -1,19 +1,19 @@
-package jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk 
+package org.libspark.flartoolkit.rpf.realitysource.nyartk 
 {
-	import jp.nyatla.nyartoolkit.as3.rpf.realitysource.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
+	import org.libspark.flartoolkit.rpf.realitysource.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.core.param.*;
 	/**
 	 * RGBラスタをラップしたRealitySourceです。
 	 * @author nyatla
 	 *
 	 */
-	public class NyARRealitySource_Reference extends NyARRealitySource
+	public class FLARRealitySource_Reference extends FLARRealitySource
 	{
-		protected var _filter:INyARRgb2GsFilter;
+		protected var _filter:IFLARRgb2GsFilter;
 		/**
 		 * 
 		 * @param i_width
@@ -26,17 +26,17 @@ package jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk
 		 * エッジ画像のサイズを1/(2^n)で指定します。(例:QVGA画像で1を指定すると、エッジ検出画像は160x120になります。)
 		 * 数値が大きいほど高速になり、検出精度は低下します。実用的なのは、1<=n<=3の範囲です。標準値は2です。
 		 * @param i_number_of_sample
-		 * サンプリングするターゲット数を指定します。大体100以上をしておけばOKです。具体的な計算式は、{@link NyARTrackerSource_Reference#NyARTrackerSource_Reference}を参考にして下さい。
+		 * サンプリングするターゲット数を指定します。大体100以上をしておけばOKです。具体的な計算式は、{@link FLARTrackerSource_Reference#FLARTrackerSource_Reference}を参考にして下さい。
 		 * @param i_raster_type
 		 * ラスタタイプ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARRealitySource_Reference(i_width:int, i_height:int , i_ref_raster_distortion:NyARCameraDistortionFactor , i_depth:int , i_number_of_sample:int , i_raster_type:int )
+		public function FLARRealitySource_Reference(i_width:int, i_height:int , i_ref_raster_distortion:FLARCameraDistortionFactor , i_depth:int , i_number_of_sample:int , i_raster_type:int )
 		{
-			this._rgb_source = new NyARRgbRaster(i_width, i_height, i_raster_type);
-			this._filter=INyARRgb2GsFilter(this._rgb_source.createInterface(INyARRgb2GsFilter));
-			this._source_perspective_reader=INyARPerspectiveCopy(this._rgb_source.createInterface(INyARPerspectiveCopy));
-			this._tracksource=new NyARTrackerSource_Reference(i_number_of_sample,i_ref_raster_distortion,i_width,i_height,i_depth,true);
+			this._rgb_source = new FLARRgbRaster(i_width, i_height, i_raster_type);
+			this._filter=IFLARRgb2GsFilter(this._rgb_source.createInterface(IFLARRgb2GsFilter));
+			this._source_perspective_reader=IFLARPerspectiveCopy(this._rgb_source.createInterface(IFLARPerspectiveCopy));
+			this._tracksource=new FLARTrackerSource_Reference(i_number_of_sample,i_ref_raster_distortion,i_width,i_height,i_depth,true);
 			return;
 		}
 		public override function isReady():Boolean
@@ -48,7 +48,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk
 			this._filter.convert(this._tracksource.refBaseRaster());
 			super.syncResource();
 		}
-		public override function makeTrackSource():NyARTrackerSource
+		public override function makeTrackSource():FLARTrackerSource
 		{
 			this._filter.convert(this._tracksource.refBaseRaster());		
 			return this._tracksource;

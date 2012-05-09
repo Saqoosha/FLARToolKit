@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs 
+package org.libspark.flartoolkit.core.rasterfilter.rgb2gs 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	
-	public interface INyARRgb2GsFilter
+	public interface IFLARRgb2GsFilter
 	{
 		/**
 		 * 元画像の指定範囲の矩形から、グレイスケール画像を生成して、i_rasterへコピーします。
@@ -37,14 +37,14 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 		 * @param w
 		 * @param h
 		 * @param i_raster
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function convertRect(l:int,t:int,w:int,h:int,i_raster:INyARGrayscaleRaster):void;
+		function convertRect(l:int,t:int,w:int,h:int,i_raster:IFLARGrayscaleRaster):void;
 		/**
 		 * 同一サイズの画像にグレースケール画像を生成します。
 		 * @param i_raster
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function convert(i_raster:INyARGrayscaleRaster):void;
+		function convert(i_raster:IFLARGrayscaleRaster):void;
 	}
 }

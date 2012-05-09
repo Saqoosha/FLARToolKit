@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,20 +28,20 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.match 
+package org.libspark.flartoolkit.core.match 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import jp.nyatla.as3utils.*;
 	
-	public class NyARMatchPattDeviationColorData
+	public class FLARMatchPattDeviationColorData
 	{
 		private var _data:Vector.<int>;
 		private var _pow:Number;
-		private var _size:NyARIntSize;
+		private var _size:FLARIntSize;
 		//
 		private var _optimize_for_mod:int;
 		public function getData():Vector.<int>
@@ -53,26 +53,26 @@ package jp.nyatla.nyartoolkit.as3.core.match
 			return this._pow;
 		}
 						  
-		public function NyARMatchPattDeviationColorData(i_width:int,i_height:int)
+		public function FLARMatchPattDeviationColorData(i_width:int,i_height:int)
 		{
-			this._size = new NyARIntSize(i_width, i_height);
+			this._size = new FLARIntSize(i_width, i_height);
 			this._data=new Vector.<int>(this._size.w*this._size.h*3);
 			return;
 		}
-		private var _last_input_raster:INyARRaster=null;
-		private var _last_drv:NyARMatchPattDeviationColorData_IRasterDriver;
+		private var _last_input_raster:IFLARRaster=null;
+		private var _last_drv:FLARMatchPattDeviationColorData_IRasterDriver;
 		
 		/**
-		 * NyARRasterからパターンデータをセットします。
+		 * FLARRasterからパターンデータをセットします。
 		 * この関数は、データを元に所有するデータ領域を更新します。
 		 * @param i_buffer
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function setRaster(i_raster:INyARRgbRaster):void
+		public function setRaster(i_raster:IFLARRgbRaster):void
 		{
 			//ドライバの生成
 			if(this._last_input_raster!=i_raster){
-				this._last_drv=NyARMatchPattDeviationColorData_IRasterDriver(i_raster.createInterface(NyARMatchPattDeviationColorData_IRasterDriver));
+				this._last_drv=FLARMatchPattDeviationColorData_IRasterDriver(i_raster.createInterface(FLARMatchPattDeviationColorData_IRasterDriver));
 				this._last_input_raster=i_raster;
 			}
 			this._pow=this._last_drv.makeColorData(this._data);
@@ -83,14 +83,14 @@ package jp.nyatla.nyartoolkit.as3.core.match
 		 * @param i_reader
 		 * @param i_direction
 		 * 右上の位置です。0=1象限、1=2象限、、2=3象限、、3=4象限の位置に対応します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function setRaster_2(i_raster:INyARRgbRaster,i_direction:int):void
+		public function setRaster_2(i_raster:IFLARRgbRaster,i_direction:int):void
 		{
 			var width:int=this._size.w;
 			var height:int=this._size.h;
 			var i_number_of_pix:int = width * height;
-			var reader:INyARRgbPixelDriver=i_raster.getRgbPixelDriver();
+			var reader:IFLARRgbPixelDriver=i_raster.getRgbPixelDriver();
 			var rgb:Vector.<int>=new Vector.<int>(3);
 			var out:Vector.<int>=this._data;
 			var ave:int;//<PV/>
@@ -252,9 +252,9 @@ package jp.nyatla.nyartoolkit.as3.core.match
 		 * @param o_out
 		 * pow値
 		 * @return
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		private static function setRaster_ANY(i_reader:INyARRgbPixelDriver,i_size:NyARIntSize,i_number_of_pix:int,o_out:Vector.<int>):Number
+		private static function setRaster_ANY(i_reader:IFLARRgbPixelDriver,i_size:FLARIntSize,i_number_of_pix:int,o_out:Vector.<int>):Number
 		{
 			var width:int=i_size.w;
 			var rgb:Vector.<int>=new Vector.<int>(3);

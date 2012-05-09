@@ -1,7 +1,7 @@
-package jp.nyatla.nyartoolkit.as3.rpf.utils 
+package org.libspark.flartoolkit.rpf.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.rpf.utils.*;
 	/**
 	 * このクラスは、直線式の集合から頂点集合を計算する関数を提供します。
 	 */
@@ -19,7 +19,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.utils
 		private static const _order_table:Vector.<Vector.<int>> = Vector.<Vector.<int>>([
 			Vector.<int>([0,1,5,4]),Vector.<int>([0,2,5,3]),Vector.<int>([1,2,4,3])]);
 
-		private var __tmp_v:Vector.<NyARDoublePoint2d> = NyARDoublePoint2d.createArray(6);
+		private var __tmp_v:Vector.<FLARDoublePoint2d> = FLARDoublePoint2d.createArray(6);
 		/**
 		 * 適当に与えられた4線分から、四角形の頂点を計算する。
 		 * @param i_line
@@ -28,11 +28,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.utils
 		 * 検出した4頂点
 		 * @return
 		 * 四角形を検出したらtrue
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function line2SquareVertex(i_line:Vector.<VecLinearCoordinatePoint>,o_point:Vector.<NyARDoublePoint2d>):Boolean
+		public function line2SquareVertex(i_line:Vector.<VecLinearCoordinatePoint>,o_point:Vector.<FLARDoublePoint2d>):Boolean
 		{
-			var v:Vector.<NyARDoublePoint2d>=this.__tmp_v;
+			var v:Vector.<FLARDoublePoint2d>=this.__tmp_v;
 			var number_of_vertex:int=0;
 			var non_vertexid:int=0;
 			var ptr:int = 0;
@@ -103,11 +103,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.utils
 		 * @param order
 		 * @return
 		 */
-		private static function countPlusExteriorProduct(p:Vector.<NyARDoublePoint2d>,order:Vector.<int>):int
+		private static function countPlusExteriorProduct(p:Vector.<FLARDoublePoint2d>,order:Vector.<int>):int
 		{
 			var ret:int=0;
 			for(var i:int=0;i<4;i++){
-				if(0<NyARDoublePoint2d.crossProduct3Point(p[order[i+0]],p[order[(i+1)%4]],p[order[(i+2)%4]])){
+				if(0<FLARDoublePoint2d.crossProduct3Point(p[order[i+0]],p[order[(i+1)%4]],p[order[(i+2)%4]])){
 					ret++;
 				}
 			}

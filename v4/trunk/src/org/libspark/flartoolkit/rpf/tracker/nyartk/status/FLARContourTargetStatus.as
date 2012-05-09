@@ -1,17 +1,17 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
+package org.libspark.flartoolkit.rpf.tracker.nyartk.status
 {
 
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.utils.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.rpf.utils.*;
 
 	/**
 	 * 輪郭ソース1個を格納するクラスです。
 	 *
 	 */
-	public class NyARContourTargetStatus extends NyARTargetStatus
+	public class FLARContourTargetStatus extends FLARTargetStatus
 	{
 		/**
 		 * ベクトル要素を格納する配列です。
@@ -29,7 +29,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
 		 * 共有ワークオブジェクトを指定します。
 		 * 
 		 */
-		public function NyARContourTargetStatus(i_ref_pool_operator:INyARManagedObjectPoolOperater)
+		public function FLARContourTargetStatus(i_ref_pool_operator:IFLARManagedObjectPoolOperater)
 		{
 			super(i_ref_pool_operator);
 		}
@@ -37,9 +37,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
 		 * @param i_vecreader
 		 * @param i_sample
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function setValue(i_vecreader:INyARVectorReader,i_sample:LowResolutionLabelingSamplerOut_Item):Boolean
+		public function setValue(i_vecreader:IFLARVectorReader,i_sample:LowResolutionLabelingSamplerOut_Item):Boolean
 		{
 			return i_vecreader.traceConture(i_sample.lebeling_th, i_sample.entry_pos, this.vecpos);
 		}	

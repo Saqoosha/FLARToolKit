@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.match.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
 	 * このクラスは、ARマーカの検出状態を保持するリストです。
@@ -39,7 +39,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 * 
 		 */
 		private var _configense_th:Number=0.5;//RGB比較をしなければ0.7くらいでいいのだけど。
-		private var _patt_result:NyARMatchPattResult=new NyARMatchPattResult();;
+		private var _patt_result:FLARMatchPattResult=new FLARMatchPattResult();;
 		private var _mpickup:MultiResolutionPattProvider=new MultiResolutionPattProvider();
 		private var _mkmap:ARMarkerSortList;
 		public function ARMarkerList()
@@ -72,16 +72,16 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 * @param i_vertex
 		 * @param o_targets
 		 * @return
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function update(i_pix_drv:INyARPerspectiveCopy,i_sq:SquareStack_Item):Boolean
+		public function update(i_pix_drv:IFLARPerspectiveCopy,i_sq:SquareStack_Item):Boolean
 		{
 			//sq_tmpに値を生成したかのフラグ
 			var is_ganalated_sq:Boolean=false;
 			for(var i:int=this.size()-1;i>=0;i--){
 				var target:MarkerInfoARMarker=MarkerInfoARMarker(this.getItem(i));
 				//解像度に一致する画像を取得
-				var diff:NyARMatchPattDeviationColorData=this._mpickup.getDeviationColorData(target, i_pix_drv,i_sq.ob_vertex);
+				var diff:FLARMatchPattDeviationColorData=this._mpickup.getDeviationColorData(target, i_pix_drv,i_sq.ob_vertex);
 				//マーカのパターン解像度に一致したサンプリング画像と比較する。
 				if(!target.matchpatt.evaluate(diff,this._patt_result)){
 					continue;
@@ -138,7 +138,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 					target.life++;      //ライフ値を加算
 					target.sq=top_item.ref_sq;
 					target.sq.rotateVertexL(4-top_item.dir);
-					NyARIntPoint2d.shiftCopy_2(top_item.ref_sq.ob_vertex,target.tl_vertex,4-top_item.dir);
+					FLARIntPoint2d.shiftCopy_2(top_item.ref_sq.ob_vertex,target.tl_vertex,4-top_item.dir);
 					target.tl_center.setValue(top_item.ref_sq.center2d);
 					target.tl_rect_area=top_item.ref_sq.rect_area;
 				}

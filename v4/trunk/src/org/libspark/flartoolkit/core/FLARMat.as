@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,17 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core
+package org.libspark.flartoolkit.core
 {	
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-	import jp.nyatla.nyartoolkit.as3.utils.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.analyzer.histogram.*;
+	import org.libspark.flartoolkit.utils.as3.*;
+	import org.libspark.flartoolkit.core.*;
 	import jp.nyatla.as3utils.*;
 	/**
 	 * ARMat構造体に対応するクラス typedef struct { double *m; int row; int clm; }ARMat;
 	 * 
 	 */
-	public class NyARMat
+	public class FLARMat
 	{
 		/**
 		 * 配列サイズと行列サイズは必ずしも一致しないことに注意 返された配列のサイズを行列の大きさとして使わないこと！
@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3.core
 		private var clm:int;
 		private var row:int;
 		
-		public function NyARMat(...args:Array)
+		public function FLARMat(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -59,17 +59,17 @@ package jp.nyatla.nyartoolkit.as3.core
 				}
 				break;
 			case 2:
-				overload_NyARMat_2ii(int(args[0]), int(args[1]));
+				overload_FLARMat_2ii(int(args[0]), int(args[1]));
 				break;
 			case 4:
-				overload_NyARMat_4iiao(int(args[0]), int(args[1]),Vector.<Vector.<Number>>(args[2]),Boolean(args[3]));
+				overload_FLARMat_4iiao(int(args[0]), int(args[1]),Vector.<Vector.<Number>>(args[2]),Boolean(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}		
 
-		private function overload_NyARMat_2ii(i_row:int,i_clm:int):void
+		private function overload_FLARMat_2ii(i_row:int,i_clm:int):void
 		{
 			this._m = ArrayUtils.create2dNumber(i_row, i_clm);
 			this.__matrixSelfInv_nos=new Vector.<Number>(i_row);
@@ -89,7 +89,7 @@ package jp.nyatla.nyartoolkit.as3.core
 		 * @param i_is_attached_buffer
 		 * i_mをインスタンスが管理するかを示します。trueの場合、i_mの所有権はインスタンスに移ります。
 		 */
-		private function overload_NyARMat_4iiao(i_row:int,i_clm:int,i_m:Vector.<Vector.<Number>>,i_is_attached_buffer:Boolean):void
+		private function overload_FLARMat_4iiao(i_row:int,i_clm:int,i_m:Vector.<Vector.<Number>>,i_is_attached_buffer:Boolean):void
 		{
 			this.clm=i_clm;
 			this.row=i_row;
@@ -115,7 +115,7 @@ package jp.nyatla.nyartoolkit.as3.core
 		{
 			return this._m;
 		}
-		public function mul(i_mat_a:NyARMat,i_mat_b:NyARMat):void
+		public function mul(i_mat_a:FLARMat,i_mat_b:FLARMat):void
 		{
 			NyAS3Utils.assert(i_mat_a.clm == i_mat_b.row && this.row==i_mat_a.row && this.clm==i_mat_b.clm);
 
@@ -138,7 +138,7 @@ package jp.nyatla.nyartoolkit.as3.core
 		}		
 		/**
 		 * 逆行列を計算して、thisへ格納します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function inverse():Boolean
 		{
@@ -154,7 +154,7 @@ package jp.nyatla.nyartoolkit.as3.core
 			/* check size */
 			switch (dimen) {
 			case 0:
-				throw new NyARException();
+				throw new FLARException();
 			case 1:
 				ap[0][0] = 1.0 / ap[0][0];// *ap = 1.0 / (*ap);
 				return true;/* 1 dimension */
@@ -181,7 +181,7 @@ package jp.nyatla.nyartoolkit.as3.core
 				// if (p <= matrixSelfInv_epsl){
 				if (p == 0.0) {
 					return false;
-					// throw new NyARException();
+					// throw new FLARException();
 				}
 
 				nwork = nos[ip];
@@ -236,11 +236,11 @@ package jp.nyatla.nyartoolkit.as3.core
 		 * コピー元の行列です。
 		 * この行列のサイズは、thisと同じでなければなりません。
 		 */
-		public function setValue(i_copy_from:NyARMat):void
+		public function setValue(i_copy_from:FLARMat):void
 		{
 			// サイズ確認
 			if (this.row != i_copy_from.row || this.clm != i_copy_from.clm) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			// 値コピー
 			for (var r:int = this.row - 1; r >= 0; r--) {
@@ -267,10 +267,10 @@ package jp.nyatla.nyartoolkit.as3.core
 		 * @param i_src
 		 * 入力元のオブジェクト。(i_src.row == this.clm)&&(i_src.clm == this.row)でなければなりません。
 		 */
-		public function transpose(i_src:NyARMat):void
+		public function transpose(i_src:FLARMat):void
 		{
 			if (this.row != i_src.clm || this.clm != i_src.row) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			for (var r:int = 0; r < this.row; r++) {
 				for (var c:int = 0; c < this.clm; c++) {
@@ -279,32 +279,32 @@ package jp.nyatla.nyartoolkit.as3.core
 			}		
 		}
 //		***************************************
-//		There are not used by NyARToolKit.
+//		There are not used by FLARToolKit.
 //		***************************************
 //		public function realloc(i_row:int,i_clm:int):void
-//		public function matrixMul(i_mat_a:NyARMat,i_mat_b:NyARMat):void
+//		public function matrixMul(i_mat_a:FLARMat,i_mat_b:FLARMat):void
 //		public function zeroClear():void
-//		public function copyFrom(NyARMat i_copy_from):void
-//		public static function matrixTrans(dest:NyARMat,source:NyARMat):void
-//		public static function matrixUnit(uint:NyARMat):void
-//		public function matrixDup(i_source:NyARMat):void
-//		public function matrixAllocDup():NyARMat
+//		public function copyFrom(FLARMat i_copy_from):void
+//		public static function matrixTrans(dest:FLARMat,source:FLARMat):void
+//		public static function matrixUnit(uint:FLARMat):void
+//		public function matrixDup(i_source:FLARMat):void
+//		public function matrixAllocDup():FLARMat
 //		private static const PCA_EPS:Number = 1e-6; // #define EPS 1e-6
 //		private static const PCA_MAX_ITER:int = 100; // #define MAX_ITER 100
 //		private static const PCA_VZERO:Number = 1e-16; // #define VZERO 1e-16
-//		private function PCA_EX(mean:NyARVec):void
-//		private static function PCA_CENTER(inout:NyARMat,mean:NyARMat):void
-//		private static function PCA_x_by_xt(input:NyARMat,output:NyARMat):void
-//		private static function PCA_xt_by_x(input:NyARMat,i_output:NyARMat):void
-//		private var wk_PCA_QRM_ev:NyARVec = new NyARVec(1);
-//		private function PCA_QRM(dv:NyARVec):void
+//		private function PCA_EX(mean:FLARVec):void
+//		private static function PCA_CENTER(inout:FLARMat,mean:FLARMat):void
+//		private static function PCA_x_by_xt(input:FLARMat,output:FLARMat):void
+//		private static function PCA_xt_by_x(input:FLARMat,i_output:FLARMat):void
+//		private var wk_PCA_QRM_ev:FLARVec = new FLARVec(1);
+//		private function PCA_QRM(dv:FLARVec):void
 //		private function flipRow(i_row_1:int,i_row_2:int):void
-//		private static function PCA_EV_create(input:NyARMat,u:NyARMat,output:NyARMat,ev:NyARVec):void
-//		private function PCA_PCA(o_output:NyARMat,o_ev:NyARVec):void
-//		public function pca(o_evec:NyARMat, o_ev:NyARVec, o_mean:NyARVec):void
-//		private var wk_vecTridiagonalize_vec:NyARVec = new NyARVec(0);
-//		private var wk_vecTridiagonalize_vec2:NyARVec = new NyARVec(0);
-//		private function vecTridiagonalize(d:NyARVec,e:NyARVec,i_e_start:int):void
+//		private static function PCA_EV_create(input:FLARMat,u:FLARMat,output:FLARMat,ev:FLARVec):void
+//		private function PCA_PCA(o_output:FLARMat,o_ev:FLARVec):void
+//		public function pca(o_evec:FLARMat, o_ev:FLARVec, o_mean:FLARVec):void
+//		private var wk_vecTridiagonalize_vec:FLARVec = new FLARVec(0);
+//		private var wk_vecTridiagonalize_vec2:FLARVec = new FLARVec(0);
+//		private function vecTridiagonalize(d:FLARVec,e:FLARVec,i_e_start:int):void
 	}
 
 }

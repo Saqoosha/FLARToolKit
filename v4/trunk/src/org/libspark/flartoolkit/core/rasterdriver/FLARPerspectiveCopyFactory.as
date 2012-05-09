@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,25 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.rasterdriver 
+package org.libspark.flartoolkit.core.rasterdriver 
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.INyARRgbPixelDriver;
-	import jp.nyatla.nyartoolkit.as3.core.raster.INyARRaster;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.INyARRgbRaster;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.pixeldriver.IFLARRgbPixelDriver;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.types.*;
 
-	public class NyARPerspectiveCopyFactory
+	public class FLARPerspectiveCopyFactory
 	{
 		/**
-		 * 指定したIN/OUTに最適な{@link INyARPerspectiveReaader}を生成します。
+		 * 指定したIN/OUTに最適な{@link IFLARPerspectiveReaader}を生成します。
 		 * <p>出力ラスタについて
-		 * 基本的には全ての{@link NyARBufferType#INT1D_X8R8G8B8_32}形式のバッファを持つラスタを使用してください。
+		 * 基本的には全ての{@link FLARBufferType#INT1D_X8R8G8B8_32}形式のバッファを持つラスタを使用してください。
 		 * 他の形式でも動作しますが、低速な場合があります。
 		 * </p>
 		 * <p>高速化について - 
-		 * 出力ラスタ形式が、{@link NyARBufferType#INT1D_X8R8G8B8_32}の物については、単体サンプリングモードの時のみ、さらに高速に動作します。
+		 * 出力ラスタ形式が、{@link FLARBufferType#INT1D_X8R8G8B8_32}の物については、単体サンプリングモードの時のみ、さらに高速に動作します。
 		 * 他の形式のラスタでは、以上のものよりも低速転送で対応します。
 		 * @param i_in_raster_type
 		 * 入力ラスタの形式です。
@@ -48,7 +48,7 @@ package jp.nyatla.nyartoolkit.as3.core.rasterdriver
 		 * 出力ラスタの形式です。
 		 * @return
 		 */
-		public static function createDriver(i_raster:INyARRgbRaster):INyARPerspectiveCopy
+		public static function createDriver(i_raster:IFLARRgbRaster):IFLARPerspectiveCopy
 		{
 			//新しいモードに対応したら書いてね。
 			switch(i_raster.getBufferType()){
@@ -62,26 +62,26 @@ package jp.nyatla.nyartoolkit.as3.core.rasterdriver
 //ラスタドライバ
 //
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.types.*;
 
 
 
 /**
  * RGBインタフェイスを持つラスタをソースにしたフィルタ
  */
-class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
+class PerspectiveCopy_ANYRgb extends FLARPerspectiveCopy_Base
 {
-	protected var _ref_raster:INyARRgbRaster;
+	protected var _ref_raster:IFLARRgbRaster;
 	private var __pickFromRaster_rgb_tmp:Vector.<int> = new Vector.<int>(3);
-	public function PerspectiveCopy_ANYRgb(i_ref_raster:INyARRaster)
+	public function PerspectiveCopy_ANYRgb(i_ref_raster:IFLARRaster)
 	{
-		this._ref_raster=INyARRgbRaster(i_ref_raster);
+		this._ref_raster=IFLARRgbRaster(i_ref_raster);
 	}
-	protected override function onePixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,o_out:INyARRaster):Boolean
+	protected override function onePixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,o_out:IFLARRaster):Boolean
 	{
 		var rgb_tmp:Vector.<int> = this.__pickFromRaster_rgb_tmp;
 		var in_w:int=this._ref_raster.getWidth();
@@ -101,14 +101,14 @@ class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
 		var cp1_cy_cp2:Number=cp1*pk_t+cpara[2]+cp0*pk_l;
 		var cp4_cy_cp5:Number=cp4*pk_t+cpara[5]+cp3*pk_l;
 		
-		var i_in_reader:INyARRgbPixelDriver = this._ref_raster.getRgbPixelDriver();
+		var i_in_reader:IFLARRgbPixelDriver = this._ref_raster.getRgbPixelDriver();
 		var iy:int, ix:int;
 		var cp7_cy_1_cp6_cx:Number, cp1_cy_cp2_cp0_cx:Number, cp4_cy_cp5_cp3_cx:Number;
 		var d:Number;
 		var x:int,y:int;
 		switch(o_out.getBufferType())
 		{
-		case NyARBufferType.INT1D_X8R8G8B8_32:
+		case FLARBufferType.INT1D_X8R8G8B8_32:
 			var pat_data:Vector.<Number>=Vector.<Number>(o_out.getBuffer());
 			var p:int=0;
 			for(iy=out_h-1;iy>=0;iy--){
@@ -140,8 +140,8 @@ class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
 			return true;
 		default:
 			//ANY to RGBx
-			if(o_out is INyARRgbRaster){
-				var out_reader:INyARRgbPixelDriver=(INyARRgbRaster(o_out)).getRgbPixelDriver();	
+			if(o_out is IFLARRgbRaster){
+				var out_reader:IFLARRgbPixelDriver=(IFLARRgbRaster(o_out)).getRgbPixelDriver();	
 				for(iy=0;iy<out_h;iy++){
 					//解像度分の点を取る。
 					cp7_cy_1_cp6_cx  =cp7_cy_1;
@@ -172,14 +172,14 @@ class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
 		}
 		return false;
 	}
-	protected override function multiPixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,i_resolution:int,o_out:INyARRaster):Boolean
+	protected override function multiPixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,i_resolution:int,o_out:IFLARRaster):Boolean
 	{
 		var res_pix:int=i_resolution*i_resolution;
 
 		var rgb_tmp:Vector.<int> = this.__pickFromRaster_rgb_tmp;
 		var in_w:int=this._ref_raster.getWidth();
 		var in_h:int=this._ref_raster.getHeight();
-		var i_in_reader:INyARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
+		var i_in_reader:IFLARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
 
 		//ピクセルリーダーを取得
 		var cp0:Number=cpara[0];
@@ -195,7 +195,7 @@ class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
 		var out_h:int=o_out.getHeight();
 		switch(o_out.getBufferType())
 		{
-		case NyARBufferType.INT1D_X8R8G8B8_32:
+		case FLARBufferType.INT1D_X8R8G8B8_32:
 			var pat_data:Vector.<int>=Vector.<int>(o_out.getBuffer());
 			var p:int = (out_w * out_h - 1);
 			var r:int, g:int, b:int;
@@ -248,8 +248,8 @@ class PerspectiveCopy_ANYRgb extends NyARPerspectiveCopy_Base
 			return true;
 		default:
 			//ANY to RGBx
-			if(o_out is INyARRgbRaster){
-				var out_reader:INyARRgbPixelDriver=(INyARRgbRaster(o_out)).getRgbPixelDriver();
+			if(o_out is IFLARRgbRaster){
+				var out_reader:IFLARRgbPixelDriver=(IFLARRgbRaster(o_out)).getRgbPixelDriver();
 				for(iy=out_h-1;iy>=0;iy--){
 					//解像度分の点を取る。
 					for(ix=out_w-1;ix>=0;ix--){

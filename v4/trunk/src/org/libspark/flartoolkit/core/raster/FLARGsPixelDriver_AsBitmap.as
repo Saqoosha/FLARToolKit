@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -29,15 +29,15 @@
 package org.libspark.flartoolkit.core.raster 
 {
 	import flash.display.BitmapData;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
 
-	public class FLARGsPixelDriver_AsBitmap implements INyARGsPixelDriver
+	public class FLARGsPixelDriver_AsBitmap implements IFLARGsPixelDriver
 	{
 		protected var _ref_buf:BitmapData;
-		private var _ref_size:NyARIntSize;
-		public function getSize():NyARIntSize
+		private var _ref_size:FLARIntSize;
+		public function getSize():FLARIntSize
 		{
 			return this._ref_size;
 		}
@@ -62,14 +62,14 @@ package org.libspark.flartoolkit.core.raster
 				this._ref_buf.setPixel(i_x[i], i_y[i], i_intgs[i]);
 			}
 		}	
-		public function switchRaster(i_ref_raster:INyARRaster):void
+		public function switchRaster(i_ref_raster:IFLARRaster):void
 		{
 			this._ref_buf=BitmapData(i_ref_raster.getBuffer());
 			this._ref_size=i_ref_raster.getSize();
 		}
-		public function isCompatibleRaster(i_raster:INyARRaster):Boolean
+		public function isCompatibleRaster(i_raster:IFLARRaster):Boolean
 		{
-			return i_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData);
+			return i_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData);
 		}	
 	}	
 	

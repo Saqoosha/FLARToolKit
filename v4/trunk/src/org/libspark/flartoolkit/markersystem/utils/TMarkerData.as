@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
 	 * このクラスは、マーカ情報を格納するためのクラスです。
@@ -40,16 +40,16 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 */
 		public var life:int;
 		/** MK情報。マーカのオフセット位置。*/
-		public var marker_offset:NyARRectOffset=new NyARRectOffset();			
+		public var marker_offset:FLARRectOffset=new FLARRectOffset();			
 		/** 検出した矩形の格納変数。理想形二次元座標を格納します。*/
 		public var sq:SquareStack_Item;
 		/** 検出した矩形の格納変数。マーカの姿勢行列を格納します。*/
-		public var tmat:NyARTransMatResult=new NyARTransMatResult();
+		public var tmat:FLARTransMatResult=new FLARTransMatResult();
 		/** 矩形の検出状態の格納変数。 連続して見失った回数を格納します。*/
 		public var lost_count:int=int.MAX_VALUE;
 		/** トラッキングログ用の領域*/
-		public var tl_vertex:Vector.<NyARIntPoint2d>=NyARIntPoint2d.createArray(4);
-		public var tl_center:NyARIntPoint2d=new NyARIntPoint2d();
+		public var tl_vertex:Vector.<FLARIntPoint2d>=FLARIntPoint2d.createArray(4);
+		public var tl_center:FLARIntPoint2d=new FLARIntPoint2d();
 		public var tl_rect_area:int;
 		public function TMarkerData()
 		{

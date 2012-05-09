@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat
+package org.libspark.flartoolkit.core.transmat
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	public class NyARTransMatResult extends NyARDoubleMatrix44
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	public class FLARTransMatResult extends FLARDoubleMatrix44
 	{
 		/**
 		 * 観測値とのずれを示すエラーレート値です。SetValueにより更新されます。
@@ -47,17 +47,17 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		/**
 		 * コンストラクタです。
 		 */
-		public function NyARTransMatResult()
+		public function FLARTransMatResult()
 		{
 			this.m30=this.m31=this.m32=0;
 			this.m33=1.0;
 		}
 		/**
-		 * 平行移動量と回転行列をセットします。この関数は、INyARTransmatインタフェイスのクラスが結果を保存するために使います。
+		 * 平行移動量と回転行列をセットします。この関数は、IFLARTransmatインタフェイスのクラスが結果を保存するために使います。
 		 * @param i_rot
 		 * @param i_trans
 		 */
-		public function setValue_3(i_rot:NyARDoubleMatrix33,i_trans:NyARDoublePoint3d ,i_error:Number):void
+		public function setValue_3(i_rot:FLARDoubleMatrix33,i_trans:FLARDoublePoint3d ,i_error:Number):void
 		{
 			this.m00=i_rot.m00;
 			this.m01=i_rot.m01;

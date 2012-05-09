@@ -1,12 +1,12 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.stack.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
 
-	public class NyARTargetList extends NyARPointerStack
+	public class FLARTargetList extends FLARPointerStack
 	{
-		public function NyARTargetList(i_max_target:int)
+		public function FLARTargetList(i_max_target:int)
 		{
 			super.initInstance(i_max_target);
 		}
@@ -18,7 +18,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 */
 		public function getMatchTargetIndex(i_item:LowResolutionLabelingSamplerOut_Item):int
 		{
-			var iitem:NyARTarget;
+			var iitem:FLARTarget;
 
 			var ret:int=-1;
 			var min_d:int=int.MAX_VALUE;
@@ -26,7 +26,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			//対角範囲の距離が、対角距離の1/2以下で、最も小さいこと。
 			for(var i:int=this._length-1;i>=0;i--)
 			{
-				iitem=NyARTarget(this._items[i]);
+				iitem=FLARTarget(this._items[i]);
 				var d:int;
 				d=i_item.base_area.sqDiagonalPointDiff(iitem._sample_area);	
 				if(d<min_d){

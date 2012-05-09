@@ -1,6 +1,6 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
-	public class NyARDistMap_DistItem
+	public class FLARDistMap_DistItem
 	{
 		public var row:int;
 		public var col:int;

@@ -1,4 +1,4 @@
-package jp.nyatla.nyartoolkit.as3.rpf.mklib 
+package org.libspark.flartoolkit.rpf.mklib 
 {
 	/**
 	 * 外部パターン認識のサンプルです。非同期にIDマーカを認識します。
@@ -22,8 +22,8 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		{
 			private ASyncIdMarkerTable _parent;
 			private long _serial;
-			private NyARRgbRaster _source;
-			public AsyncThread(ASyncIdMarkerTable i_parent,long i_serial,NyARRgbRaster i_raster)
+			private FLARRgbRaster _source;
+			public AsyncThread(ASyncIdMarkerTable i_parent,long i_serial,FLARRgbRaster i_raster)
 			{
 				this._parent=i_parent;
 				this._serial=i_serial;
@@ -36,7 +36,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 				  RawbitSerialIdTable.IdentifyIdResult ret=new RawbitSerialIdTable.IdentifyIdResult();
 				  boolean res;
 				  synchronized(this._parent._mklib){
-					  NyARDoublePoint2d[] vx=NyARDoublePoint2d.createArray(4);
+					  FLARDoublePoint2d[] vx=FLARDoublePoint2d.createArray(4);
 					  //反時計まわり
 					  vx[0].x=0; vx[0].y=0;
 					  vx[1].x=99;vx[1].y=0;
@@ -51,7 +51,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 				
 			}
 		}
-		public ASyncIdMarkerTable(IResultListener i_listener) throws NyARException
+		public ASyncIdMarkerTable(IResultListener i_listener) throws FLARException
 		{
 			this._mklib=new RawbitSerialIdTable(1);	
 			this._mklib.addAnyItem("ANY ID",40);
@@ -67,14 +67,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * 三秒後に適当なサイズとDirectionを返却するだけです。
 		 * @param i_target
 		 * @return
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function requestAsyncMarkerDetect(NyARReality i_reality,NyARRealitySource i_source,NyARRealityTarget i_target):void
+		public function requestAsyncMarkerDetect(FLARReality i_reality,FLARRealitySource i_source,FLARRealityTarget i_target):void
 		{
 			//ターゲットから画像データなどを取得するときは、スレッドからではなく、ここで同期して取得してコピーしてからスレッドに引き渡します。
 
 			//100x100の領域を切りだして、Rasterを作る。
-			var raster:NyARRgbRaster=new NyARRgbRaster(100,100,NyARBufferType.INT1D_X8R8G8B8_32);
+			var raster:FLARRgbRaster=new FLARRgbRaster(100,100,FLARBufferType.INT1D_X8R8G8B8_32);
 			i_reality.getRgbPatt2d(i_source, i_target.refTargetVertex(),1, raster);
 			//コピーしたラスタとターゲットのIDをスレッドへ引き渡す。
 			Thread t=new AsyncThread(this,i_target.getSerialId(),raster);

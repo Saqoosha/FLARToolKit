@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core;
+package org.libspark.flartoolkit.core;
 {
 	/**
-	 * このクラスは、NyARToolkitライブラリのバージョン情報を保持します。
+	 * このクラスは、FLARToolkitライブラリのバージョン情報を保持します。
 	 */
-	public class NyARVersion
+	public class FLARVersion
 	{
 		/**モジュール名*/
-		public static const MODULE_NAME:String="NyARToolkit";
+		public static const MODULE_NAME:String="FLARToolkit";
 		/**メジャーバージョン*/
 		public static const VERSION_MAJOR:int= 4;
 		/**マイナバージョン*/

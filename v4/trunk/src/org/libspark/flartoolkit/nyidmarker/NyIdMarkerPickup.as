@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,17 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.nyidmarker 
+package org.libspark.flartoolkit.nyidmarker 
 {
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
 
 	/**
-	 * ラスタ画像の任意矩形から、NyARIdMarkerDataを抽出します。
+	 * ラスタ画像の任意矩形から、FLARIdMarkerDataを抽出します。
 	 *
 	 */
 	public class NyIdMarkerPickup
@@ -53,7 +53,7 @@ package jp.nyatla.nyartoolkit.as3.nyidmarker
 			this._perspective_reader=new PerspectivePixelReader();
 			return;
 		}
-		public function pickFromRaster(i_pix_drv:INyARGsPixelDriver,i_vertex:Vector.<NyARDoublePoint2d>,o_data:NyIdMarkerPattern,o_param:NyIdMarkerParam):Boolean
+		public function pickFromRaster(i_pix_drv:IFLARGsPixelDriver,i_vertex:Vector.<FLARDoublePoint2d>,o_data:NyIdMarkerPattern,o_param:NyIdMarkerParam):Boolean
 		{
 			//遠近法のパラメータを計算
 			if(!this._perspective_reader.setSourceSquare_2(i_vertex)){
@@ -68,9 +68,9 @@ package jp.nyatla.nyartoolkit.as3.nyidmarker
 		 * @param o_data
 		 * @param o_param
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function pickFromRaster_2(i_pix_drv:INyARGsPixelDriver,i_vertex:Vector.<NyARIntPoint2d>,o_data:NyIdMarkerPattern,o_param:NyIdMarkerParam):Boolean
+		public function pickFromRaster_2(i_pix_drv:IFLARGsPixelDriver,i_vertex:Vector.<FLARIntPoint2d>,o_data:NyIdMarkerPattern,o_param:NyIdMarkerParam):Boolean
 		{
 			if(!this._perspective_reader.setSourceSquare(i_vertex)){
 				return false;
@@ -86,9 +86,9 @@ package jp.nyatla.nyartoolkit.as3.nyidmarker
 		 * @param o_data
 		 * @param o_param
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function _pickFromRaster(i_pix_drv:INyARGsPixelDriver, o_data:NyIdMarkerPattern , o_param:NyIdMarkerParam):Boolean
+		private function _pickFromRaster(i_pix_drv:IFLARGsPixelDriver, o_data:NyIdMarkerPattern , o_param:NyIdMarkerParam):Boolean
 		{
 
 			var th:TThreshold=this.__pickFromRaster_th;
@@ -112,20 +112,20 @@ package jp.nyatla.nyartoolkit.as3.nyidmarker
 }
 
 import jp.nyatla.as3utils.*;
-import jp.nyatla.nyartoolkit.as3.core.utils.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
-import jp.nyatla.nyartoolkit.as3.nyidmarker.data.*;
+import org.libspark.flartoolkit.core.utils.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.nyidmarker.*;
+import org.libspark.flartoolkit.nyidmarker.data.*;
 
 /**
- * NyARColorPatt_NyIdMarkerがラスタからPerspective変換して読みだすためのクラス
+ * FLARColorPatt_NyIdMarkerがラスタからPerspective変換して読みだすためのクラス
  *
  */
 class PerspectivePixelReader
 {
 	private static const READ_RESOLUTION:int=100;
-	private var _param_gen:NyARPerspectiveParamGenerator=new NyARPerspectiveParamGenerator_O1(1,1);
+	private var _param_gen:FLARPerspectiveParamGenerator=new FLARPerspectiveParamGenerator_O1(1,1);
 	private var _cparam:Vector.<Number>=new Vector.<Number>(8);
 
 
@@ -134,11 +134,11 @@ class PerspectivePixelReader
 		return;
 	}
 
-	public function setSourceSquare(i_vertex:Vector.<NyARIntPoint2d>):Boolean
+	public function setSourceSquare(i_vertex:Vector.<FLARIntPoint2d>):Boolean
 	{
 		return this._param_gen.getParam_4(READ_RESOLUTION,READ_RESOLUTION,i_vertex, this._cparam);
 	}
-	public function setSourceSquare_2(i_vertex:Vector.<NyARDoublePoint2d>):Boolean
+	public function setSourceSquare_2(i_vertex:Vector.<FLARDoublePoint2d>):Boolean
 	{
 		return this._param_gen.getParam_3(READ_RESOLUTION,READ_RESOLUTION,i_vertex, this._cparam);
 	}
@@ -153,9 +153,9 @@ class PerspectivePixelReader
 	 * @param i_out_st
 	 * o_pixelへの格納場所の先頭インデクス
 	 * @param o_pixel
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private function rectPixels(i_reader:INyARGsPixelDriver,i_raster_size:NyARIntSize,i_lt_x:int,i_lt_y:int,i_step_x:int,i_step_y:int,i_width:int,i_height:int,i_out_st:int,o_pixel:Vector.<int>):Boolean
+	private function rectPixels(i_reader:IFLARGsPixelDriver,i_raster_size:FLARIntSize,i_lt_x:int,i_lt_y:int,i_step_x:int,i_step_y:int,i_width:int,i_height:int,i_out_st:int,o_pixel:Vector.<int>):Boolean
 	{
 		var cpara:Vector.<Number>=this._cparam;
 		var ref_x:Vector.<int>=this._ref_x;
@@ -282,9 +282,9 @@ class PerspectivePixelReader
 	 * 検出したエッジ位置(H->L,L->H)のインデクスを受け取る配列です。
 	 * [FRQ_POINTS]以上の配列を指定してください。
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function getRowFrequency(i_reader:INyARGsPixelDriver,i_raster_size:NyARIntSize,i_y1:int,i_th_h:int,i_th_l:int,o_edge_index:Vector.<int>):int
+	public function getRowFrequency(i_reader:IFLARGsPixelDriver,i_raster_size:FLARIntSize,i_y1:int,i_th_h:int,i_th_l:int,o_edge_index:Vector.<int>):int
 	{
 		var i:int;
 		//3,4,5,6,7,8,9,10
@@ -358,11 +358,11 @@ class PerspectivePixelReader
 		return getMaxFreq(freq_count_table,freq_table,o_edge_index);
 	}
 	
-	public function getColFrequency(i_reader:INyARGsPixelDriver,i_raster_size:NyARIntSize,i_x1:int,i_th_h:int,i_th_l:int,o_edge_index:Vector.<int>):int
+	public function getColFrequency(i_reader:IFLARGsPixelDriver,i_raster_size:FLARIntSize,i_x1:int,i_th_h:int,i_th_l:int,o_edge_index:Vector.<int>):int
 	{
 		var i:int;
 		var cpara:Vector.<Number>=this._cparam;
-//		final INyARRgbPixelReader reader=this._raster.getRgbPixelReader();
+//		final IFLARRgbPixelReader reader=this._raster.getRgbPixelReader();
 		var ref_x:Vector.<int>=this._ref_x;
 		var ref_y:Vector.<int>=this._ref_y;
 		var pixcel_temp:Vector.<int>=this._pixcel_temp;
@@ -543,7 +543,7 @@ class PerspectivePixelReader
 		return;
 	}
 	private var __detectThresholdValue_hl:THighAndLow=new THighAndLow();
-	private var __detectThresholdValue_tpt:NyARIntPoint2d=new NyARIntPoint2d();
+	private var __detectThresholdValue_tpt:FLARIntPoint2d=new FLARIntPoint2d();
 	private var _th_pixels:Vector.<int>=new Vector.<int>(THRESHOLD_SAMPLE*4);
 	/**
 	 * 指定した場所のピクセル値を調査して、閾値を計算して返します。
@@ -551,12 +551,12 @@ class PerspectivePixelReader
 	 * @param i_x
 	 * @param i_y
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function detectThresholdValue(i_reader:INyARGsPixelDriver,o_threshold:TThreshold):void
+	public function detectThresholdValue(i_reader:IFLARGsPixelDriver,o_threshold:TThreshold):void
 	{
 		var th_pixels:Vector.<int>=this._th_pixels;
-		var size:NyARIntSize = i_reader.getSize();
+		var size:FLARIntSize = i_reader.getSize();
 		//左上のピックアップ領域からピクセルを得る(00-24)
 		rectPixels(i_reader,size,THRESHOLD_SAMPLE_LT,THRESHOLD_SAMPLE_LT,THRESHOLD_STEP,THRESHOLD_STEP,THRESHOLD_PIXEL,THRESHOLD_PIXEL,0,th_pixels);
 		
@@ -586,7 +586,7 @@ class PerspectivePixelReader
 
 		//エッジを計算(明点重心)
 		var lt_x:int,lt_y:int,lb_x:int,lb_y:int,rt_x:int,rt_y:int,rb_x:int,rb_y:int;
-		var tpt:NyARIntPoint2d=this.__detectThresholdValue_tpt;
+		var tpt:FLARIntPoint2d=this.__detectThresholdValue_tpt;
 		//LT
 		if(getHighPixelCenter(0,th_pixels,THRESHOLD_PIXEL,THRESHOLD_PIXEL,th,tpt)){
 			lt_x=tpt.x*THRESHOLD_STEP;
@@ -627,7 +627,7 @@ class PerspectivePixelReader
 		return;
 	}
 
-	private function getHighPixelCenter(i_st:int,i_pixels:Vector.<int>,i_width:int,i_height:int,i_th:int,o_point:NyARIntPoint2d):Boolean
+	private function getHighPixelCenter(i_st:int,i_pixels:Vector.<int>,i_width:int,i_height:int,i_th:int,o_point:FLARIntPoint2d):Boolean
 	{
 		var rp:int=i_st;
 		var pos_x:int=0;
@@ -654,7 +654,7 @@ class PerspectivePixelReader
 	}
 	private var __detectDataBitsIndex_freq_index1:Vector.<int>=new Vector.<int>(FRQ_POINTS);
 	private var __detectDataBitsIndex_freq_index2:Vector.<int>=new Vector.<int>(FRQ_POINTS);
-	private function detectDataBitsIndex(i_reader:INyARGsPixelDriver,i_raster_size:NyARIntSize,i_th:TThreshold,o_index_row:Vector.<Number>,o_index_col:Vector.<Number>):int
+	private function detectDataBitsIndex(i_reader:IFLARGsPixelDriver,i_raster_size:FLARIntSize,i_th:TThreshold,o_index_row:Vector.<Number>,o_index_col:Vector.<Number>):int
 	{
 		var i:int;
 		//周波数を測定
@@ -718,7 +718,7 @@ class PerspectivePixelReader
 	private var __readDataBits_index_bit_x:Vector.<Number>=new Vector.<Number>(MAX_DATA_BITS*2);
 	private var __readDataBits_index_bit_y:Vector.<Number>=new Vector.<Number>(MAX_DATA_BITS*2);
 	
-	public function readDataBits(i_reader:INyARGsPixelDriver, i_raster_size:NyARIntSize, i_th:TThreshold, o_bitbuffer:MarkerPattEncoder):Boolean
+	public function readDataBits(i_reader:IFLARGsPixelDriver, i_raster_size:FLARIntSize, i_th:TThreshold, o_bitbuffer:MarkerPattEncoder):Boolean
 	{
 		var raster_width:int=i_raster_size.w;
 		var raster_height:int=i_raster_size.h;
@@ -834,7 +834,7 @@ class PerspectivePixelReader
 		}
 		return true;
 	}
-	public function setSquare(i_vertex:Vector.<NyARIntPoint2d>):Boolean
+	public function setSquare(i_vertex:Vector.<FLARIntPoint2d>):Boolean
 	{
 		if (!this._param_gen.getParam_4(READ_RESOLUTION,READ_RESOLUTION,i_vertex,this._cparam)) {
 			return false;

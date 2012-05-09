@@ -1,12 +1,12 @@
-package jp.nyatla.nyartoolkit.as3.core.raster {
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;			
+package org.libspark.flartoolkit.core.raster {
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.types.*;			
 
-	public interface INyARRaster
+	public interface IFLARRaster
 	{
 		function getWidth():int;
 		function getHeight():int;
-		function getSize():NyARIntSize;
+		function getSize():FLARIntSize;
 		/**
 		 * バッファオブジェクトを返します。
 		 * @return
@@ -19,7 +19,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster {
 		function getBufferType():int;
 		/**
 		 * バッファのタイプがi_type_valueであるか、チェックします。
-		 * この値は、NyARBufferTypeに定義された定数値です。
+		 * この値は、FLARBufferTypeに定義された定数値です。
 		 * @param i_type_value
 		 * @return
 		 */

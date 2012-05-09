@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,9 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.nyidmarker.data 
+package org.libspark.flartoolkit.nyidmarker.data 
 {
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
+	import org.libspark.flartoolkit.nyidmarker.*;
 	public interface INyIdMarkerDataEncoder
 	{
 		function encode(i_data:NyIdMarkerPattern,o_dest:INyIdMarkerData):Boolean;

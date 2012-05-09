@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.rpf.utils
+package org.libspark.flartoolkit.rpf.utils
 {
 
-import jp.nyatla.nyartoolkit.as3.core.NyARException;
-import jp.nyatla.nyartoolkit.as3.core.raster.INyARGrayscaleRaster;
+import org.libspark.flartoolkit.core.FLARException;
+import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
 
-	public interface INyARGsRasterGraphics
+	public interface IFLARGsRasterGraphics
 	{
 		/**
 		 * この関数は、指定した数値でラスタを埋めます。
@@ -50,7 +50,7 @@ import jp.nyatla.nyartoolkit.as3.core.raster.INyARGrayscaleRaster;
 		 * 出力先ラスタ。このラスタの解像度は、w=(i_input.w-i_left)/i_skip,h=(i_input.h-i_height)/i_skipを満たす必要があります。
 		 * 出力先ラスタと入力ラスタの画素形式は、同じである必要があります。
 		 */
-		function copyTo(i_left:int,i_top:int,i_skip:int,o_output:INyARGrayscaleRaster):void;
+		function copyTo(i_left:int,i_top:int,i_skip:int,o_output:IFLARGrayscaleRaster):void;
 		
 	}
 }

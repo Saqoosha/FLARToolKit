@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,16 +28,16 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.utils.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.utils.as3.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.utils.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.utils.*;
 	import org.libspark.flartoolkit.*;
 	import org.libspark.flartoolkit.core.rasterfilter.*;
 	import flash.display.*;
@@ -45,16 +45,16 @@ package org.libspark.flartoolkit.core.raster
 	/**
 	 * このクラスは、BitmapDataをバッファ荷物グレースケールラスタです。
 	 */
-	public final class FLARGrayscaleRaster extends NyARGrayscaleRaster
+	public final class FLARGrayscaleRaster extends FLARGrayscaleRaster
 	{
 		public function FLARGrayscaleRaster(i_width:int,i_height:int,i_is_alloc:Boolean=true)
 		{
-			super(i_width,i_height,NyARBufferType.OBJECT_AS3_BitmapData,i_is_alloc);
+			super(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,i_is_alloc);
 		}
-		protected override function initInstance(i_size:NyARIntSize, i_raster_type:int, i_is_alloc:Boolean):void
+		protected override function initInstance(i_size:FLARIntSize, i_raster_type:int, i_is_alloc:Boolean):void
 		{
-			if (i_raster_type != NyARBufferType.OBJECT_AS3_BitmapData) {
-				throw new NyARException();
+			if (i_raster_type != FLARBufferType.OBJECT_AS3_BitmapData) {
+				throw new FLARException();
 			}
 			this._buf = i_is_alloc?new BitmapData(i_size.w, i_size.h, false):null;
 			this._pixdrv = new FLARGsPixelDriver_AsBitmap();
@@ -64,21 +64,21 @@ package org.libspark.flartoolkit.core.raster
 		}
 		public override function createInterface(i_iid:Class):Object
 		{
-			if(i_iid==NyARLabeling_Rle_IRasterDriver){
-				return new NyARRlePixelDriver_ASBmp(this);
+			if(i_iid==FLARLabeling_Rle_IRasterDriver){
+				return new FLARRlePixelDriver_ASBmp(this);
 			}
-			if(i_iid==INyARHistogramFromRaster){
-				return new NyARHistogramFromRaster_AnyGs(this);
+			if(i_iid==IFLARHistogramFromRaster){
+				return new FLARHistogramFromRaster_AnyGs(this);
 			}
-			if(i_iid==NyARContourPickup_IRasterDriver){
+			if(i_iid==FLARContourPickup_IRasterDriver){
 				return FLARContourPickupFactory.createDriver(this);
 			}
 			if (i_iid == FLARGs2BinFilter) {
-                if (this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData)) {
+                if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
 					return new FLARGs2BinFilter(this);
 				}
 			}			
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function getBitmapData():BitmapData
 		{
@@ -89,12 +89,12 @@ package org.libspark.flartoolkit.core.raster
 
 
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 import org.libspark.flartoolkit.core.raster.*;
 import org.libspark.flartoolkit.core.raster.rgb.*;
 import flash.display.*;
@@ -102,19 +102,19 @@ import flash.geom.*;
 //
 //画像ドライバ
 //
-class NyARHistogramFromRaster_AnyGs implements INyARHistogramFromRaster
+class FLARHistogramFromRaster_AnyGs implements IFLARHistogramFromRaster
 {
 	private var _gsr:FLARGrayscaleRaster;
-	public function NyARHistogramFromRaster_AnyGs(i_raster:FLARGrayscaleRaster)
+	public function FLARHistogramFromRaster_AnyGs(i_raster:FLARGrayscaleRaster)
 	{
 		this._gsr=i_raster;
 	}
-	public function createHistogram_2(i_skip:int,o_histogram:NyARHistogram):void
+	public function createHistogram_2(i_skip:int,o_histogram:FLARHistogram):void
 	{
-		var s:NyARIntSize=this._gsr.getSize();
+		var s:FLARIntSize=this._gsr.getSize();
 		this.createHistogram(0,0,s.w,s.h,i_skip,o_histogram);
 	}
-	public function createHistogram(i_l:int,i_t:int,i_w:int,i_h:int,i_skip:int,o_histogram:NyARHistogram):void
+	public function createHistogram(i_l:int,i_t:int,i_w:int,i_h:int,i_skip:int,o_histogram:FLARHistogram):void
 	{
 		var hist:Vector.<Vector.<Number>>=this._gsr.getBitmapData().histogram(new Rectangle(i_l, i_t, i_w, i_h));
 		o_histogram.reset();
@@ -128,14 +128,14 @@ class NyARHistogramFromRaster_AnyGs implements INyARHistogramFromRaster
 	}	
 }
 
-class NyARRlePixelDriver_ASBmp implements NyARLabeling_Rle_IRasterDriver
+class FLARRlePixelDriver_ASBmp implements FLARLabeling_Rle_IRasterDriver
 {
 	private var _ref_raster:FLARGrayscaleRaster;
-	public function NyARRlePixelDriver_ASBmp(i_ref_raster:FLARGrayscaleRaster)
+	public function FLARRlePixelDriver_ASBmp(i_ref_raster:FLARGrayscaleRaster)
 	{
 		this._ref_raster=i_ref_raster;
 	}
-	public function xLineToRle(i_x:int, i_y:int, i_len:int,i_th:int,i_out:Vector.<NyARLabeling_Rle_RleElement>):int
+	public function xLineToRle(i_x:int, i_y:int, i_len:int,i_th:int,i_out:Vector.<FLARLabeling_Rle_RleElement>):int
 	{
 		var buf:BitmapData=BitmapData(this._ref_raster.getBitmapData());
 		var current:int = 0;

@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,18 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.NyARObjectStack;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.stack.FLARObjectStack;
 
 	/**
-	 * このクラスは、拡張した{@link NyARSquare}クラスのスタックです。
+	 * このクラスは、拡張した{@link FLARSquare}クラスのスタックです。
 	 */
-	public class SquareStack extends NyARObjectStack
+	public class SquareStack extends FLARObjectStack
 	{
 
 		public function SquareStack(i_length:int)

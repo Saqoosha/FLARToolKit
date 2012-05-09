@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public class NyARCoord2SquareVertexIndexes
+	import org.libspark.flartoolkit.core.types.*;
+	public class FLARCoord2SquareVertexIndexes
 	{
 		private static const VERTEX_FACTOR:Number = 1.0;// 線検出のファクタ	
-		private var __getSquareVertex_wv1:NyARVertexCounter= new NyARVertexCounter();
-		private var __getSquareVertex_wv2:NyARVertexCounter= new NyARVertexCounter();
-		public function NyARCoord2SquareVertexIndexes()
+		private var __getSquareVertex_wv1:FLARVertexCounter= new FLARVertexCounter();
+		private var __getSquareVertex_wv2:FLARVertexCounter= new FLARVertexCounter();
+		public function FLARCoord2SquareVertexIndexes()
 		{
 			return;
 		}
@@ -49,10 +49,10 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * @param o_vertex
 		 * @return
 		 */
-		public function getVertexIndexes(i_coord:NyARIntCoordinates, i_area:int,o_vertex:Vector.<int>):Boolean
+		public function getVertexIndexes(i_coord:FLARIntCoordinates, i_area:int,o_vertex:Vector.<int>):Boolean
 		{
-			var wv1:NyARVertexCounter = this.__getSquareVertex_wv1;
-			var wv2:NyARVertexCounter = this.__getSquareVertex_wv2;
+			var wv1:FLARVertexCounter = this.__getSquareVertex_wv1;
+			var wv2:FLARVertexCounter = this.__getSquareVertex_wv2;
 			var i_coord_num:int=i_coord.length;
 			var vertex1_index:int=getFarPoint(i_coord.items,i_coord_num,0);
 			var prev_vertex_index:int=(vertex1_index+i_coord_num)%i_coord_num;
@@ -127,7 +127,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * @param i_coord_num
 		 * @return
 		 */
-		private static function getFarPoint(i_coord:Vector.<NyARIntPoint2d>,i_coord_num:int,i_point:int):int
+		private static function getFarPoint(i_coord:Vector.<FLARIntPoint2d>,i_coord_num:int,i_point:int):int
 		{
 			//
 			var sx:int = i_coord[i_point].x
@@ -160,12 +160,12 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 }
 
 
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.types.*;
 /**
  * get_vertex関数を切り離すためのクラス
  * 
  */
-final class NyARVertexCounter
+final class FLARVertexCounter
 {
 	public var vertex:Vector.<int> = new Vector.<int>(10);// 6まで削れる
 
@@ -173,9 +173,9 @@ final class NyARVertexCounter
 
 	private var thresh:Number;
 
-	private var _coord:Vector.<NyARIntPoint2d>;
+	private var _coord:Vector.<FLARIntPoint2d>;
 
-	public function getVertex(i_coord:Vector.<NyARIntPoint2d>,i_coord_len:int,st:int,ed:int,i_thresh:Number):Boolean
+	public function getVertex(i_coord:Vector.<FLARIntPoint2d>,i_coord_len:int,st:int,ed:int,i_thresh:Number):Boolean
 	{
 		this.number_of_vertex = 0;
 		this.thresh = i_thresh;
@@ -200,7 +200,7 @@ final class NyARVertexCounter
 		//メモ:座標値は65536を超えなければint32で扱って大丈夫なので変更。
 		//dmaxは4乗なのでやるとしてもint64じゃないとマズイ
 		var v1:int = 0;
-		var coord:Vector.<NyARIntPoint2d> = this._coord;
+		var coord:Vector.<FLARIntPoint2d> = this._coord;
 		var a:int = coord[ed].y - coord[st].y;
 		var b:int = coord[st].x - coord[ed].x;
 		var c:int = coord[ed].x * coord[st].y - coord[ed].y * coord[st].x;

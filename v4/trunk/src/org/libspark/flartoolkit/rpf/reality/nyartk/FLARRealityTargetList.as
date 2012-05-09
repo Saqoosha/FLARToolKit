@@ -1,12 +1,12 @@
-package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
+package org.libspark.flartoolkit.rpf.reality.nyartk
 {
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.types.stack.*;
 
-public class NyARRealityTargetList extends NyARPointerStack
+public class FLARRealityTargetList extends FLARPointerStack
 {
-	public function NyARRealityTargetList(i_max_target:int)
+	public function FLARRealityTargetList(i_max_target:int)
 	{
 		super.initInstance(i_max_target);
 	}
@@ -15,12 +15,12 @@ public class NyARRealityTargetList extends NyARPointerStack
 	 * @param i_serial
 	 * @return
 	 */
-	public function  getItemBySerial(i_serial:Number):NyARRealityTarget
+	public function  getItemBySerial(i_serial:Number):FLARRealityTarget
 	{
 		var items:Vector.<Object>=this._items;
 		for(var i:int=this._length-1;i>=0;i--)
 		{
-			var item:NyARRealityTarget = NyARRealityTarget(items[i]);
+			var item:FLARRealityTarget = FLARRealityTarget(items[i]);
 			if(item._serial==i_serial){
 				return item;
 			}
@@ -31,14 +31,14 @@ public class NyARRealityTargetList extends NyARPointerStack
 	 * シリアルIDがi_serialに一致するターゲットのインデクス番号を返します。
 	 * @param i_serial
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
 	public function getIndexBySerial(i_serial:int):int
 	{
 		var items:Vector.<Object>=this._items;
 		for(var i:int=this._length-1;i>=0;i--)
 		{
-			var item:NyARRealityTarget = NyARRealityTarget(items[i]);
+			var item:FLARRealityTarget = FLARRealityTarget(items[i]);
 			if(item._serial==i_serial){
 				return i;
 			}
@@ -48,18 +48,18 @@ public class NyARRealityTargetList extends NyARPointerStack
 	/**
 	 * リストから特定のタイプのターゲットだけを選択して、一括でo_resultへ返します。
 	 * @param i_type
-	 * ターゲットタイプです。NyARRealityTarget.RT_*を指定してください。
+	 * ターゲットタイプです。FLARRealityTarget.RT_*を指定してください。
 	 * @param o_list
 	 * 選択したターゲットを格納する配列です。
 	 * @return
 	 * 選択できたターゲットの個数です。o_resultのlengthと同じ場合、取りこぼしが発生した可能性があります。
 	 */	
-	public function selectTargetsByType(i_type:int,o_result:Vector.<NyARRealityTarget>):int
+	public function selectTargetsByType(i_type:int,o_result:Vector.<FLARRealityTarget>):int
 	{
 		var num:int=0;
 		for(var i:int=this._length-1;i>=0 && num<o_result.length;i--)
 		{
-			var item:NyARRealityTarget = NyARRealityTarget(this._items[i]);
+			var item:FLARRealityTarget = FLARRealityTarget(this._items[i]);
 			if(item._target_type!=i_type){
 				continue;
 			}
@@ -71,15 +71,15 @@ public class NyARRealityTargetList extends NyARPointerStack
 	/**
 	 * リストから特定のタイプのターゲットを1個選択して、返します。
 	 * @param i_type
-	 * ターゲットタイプです。NyARRealityTarget.RT_*を指定してください。
+	 * ターゲットタイプです。FLARRealityTarget.RT_*を指定してください。
 	 * @return
 	 * 見つかるとターゲットへの参照を返します。見つからなければNULLです。
 	 */
-	public function selectSingleTargetByType(i_type:int):NyARRealityTarget
+	public function selectSingleTargetByType(i_type:int):FLARRealityTarget
 	{
 		for(var i:int=this._length-1;i>=0;i--)
 		{
-			var item:NyARRealityTarget = NyARRealityTarget(this._items[i]);
+			var item:FLARRealityTarget = FLARRealityTarget(this._items[i]);
 			if(item._target_type!=i_type){
 				continue;
 			}

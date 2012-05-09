@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,29 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.NyARCameraDistortionFactor;
-	import jp.nyatla.nyartoolkit.as3.core.raster.NyARGrayscaleRaster;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARContourPickup;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.NyARMath;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.utils.FLARMath;
+	import org.libspark.flartoolkit.rpf.utils.*;
 
 	/**
-	 * INyARVectorReaderの画素アクセス関数以外を実装したクラスです。
+	 * IFLARVectorReaderの画素アクセス関数以外を実装したクラスです。
 	 * 継承クラスで画素アクセス関数を実装してください。
 	 *
 	 */
-	public class NyARVectorReader_Basic implements INyARVectorReader
+	public class FLARVectorReader_Basic implements IFLARVectorReader
 	{
 		private var _tmp_coord_pos:Vector.<VecLinearCoordinatePoint>;
 		private var _rob_resolution:int;
-		protected var _ref_base_raster:NyARGrayscaleRaster;
-		private var _ref_rob_raster:NyARGrayscaleRaster;
-		protected var _factor:NyARCameraDistortionFactor;
+		protected var _ref_base_raster:FLARGrayscaleRaster;
+		private var _ref_rob_raster:FLARGrayscaleRaster;
+		protected var _factor:FLARCameraDistortionFactor;
 		/**
 		 * 
 		 * @param i_ref_raster
@@ -55,41 +55,41 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * エッジ探索用のROB画像
 		 * @param 
 		 */
-		public function NyARVectorReader_Basic(i_ref_raster:NyARGrayscaleRaster,i_ref_raster_distortion:NyARCameraDistortionFactor,i_ref_rob_raster:NyARGrayscaleRaster,i_contur_pickup:NyARContourPickup)
+		public function FLARVectorReader_Basic(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:FLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster,i_contur_pickup:FLARContourPickup)
 		{
 			this._rob_resolution=i_ref_raster.getWidth()/i_ref_rob_raster.getWidth();
 			this._ref_rob_raster=i_ref_rob_raster;
 			this._ref_base_raster=i_ref_raster;
-			this._coord_buf = new NyARIntCoordinates((i_ref_raster.getWidth() + i_ref_raster.getHeight()) * 4);
+			this._coord_buf = new FLARIntCoordinates((i_ref_raster.getWidth() + i_ref_raster.getHeight()) * 4);
 			this._factor=i_ref_raster_distortion;
 			this._tmp_coord_pos = VecLinearCoordinatePoint.createArray(this._coord_buf.items.length);
 			this._cpickup = i_contur_pickup;
 		}
 
-		public function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int
+		public function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int
 		{
 			// Override
-			NyARException.notImplement();
+			FLARException.notImplement();
 			return -1;
 		}
-		public function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int
+		public function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int
 		{
 			// Override
-			NyARException.notImplement();
+			FLARException.notImplement();
 			return -1;
 		}
 
 		/**
 		 * ワーク変数
 		 */
-		protected var _coord_buf:NyARIntCoordinates;
-		private var  _cpickup:NyARContourPickup;
-		protected const _MARGE_ANG_TH:Number = NyARMath.COS_DEG_10;
+		protected var _coord_buf:FLARIntCoordinates;
+		private var  _cpickup:FLARContourPickup;
+		protected const _MARGE_ANG_TH:Number = FLARMath.COS_DEG_10;
 
 		public function traceConture(i_th:int,
-				i_entry:NyARIntPoint2d,o_coord:VecLinearCoordinates):Boolean
+				i_entry:FLARIntPoint2d,o_coord:VecLinearCoordinates):Boolean
 		{
-			var coord:NyARIntCoordinates = this._coord_buf;
+			var coord:FLARIntCoordinates = this._coord_buf;
 			// Robertsラスタから輪郭抽出
 			if (!this._cpickup.getContour(this._ref_rob_raster, i_th, i_entry.x, i_entry.y,coord)) {
 				// 輪郭線MAXならなにもできないね。
@@ -116,12 +116,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param o_coord
 		 *            結果を受け取るオブジェクトです。
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function traceLine(i_pos1:NyARIntPoint2d,i_pos2:NyARIntPoint2d,i_edge:int ,o_coord:VecLinearCoordinates):Boolean
+		public function traceLine(i_pos1:FLARIntPoint2d,i_pos2:FLARIntPoint2d,i_edge:int ,o_coord:VecLinearCoordinates):Boolean
 		{
-			var coord:NyARIntCoordinates = this._coord_buf;
-			var base_s:NyARIntSize=this._ref_base_raster.getSize();
+			var coord:FLARIntCoordinates = this._coord_buf;
+			var base_s:FLARIntSize=this._ref_base_raster.getSize();
 			// (i_area*2)の矩形が範囲内に収まるように線を引く
 			// 移動量
 
@@ -156,10 +156,10 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			return traceConture_2(coord, 1, s, o_coord);
 		}
 
-		public function traceLine_2(i_pos1:NyARDoublePoint2d,i_pos2:NyARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean
+		public function traceLine_2(i_pos1:FLARDoublePoint2d,i_pos2:FLARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean
 		{
-			var coord:NyARIntCoordinates = this._coord_buf;
-			var base_s:NyARIntSize=this._ref_base_raster.getSize();
+			var coord:FLARIntCoordinates = this._coord_buf;
+			var base_s:FLARIntSize=this._ref_base_raster.getSize();
 			// (i_area*2)の矩形が範囲内に収まるように線を引く
 			// 移動量
 
@@ -199,12 +199,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			var x1:Number=i_current_vec.dx;
 			var y1:Number=i_current_vec.dy;
 			var n:Number=(x1*x1+y1*y1);
-			//平均ベクトルとこのベクトルがCOS_DEG_20未満であることを確認(pos_ptr.getAbsVecCos(i_ave_dx,i_ave_dy)<NyARMath.COS_DEG_20 と同じ)
+			//平均ベクトルとこのベクトルがCOS_DEG_20未満であることを確認(pos_ptr.getAbsVecCos(i_ave_dx,i_ave_dy)<FLARMath.COS_DEG_20 と同じ)
 			var d:Number;
-			d=(x1*i_ave_dx+y1*i_ave_dy)/NyARMath.COS_DEG_20;
+			d=(x1*i_ave_dx+y1*i_ave_dy)/FLARMath.COS_DEG_20;
 			if(d*d<(n*(i_ave_dx*i_ave_dx+i_ave_dy*i_ave_dy))){
-				//隣接ベクトルとこのベクトルが5度未満であることを確認(pos_ptr.getAbsVecCos(i_prev_vec)<NyARMath.COS_DEG_5と同じ)
-				d=(x1*i_prev_vec.dx+y1*i_prev_vec.dy)/NyARMath.COS_DEG_5;
+				//隣接ベクトルとこのベクトルが5度未満であることを確認(pos_ptr.getAbsVecCos(i_prev_vec)<FLARMath.COS_DEG_5と同じ)
+				d=(x1*i_prev_vec.dx+y1*i_prev_vec.dy)/FLARMath.COS_DEG_5;
 				if(d*d<n*(i_prev_vec.dx*i_prev_vec.dx+i_prev_vec.dy*i_prev_vec.dy)){
 					return true;
 				}
@@ -220,13 +220,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * 4.3点以上の集合になったら、最小二乗法で直線を計算。
 		 * 5.直線の加重値を個々の画素ベクトルの和として返却。
 		 */
-		public function traceConture_2(i_coord:NyARIntCoordinates,i_pos_mag:int,i_cell_size:int ,o_coord: VecLinearCoordinates):Boolean
+		public function traceConture_2(i_coord:FLARIntCoordinates,i_pos_mag:int,i_cell_size:int ,o_coord: VecLinearCoordinates):Boolean
 		{
 			var pos:Vector.<VecLinearCoordinatePoint>=this._tmp_coord_pos;
 			// ベクトル化
 			var MAX_COORD:int = o_coord.items.length;
 			var i_coordlen:int = i_coord.length;
-			var coord:Vector.<NyARIntPoint2d> = i_coord.items;
+			var coord:Vector.<FLARIntPoint2d> = i_coord.items;
 			var pos_ptr:VecLinearCoordinatePoint;
 
 			//0個目のライン探索
@@ -277,7 +277,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				if(sq==0){
 					continue;
 				}
-				//if (pos_ptr.getAbsVecCos(pos[sum-1]) < NyARMath.COS_DEG_5 && pos_ptr.getAbsVecCos(ave_dx,ave_dy)<NyARMath.COS_DEG_20) {
+				//if (pos_ptr.getAbsVecCos(pos[sum-1]) < FLARMath.COS_DEG_5 && pos_ptr.getAbsVecCos(ave_dx,ave_dy)<FLARMath.COS_DEG_20) {
 				if (checkVecCos(pos[sum],pos[sum-1],ave_dx,ave_dy)) {
 					//相関なし->新しい要素を作る。
 					if(this.leastSquaresWithNormalize(pos,sum,o_coord.items[number_of_data],sq_sum/(sum*5))){
@@ -357,8 +357,8 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			return true;
 		}	
 
-		private var __pt:Vector.<NyARIntPoint2d> = NyARIntPoint2d.createArray(2);
-		private var __temp_l:NyARLinear = new NyARLinear();
+		private var __pt:Vector.<FLARIntPoint2d> = FLARIntPoint2d.createArray(2);
+		private var __temp_l:FLARLinear = new FLARLinear();
 
 		/**
 		 * クリッピング付きのライントレーサです。
@@ -368,14 +368,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_edge
 		 * @param o_coord
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function traceLineWithClip(i_pos1:NyARDoublePoint2d,i_pos2:NyARDoublePoint2d, i_edge:int , o_coord:VecLinearCoordinates ):Boolean
+		public function traceLineWithClip(i_pos1:FLARDoublePoint2d,i_pos2:FLARDoublePoint2d, i_edge:int , o_coord:VecLinearCoordinates ):Boolean
 		{
-			var s:NyARIntSize=this._ref_base_raster.getSize();
+			var s:FLARIntSize=this._ref_base_raster.getSize();
 			var is_p1_inside_area:Boolean, is_p2_inside_area:Boolean;
 
-			var pt:Vector.<NyARIntPoint2d> = this.__pt;
+			var pt:Vector.<FLARIntPoint2d> = this.__pt;
 			// 線分が範囲内にあるかを確認
 			is_p1_inside_area = s.isInnerPoint_2(i_pos1);
 			is_p2_inside_area = s.isInnerPoint_2(i_pos2);

@@ -1,18 +1,18 @@
-package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
+package org.libspark.flartoolkit.rpf.reality.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.INyARDisposable;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.INyARRgbRaster;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARSquare;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARRectOffset;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARTransMatResult;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.NyARDoubleMatrix44;
-	import jp.nyatla.nyartoolkit.as3.core.utils.NyARManagedObject;
-	import jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk.NyARRealitySource;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.NyARTarget;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.NyARRectTargetStatus;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.IFLARDisposable;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.squaredetect.FLARSquare;
+	import org.libspark.flartoolkit.core.transmat.FLARRectOffset;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.FLARDoubleMatrix44;
+	import org.libspark.flartoolkit.core.utils.FLARManagedObject;
+	import org.libspark.flartoolkit.rpf.realitysource.nyartk.FLARRealitySource;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.FLARTarget;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.FLARRectTargetStatus;
 	import jp.nyatla.as3utils.*;
 
 	/**
@@ -20,15 +20,15 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 	 * {@link #tag}以外のクラスメンバに対する書き込み操作を行わないでください。
 	 *
 	 */
-	public class NyARRealityTarget extends NyARManagedObject
+	public class FLARRealityTarget extends FLARManagedObject
 	{
 		/**　ユーザオブジェクトを配置するポインタータグ。ユーザが自由にオブジェクトポインタを配置できる。
-		 * {@link INyARDisposable}インタフェイスを持つオブジェクトを指定すると、このターゲットを開放するときに{@link INyARDisposable#dispose()}をコールする。
-		 * <p>{@link INyARDisposable}インタフェイスは、Managed環境下では通常不要。</p>
+		 * {@link IFLARDisposable}インタフェイスを持つオブジェクトを指定すると、このターゲットを開放するときに{@link IFLARDisposable#dispose()}をコールする。
+		 * <p>{@link IFLARDisposable}インタフェイスは、Managed環境下では通常不要。</p>
 		 */
 		public var tag:Object;
 
-		public function NyARRealityTarget(i_pool:NyARRealityTargetPool)
+		public function FLARRealityTarget(i_pool:FLARRealityTargetPool)
 		{
 			super(i_pool._op_interface);
 			this._ref_pool=i_pool;
@@ -41,10 +41,10 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 			var ret:int=super.releaseObject();
 			if(ret==0)
 			{
-				//TAGオブジェクトがINyARDisposableインタフェイスを持てば、disposeをコール
-				if((this._ref_tracktarget as INyARDisposable)!=null)
+				//TAGオブジェクトがIFLARDisposableインタフェイスを持てば、disposeをコール
+				if((this._ref_tracktarget as IFLARDisposable)!=null)
 				{
-					((INyARDisposable)(this._ref_tracktarget)).dispose();
+					((IFLARDisposable)(this._ref_tracktarget)).dispose();
 				}
 				//参照ターゲットのタグをクリアして、参照解除
 				this._ref_tracktarget.tag=null;
@@ -62,22 +62,22 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 */
 		public static function createSerialId():Number
 		{
-			//synchronized(NyARRealityTarget._serial_lock){
-			return NyARRealityTarget._serial_counter++;
+			//synchronized(FLARRealityTarget._serial_lock){
+			return FLARRealityTarget._serial_counter++;
 		}
 		////////////////////////
 		
 		/**
 		 * 親情報
 		 */
-		private var _ref_pool:NyARRealityTargetPool;
+		private var _ref_pool:FLARRealityTargetPool;
 		////////////////////////
 		//targetの基本情報
 
 		/** 内部向けの公開メンバ変数です。{@link #getSerialId}を使ってください。*/
 		public var _serial:Number;
 		/** 内部向けの公開メンバ変数です。{@link #refTransformMatrix}を使ってください。*/
-		public var _transform_matrix:NyARTransMatResult=new NyARTransMatResult();
+		public var _transform_matrix:FLARTransMatResult=new FLARTransMatResult();
 
 		/** ターゲットの種類。未知のターゲット。*/
 		public static const RT_UNKNOWN:int   =0;
@@ -90,11 +90,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		public var _target_type:int;
 		
 		/** 内部向けpublicメンバ。 ターゲットのオフセット位置。*/
-		public var _offset:NyARRectOffset=new NyARRectOffset();
+		public var _offset:FLARRectOffset=new FLARRectOffset();
 		/** 内部向けpublicメンバ。このターゲットが参照しているトラックターゲット*/
-		public var _ref_tracktarget:NyARTarget;
+		public var _ref_tracktarget:FLARTarget;
 		/** 内部向けpublicメンバ。スクリーン上の歪み解除済み矩形。*/
-		public var _screen_square:NyARSquare=new NyARSquare();
+		public var _screen_square:FLARSquare=new FLARSquare();
 		/** 内部向けpublicメンバ。getGrabbRateを使ってください。*/
 		public var grab_rate:int;
 		
@@ -105,7 +105,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 * この値は変更しないでください。（編集するときは、コピーを作ってください。）
 		 * @return
 		 */
-		public function refTransformMatrix():NyARTransMatResult
+		public function refTransformMatrix():FLARTransMatResult
 		{
 			//assert(this._target_type==RT_KNOWN);
 			return this._transform_matrix;
@@ -144,20 +144,20 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 * 値が有効なのは、次のサイクルを実行するまでの間です。
 		 * @return
 		 */
-		public function refTargetVertex():Vector.<NyARDoublePoint2d>
+		public function refTargetVertex():Vector.<FLARDoublePoint2d>
 		{
 			NyAS3Utils.assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			return ((NyARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex;
+			return ((FLARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex;
 		}
 		/**
 		 * 対象矩形の頂点配列をコピーして返します。
 		 * 樽型歪みの逆矯正は行いません。
 		 * @param o_vertex
 		 */
-		public function getTargetVertex(o_vertex:Vector.<NyARDoublePoint2d>):void
+		public function getTargetVertex(o_vertex:Vector.<FLARDoublePoint2d>):void
 		{
 			NyAS3Utils.assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			var v:Vector.<NyARDoublePoint2d>=((NyARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex;
+			var v:Vector.<FLARDoublePoint2d>=((FLARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex;
 			for(var i:int=3;i>=0;i--){
 				o_vertex[i].setValue(v[i]);
 			}
@@ -167,19 +167,19 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 * 樽型歪みの逆矯正は行いません。
 		 * @param o_center
 		 */
-		public function getTargetCenter(o_center:NyARDoublePoint2d):void
+		public function getTargetCenter(o_center:FLARDoublePoint2d):void
 		{
 			NyAS3Utils.assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			NyARDoublePoint2d.makeCenter(((NyARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex,4,o_center);
+			FLARDoublePoint2d.makeCenter(((FLARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex,4,o_center);
 		}
 		/**
 		 * {@link #getTargetCenter}の出力型違いの関数です。
 		 * @param o_center
 		 */
-		public function getTargetCenter_2(o_center:NyARIntPoint2d):void
+		public function getTargetCenter_2(o_center:FLARIntPoint2d):void
 		{
 			NyAS3Utils.assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			NyARDoublePoint2d.makeCenter_2(((NyARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex,4,o_center);
+			FLARDoublePoint2d.makeCenter_2(((FLARRectTargetStatus)(this._ref_tracktarget._ref_status)).vertex,4,o_center);
 		}
 		/**
 		 * 画面上の点が、このターゲットを構成する頂点の内側にあるか判定します。
@@ -192,9 +192,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		public function isInnerVertexPoint2d(i_x:int,i_y:int):Boolean
 		{
 			//assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			var vx:Vector.<NyARDoublePoint2d>=(NyARRectTargetStatus(this._ref_tracktarget._ref_status)).vertex;
+			var vx:Vector.<FLARDoublePoint2d>=(FLARRectTargetStatus(this._ref_tracktarget._ref_status)).vertex;
 			for(var i:int=3;i>=0;i--){
-				if(NyARDoublePoint2d.crossProduct3Point_2(vx[i],vx[(i+1)%4],i_x,i_y)<0)
+				if(FLARDoublePoint2d.crossProduct3Point_2(vx[i],vx[(i+1)%4],i_x,i_y)<0)
 				{
 					return false;
 				}
@@ -212,8 +212,8 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		public function isInnerRectPoint2d(i_x:int,i_y:int):Boolean
 		{
 			//assert(this._target_type==RT_UNKNOWN || this._target_type==RT_KNOWN);
-			var rect:NyARIntRect=new NyARIntRect();
-			var vx:Vector.<NyARDoublePoint2d>=((NyARRectTargetStatus(this._ref_tracktarget._ref_status)).vertex);
+			var rect:FLARIntRect=new FLARIntRect();
+			var vx:Vector.<FLARDoublePoint2d>=((FLARRectTargetStatus(this._ref_tracktarget._ref_status)).vertex);
 			rect.setAreaRect(vx,4);
 			return rect.isInnerPoint(i_x, i_y);
 		}
@@ -230,14 +230,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 * @param o_raster
 		 * 出力ラスタ
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 * <p>メモ:この関数にはnewが残ってるので注意</p>
 		 */
-		public function getRgbPatt3d(i_src:NyARRealitySource,i_vertex:Vector.<NyARDoublePoint3d>,i_matrix:NyARDoubleMatrix44,i_resolution:int,o_raster:INyARRgbRaster):Boolean
+		public function getRgbPatt3d(i_src:FLARRealitySource,i_vertex:Vector.<FLARDoublePoint3d>,i_matrix:FLARDoubleMatrix44,i_resolution:int,o_raster:IFLARRgbRaster):Boolean
 		{
 			//assert(this._target_type==RT_KNOWN);
-			var da4:Vector.<NyARDoublePoint2d>=this._ref_pool._wk_da2_4;
-			var v3d:NyARDoublePoint3d=new NyARDoublePoint3d();
+			var da4:Vector.<FLARDoublePoint2d>=this._ref_pool._wk_da2_4;
+			var v3d:FLARDoublePoint3d=new FLARDoublePoint3d();
 			var i:int;
 			if(i_matrix!=null){
 				//姿勢変換してから射影変換
@@ -274,13 +274,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk
 		 * @param o_raster
 		 * 出力ラスタ
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function getRgbRectPatt3d(i_src:NyARRealitySource,i_x:Number,i_y:Number,i_w:Number,i_h:Number,i_resolution:int,o_raster:INyARRgbRaster):Boolean
+		public function getRgbRectPatt3d(i_src:FLARRealitySource,i_x:Number,i_y:Number,i_w:Number,i_h:Number,i_resolution:int,o_raster:IFLARRgbRaster):Boolean
 		{
 			//assert(this._target_type==RT_KNOWN);
 			//RECT座標を作成
-			var da4:Vector.<NyARDoublePoint3d>=this._ref_pool._wk_da3_4;
+			var da4:Vector.<FLARDoublePoint3d>=this._ref_pool._wk_da3_4;
 			da4[0].x=i_x;    da4[0].y=i_y+i_h;da4[0].z=0;//LB
 			da4[1].x=i_x+i_w;da4[1].y=i_y+i_h;da4[1].z=0;//RB
 			da4[2].x=i_x+i_w;da4[2].y=i_y;    da4[2].z=0;//RT

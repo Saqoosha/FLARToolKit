@@ -1,25 +1,25 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
+package org.libspark.flartoolkit.rpf.tracker.nyartk.status
 {
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.utils.NyARMath;
-import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
-import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.utils.FLARMath;
+import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
+import org.libspark.flartoolkit.rpf.utils.*;
 
 
 
 
-public class NyARRectTargetStatus extends NyARTargetStatus
+public class FLARRectTargetStatus extends FLARTargetStatus
 {
-	private var _ref_my_pool:NyARRectTargetStatusPool;
+	private var _ref_my_pool:FLARRectTargetStatusPool;
 	
 	
 	/**
 	 * 現在の矩形情報
 	 */
-	public var vertex:Vector.<NyARDoublePoint2d>=NyARDoublePoint2d.createArray(4);
+	public var vertex:Vector.<FLARDoublePoint2d>=FLARDoublePoint2d.createArray(4);
 
 	/**
 	 * 予想した頂点速度の二乗値の合計
@@ -29,11 +29,11 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	/**
 	 * 予想頂点範囲
 	 */
-	public var estimate_rect:NyARIntRect=new NyARIntRect();
+	public var estimate_rect:FLARIntRect=new FLARIntRect();
 	/**
 	 * 予想頂点位置
 	 */
-	public var estimate_vertex:Vector.<NyARDoublePoint2d>=NyARDoublePoint2d.createArray(4);
+	public var estimate_vertex:Vector.<FLARDoublePoint2d>=FLARDoublePoint2d.createArray(4);
 
 	/**
 	 * 最後に使われた検出タイプの値です。DT_xxxの値をとります。
@@ -62,7 +62,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	/**
 	 * @Override
 	 */
-	public function NyARRectTargetStatus(i_pool:NyARRectTargetStatusPool)
+	public function FLARRectTargetStatus(i_pool:FLARRectTargetStatusPool)
 	{
 		super(i_pool._op_interface);
 		this._ref_my_pool=i_pool;
@@ -73,15 +73,15 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * 前回のステータスと予想パラメータを計算してセットします。
 	 * @param i_prev_param
 	 */
-	private function setEstimateParam(i_prev_param:NyARRectTargetStatus):void
+	private function setEstimateParam(i_prev_param:FLARRectTargetStatus):void
 	{
-		var vc_ptr:Vector.<NyARDoublePoint2d>=this.vertex;
-		var ve_ptr:Vector.<NyARDoublePoint2d>=this.estimate_vertex;
+		var vc_ptr:Vector.<FLARDoublePoint2d>=this.vertex;
+		var ve_ptr:Vector.<FLARDoublePoint2d>=this.estimate_vertex;
 		var sum_of_vertex_sq_dist:int = 0;
 		var i:int;
 		if(i_prev_param!=null){
 			//差分パラメータをセット
-			var vp:Vector.<NyARDoublePoint2d>=i_prev_param.vertex;
+			var vp:Vector.<FLARDoublePoint2d>=i_prev_param.vertex;
 			//頂点速度の計測
 			for(i=3;i>=0;i--){
 				var x:int=(int)((vc_ptr[i].x-vp[i].x));
@@ -111,9 +111,9 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_contour_status
 	 * 関数を実行すると、このオブジェクトの内容は破壊されます。
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function setValueWithInitialCheck(i_contour_status:NyARContourTargetStatus,i_sample_area:NyARIntRect):Boolean
+	public function setValueWithInitialCheck(i_contour_status:FLARContourTargetStatus,i_sample_area:FLARIntRect):Boolean
 	{
 		//ベクトルのマージ(マージするときに、3,4象限方向のベクトルは1,2象限のベクトルに変換する。)
 		i_contour_status.vecpos.limitQuadrantTo12();
@@ -124,7 +124,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 		//キーベクトルを取得
 		i_contour_status.vecpos.getKeyCoord(this._ref_my_pool._indexbuf);
 		//点に変換
-		var this_vx:Vector.<NyARDoublePoint2d>=this.vertex;
+		var this_vx:Vector.<FLARDoublePoint2d>=this.vertex;
 		if(!this._ref_my_pool._line_detect.line2SquareVertex(this._ref_my_pool._indexbuf,this_vx)){
 			return false;
 		}
@@ -146,9 +146,9 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_source
 	 * @param i_prev_status
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function setValueWithDeilyCheck(i_vec_reader:INyARVectorReader,i_source:LowResolutionLabelingSamplerOut_Item,i_prev_status:NyARRectTargetStatus):Boolean
+	public function setValueWithDeilyCheck(i_vec_reader:IFLARVectorReader,i_source:LowResolutionLabelingSamplerOut_Item,i_prev_status:FLARRectTargetStatus):Boolean
 	{
 		var vecpos:VecLinearCoordinates=this._ref_my_pool._vecpos;
 		//輪郭線を取る
@@ -165,7 +165,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 		//キーベクトルを取得
 		vecpos.getKeyCoord(this._ref_my_pool._indexbuf);
 		//点に変換
-		var this_vx:Vector.<NyARDoublePoint2d>=this.vertex;
+		var this_vx:Vector.<FLARDoublePoint2d>=this.vertex;
 		if(!this._ref_my_pool._line_detect.line2SquareVertex(this._ref_my_pool._indexbuf,this_vx)){
 			return false;
 		}
@@ -185,12 +185,12 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_raster
 	 * @param i_prev_status
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function setValueByLineLog(i_vec_reader:INyARVectorReader,i_prev_status:NyARRectTargetStatus):Boolean
+	public function setValueByLineLog(i_vec_reader:IFLARVectorReader,i_prev_status:FLARRectTargetStatus):Boolean
 	{
 		//検出範囲からカーネルサイズの2乗値を計算。検出領域の二乗距離の1/(40*40) (元距離の1/40)
-		var d:int=((int)(i_prev_status.estimate_rect.getDiagonalSqDist()/(NyARMath.SQ_40)));
+		var d:int=((int)(i_prev_status.estimate_rect.getDiagonalSqDist()/(FLARMath.SQ_40)));
 		//二乗移動速度からカーネルサイズを計算。
 		var v_ave_limit:int=i_prev_status.estimate_sum_sq_vertex_velocity_ave;
 		//
@@ -210,7 +210,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 		
 		//ライントレースの試行
 
-		var sh_l:Vector.<NyARLinear>=this._ref_my_pool._line;
+		var sh_l:Vector.<FLARLinear>=this._ref_my_pool._line;
 		if(!traceSquareLine(i_vec_reader,d,i_prev_status,sh_l)){
 			return false;
 		}else{
@@ -238,9 +238,9 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_prev_status
 	 * 前回の状態を格納したオブジェクト
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function setValueByAutoSelect(i_vec_reader:INyARVectorReader,i_source:LowResolutionLabelingSamplerOut_Item,i_prev_status:NyARRectTargetStatus):Boolean
+	public function setValueByAutoSelect(i_vec_reader:IFLARVectorReader,i_source:LowResolutionLabelingSamplerOut_Item,i_prev_status:FLARRectTargetStatus):Boolean
 	{
 		var current_detect_type:int=DT_SQDAILY;
 		//移動速度による手段の切り替え
@@ -297,9 +297,9 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_sample_area
 	 * この矩形を検出するために使った元データの範囲(ターゲット検出範囲)
 	 */
-	private function checkInitialRectCondition(i_sample_area:NyARIntRect):Boolean
+	private function checkInitialRectCondition(i_sample_area:FLARIntRect):Boolean
 	{
-		var this_vx:Vector.<NyARDoublePoint2d>=this.vertex;
+		var this_vx:Vector.<FLARDoublePoint2d>=this.vertex;
 
 		//検出した四角形の対角点が検出エリア内か？
 		var cx:int=(int)(this_vx[0].x+this_vx[1].x+this_vx[2].x+this_vx[3].x)/4;
@@ -334,9 +334,9 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 
 	 * @param i_sample_area
 	 */
-	private function checkDeilyRectCondition( i_prev_st:NyARRectTargetStatus):Boolean
+	private function checkDeilyRectCondition( i_prev_st:FLARRectTargetStatus):Boolean
 	{
-		var this_vx:Vector.<NyARDoublePoint2d>=this.vertex;
+		var this_vx:Vector.<FLARDoublePoint2d>=this.vertex;
 
 		//一番長い辺と短い辺の比を確認(10倍の比があったらなんか変)
 		var max:int=int.MIN_VALUE;
@@ -364,13 +364,13 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 	 * @param i_edge_size
 	 * @param i_prevsq
 	 * @return
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private function traceSquareLine(i_reader:INyARVectorReader , i_edge_size:int,i_prevsq: NyARRectTargetStatus,o_line:Vector.<NyARLinear>):Boolean
+	private function traceSquareLine(i_reader:IFLARVectorReader , i_edge_size:int,i_prevsq: FLARRectTargetStatus,o_line:Vector.<FLARLinear>):Boolean
 	{
-		var p1:NyARDoublePoint2d,p2:NyARDoublePoint2d;
+		var p1:FLARDoublePoint2d,p2:FLARDoublePoint2d;
 		var vecpos:VecLinearCoordinates=this._ref_my_pool._vecpos;
-		//NyARIntRect i_rect
+		//FLARIntRect i_rect
 		p1=i_prevsq.estimate_vertex[0];
 		var dist_limit:int=i_edge_size*i_edge_size;
 		//強度敷居値(セルサイズ-1)
@@ -394,7 +394,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
 //			}
 //@todo:パラメタ調整
 			//角度規制(元の線分との角度を確認)
-			if(vecpos.items[vid].getAbsVecCos_3(i_prevsq.vertex[i],i_prevsq.vertex[(i+1)%4])<NyARMath.COS_DEG_5){
+			if(vecpos.items[vid].getAbsVecCos_3(i_prevsq.vertex[i],i_prevsq.vertex[(i+1)%4])<FLARMath.COS_DEG_5){
 				//System.out.println("CODE1");
 				return false;
 			}
@@ -421,7 +421,7 @@ public class NyARRectTargetStatus extends NyARTargetStatus
      * シフト量を数値で返します。
      * シフト量はthis-i_squareです。1の場合、this.sqvertex[0]とi_square.sqvertex[1]が対応点になる(shift量1)であることを示します。
      */
-    private static function checkVertexShiftValue(i_vertex1:Vector.<NyARDoublePoint2d>,i_vertex2:Vector.<NyARDoublePoint2d>):int
+    private static function checkVertexShiftValue(i_vertex1:Vector.<FLARDoublePoint2d>,i_vertex2:Vector.<FLARDoublePoint2d>):int
     {
     	//assert(i_vertex1.length==4 && i_vertex2.length==4);
     	//3-0番目
@@ -450,10 +450,10 @@ public class NyARRectTargetStatus extends NyARTargetStatus
      * 頂点を左回転して、矩形を回転させます。
      * @param i_shift
      */
-    private static function rotateVertexL(i_vertex:Vector.<NyARDoublePoint2d>,i_shift:int):void
+    private static function rotateVertexL(i_vertex:Vector.<FLARDoublePoint2d>,i_shift:int):void
     {
     	//assert(i_shift<4);
-    	var vertext:NyARDoublePoint2d;
+    	var vertext:FLARDoublePoint2d;
     	if(i_shift==0){
     		return;
     	}

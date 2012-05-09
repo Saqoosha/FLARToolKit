@@ -1,12 +1,12 @@
-package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
+package org.libspark.flartoolkit.rpf.sampler.lrlabel
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.stack.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.core.utils.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
 
 	/**
 	 * LowResolutionLabelingSampler用の出力コンテナです。サンプリング結果を受け取ります。
@@ -79,23 +79,23 @@ package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.utils.NyARManagedObjectPool;
-import jp.nyatla.nyartoolkit.as3.core.utils.NyARManagedObject;
-import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
+import org.libspark.flartoolkit.core.utils.FLARManagedObjectPool;
+import org.libspark.flartoolkit.core.utils.FLARManagedObject;
+import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+import org.libspark.flartoolkit.core.types.stack.*;
 
 /**
  * AreaのPoolクラス
  *
  */
-class AreaPool extends NyARManagedObjectPool
+class AreaPool extends FLARManagedObjectPool
 {
 	public function AreaPool(i_length:int)
 	{
 		super.initInstance(i_length);
 		return;
 	}
-	protected override function createElement():NyARManagedObject
+	protected override function createElement():FLARManagedObject
 	{
 		return new LowResolutionLabelingSamplerOut_Item(this._op_interface);
 	}
@@ -104,7 +104,7 @@ class AreaPool extends NyARManagedObjectPool
  * AreaのStackクラス
  *
  */
-class AreaStack extends NyARPointerStack
+class AreaStack extends FLARPointerStack
 {
 	public function AreaStack(i_length:int)
 	{

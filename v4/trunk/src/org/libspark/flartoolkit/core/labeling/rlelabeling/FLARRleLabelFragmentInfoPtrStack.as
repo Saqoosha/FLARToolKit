@@ -1,13 +1,13 @@
-package jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling 
+package org.libspark.flartoolkit.core.labeling.rlelabeling 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
+	import org.libspark.flartoolkit.core.types.stack.*;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class NyARRleLabelFragmentInfoPtrStack extends NyARPointerStack 
+	public class FLARRleLabelFragmentInfoPtrStack extends FLARPointerStack 
 	{
-		public function NyARRleLabelFragmentInfoPtrStack( i_length:int )
+		public function FLARRleLabelFragmentInfoPtrStack( i_length:int )
 		{ 
 			this.initInstance(i_length) ;
 			return  ;
@@ -25,7 +25,7 @@ package jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling
 			for(  ;  ;  ) {
 				var swaps:int = 0 ;
 				for( var i:int = 0 ; i + h < len ; i++ ){
-					if( ((NyARRleLabelFragmentInfo)(item[i + h])).area > item[i].area ){
+					if( ((FLARRleLabelFragmentInfo)(item[i + h])).area > item[i].area ){
 						var temp:Object = item[i + h] ;
 						item[i + h] = item[i] ;
 						item[i] = temp ;

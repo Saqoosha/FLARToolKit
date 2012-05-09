@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,12 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-	public class NyARSquareStack extends NyARObjectStack
+	import org.libspark.flartoolkit.core.types.stack.*;
+	public class FLARSquareStack extends FLARObjectStack
 	{
-		public function NyARSquareStack(i_length:int)
+		public function FLARSquareStack(i_length:int)
 		{
 			super(i_length);
 		}
@@ -41,7 +41,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		{
 			var ret:Vector.<Object>= new Vector.<Object>(i_length);
 			for (var i:int =0; i < i_length; i++){
-				this._items[i] = new NyARSquare();
+				this._items[i] = new FLARSquare();
 			}
 			return Vector.<Object>(ret);
 		}

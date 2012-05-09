@@ -1,19 +1,19 @@
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.*;
 	
 	
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public interface NyARContourPickup_IRasterDriver 
+	public interface FLARContourPickup_IRasterDriver 
 	{
-		function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:NyARIntCoordinates):Boolean;
+		function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:FLARIntCoordinates):Boolean;
 	}
 	
 }

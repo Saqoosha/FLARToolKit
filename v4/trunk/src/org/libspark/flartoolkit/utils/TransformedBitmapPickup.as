@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,23 +28,23 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.utils
+package org.libspark.flartoolkit.utils
 {
-	import jp.nyatla.nyartoolkit.as3.core.pickup.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
+	import org.libspark.flartoolkit.core.pickup.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.transmat.*;
 	/**
 	 * マーカの周辺領域からビットマップを取得する方法を提供します。
 	 * 比較的負荷が大きいので、連続してパターンを取得し続ける用途には向いていません。
 	 *
 	 */
-	public class TransformedBitmapPickup extends NyARColorPatt_Perspective_O2
+	public class TransformedBitmapPickup extends FLARColorPatt_Perspective_O2
 	{
-		private var _work_points:Vector.<NyARIntPoint2d> = NyARIntPoint2d.createArray(4);
+		private var _work_points:Vector.<FLARIntPoint2d> = FLARIntPoint2d.createArray(4);
 
-		private var _ref_perspective:NyARPerspectiveProjectionMatrix;
+		private var _ref_perspective:FLARPerspectiveProjectionMatrix;
 
 		/**
 		 * 
@@ -55,10 +55,10 @@ package jp.nyatla.nyartoolkit.as3.utils
 		 * @param i_resolution
 		 * resolution of reading pixel per point. ---- 取得時の解像度。高解像度のときは1を指定してください。低解像度のときは2以上を指定します。
 		 */
-		public function TransformedBitmapPickup(i_ref_cparam:NyARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_resolution:int)
+		public function TransformedBitmapPickup(i_ref_cparam:FLARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_resolution:int)
 		{
 			//ANYドライバで構築
-			super(i_width, i_height, i_resolution, NyARBufferType.NULL_ALLZERO);
+			super(i_width, i_height, i_resolution, FLARBufferType.NULL_ALLZERO);
 			this._ref_perspective = i_ref_cparam;
 		}
 
@@ -82,7 +82,7 @@ package jp.nyatla.nyartoolkit.as3.utils
 		 * @param i_base_mat
 		 * @return 画像の取得の成否を返す。
 		 */
-		public function pickupImage2d(i_src_imege:INyARRgbRaster,i_l:Number,i_t:Number,i_r:Number,i_b:Number,i_base_mat:NyARTransMatResult):Boolean
+		public function pickupImage2d(i_src_imege:IFLARRgbRaster,i_l:Number,i_t:Number,i_r:Number,i_b:Number,i_base_mat:FLARTransMatResult):Boolean
 		{
 			var cp00:Number, cp01:Number, cp02:Number, cp11:Number, cp12:Number;
 			cp00 = this._ref_perspective.m00;
@@ -95,7 +95,7 @@ package jp.nyatla.nyartoolkit.as3.utils
 			//[hX,hY,h]=[P][RT][x,y,z]
 
 			//出力先
-			var poinsts:Vector.<NyARIntPoint2d> = this._work_points;		
+			var poinsts:Vector.<FLARIntPoint2d> = this._work_points;		
 			
 			var yt0:Number,yt1:Number,yt2:Number;
 			var x3:Number, y3:Number, z3:Number;

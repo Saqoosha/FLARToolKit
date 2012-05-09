@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -30,11 +30,11 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 {
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.labeling.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 	
 
 	import flash.display.BitmapData;
@@ -60,18 +60,18 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 			this._fllstack=new FLLabelInfoStack(i_width*i_height*2048/(320*240)+32);
 			return;
 		}
-		public function labeling(i_bin_raster:NyARBinRaster):void
+		public function labeling(i_bin_raster:FLARBinRaster):void
 		{
 			var label_img:BitmapData = this._tmp_bmp;
 			//BIN
 			label_img.copyPixels(BitmapData(i_bin_raster.getBuffer()), label_img.rect, ZERO_POINT);
 			this.labeling_impl(label_img);
 		}
-		public function labeling_2(i_bin_raster:NyARBinRaster,i_area:NyARIntRect):void
+		public function labeling_2(i_bin_raster:FLARBinRaster,i_area:FLARIntRect):void
 		{
-			NyARException.notImplement();
+			FLARException.notImplement();
 		}		
-		public function labeling_3(i_gs_raster:NyARGrayscaleRaster,i_th:int):void
+		public function labeling_3(i_gs_raster:FLARGrayscaleRaster,i_th:int):void
 		{
 			var label_img:BitmapData = this._tmp_bmp;
 			//GS->BIN
@@ -83,9 +83,9 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 		}
 
 		
-		protected function onLabelFound(i_ref_label:NyARRleLabelFragmentInfo):void
+		protected function onLabelFound(i_ref_label:FLARRleLabelFragmentInfo):void
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}		
 		/**
 		 * 
@@ -96,7 +96,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 		 */
 		public function labeling_impl(label_img:BitmapData):void
 		{
-			var tmp_label:NyARRleLabelFragmentInfo;
+			var tmp_label:FLARRleLabelFragmentInfo;
 			var fllstack:FLLabelInfoStack=this._fllstack;
 			fllstack.clear();
 
@@ -119,7 +119,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 					//エリア規制
 					if (area <= AR_AREA_MAX && area >= AR_AREA_MIN) {
 
-						tmp_label = NyARRleLabelFragmentInfo(fllstack.prePush());
+						tmp_label = FLARRleLabelFragmentInfo(fllstack.prePush());
 						if (tmp_label == null) {
 							break;
 						}
@@ -142,7 +142,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 			}
 			return;
 		}
-		private function getTopClipTangentX(i_image:BitmapData, i_index:int, i_label:NyARRleLabelFragmentInfo):int
+		private function getTopClipTangentX(i_image:BitmapData, i_index:int, i_label:FLARRleLabelFragmentInfo):int
 		{
 			var w:int;
 			const clip1:int = i_label.clip_r;
@@ -154,7 +154,7 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 				}
 			}
 			//あれ？見つからないよ？
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function setAreaRange(i_max:int, i_min:int):void
 		{
@@ -163,10 +163,10 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 		}
 	}
 }
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.types.stack.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 
-class FLLabelInfoStack extends NyARObjectStack
+class FLLabelInfoStack extends FLARObjectStack
 {
 	public function FLLabelInfoStack(i_length:int)
 	{
@@ -176,6 +176,6 @@ class FLLabelInfoStack extends NyARObjectStack
 	}
 	protected override function createElement():Object
 	{
-		return new NyARRleLabelFragmentInfo();
+		return new FLARRleLabelFragmentInfo();
 	}
 }

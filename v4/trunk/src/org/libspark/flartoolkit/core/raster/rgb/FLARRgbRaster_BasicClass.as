@@ -1,22 +1,22 @@
-package jp.nyatla.nyartoolkit.as3.core.raster.rgb 
+package org.libspark.flartoolkit.core.raster.rgb 
 {
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 
 	/**
-	 * NyARRasterインタフェイスの基本関数/メンバを実装したクラス
+	 * FLARRasterインタフェイスの基本関数/メンバを実装したクラス
 	 * 
 	 * 
 	 */
-	public class NyARRgbRaster_BasicClass implements INyARRgbRaster
+	public class FLARRgbRaster_BasicClass implements IFLARRgbRaster
 	{
-		protected var _size:NyARIntSize;
+		protected var _size:FLARIntSize;
 		protected var _buffer_type:int;
-		public function NyARRgbRaster_BasicClass(...args:Array)
+		public function FLARRgbRaster_BasicClass(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -27,16 +27,16 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 			case 3:
 				//(int,int,int)
 				if ((args[0] is int)&& (args[1] is int)&& (args[2] is int)){
-					overload_NyARRgbRaster_BasicClass(int(args[0]),int(args[1]),int(args[2]));
+					overload_FLARRgbRaster_BasicClass(int(args[0]),int(args[1]),int(args[2]));
 				}
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}
 		}
-		protected function overload_NyARRgbRaster_BasicClass(i_width:int,i_height:int,i_buffer_type:int):void
+		protected function overload_FLARRgbRaster_BasicClass(i_width:int,i_height:int,i_buffer_type:int):void
 		{
-			this._size= new NyARIntSize(i_width,i_height);
+			this._size= new FLARIntSize(i_width,i_height);
 			this._buffer_type=i_buffer_type;
 		}
 		final public function getWidth():int
@@ -48,7 +48,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 			return this._size.h;
 		}
 
-		final public function getSize():NyARIntSize
+		final public function getSize():FLARIntSize
 		{
 			return this._size;
 		}
@@ -65,16 +65,16 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		 * この関数は暫定です。低速なので注意してください。
 		 * @param i_input
 		 * @param o_output
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public static function copy(i_input:INyARRgbRaster,o_output:INyARRgbRaster):void
+		public static function copy(i_input:IFLARRgbRaster,o_output:IFLARRgbRaster):void
 		{
 			//assert(i_input.getSize().isEqualSize(o_output.getSize()));
 			var width:int=i_input.getWidth();
 			var height:int=i_input.getHeight();
 			var rgb:Vector.<int>=new int[3];
-			var inr:INyARRgbPixelDriver=i_input.getRgbPixelDriver();
-			var outr:INyARRgbPixelDriver=o_output.getRgbPixelDriver();
+			var inr:IFLARRgbPixelDriver=i_input.getRgbPixelDriver();
+			var outr:IFLARRgbPixelDriver=o_output.getRgbPixelDriver();
 			for(var i:int=height-1;i>=0;i--){
 				for(var i2:int=width-1;i2>=0;i2--){
 					inr.getPixel(i2,i,rgb);
@@ -82,30 +82,30 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 				}
 			}
 		}		
-		public function getRgbPixelReader():INyARRgbPixelDriver
+		public function getRgbPixelReader():IFLARRgbPixelDriver
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function getBuffer():Object
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function hasBuffer():Boolean
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function wrapBuffer(i_ref_buf:Object):void
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		// abstract functions
-		public function getRgbPixelDriver():INyARRgbPixelDriver
+		public function getRgbPixelDriver():IFLARRgbPixelDriver
 		{
-			throw new NyARException("Should be override!");
+			throw new FLARException("Should be override!");
 		};
 		public function createInterface(i_iid:Class):Object
 		{
-			throw new NyARException("Should be override!");
+			throw new FLARException("Should be override!");
 		};
 		
 	}

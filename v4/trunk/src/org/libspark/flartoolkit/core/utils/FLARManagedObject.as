@@ -1,10 +1,10 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
 	/**
-	 * NyARManagedObjectPoolの要素クラスです。
+	 * FLARManagedObjectPoolの要素クラスです。
 	 *
 	 */
-	public class NyARManagedObject
+	public class FLARManagedObject
 	{
 		/**
 		 * オブジェクトの参照カウンタ
@@ -13,18 +13,18 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		/**
 		 * オブジェクトの解放関数へのポインタ
 		 */
-		private var _pool_operater:INyARManagedObjectPoolOperater;
+		private var _pool_operater:IFLARManagedObjectPoolOperater;
 		/**
-		 * NyARManagedObjectPoolのcreateElement関数が呼び出すコンストラクタです。
+		 * FLARManagedObjectPoolのcreateElement関数が呼び出すコンストラクタです。
 		 * @param i_ref_pool_operator
 		 * Pool操作の為のインタフェイス
 		 */
-		public function NyARManagedObject(i_ref_pool_operator:INyARManagedObjectPoolOperater)
+		public function FLARManagedObject(i_ref_pool_operator:IFLARManagedObjectPoolOperater)
 		{
 			this._count=0;
 			this._pool_operater=i_ref_pool_operator;
 		}
-		public function initObject():NyARManagedObject
+		public function initObject():FLARManagedObject
 		{
 			//assert(this._count==0);
 			this._count=1;
@@ -34,7 +34,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * このオブジェクトに対する、新しい参照オブジェクトを返します。
 		 * @return
 		 */
-		public function referenceObject():NyARManagedObject
+		public function referenceObject():FLARManagedObject
 		{
 			//assert(this._count>0);
 			this._count++;

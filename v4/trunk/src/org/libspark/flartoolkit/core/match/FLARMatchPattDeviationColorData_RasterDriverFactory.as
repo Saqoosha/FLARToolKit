@@ -1,35 +1,35 @@
-package jp.nyatla.nyartoolkit.as3.core.match 
+package org.libspark.flartoolkit.core.match 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class NyARMatchPattDeviationColorData_RasterDriverFactory 
+	public class FLARMatchPattDeviationColorData_RasterDriverFactory 
 	{
-		public static function createDriver(i_raster:INyARRgbRaster):NyARMatchPattDeviationColorData_IRasterDriver
+		public static function createDriver(i_raster:IFLARRgbRaster):FLARMatchPattDeviationColorData_IRasterDriver
 		{
 			switch(i_raster.getBufferType())
 			{
-			case NyARBufferType.INT1D_X8R8G8B8_32:
-				return new NyARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32(i_raster);
+			case FLARBufferType.INT1D_X8R8G8B8_32:
+				return new FLARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32(i_raster);
 			default:
 				break;
 			}
-			return new NyARMatchPattDeviationDataDriver_RGBAny(i_raster);
+			return new FLARMatchPattDeviationDataDriver_RGBAny(i_raster);
 		}
 	}
 
 }
 
 
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.match.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.match.*;
 
 /**
  * Rasterからデータを生成するインタフェイス。
@@ -40,10 +40,10 @@ import jp.nyatla.nyartoolkit.as3.core.match.*;
 //	画像ドライバ
 //
 
-class NyARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32 implements NyARMatchPattDeviationColorData_IRasterDriver
+class FLARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32 implements FLARMatchPattDeviationColorData_IRasterDriver
 {
-	private var _ref_raster:INyARRgbRaster;
-	public function NyARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32(i_raster:INyARRgbRaster)
+	private var _ref_raster:IFLARRgbRaster;
+	public function FLARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32(i_raster:IFLARRgbRaster)
 	{
 		this._ref_raster=i_raster;
 	}
@@ -55,7 +55,7 @@ class NyARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32 implements NyARMatchPat
 		//<平均値計算(FORの1/8展開)>
 		var ave:int;//<PV/>
 		var buf:Vector.<int>=(Vector.<int>)(this._ref_raster.getBuffer());
-		var size:NyARIntSize=this._ref_raster.getSize();
+		var size:FLARIntSize=this._ref_raster.getSize();
 		var number_of_pix:int=size.w*size.h;
 		var optimize_mod:int=number_of_pix-(number_of_pix%8);
 		ave=0;
@@ -124,18 +124,18 @@ class NyARMatchPattDeviationDataDriver_INT1D_X8R8G8B8_32 implements NyARMatchPat
 		return p!=0.0?p:0.0000001;
 	}
 }
-class NyARMatchPattDeviationDataDriver_RGBAny implements NyARMatchPattDeviationColorData_IRasterDriver
+class FLARMatchPattDeviationDataDriver_RGBAny implements FLARMatchPattDeviationColorData_IRasterDriver
 {
-	private var _ref_raster:INyARRgbRaster;
-	public function NyARMatchPattDeviationDataDriver_RGBAny(i_raster:INyARRgbRaster)
+	private var _ref_raster:IFLARRgbRaster;
+	public function FLARMatchPattDeviationDataDriver_RGBAny(i_raster:IFLARRgbRaster)
 	{
 		this._ref_raster=i_raster;
 	}
 	private var __rgb:Vector.<int>=new Vector.<int>(3);
 	public function makeColorData(o_out:Vector.<int>):Number
 	{
-		var size:NyARIntSize=this._ref_raster.getSize();
-		var pixdev:INyARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
+		var size:FLARIntSize=this._ref_raster.getSize();
+		var pixdev:IFLARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
 		var rgb:Vector.<int>=this.__rgb;
 		var width:int=size.w;
 		//<平均値計算>

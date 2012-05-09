@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types.matrix 
+package org.libspark.flartoolkit.core.types.matrix 
 {
 
-	public class NyARDoubleMatrix34 implements INyARDoubleMatrix
+	public class FLARDoubleMatrix34 implements IFLARDoubleMatrix
 	{
 
 		public var m00:Number;
@@ -63,7 +63,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 			this.m23 = i_value[11];
 			return;
 		}
-		public function setValue_NyARDoubleMatrix34(i_value:NyARDoubleMatrix34):void
+		public function setValue_FLARDoubleMatrix34(i_value:FLARDoubleMatrix34):void
 		{
 			this.m00=i_value.m00;
 			this.m01=i_value.m01;

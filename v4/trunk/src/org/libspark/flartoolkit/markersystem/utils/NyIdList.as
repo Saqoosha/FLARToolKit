@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,14 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.data.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.nyidmarker.*;
+	import org.libspark.flartoolkit.nyidmarker.data.*;
 
 	/**
 	 * このクラスは、NyIdの検出結果をマッピングします。
@@ -56,7 +56,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 				target.sq=null;
 			}
 		}
-		public function update(i_raster:INyARGrayscaleRaster,i_sq:SquareStack_Item):Boolean
+		public function update(i_raster:IFLARGrayscaleRaster,i_sq:SquareStack_Item):Boolean
 		{
 			if(!this._id_pickup.pickFromRaster_2(i_raster.getGsPixelDriver(),i_sq.ob_vertex, this._id_patt, this._id_param))
 			{
@@ -98,7 +98,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 					target.lost_count=0;
 					target.life++;
 					target.sq.rotateVertexL(4-target.dir);
-					NyARIntPoint2d.shiftCopy_2(target.sq.ob_vertex,target.tl_vertex,4-target.dir);
+					FLARIntPoint2d.shiftCopy_2(target.sq.ob_vertex,target.tl_vertex,4-target.dir);
 					target.tl_center.setValue(target.sq.center2d);
 					target.tl_rect_area=target.sq.rect_area;
 				}

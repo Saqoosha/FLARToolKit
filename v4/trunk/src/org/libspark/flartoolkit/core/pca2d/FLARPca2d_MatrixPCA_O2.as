@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.pca2d 
+package org.libspark.flartoolkit.core.pca2d 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	
-	public class NyARPca2d_MatrixPCA_O2 implements INyARPca2d
+	public class FLARPca2d_MatrixPCA_O2 implements IFLARPca2d
 	{
 		private static const PCA_EPS:Number = 1e-6; // #define EPS 1e-6
 
@@ -45,9 +45,9 @@ package jp.nyatla.nyartoolkit.as3.core.pca2d
 		 * 
 		 * @param a
 		 * @param dv
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private static function PCA_QRM(o_matrix:NyARDoubleMatrix22,dv:Vector.<Number>):void
+		private static function PCA_QRM(o_matrix:FLARDoubleMatrix22,dv:Vector.<Number>):void
 		{
 			var w:Number, t:Number, s:Number, x:Number, y:Number, c:Number;
 			var ev1:Number;
@@ -143,9 +143,9 @@ package jp.nyatla.nyartoolkit.as3.core.pca2d
 		 * 
 		 * @param output
 		 * @param o_ev
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function PCA_PCA(i_v1:Vector.<Number>,i_v2:Vector.<Number>,i_number_of_data:int,o_matrix:NyARDoubleMatrix22,o_ev:Vector.<Number>,o_mean:Vector.<Number>):void
+		private function PCA_PCA(i_v1:Vector.<Number>,i_v2:Vector.<Number>,i_number_of_data:int,o_matrix:FLARDoubleMatrix22,o_ev:Vector.<Number>,o_mean:Vector.<Number>):void
 		{
 			var i:int;
 			// double[] mean_array=mean.getArray();
@@ -195,7 +195,7 @@ package jp.nyatla.nyartoolkit.as3.core.pca2d
 			// }
 			return;
 		}
-		public function pca(i_v1:Vector.<Number>,i_v2:Vector.<Number>,i_number_of_point:int,o_evec:NyARDoubleMatrix22,o_ev:Vector.<Number>,o_mean:Vector.<Number>):void
+		public function pca(i_v1:Vector.<Number>,i_v2:Vector.<Number>,i_number_of_point:int,o_evec:FLARDoubleMatrix22,o_ev:Vector.<Number>,o_mean:Vector.<Number>):void
 		{
 			PCA_PCA(i_v1,i_v2,i_number_of_point,o_evec, o_ev,o_mean);
 

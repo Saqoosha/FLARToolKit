@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
-	 * NyARReality用のエッジ検出フィルタ。
+	 * FLARReality用のエッジ検出フィルタ。
 	 * Roberts勾配の2乗値16倍に最大値制限をかけ、反転した値です。
 	 * 右端と左端の1ピクセルは、常に0が入ります。
 	 * X=|-1, 0|  Y=|0,-1|
@@ -48,25 +48,25 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		protected function initInstance(i_raster_type:int):void
 		{
 			switch (i_raster_type) {
-			case NyARBufferType.INT1D_GRAY_8:
+			case FLARBufferType.INT1D_GRAY_8:
 				this._do_filter_impl=new IdoFilterImpl_GRAY_8();
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
-		public function doFilter(i_input:INyARRaster,i_output:INyARRaster):void
+		public function doFilter(i_input:IFLARRaster,i_output:IFLARRaster):void
 		{
 			this._do_filter_impl.doFilter(i_input,i_output,i_input.getSize());
 		}
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.types.*;
 class IdoFilterImpl
 {
-	public function doFilter(i_input:INyARRaster, i_output:INyARRaster, i_size:NyARIntSize):void
+	public function doFilter(i_input:IFLARRaster, i_output:IFLARRaster, i_size:FLARIntSize):void
 	{
 		
 	}
@@ -75,10 +75,10 @@ class IdoFilterImpl
 }
 class IdoFilterImpl_GRAY_8 extends IdoFilterImpl
 {
-	public override function doFilter(i_input:INyARRaster,i_output:INyARRaster,i_size:NyARIntSize):void
+	public override function doFilter(i_input:IFLARRaster,i_output:IFLARRaster,i_size:FLARIntSize):void
 	{
-		//assert (i_input.isEqualBufferType(NyARBufferType.INT1D_GRAY_8));
-		//assert (i_output.isEqualBufferType(NyARBufferType.INT1D_GRAY_8));
+		//assert (i_input.isEqualBufferType(FLARBufferType.INT1D_GRAY_8));
+		//assert (i_output.isEqualBufferType(FLARBufferType.INT1D_GRAY_8));
 		var in_ptr:Vector.<int> =Vector.<int>(i_input.getBuffer());
 		var out_ptr:Vector.<int>=Vector.<int>(i_output.getBuffer());
 		var width:int=i_size.w;

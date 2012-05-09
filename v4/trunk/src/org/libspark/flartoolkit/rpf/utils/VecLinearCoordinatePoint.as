@@ -1,11 +1,11 @@
-package jp.nyatla.nyartoolkit.as3.rpf.utils 
+package org.libspark.flartoolkit.rpf.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * データ型です。
 	 * 輪郭ベクトルを格納します。
 	 */
-	public class VecLinearCoordinatePoint extends NyARVecLinear2d
+	public class VecLinearCoordinatePoint extends FLARVecLinear2d
 	{
 		/**
 		 * ベクトルの2乗値です。輪郭の強度値にもなります。

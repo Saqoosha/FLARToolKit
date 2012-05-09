@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,15 +25,15 @@
 package org.libspark.flartoolkit.rpf
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterfilter.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
 
 	/**
 	 * ->
-	 * NyARReality用のエッジ検出フィルタ。
+	 * FLARReality用のエッジ検出フィルタ。
 	 * Roberts勾配の2乗値16倍に最大値制限をかけ、反転した値です。
 	 * 右端と左端の1ピクセルは、常に0が入ります。
 	 * X=|-1, 0|  Y=|0,-1|
@@ -45,31 +45,31 @@ package org.libspark.flartoolkit.rpf
 		private var _do_filter_impl:IdoFilterImpl; 
 		public function FLARNegativeSqRoberts()
 		{
-			super(NyARBufferType.OBJECT_AS3_BitmapData);
+			super(FLARBufferType.OBJECT_AS3_BitmapData);
 		}
-		public override function doFilter(i_input:INyARRaster,i_output:INyARRaster):void
+		public override function doFilter(i_input:IFLARRaster,i_output:IFLARRaster):void
 		{
 			this._do_filter_impl.doFilter(i_input,i_output,i_input.getSize());
 		}
 		protected override function initInstance(i_raster_type:int):void
 		{
 			switch (i_raster_type) {
-			case NyARBufferType.OBJECT_AS3_BitmapData:
+			case FLARBufferType.OBJECT_AS3_BitmapData:
 				this._do_filter_impl=new IdoFilterImpl_BitmapData();
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}		
 	}
 }
 
 import flash.display.BitmapData;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.types.*;
 class IdoFilterImpl
 {
-	public function doFilter(i_input:INyARRaster, i_output:INyARRaster, i_size:NyARIntSize):void
+	public function doFilter(i_input:IFLARRaster, i_output:IFLARRaster, i_size:FLARIntSize):void
 	{
 		
 	}
@@ -78,10 +78,10 @@ class IdoFilterImpl
 }
 class IdoFilterImpl_BitmapData extends IdoFilterImpl
 {
-	public override function doFilter(i_input:INyARRaster,i_output:INyARRaster,i_size:NyARIntSize):void
+	public override function doFilter(i_input:IFLARRaster,i_output:IFLARRaster,i_size:FLARIntSize):void
 	{
-		//assert (i_input.isEqualBufferType(NyARBufferType.INT1D_GRAY_8));
-		//assert (i_output.isEqualBufferType(NyARBufferType.INT1D_GRAY_8));
+		//assert (i_input.isEqualBufferType(FLARBufferType.INT1D_GRAY_8));
+		//assert (i_output.isEqualBufferType(FLARBufferType.INT1D_GRAY_8));
 		var in_ptr:BitmapData =BitmapData(i_input.getBuffer());
 		var out_ptr:BitmapData=BitmapData(i_output.getBuffer());
 		var width:int=i_size.w;

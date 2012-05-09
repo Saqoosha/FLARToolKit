@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,13 +27,13 @@ package org.libspark.flartoolkit.markersystem
 
 
 	import flash.display.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.NyARSensor;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.markersystem.FLARSensor;
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.rasterfilter.*;
@@ -41,20 +41,20 @@ package org.libspark.flartoolkit.markersystem
 
 
 	/**
-	 * このクラスは、Flash向けにﾁｭｰﾆﾝｸﾞしたNyARSensorクラスです。
+	 * このクラスは、Flash向けにﾁｭｰﾆﾝｸﾞしたFLARSensorクラスです。
 	 * {@link Video}、{@link BitmapData}等の{@link IBitmapDrawable}インタフェイスを持つ
 	 * オブジェクトをセットできます。
 	 * オブジェクトのセットには、{@link #update_2}を使います。
 	 */
-	public class FLARSensor extends NyARSensor
+	public class FLARSensor extends FLARSensor
 	{
 		/**
 		 * 画像サイズ（スクリーンサイズ）を指定して、インスタンスを生成します。
 		 * @param i_size
 		 * 画像のサイズ。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function FLARSensor(i_size:NyARIntSize)
+		public function FLARSensor(i_size:FLARIntSize)
 		{
 			super(i_size);
 			this._raster = new FLARRgbRaster(i_size.w, i_size.h);
@@ -64,9 +64,9 @@ package org.libspark.flartoolkit.markersystem
 		 * この関数は、画像ドライバに依存するインスタンスを生成する。
 		 * 継承クラスで上書きする。
 		 * @param s
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected override function initResource(s:NyARIntSize):void
+		protected override function initResource(s:FLARIntSize):void
 		{
 			//グレースケール変換
 			this._gs_raster = new FLARGrayscaleRaster(s.w, s.h);

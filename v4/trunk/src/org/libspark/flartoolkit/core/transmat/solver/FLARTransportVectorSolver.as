@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.solver 
+package org.libspark.flartoolkit.core.transmat.solver 
 {
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * 並進ベクトル[T]を３次元座標[b]と基点の回転済行列[M]から計算します。
 	 * 
@@ -42,13 +42,13 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.solver
 	 * set2dVertexで[A]T*[A]=[M]を計算して、Aの3列目の情報だけ保存しておく。
 	 * getTransportVectorで[M]*[T]=[A]T*[b]を連立方程式で解いて、[T]を得る。
 	 */
-	public class NyARTransportVectorSolver implements INyARTransportVectorSolver
+	public class FLARTransportVectorSolver implements IFLARTransportVectorSolver
 	{
 		private var _cx:Vector.<Number>;
 		private var _cy:Vector.<Number>;	
-		private var _projection_mat:NyARPerspectiveProjectionMatrix;
+		private var _projection_mat:FLARPerspectiveProjectionMatrix;
 		private var _nmber_of_vertex:int;
-		public function NyARTransportVectorSolver(i_projection_mat_ref:NyARPerspectiveProjectionMatrix,i_max_vertex:int)
+		public function FLARTransportVectorSolver(i_projection_mat_ref:FLARPerspectiveProjectionMatrix,i_max_vertex:int)
 		{
 			this._projection_mat=i_projection_mat_ref;
 			this._cx=new Vector.<Number>(i_max_vertex);
@@ -60,10 +60,10 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.solver
 		 * 画面上の座標群を指定します。
 		 * @param i_ref_vertex_2d
 		 * 歪み矯正済の画面上の頂点座標群への参照値を指定します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 * 
 		 */
-		public function set2dVertex(i_ref_vertex_2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int):void
+		public function set2dVertex(i_ref_vertex_2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int):void
 		{
 			//3x2nと2n*3の行列から、最小二乗法計算するために3x3マトリクスを作る。		
 			//行列[A]の3列目のキャッシュ
@@ -109,9 +109,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.solver
 		 * @param i_vertex3d
 		 * 3次元空間の座標群を設定します。頂点の順番は、画面座標群と同じ順序で格納してください。
 		 * @param o_transfer
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function solveTransportVector(i_vertex3d:Vector.<NyARDoublePoint3d>,o_transfer:NyARDoublePoint3d):void
+		public function solveTransportVector(i_vertex3d:Vector.<FLARDoublePoint3d>,o_transfer:FLARDoublePoint3d):void
 		{
 			var number_of_vertex:int=this._nmber_of_vertex;
 			var p00:Number=this._projection_mat.m00;

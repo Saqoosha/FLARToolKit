@@ -1,20 +1,20 @@
-package jp.nyatla.nyartoolkit.as3.core.types 
+package org.libspark.flartoolkit.core.types 
 {
 	/**
 	 * 定点と傾きのパラメータで、直線を表現します。
 	 *
 	 */
-	public class NyARVecLinear2d
+	public class FLARVecLinear2d
 	{
 		public var x:Number;
 		public var y:Number;
 		public var dx:Number;
 		public var dy:Number;
-		public static function createArray(i_length:int):Vector.<NyARVecLinear2d>
+		public static function createArray(i_length:int):Vector.<FLARVecLinear2d>
 		{
-			var r:Vector.<NyARVecLinear2d>=new Vector.<NyARVecLinear2d>(i_length);
+			var r:Vector.<FLARVecLinear2d>=new Vector.<FLARVecLinear2d>(i_length);
 			for(var i:int=0;i<i_length;i++){
-				r[i]=new NyARVecLinear2d();
+				r[i]=new FLARVecLinear2d();
 			}
 			return r;
 		}
@@ -23,13 +23,13 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_src
 		 * 元のベクトルを指定します。この値には、thisを指定できます。
 		 */
-		public function normalVec(i_src:NyARVecLinear2d):void
+		public function normalVec(i_src:FLARVecLinear2d):void
 		{
 			var w:Number=this.dx;
 			this.dx=i_src.dy;
 			this.dy=-w;
 		}
-		public function setValue(i_value:NyARVecLinear2d):void
+		public function setValue(i_value:FLARVecLinear2d):void
 		{
 			this.dx=i_value.dx;
 			this.dy=i_value.dy;
@@ -41,7 +41,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_v1
 		 * @return
 		 */
-		public function getVecCos(i_v1:NyARVecLinear2d):Number
+		public function getVecCos(i_v1:FLARVecLinear2d):Number
 		{
 			var x1:Number=i_v1.dx;
 			var y1:Number=i_v1.dy;
@@ -63,7 +63,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			var d:Number=(x1*i_dx+y1*i_dy)/Math.sqrt((x1*x1+y1*y1)*(i_dx*i_dx+i_dy*i_dy));
 			return d;
 		}		
-		public function getAbsVecCos(i_v1:NyARVecLinear2d):Number
+		public function getAbsVecCos(i_v1:FLARVecLinear2d):Number
 		{
 			var x1:Number=i_v1.dx;
 			var y1:Number=i_v1.dy;
@@ -86,7 +86,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_pos2
 		 * @return
 		 */
-		public function getAbsVecCos_3(i_pos1:NyARDoublePoint2d,i_pos2:NyARDoublePoint2d):Number
+		public function getAbsVecCos_3(i_pos1:FLARDoublePoint2d,i_pos2:FLARDoublePoint2d):Number
 		{
 			var d:Number=getAbsVecCos_2(i_pos2.x-i_pos1.x,i_pos2.y-i_pos1.y);
 			return d>=0?d:-d;
@@ -99,7 +99,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function crossPos(i_vector1:NyARVecLinear2d,o_point:NyARDoublePoint2d):Boolean
+		public function crossPos(i_vector1:FLARVecLinear2d,o_point:FLARDoublePoint2d):Boolean
 		{
 			var a1:Number= i_vector1.dy;
 			var b1:Number=-i_vector1.dx;
@@ -124,7 +124,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @return
 		 * 距離が取れないときは無限大です。
 		 */
-		public function sqDistBySegmentLineEdge(i_sp1:NyARDoublePoint2d,i_sp2:NyARDoublePoint2d):Number
+		public function sqDistBySegmentLineEdge(i_sp1:FLARDoublePoint2d,i_sp2:FLARDoublePoint2d):Number
 		{
 			var sa:Number,sb:Number,sc:Number;
 			sa= this.dy;
@@ -160,7 +160,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_x
 		 * @param i_y
 		 */
-		public function setLinear(i_line:NyARLinear,i_x:Number,i_y:Number):Boolean
+		public function setLinear(i_line:FLARLinear,i_x:Number,i_y:Number):Boolean
 		{
 			var la:Number=i_line.b;
 			var lb:Number=-i_line.a;
@@ -183,12 +183,12 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_number_of_data
 		 * @return
 		 */
-		public function leastSquares( i_points:Vector.<NyARDoublePoint2d> , i_number_of_data:int ):Boolean
+		public function leastSquares( i_points:Vector.<FLARDoublePoint2d> , i_number_of_data:int ):Boolean
 		{
 			var i:int ;
 			var sum_xy:Number = 0 , sum_x:Number = 0 , sum_y:Number = 0 , sum_x2:Number = 0 ;
 			for( i = 0 ; i < i_number_of_data ; i++ ) {
-				var ptr:NyARDoublePoint2d = i_points[i] ;
+				var ptr:FLARDoublePoint2d = i_points[i] ;
 				var xw:Number = ptr.x ;
 				sum_xy += xw * ptr.y ;
 				sum_x += xw ;
@@ -217,7 +217,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_number_of_data
 		 * @return
 		 */
-		public function leastSquaresWithNormalize( i_points:Vector.<NyARDoublePoint2d> , i_number_of_data:int ):Boolean
+		public function leastSquaresWithNormalize( i_points:Vector.<FLARDoublePoint2d> , i_number_of_data:int ):Boolean
 		{
 			var ret:Boolean = this.leastSquares(i_points , i_number_of_data) ;
 			var sq:Number = 1 / Math.sqrt(this.dx * this.dx + this.dy * this.dy) ;

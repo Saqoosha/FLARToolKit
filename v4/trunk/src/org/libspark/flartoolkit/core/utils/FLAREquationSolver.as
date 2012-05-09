@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,12 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix.NyARRotVector;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	public class NyAREquationSolver
+	import org.libspark.flartoolkit.core.transmat.rotmatrix.FLARRotVector;
+	import org.libspark.flartoolkit.core.*;
+	public class FLAREquationSolver
 	{
 		public static function solve2Equation_3(i_a:Number, i_b:Number,i_c:Number,o_result:Vector.<Number>):int
 		{
@@ -110,13 +110,13 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			q = (b * (i_c - 2 * b * b) - i_d) / 2;
 			if ((tmp = q * q - p * p * p) == 0) {
 				// 重根
-				q = NyARMath.cubeRoot(q);
+				q = FLARMath.cubeRoot(q);
 				o_result[0] = 2 * q - b;
 				o_result[1] = -q - b;
 				return 2;
 			} else if (tmp > 0) {
 				// 実根1,虚根2
-				var a3:Number = NyARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
+				var a3:Number = FLARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
 				var b3:Number = p / a3;
 				o_result[0] = a3 + b3 - b;
 				// 虚根:-0.5*(a3+b3)-b,Math.abs(a3-b3)*Math.sqrt(3.0)/2
@@ -212,7 +212,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 					}
 					return number_of_result;
 				default:
-					throw new NyARException();
+					throw new FLARException();
 				}
 			}else{
 				//それ以外
@@ -239,7 +239,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 					o_result[1]=o_result[1]-B3;
 					break;
 				default:
-					throw new NyARException();
+					throw new FLARException();
 				}
 				result_2nd=solve2Equation_2b(ru,(p+u)/2-ru*q/(2*u),o_result,result_1st);
 				//0,1番目に格納
@@ -254,7 +254,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 					o_result[result_1st+1]=o_result[result_1st+1]-B3;
 					break;
 				default:
-					throw new NyARException();
+					throw new FLARException();
 				}
 				return result_1st+result_2nd;
 			}
@@ -277,11 +277,11 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			q = (b * (i_c - 2 * b * b) - i_d) / 2;
 			if ((tmp = q * q - p * p * p) == 0) {
 				// 重根
-				q = NyARMath.cubeRoot(q);
+				q = FLARMath.cubeRoot(q);
 				return 2 * q - b;
 			} else if (tmp > 0) {
 				// 実根1,虚根2
-				var a3:Number = NyARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
+				var a3:Number = FLARMath.cubeRoot(q + ((q > 0) ? 1 : -1) * Math.sqrt(tmp));
 				var b3:Number = p / a3;
 				return a3 + b3 - b;
 			} else {

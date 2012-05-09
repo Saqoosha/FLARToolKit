@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,32 +28,32 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types 
+package org.libspark.flartoolkit.core.types 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 	/**
 	 * 基点x,yと、幅、高さで矩形を定義します。
 	 *
 	 */
-	public class NyARIntRect
+	public class FLARIntRect
 	{
-		public function NyARIntRect(...args:Array)
+		public function FLARIntRect(...args:Array)
 		{
 			switch(args.length) {
 			case 0:
-				{	//public function NyARIntRect()
+				{	//public function FLARIntRect()
 					return;
 				}
 			case 4:
-				{	//public function NyARIntSize(i_ref_object:NyARIntSize)
-					override_NyARIntRect_4iiii(int(args[0]), int(args[1]), int(args[2]), int(args[3]));
+				{	//public function FLARIntSize(i_ref_object:FLARIntSize)
+					override_FLARIntRect_4iiii(int(args[0]), int(args[1]), int(args[2]), int(args[3]));
 					return;
 				}
 				break;
 			default:
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 		/**
 		 * コンストラクタです。初期値を指定してインスタンスを生成します。
@@ -66,7 +66,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_h
 		 * {@link #h}の値
 		 */
-		public function override_NyARIntRect_4iiii(i_x:int,i_y:int,i_w:int,i_h:int):void
+		public function override_FLARIntRect_4iiii(i_x:int,i_y:int,i_w:int,i_h:int):void
 		{
 			this.setValue_2(i_x, i_y, i_w, i_h);
 		}
@@ -75,7 +75,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		public var y:int;
 		public var w:int;
 		public var h:int;
-		public function setAreaRect( i_vertex:Vector.<NyARDoublePoint2d> , i_num_of_vertex:int ):void
+		public function setAreaRect( i_vertex:Vector.<FLARDoublePoint2d> , i_num_of_vertex:int ):void
 		{ 
 			var xmax:int , xmin:int , ymax:int , ymin:int ;
 			xmin = xmax = int(i_vertex[i_num_of_vertex - 1].x) ;
@@ -102,7 +102,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			this.y = ymin ;
 		}
 	
-		public function setAreaRect_2(i_vertex:Vector.<NyARIntPoint2d> , i_num_of_vertex:int ):void
+		public function setAreaRect_2(i_vertex:Vector.<FLARIntPoint2d> , i_num_of_vertex:int ):void
 		{ 
 			var xmax:int , xmin:int , ymax:int , ymin:int ;
 			xmin = xmax = int(i_vertex[i_num_of_vertex - 1].x) ;
@@ -176,21 +176,21 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			return ( 0 <= x && x < this.w && 0 <= y && y < this.h ) ;
 		}
 	
-		public function isInnerPoint_2( i_pos:NyARDoublePoint2d ):Boolean
+		public function isInnerPoint_2( i_pos:FLARDoublePoint2d ):Boolean
 		{ 
 			var x:int = int(i_pos.x) - this.x ;
 			var y:int = int(i_pos.y) - this.y ;
 			return ( 0 <= x && x < this.w && 0 <= y && y < this.h ) ;
 		}
 	
-		public function isInnerPoint_3( i_pos:NyARIntPoint2d ):Boolean
+		public function isInnerPoint_3( i_pos:FLARIntPoint2d ):Boolean
 		{ 
 			var x:int = i_pos.x - this.x ;
 			var y:int = i_pos.y - this.y ;
 			return ( 0 <= x && x < this.w && 0 <= y && y < this.h ) ;
 		}
 	
-		public function isInnerRect( i_rect:NyARIntRect ):Boolean
+		public function isInnerRect( i_rect:FLARIntRect ):Boolean
 		{ 
 			//assert( ! (( i_rect.w >= 0 && i_rect.h >= 0 ) ) );
 			var lx:int = i_rect.x - this.x ;
@@ -210,7 +210,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			return ( 0 <= lx && lx < this.w && 0 <= ly && ly < this.h && lw <= this.w && lh <= this.h ) ;
 		}
 	
-		public function sqDiagonalPointDiff( i_rect2:NyARIntRect ):int
+		public function sqDiagonalPointDiff( i_rect2:FLARIntRect ):int
 		{ 
 			var w1:int , w2:int ;
 			var ret:int ;
@@ -230,7 +230,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			return lh * lh + lw * lw ;
 		}
 		
-		public function setValue( i_source:NyARIntRect ):void
+		public function setValue( i_source:FLARIntRect ):void
 		{ 
 			this.x = i_source.x ;
 			this.y = i_source.y ;

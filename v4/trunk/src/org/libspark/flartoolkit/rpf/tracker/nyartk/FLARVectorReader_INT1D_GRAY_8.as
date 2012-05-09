@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,22 +22,22 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.NyARCameraDistortionFactor;
-	import jp.nyatla.nyartoolkit.as3.core.raster.NyARGrayscaleRaster;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARContourPickup;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.NyARMath;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.utils.FLARMath;
+	import org.libspark.flartoolkit.rpf.utils.*;
 
 	/**
 	 * グレイスケールラスタに対する、特殊な画素アクセス手段を提供します。
 	 *
 	 */
-	public class NyARVectorReader_INT1D_GRAY_8 extends NyARVectorReader_Basic
+	public class FLARVectorReader_INT1D_GRAY_8 extends FLARVectorReader_Basic
 	{
 		/**
 		 * 
@@ -49,10 +49,10 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * エッジ探索用のROB画像
 		 * @param 
 		 */
-		public function NyARVectorReader_INT1D_GRAY_8(i_ref_raster:NyARGrayscaleRaster,i_ref_raster_distortion:NyARCameraDistortionFactor,i_ref_rob_raster:NyARGrayscaleRaster)
+		public function FLARVectorReader_INT1D_GRAY_8(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:FLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster)
 		{
-			super(i_ref_raster,i_ref_raster_distortion,i_ref_rob_raster, new NyARContourPickup());
-			//assert (i_ref_raster.getBufferType() == NyARBufferType.INT1D_GRAY_8);
+			super(i_ref_raster,i_ref_raster_distortion,i_ref_rob_raster, new FLARContourPickup());
+			//assert (i_ref_raster.getBufferType() == FLARBufferType.INT1D_GRAY_8);
 		}
 		/**
 		 * RECT範囲内の画素ベクトルの合計値と、ベクトルのエッジ中心を取得します。 320*240の場合、
@@ -70,7 +70,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @return
 		 * ベクトルの強度を返します。強度値は、差分値の二乗の合計です。
 		 */
-		public override function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int
+		public override function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int
 		{
 			//assert (ih >= 3 && iw >= 3);
 			//assert ((ix >= 0) && (iy >= 0) && (ix + iw) <= this._ref_base_raster.getWidth() && (iy + ih) <= this._ref_base_raster.getHeight());
@@ -133,7 +133,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			//加重平均の分母を返却
 			return sum_wx+sum_wy;
 		}
-		public override function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int
+		public override function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int
 		{
 			//assert (ih >= 3 && iw >= 3);
 			//assert ((ix >= 0) && (iy >= 0) && (ix + iw) <= this._ref_base_raster.getWidth() && (iy + ih) <= this._ref_base_raster.getHeight());

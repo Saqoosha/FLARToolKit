@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,13 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types 
+package org.libspark.flartoolkit.core.types 
 {
 	/**
 	 * int型の二次元の点を格納します。
 	 *
 	 */
-	public class NyARIntPoint2d
+	public class FLARIntPoint2d
 	{
 		public var x:int;
 
@@ -44,12 +44,12 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_number
 		 * @return
 		 */
-		public static function createArray(i_number:int):Vector.<NyARIntPoint2d>
+		public static function createArray(i_number:int):Vector.<FLARIntPoint2d>
 		{
-			var ret:Vector.<NyARIntPoint2d>=new Vector.<NyARIntPoint2d>(i_number);
+			var ret:Vector.<FLARIntPoint2d>=new Vector.<FLARIntPoint2d>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
-				ret[i]=new NyARIntPoint2d();
+				ret[i]=new FLARIntPoint2d();
 			}
 			return ret;
 		}
@@ -58,7 +58,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_from
 		 * @param i_to
 		 */
-		public static function copyArray(i_from:Vector.<NyARIntPoint2d>,i_to:Vector.<NyARIntPoint2d>):void
+		public static function copyArray(i_from:Vector.<FLARIntPoint2d>,i_to:Vector.<FLARIntPoint2d>):void
 		{
 			for(var i:int=i_from.length-1;i>=0;i--)
 			{
@@ -67,14 +67,14 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			}
 			return;
 		}
-		public function sqDist( i_p1:NyARIntPoint2d ):int
+		public function sqDist( i_p1:FLARIntPoint2d ):int
 		{ 
 			var x:int = this.x - i_p1.x ;
 			var y:int = this.y - i_p1.y ;
 			return x * x + y * y ;
 		}
 		
-		public function setCenterPos( i_point:Vector.<NyARIntPoint2d> , i_number_of_vertex:int ):void
+		public function setCenterPos( i_point:Vector.<FLARIntPoint2d> , i_number_of_vertex:int ):void
 		{ 
 			var cx:int , cy:int ;
 			cx = cy = 0 ;
@@ -86,13 +86,13 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			this.y = cy / i_number_of_vertex ;
 		}
 		
-		public function setValue( i_source:NyARIntPoint2d ):void
+		public function setValue( i_source:FLARIntPoint2d ):void
 		{ 
 			this.x = i_source.x ;
 			this.y = i_source.y ;
 		}
 		
-		public function setValue_2( i_source:NyARDoublePoint2d ):void
+		public function setValue_2( i_source:FLARDoublePoint2d ):void
 		{ 
 			this.x = int(i_source.x) ;
 			this.y = int(i_source.y) ;
@@ -103,7 +103,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			this.x = i_x ;
 			this.y = i_y ;
 		}
-		public static function shiftCopy(i_src:Vector.<NyARDoublePoint2d>,i_dst:Vector.<NyARIntPoint2d>,i_shift:int):void
+		public static function shiftCopy(i_src:Vector.<FLARDoublePoint2d>,i_dst:Vector.<FLARIntPoint2d>,i_shift:int):void
 		{
 			var l:int=i_src.length;
 			for(var i:int=l-1;i>=0;i--){
@@ -112,7 +112,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 				i_dst[i].y=int(i_src[n].y);
 			}		
 		}
-		public static function shiftCopy_2(i_src:Vector.<NyARIntPoint2d>,i_dst:Vector.<NyARIntPoint2d>,i_shift:int):void
+		public static function shiftCopy_2(i_src:Vector.<FLARIntPoint2d>,i_dst:Vector.<FLARIntPoint2d>,i_shift:int):void
 		{
 			var l:int=i_src.length;
 			for(var i:int=l-1;i>=0;i--){
@@ -130,9 +130,9 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_out
 		 * 中央値を受け取るオブジェクトです。
 		 * @deprecated
-		 * {@link #setCenterPos(NyARIntPoint2d[], int)を使用してください。
+		 * {@link #setCenterPos(FLARIntPoint2d[], int)を使用してください。
 		 */
-		public static function makeCenter(i_points:Vector.<NyARIntPoint2d>,i_number_of_data:int,o_out:NyARIntPoint2d):void
+		public static function makeCenter(i_points:Vector.<FLARIntPoint2d>,i_number_of_data:int,o_out:FLARIntPoint2d):void
 		{
 			o_out.setCenterPos(i_points,i_number_of_data);
 		}		

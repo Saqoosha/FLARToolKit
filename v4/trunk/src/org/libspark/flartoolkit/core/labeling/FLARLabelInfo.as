@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,13 +28,13 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.labeling 
+package org.libspark.flartoolkit.core.labeling 
 {
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class NyARLabelInfo
+	public class FLARLabelInfo
 	{
 		public var area:int;
 		public var clip_r:int;
@@ -44,7 +44,7 @@ package jp.nyatla.nyartoolkit.as3.core.labeling
 		public var pos_x:Number;
 		public var pos_y:Number;
 		
-		public function NyARLabelInfo() 
+		public function FLARLabelInfo() 
 		{
 		}
 		

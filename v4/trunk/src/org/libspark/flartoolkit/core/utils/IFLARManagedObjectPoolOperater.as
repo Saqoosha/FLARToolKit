@@ -1,11 +1,11 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
 	/**
-	 * このインタフェイスは、NyARManagedObjectがPoolを操作するために使います。
+	 * このインタフェイスは、FLARManagedObjectがPoolを操作するために使います。
 	 */	
-	public interface INyARManagedObjectPoolOperater
+	public interface IFLARManagedObjectPoolOperater
 	{
-		function deleteObject(i_object:NyARManagedObject):void;
+		function deleteObject(i_object:FLARManagedObject):void;
 	}
 
 }

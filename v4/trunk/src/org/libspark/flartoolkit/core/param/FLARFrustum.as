@@ -1,21 +1,21 @@
-package jp.nyatla.nyartoolkit.as3.core.param 
+package org.libspark.flartoolkit.core.param 
 {
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	/**
 	 * 視錐台と、これを使った演算関数を定義します。
 	 * @author nyatla
 	 *
 	 */
-	public class NyARFrustum
+	public class FLARFrustum
 	{
 		/** frastum行列*/
-		protected var _frustum_rh:NyARDoubleMatrix44=new NyARDoubleMatrix44();
+		protected var _frustum_rh:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 		/** frastum逆行列*/
-		protected var _inv_frustum_rh:NyARDoubleMatrix44=new NyARDoubleMatrix44();	
-		protected var _screen_size:NyARIntSize = new NyARIntSize();
+		protected var _inv_frustum_rh:FLARDoubleMatrix44=new FLARDoubleMatrix44();	
+		protected var _screen_size:FLARIntSize = new FLARIntSize();
 		/**
 		 * コンストラクタです。ARToolkitの射影変換行列から、インスタンスを作ります。
 		 * @param i_projection
@@ -28,7 +28,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_far
 		 * 遠平面までの距離です。単位はmm
 		 */
-		public function NyARFrustum(...args:Array)
+		public function FLARFrustum(...args:Array)
 		{
 			switch(args.length) {
 			case 0:
@@ -39,16 +39,16 @@ package jp.nyatla.nyartoolkit.as3.core.param
 				}
 				break;
 			case 5:
-				override_NyARFrustum_5oiinn(NyARPerspectiveProjectionMatrix(args[0]), int(args[1]),int(args[2]),Number(args[3]),Number(args[4]));
+				override_FLARFrustum_5oiinn(FLARPerspectiveProjectionMatrix(args[0]), int(args[1]),int(args[2]),Number(args[3]),Number(args[4]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}		
 		 
 		 
 		 
-		private function override_NyARFrustum_5oiinn(i_perspective_mat:NyARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_near:Number,i_far:Number):void
+		private function override_FLARFrustum_5oiinn(i_perspective_mat:FLARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_near:Number,i_far:Number):void
 		{
 			this.setValue_2(i_perspective_mat, i_width, i_height, i_near, i_far);
 		}
@@ -61,7 +61,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_height
 		 * スクリーンサイズです。
 		 */
-		public function setValue(i_projection_mat:NyARDoubleMatrix44,i_width:int,i_height:int):void
+		public function setValue(i_projection_mat:FLARDoubleMatrix44,i_width:int,i_height:int):void
 		{
 			this._frustum_rh.setValue_2(i_projection_mat);
 			this._inv_frustum_rh.inverse(this._frustum_rh);
@@ -77,7 +77,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_far
 		 * farポイントをmm単位で指定します。
 		 */
-		public function setValue_2(i_artk_perspective_mat:NyARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_near:Number,i_far:Number):void
+		public function setValue_2(i_artk_perspective_mat:FLARPerspectiveProjectionMatrix,i_width:int,i_height:int,i_near:Number,i_far:Number):void
 		{
 			i_artk_perspective_mat.makeCameraFrustumRH(i_width, i_height, i_near, i_far,this._frustum_rh);
 			this._inv_frustum_rh.inverse(this._frustum_rh);
@@ -99,10 +99,10 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * ARToolKitの座標系に合せて計算するため、OpenGLのunProjectとはix,iyの与え方が違います。画面上の座標をそのまま与えてください。
 		 * </p>
 		 */
-		public final function unProject(ix:Number,iy:Number,o_point_on_screen:NyARDoublePoint3d):void
+		public final function unProject(ix:Number,iy:Number,o_point_on_screen:FLARDoublePoint3d):void
 		{
 			var n:Number=(this._frustum_rh.m23/(this._frustum_rh.m22-1));
-			var m44:NyARDoubleMatrix44=this._inv_frustum_rh;
+			var m44:FLARDoubleMatrix44=this._inv_frustum_rh;
 			var v1:Number=(this._screen_size.w-ix-1)*2/this._screen_size.w-1.0;//ARToolKitのFrustramに合せてる。
 			var v2:Number=(this._screen_size.h-iy-1)*2/this._screen_size.h-1.0;
 			var v3:Number=2*n-1.0;
@@ -121,7 +121,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * 平面の姿勢行列です。
 		 * @param o_pos
 		 */
-		public function unProjectOnCamera(ix:Number,iy:Number,i_mat:NyARDoubleMatrix44,o_pos:NyARDoublePoint3d):void
+		public function unProjectOnCamera(ix:Number,iy:Number,i_mat:FLARDoubleMatrix44,o_pos:FLARDoublePoint3d):void
 		{
 			//画面→撮像点
 			this.unProject(ix,iy,o_pos);
@@ -150,12 +150,12 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * このAPIは繰り返し使用には最適化されていません。同一なi_matに繰り返しアクセスするときは、展開してください。
 		 * </p>
 		 */
-		public function unProjectOnMatrix(ix:Number,iy:Number,i_mat:NyARDoubleMatrix44,o_pos:NyARDoublePoint3d):Boolean
+		public function unProjectOnMatrix(ix:Number,iy:Number,i_mat:FLARDoubleMatrix44,o_pos:FLARDoublePoint3d):Boolean
 		{
 			//交点をカメラ座標系で計算
 			unProjectOnCamera(ix,iy,i_mat,o_pos);
 			//座標系の変換
-			var m:NyARDoubleMatrix44=new NyARDoubleMatrix44();
+			var m:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 			if(!m.inverse(i_mat)){
 				return false;
 			}
@@ -169,9 +169,9 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_z
 		 * @param o_pos2d
 		 */
-		public function project(i_x:Number,i_y:Number,i_z:Number,o_pos2d:NyARDoublePoint2d):void
+		public function project(i_x:Number,i_y:Number,i_z:Number,o_pos2d:FLARDoublePoint2d):void
 		{
-			var m:NyARDoubleMatrix44=this._frustum_rh;
+			var m:FLARDoubleMatrix44=this._frustum_rh;
 			var v3_1:Number=1/i_z*m.m32;
 			var w:Number=this._screen_size.w;
 			var h:Number=this._screen_size.h;
@@ -186,7 +186,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param o_pos2d
 		 * 結果を受け取るオブジェクトです。
 		 */
-		public function project_2(i_pos:NyARDoublePoint3d,o_pos2d:NyARDoublePoint2d):void
+		public function project_2(i_pos:FLARDoublePoint3d,o_pos2d:FLARDoublePoint2d):void
 		{
 			this.project(i_pos.x,i_pos.y,i_pos.z,o_pos2d);
 		}
@@ -195,7 +195,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * この値は読出し専用です。変更しないでください。
 		 * @return
 		 */
-		public function getMatrix():NyARDoubleMatrix44
+		public function getMatrix():FLARDoubleMatrix44
 		{
 			return this._frustum_rh;
 		}
@@ -204,14 +204,14 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * この値は読出し専用です。変更しないでください。
 		 * @return
 		 */
-		public function getInvMatrix():NyARDoubleMatrix44
+		public function getInvMatrix():FLARDoubleMatrix44
 		{
 			return this._inv_frustum_rh;
 		}
-		public function getFrustumParam(o_value:NyARFrustum_FrustumParam):NyARFrustum_FrustumParam
+		public function getFrustumParam(o_value:FLARFrustum_FrustumParam):FLARFrustum_FrustumParam
 		{
 			var near:Number;
-			var mat:NyARDoubleMatrix44 =this._frustum_rh;
+			var mat:FLARDoubleMatrix44 =this._frustum_rh;
 			o_value.far=mat.m23/(mat.m22+1);
 			o_value.near=near=mat.m23/(mat.m22-1);
 			o_value.left=(mat.m02-1)*near/mat.m00;
@@ -220,9 +220,9 @@ package jp.nyatla.nyartoolkit.as3.core.param
 			o_value.top=(mat.m12+1)*near/mat.m11;
 			return o_value;
 		}
-		public function getPerspectiveParam(o_value:NyARFrustum_PerspectiveParam):NyARFrustum_PerspectiveParam
+		public function getPerspectiveParam(o_value:FLARFrustum_PerspectiveParam):FLARFrustum_PerspectiveParam
 		{
-			var mat:NyARDoubleMatrix44=this._frustum_rh;
+			var mat:FLARDoubleMatrix44=this._frustum_rh;
 			o_value.far=mat.m23/(mat.m22+1);
 			o_value.near=mat.m23/(mat.m22-1);
 			o_value.aspect=mat.m11/mat.m00;

@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -31,43 +31,43 @@ package org.libspark.flartoolkit.core.raster
 	import flash.display.*;
 	import flash.media.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;	
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;	
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
 	
 	public class FLARContourPickupFactory
 	{
-		public static function createDriver(i_ref_raster:INyARRaster):NyARContourPickup_IRasterDriver
+		public static function createDriver(i_ref_raster:IFLARRaster):FLARContourPickup_IRasterDriver
 		{
 			if (i_ref_raster is FLARBinRaster) {
 				return new BinReader(FLARBinRaster(i_ref_raster));
 			}else if (i_ref_raster is FLARGrayscaleRaster) {
 				return new GsReader(FLARGrayscaleRaster(i_ref_raster));
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}	
 }
 import flash.display.*;
 import flash.media.*;
 import jp.nyatla.as3utils.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;	
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.squaredetect.*;	
 import org.libspark.flartoolkit.core.raster.*;
-class BaseReader implements NyARContourPickup_IRasterDriver
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.raster.*;
+class BaseReader implements FLARContourPickup_IRasterDriver
 {
 	protected static var _getContour_xdir:Vector.<int> = Vector.<int>([0, 1, 1, 1, 0,-1,-1,-1 , 0, 1, 1, 1, 0,-1,-1]);
 	protected static var _getContour_ydir:Vector.<int> = Vector.<int>([ -1, -1, 0, 1, 1, 1, 0, -1 , -1, -1, 0, 1, 1, 1, 0]);
-	public function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:NyARIntCoordinates):Boolean
+	public function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:FLARIntCoordinates):Boolean
 	{
-		throw new NyARException();
+		throw new FLARException();
 	}
 
 }
@@ -91,9 +91,9 @@ class GsReader extends BaseReader
 	 * @param	o_coord
 	 * @return
 	 */
-	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:NyARIntCoordinates):Boolean
+	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:FLARIntCoordinates):Boolean
 	{
-		var coord:Vector.<NyARIntPoint2d> = o_coord.items ;
+		var coord:Vector.<FLARIntPoint2d> = o_coord.items ;
 		var xdir:Vector.<int> = _getContour_xdir ;
 		var ydir:Vector.<int> = _getContour_ydir ;
 		var buf:BitmapData = BitmapData(this._ref_raster.getBitmapData());
@@ -147,7 +147,7 @@ class GsReader extends BaseReader
 					if((buf.getPixel( c + xdir[dir],( r + ydir[dir] ) ))  <= i_th ) {
 						break ;
 					}
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 			}
 			else {
@@ -164,7 +164,7 @@ class GsReader extends BaseReader
 					dir++ ;
 				}
 				if( i == 8 ) {
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 				
 			}
@@ -195,7 +195,7 @@ class GsReader extends BaseReader
 					dir++ ;
 				}
 				if( i == 8 ) {
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 				
 				c = c + xdir[dir] ;
@@ -228,9 +228,9 @@ class BinReader extends BaseReader
 		NyAS3Utils.assert(i_ref_raster is FLARBinRaster);
 		this._ref_raster=i_ref_raster;
 	}
-	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:NyARIntCoordinates):Boolean
+	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:FLARIntCoordinates):Boolean
 	{
-		var coord:Vector.<NyARIntPoint2d> = o_coord.items ;
+		var coord:Vector.<FLARIntPoint2d> = o_coord.items ;
 		var xdir:Vector.<int> = _getContour_xdir ;
 		var ydir:Vector.<int> = _getContour_ydir ;
 		var buf:BitmapData = BitmapData(this._ref_raster.getBitmapData());
@@ -284,7 +284,7 @@ class BinReader extends BaseReader
 					if((buf.getPixel( c + xdir[dir],( r + ydir[dir] ) )) >0 ) {
 						break ;
 					}
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 			}
 			else {
@@ -301,7 +301,7 @@ class BinReader extends BaseReader
 					dir++ ;
 				}
 				if( i == 8 ) {
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 				
 			}
@@ -332,7 +332,7 @@ class BinReader extends BaseReader
 					dir++ ;
 				}
 				if( i == 8 ) {
-					throw new NyARException(  ) ;
+					throw new FLARException(  ) ;
 				}
 				
 				c = c + xdir[dir] ;

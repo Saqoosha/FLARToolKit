@@ -1,17 +1,17 @@
 package org.libspark.flartoolkit.markersystem 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.utils.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.analyzer.histogram.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.markersystem.utils.*;
+	import org.libspark.flartoolkit.markersystem.*;
 	import flash.display.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 
@@ -23,24 +23,24 @@ package org.libspark.flartoolkit.markersystem
 	 * このクラスは、マーカベースARの制御クラスです。
 	 * 複数のARマーカとNyIDの検出情報の管理機能、撮影画像の取得機能を提供します。
 	 * このクラスは、ARToolKit固有の座標系を出力します。他の座標系を出力するときには、継承クラスで変換してください。
-	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link NyARGlMarkerSystem}クラスがあります。
+	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link FLARGlMarkerSystem}クラスがあります。
 	 * 
-	 * このクラスは、NyARMarkerSystemをFLARToolkit向けに改造したものです。
+	 * このクラスは、FLARMarkerSystemをFLARToolkit向けに改造したものです。
 	 */
-	public class FLARMarkerSystem extends  NyARMarkerSystem
+	public class FLARMarkerSystem extends  FLARMarkerSystem
 	{
 		
 		/**
-		 * コンストラクタです。{@link INyARMarkerSystemConfig}を元に、インスタンスを生成します。
+		 * コンストラクタです。{@link IFLARMarkerSystemConfig}を元に、インスタンスを生成します。
 		 * @param i_config
 		 * 初期化済の{@link MarkerSystem}を指定します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function FLARMarkerSystem(i_config:INyARMarkerSystemConfig)
+		public function FLARMarkerSystem(i_config:IFLARMarkerSystemConfig)
 		{
 			super(i_config);
 		}
-		protected override function initInstance(i_ref_config:INyARMarkerSystemConfig):void
+		protected override function initInstance(i_ref_config:IFLARMarkerSystemConfig):void
 		{
 			this._sqdetect=new FLDetector(i_ref_config);
 			this._hist_th=i_ref_config.createAutoThresholdArgorism();
@@ -63,10 +63,10 @@ package org.libspark.flartoolkit.markersystem
 			var w:int=i_img.width;
 			var h:int=i_img.height;
 			var bmr:FLARRgbRaster=new FLARRgbRaster(i_img);
-			var c:NyARCode=new NyARCode(i_patt_resolution,i_patt_resolution);
+			var c:FLARCode=new FLARCode(i_patt_resolution,i_patt_resolution);
 			//ラスタからマーカパターンを切り出す。
-			var pc:INyARPerspectiveCopy=INyARPerspectiveCopy(bmr.createInterface(INyARPerspectiveCopy));
-			var tr:INyARRgbRaster=new NyARRgbRaster(i_patt_resolution,i_patt_resolution);
+			var pc:IFLARPerspectiveCopy=IFLARPerspectiveCopy(bmr.createInterface(IFLARPerspectiveCopy));
+			var tr:IFLARRgbRaster=new FLARRgbRaster(i_patt_resolution,i_patt_resolution);
 			pc.copyPatt_3(0,0,w,0,w,h,0,h,i_patt_edge_percentage, i_patt_edge_percentage,4, tr);
 			//切り出したパターンをセット
 			c.setRaster_2(tr);
@@ -102,7 +102,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		public function getMarkerPlaneImage_3(
 			i_id:int,
-			i_sensor:NyARSensor,
+			i_sensor:FLARSensor,
 			i_x1:Number,i_y1:Number,
 			i_x2:Number,i_y2:Number,
 			i_x3:Number,i_y3:Number,
@@ -115,23 +115,23 @@ package org.libspark.flartoolkit.markersystem
 			}
 		/**
 		 * マーカ平面の任意矩形領域から画像を剥がして返します。
-		 * この関数は、{@link #getMarkerPlaneImage(int, NyARSensor, int, int, int, int, INyARRgbRaster)}
+		 * この関数は、{@link #getMarkerPlaneImage(int, FLARSensor, int, int, int, int, IFLARRgbRaster)}
 		 * のラッパーです。取得画像を{@link #BufferedImage}形式で返します。
 		 * @param i_id
 		 * マーカid
 		 * @param i_sensor
-		 * 画像を取得するセンサオブジェクト。通常は{@link #update(NyARSensor)}関数に入力したものと同じものを指定します。
+		 * 画像を取得するセンサオブジェクト。通常は{@link #update(FLARSensor)}関数に入力したものと同じものを指定します。
 		 * @param i_l
 		 * @param i_t
 		 * @param i_w
 		 * @param i_h
 		 * @param i_raster
 		 * 出力先のオブジェクト
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function getMarkerPlaneImage_4(
 			i_id:int,
-			i_sensor:NyARSensor ,
+			i_sensor:FLARSensor ,
 			i_l:Number,i_t:Number,
 			i_w:Number,i_h:Number,
 			i_img:BitmapData):void
@@ -144,31 +144,31 @@ package org.libspark.flartoolkit.markersystem
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-import jp.nyatla.nyartoolkit.as3.core.param.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-import jp.nyatla.nyartoolkit.as3.markersystem.utils.*;
-import jp.nyatla.nyartoolkit.as3.markersystem.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.analyzer.histogram.*;
+import org.libspark.flartoolkit.core.param.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+import org.libspark.flartoolkit.core.transmat.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.types.matrix.*;
+import org.libspark.flartoolkit.markersystem.utils.*;
+import org.libspark.flartoolkit.markersystem.*;
 import org.libspark.flartoolkit.core.squaredetect.*;
 import org.libspark.flartoolkit.core.rasterfilter.*;
 import org.libspark.flartoolkit.markersystem.*;
 
-class FLDetector implements INyARMarkerSystemSquareDetect
+class FLDetector implements IFLARMarkerSystemSquareDetect
 {
 	private var _sd:FLARSquareContourDetector_FlaFill;
 	private var gs2bin:FLARGs2BinFilter;
-	public function FLDetector(i_config:INyARMarkerSystemConfig)
+	public function FLDetector(i_config:IFLARMarkerSystemConfig)
 	{
 		this._sd=new FLARSquareContourDetector_FlaFill(i_config.getScreenSize());
 	}
-	public function detectMarkerCb(i_sensor:NyARSensor,i_th:int,i_handler:NyARSquareContourDetector_CbHandler):void
+	public function detectMarkerCb(i_sensor:FLARSensor,i_th:int,i_handler:FLARSquareContourDetector_CbHandler):void
 	{
 		//GS->BIN変換
 		this._sd.detectMarker(FLARSensor(i_sensor).getBinImage(i_th),i_handler);

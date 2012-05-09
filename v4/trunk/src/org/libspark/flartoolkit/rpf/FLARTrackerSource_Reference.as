@@ -3,23 +3,23 @@ package org.libspark.flartoolkit.rpf
 
 import sketch.*;
 	import flash.display.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.NyARGrayscaleRaster;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARBufferType;
-	import jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.rpf.realitysource.nyartk.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
 	import org.libspark.flartoolkit.core.raster .*;
 	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
 	import org.libspark.flartoolkit.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.rpf.utils.*;
 
 	/**
-	 * NyARTrackerSourceのリファレンス実装です。
+	 * FLARTrackerSourceのリファレンス実装です。
 	 * 全ての画像処理を処理系のソフトウェアで実装します。
 	 */
-	public class FLARTrackerSource_Reference extends NyARTrackerSource
+	public class FLARTrackerSource_Reference extends FLARTrackerSource
 	{
 		/**
 		 * 反転RobertsFilter画像のインスタンス
@@ -27,12 +27,12 @@ import sketch.*;
 		private var _sampler:FLARLowResolutionLabelingSampler;
 		private var _rb_source:FLARGrayscaleRaster;
 		private var _rfilter:FLARNegativeSqRoberts=new FLARNegativeSqRoberts();
-		private var _gs_graphics:INyARGsRasterGraphics;
+		private var _gs_graphics:IFLARGsRasterGraphics;
 		/**
 		 * @param i_number_of_sample
 		 * サンプラが検出する最大数。
 		 *　通常100~200以上を指定します。(QVGA画像あたり、100個を基準にします。)
-		 * 数が少なすぎると、検出率が低下します。最低でも、NyARTrackerに設定するターゲット数の合計*2以上を指定してください。
+		 * 数が少なすぎると、検出率が低下します。最低でも、FLARTrackerに設定するターゲット数の合計*2以上を指定してください。
 		 * @param i_ref_raster_distortion
 		 * 歪み矯正の為のオブジェクトを指定します。歪み矯正が必要ない時は、NULLを指定します。
 		 * @param i_width
@@ -44,16 +44,16 @@ import sketch.*;
 		 * @param i_is_alloc
 		 * ベースラスタのバッファを内部確保外部参照にするかのフラグです。
 		 * trueの場合、バッファは内部に確保され、{@link #wrapBuffer}関数が使用できなくなります。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function FLARTrackerSource_Reference(i_number_of_sample:int, i_ref_raster_distortion:NyARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
+		public function FLARTrackerSource_Reference(i_number_of_sample:int, i_ref_raster_distortion:FLARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
 		{
 			super((int)(Math.pow(2,i_depth)));
 			//		assert(i_depth>0);
 			var div:int=this._rob_resolution;
 			//主GSラスタ
 			this._base_raster=new FLARGrayscaleRaster(i_width,i_height,i_is_alloc);
-			this._gs_graphics=new NyARGsRasterGraphics_ASBitmap(FLARGrayscaleRaster(this._base_raster));
+			this._gs_graphics=new FLARGsRasterGraphics_ASBitmap(FLARGrayscaleRaster(this._base_raster));
 			//Roberts変換ラスタ
 			this._rb_source=new FLARGrayscaleRaster(i_width/div,i_height/div, true);
 			//Robertsラスタは最も解像度の低いラスタと同じ
@@ -67,9 +67,9 @@ import sketch.*;
 		 * GS画像をセットします。
 		 * この関数を使ってセットした画像は、インスタンスから参照されます。
 		 * @param i_ref_source
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function wrapBuffer(i_ref_source:NyARGrayscaleRaster):void
+		public function wrapBuffer(i_ref_source:FLARGrayscaleRaster):void
 		{
 			//バッファのスイッチ
 			this._base_raster.wrapBuffer(i_ref_source.getBuffer());
@@ -85,9 +85,9 @@ import sketch.*;
 		}
 		/**
 		 * SampleOutを計算して返します。
-		 * この関数は、NyARTrackerが呼び出します。
+		 * この関数は、FLARTrackerが呼び出します。
 		 * @param samplerout
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public override function makeSampleOut():LowResolutionLabelingSamplerOut
 		{
@@ -102,16 +102,16 @@ import sketch.*;
 import flash.display.*;
 import flash.geom.*;
 import jp.nyatla.as3utils.*;
-import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
+import org.libspark.flartoolkit.rpf.utils.*;
+import org.libspark.flartoolkit.core.raster.*;
 import org.libspark.flartoolkit.core.raster.rgb.*;
 import org.libspark.flartoolkit.core.raster .*;
 	
-class NyARGsRasterGraphics_ASBitmap implements INyARGsRasterGraphics
+class FLARGsRasterGraphics_ASBitmap implements IFLARGsRasterGraphics
 {
 	private var _raster:FLARGrayscaleRaster;
 
-	public function NyARGsRasterGraphics_ASBitmap(i_raster:FLARGrayscaleRaster)
+	public function FLARGsRasterGraphics_ASBitmap(i_raster:FLARGrayscaleRaster)
 	{
 		this._raster = i_raster;
 	}
@@ -120,7 +120,7 @@ class NyARGsRasterGraphics_ASBitmap implements INyARGsRasterGraphics
 		var bm:BitmapData = this._raster.getBitmapData();
 		bm.fillRect(bm.rect,i_value);
 	}
-	public function copyTo(i_left:int,i_top:int,i_skip:int,o_output:INyARGrayscaleRaster):void
+	public function copyTo(i_left:int,i_top:int,i_skip:int,o_output:IFLARGrayscaleRaster):void
 	{
 		var d:BitmapData = BitmapData(o_output.getBuffer());
 		var s:BitmapData = BitmapData(this._raster.getBuffer());

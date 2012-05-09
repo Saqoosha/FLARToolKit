@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,49 +22,49 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.pixeldriver
+package org.libspark.flartoolkit.core.pixeldriver
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.*;
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
-	 * このクラスは、INyARGsPixelDriverインタフェイスを持つオブジェクトを構築する手段を提供します。
+	 * このクラスは、IFLARGsPixelDriverインタフェイスを持つオブジェクトを構築する手段を提供します。
 	 */
-	public class NyARGsPixelDriverFactory
+	public class FLARGsPixelDriverFactory
 	{
 		/**
 		 * ラスタから画素ドライバを構築します。構築したラスタドライバには、i_ref_rasterをセットします。
 		 * @param i_ref_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public static function createDriver( i_ref_raster:INyARGrayscaleRaster):INyARGsPixelDriver
+		public static function createDriver( i_ref_raster:IFLARGrayscaleRaster):IFLARGsPixelDriver
 		{
-			var ret:INyARGsPixelDriver;
+			var ret:IFLARGsPixelDriver;
 			switch(i_ref_raster.getBufferType()){
-			case NyARBufferType.INT1D_GRAY_8:
-			case NyARBufferType.INT1D_BIN_8:
-				ret=new NyARGsPixelDriver_INT1D_GRAY_8();
+			case FLARBufferType.INT1D_GRAY_8:
+			case FLARBufferType.INT1D_BIN_8:
+				ret=new FLARGsPixelDriver_INT1D_GRAY_8();
 				break;
 			default:
 				//RGBRasterインタフェイスがある場合
-				if(i_ref_raster is INyARRgbRaster){
-					ret=new NyARGsPixelDriver_RGBX(INyARRgbRaster(i_ref_raster));
+				if(i_ref_raster is IFLARRgbRaster){
+					ret=new FLARGsPixelDriver_RGBX(IFLARRgbRaster(i_ref_raster));
 					break;
 				}
-				throw new NyARException();
+				throw new FLARException();
 			}
 			ret.switchRaster(i_ref_raster);
 			return ret;
 		}
-		public static function createDriver_2(i_ref_raster:INyARRgbRaster):INyARGsPixelDriver
+		public static function createDriver_2(i_ref_raster:IFLARRgbRaster):IFLARGsPixelDriver
 		{
 			//RGBRasterインタフェイスがある場合
-			return new NyARGsPixelDriver_RGBX(i_ref_raster);
+			return new FLARGsPixelDriver_RGBX(i_ref_raster);
 		}	
 	}
 }
@@ -72,21 +72,21 @@ package jp.nyatla.nyartoolkit.as3.core.pixeldriver
 //	ピクセルドライバの定義
 //
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.types.*;
 
 /**
  * INT1D_GRAY_8のドライバです。
  */
-class NyARGsPixelDriver_INT1D_GRAY_8 implements INyARGsPixelDriver
+class FLARGsPixelDriver_INT1D_GRAY_8 implements IFLARGsPixelDriver
 {
 	protected var _ref_buf:Vector.<int>;
-	private var _ref_size:NyARIntSize;
-	public function getSize():NyARIntSize
+	private var _ref_size:FLARIntSize;
+	public function getSize():FLARIntSize
 	{
 		return this._ref_size;
 	}
@@ -118,34 +118,34 @@ class NyARGsPixelDriver_INT1D_GRAY_8 implements INyARGsPixelDriver
 			r[(i_x[i] + i_y[i] * w)]=i_intgs[i];
 		}
 	}	
-	public function switchRaster(i_ref_raster:INyARRaster):void
+	public function switchRaster(i_ref_raster:IFLARRaster):void
 	{
 		this._ref_buf=Vector.<int>(i_ref_raster.getBuffer());
 		this._ref_size=i_ref_raster.getSize();
 	}
-	public function isCompatibleRaster(i_raster:INyARRaster):Boolean
+	public function isCompatibleRaster(i_raster:IFLARRaster):Boolean
 	{
-		return i_raster.isEqualBufferType(NyARBufferType.INT1D_GRAY_8);
+		return i_raster.isEqualBufferType(FLARBufferType.INT1D_GRAY_8);
 	}	
 }
 /**
  * 低速ドライバです。速度が必要な場合は、画素ドライバを書くこと。
  */
-class NyARGsPixelDriver_RGBX implements INyARGsPixelDriver
+class FLARGsPixelDriver_RGBX implements IFLARGsPixelDriver
 {
-	private var _rgbd:INyARRgbPixelDriver;
+	private var _rgbd:IFLARRgbPixelDriver;
 	private var _tmp:Vector.<int>= new Vector.<int>(3);
-    public function NyARGsPixelDriver_RGBX(i_raster:INyARRgbRaster)
+    public function FLARGsPixelDriver_RGBX(i_raster:IFLARRgbRaster)
     {
         this._rgbd = i_raster.getRgbPixelDriver();
     }	
-	public function getSize():NyARIntSize
+	public function getSize():FLARIntSize
 	{
 		return this._rgbd.getSize();
 	}
 	public function getPixelSet(i_x:Vector.<int>,i_y:Vector.<int>,i_n:int,o_buf:Vector.<int>,i_st_buf:int):void
 	{
-		var r:INyARRgbPixelDriver=this._rgbd;
+		var r:IFLARRgbPixelDriver=this._rgbd;
 		var tmp:Vector.<int>=this._tmp;
 		for (var i:int = i_n - 1; i >= 0; i--){
 			r.getPixel(i_x[i], i_y[i],tmp);
@@ -165,21 +165,21 @@ class NyARGsPixelDriver_RGBX implements INyARGsPixelDriver
 	}
 	public function setPixels(i_x:Vector.<int>,i_y:Vector.<int>,i_num:int,i_intgs:Vector.<int>):void
 	{
-		var r:INyARRgbPixelDriver=this._rgbd;
+		var r:IFLARRgbPixelDriver=this._rgbd;
 		for (var i:int = i_num - 1; i >= 0; i--){
 			var gs:int=i_intgs[i];
 			r.setPixel(i_x[i], i_y[i],gs,gs,gs);
 		}
 	}
-	public function switchRaster(i_ref_raster:INyARRaster ):void
+	public function switchRaster(i_ref_raster:IFLARRaster ):void
 	{
-		if(!(i_ref_raster is INyARRgbRaster)){
-			throw new NyARException();
+		if(!(i_ref_raster is IFLARRgbRaster)){
+			throw new FLARException();
 		}
-		this._rgbd=(INyARRgbRaster(i_ref_raster)).getRgbPixelDriver();
+		this._rgbd=(IFLARRgbRaster(i_ref_raster)).getRgbPixelDriver();
 	}
-	public function isCompatibleRaster(i_raster:INyARRaster):Boolean
+	public function isCompatibleRaster(i_raster:IFLARRaster):Boolean
 	{
-		return (i_raster is INyARRgbRaster);
+		return (i_raster is IFLARRgbRaster);
 	}	
 }

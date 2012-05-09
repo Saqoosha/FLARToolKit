@@ -1,13 +1,13 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.*;
 
-	public class NyARRectTargetList extends NyARTargetList
+	public class FLARRectTargetList extends FLARTargetList
 	{
-		public function NyARRectTargetList(iMaxTarget:int)
+		public function FLARRectTargetList(iMaxTarget:int)
 		{
 			super(iMaxTarget);
 		}
@@ -22,13 +22,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				return ret;
 			}
 			//2段目:予測位置から検索
-			var iitem:NyARRectTargetStatus;
+			var iitem:FLARRectTargetStatus;
 			var min_d:int=int.MAX_VALUE;
 
 			//対角範囲の距離が、対角距離の1/2以下で、最も小さいこと。
 			for(var i:int=this._length-1;i>=0;i--)
 			{
-				iitem=(NyARRectTargetStatus)(this._items[i]._ref_status);
+				iitem=(FLARRectTargetStatus)(this._items[i]._ref_status);
 				var d:int;
 				d=i_item.base_area.sqDiagonalPointDiff(iitem.estimate_rect);	
 				if(d<min_d){

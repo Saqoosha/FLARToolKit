@@ -1,10 +1,10 @@
-package jp.nyatla.nyartoolkit.as3.core.param 
+package org.libspark.flartoolkit.core.param 
 {
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class NyARFrustum_PerspectiveParam 
+	public class FLARFrustum_PerspectiveParam 
 	{
 		public var far:Number;
 		public var near:Number;

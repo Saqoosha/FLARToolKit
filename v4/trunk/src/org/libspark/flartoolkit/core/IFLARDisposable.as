@@ -1,6 +1,6 @@
-package jp.nyatla.nyartoolkit.as3.core 
+package org.libspark.flartoolkit.core 
 {
-	public interface INyARDisposable 
+	public interface IFLARDisposable 
 	{
 		/**
 		 * オブジェクトの終期化のタイミングを与えます。オブジェクトの終期化に必要な処理を実装します。

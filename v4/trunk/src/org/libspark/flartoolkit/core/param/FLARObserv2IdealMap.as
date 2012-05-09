@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,17 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.param 
+package org.libspark.flartoolkit.core.param 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public class NyARObserv2IdealMap
+	import org.libspark.flartoolkit.core.types.*;
+	public class FLARObserv2IdealMap
 	{
 		protected var _stride:int;
 		protected var _mapx:Vector.<Number>;
 		protected var _mapy:Vector.<Number>;
-		public function NyARObserv2IdealMap(i_distfactor:NyARCameraDistortionFactor,i_screen_size:NyARIntSize)
+		public function FLARObserv2IdealMap(i_distfactor:FLARCameraDistortionFactor,i_screen_size:FLARIntSize)
 		{
-			var opoint:NyARDoublePoint2d=new NyARDoublePoint2d();
+			var opoint:FLARDoublePoint2d=new FLARDoublePoint2d();
 			this._mapx=new Vector.<Number>(i_screen_size.w*i_screen_size.h);
 			this._mapy=new Vector.<Number>(i_screen_size.w*i_screen_size.h);
 			this._stride=i_screen_size.w;
@@ -56,21 +56,21 @@ package jp.nyatla.nyartoolkit.as3.core.param
 			}
 			return;
 		}
-		public function observ2Ideal_NyARIntPoint2d(ix:int,iy:int,o_point:NyARIntPoint2d):void
+		public function observ2Ideal_FLARIntPoint2d(ix:int,iy:int,o_point:FLARIntPoint2d):void
 		{
 			var idx:int=ix+iy*this._stride;
 			o_point.x=(int)(this._mapx[idx]);
 			o_point.y=(int)(this._mapy[idx]);
 			return;
 		}
-		public function observ2Ideal_NyARDoublePoint2d(ix:int,iy:int,o_point:NyARDoublePoint2d):void
+		public function observ2Ideal_FLARDoublePoint2d(ix:int,iy:int,o_point:FLARDoublePoint2d):void
 		{
 			var idx:int=ix+iy*this._stride;
 			o_point.x=this._mapx[idx];
 			o_point.y=this._mapy[idx];
 			return;
 		}
-		public function observ2IdealBatch(i_coord:Vector.<NyARIntPoint2d>,i_start:int,i_num:int,o_x_coord:Vector.<Number>,o_y_coord:Vector.<Number>,i_out_start_index:int):void
+		public function observ2IdealBatch(i_coord:Vector.<FLARIntPoint2d>,i_start:int,i_num:int,o_x_coord:Vector.<Number>,o_y_coord:Vector.<Number>,i_out_start_index:int):void
 		{
 			var idx:int;
 			var ptr:int=i_out_start_index;

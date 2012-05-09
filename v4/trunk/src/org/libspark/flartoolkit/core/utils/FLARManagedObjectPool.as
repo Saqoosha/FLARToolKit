@@ -1,15 +1,15 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 	/**
-	 * 参照カウンタ付きのobjectPoolです。NyARManagedObjectから派生したオブジェクトを管理します。
+	 * 参照カウンタ付きのobjectPoolです。FLARManagedObjectから派生したオブジェクトを管理します。
 	 * このクラスは、参照カウンタ付きのオブジェクト型Tのオブジェクトプールを実現します。
 	 * 
-	 * このクラスは、NyARManagedObjectと密接に関連して動作することに注意してください。
+	 * このクラスは、FLARManagedObjectと密接に関連して動作することに注意してください。
 	 * 要素の作成関数はこのクラスで公開しますが、要素の解放関数は要素側に公開します。
 	 * @param <T>
 	 */
-	public class NyARManagedObjectPool
+	public class FLARManagedObjectPool
 	{
 
 		/**
@@ -23,7 +23,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @return
 		 * 新しいオブジェクト
 		 */
-		public function newObject():NyARManagedObject
+		public function newObject():FLARManagedObject
 		{
 			var pool:Operator=this._op_interface;
 			if(pool._pool_stock<1){
@@ -31,27 +31,27 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 			}
 			pool._pool_stock--;
 			//参照オブジェクトを作成して返す。
-			return (NyARManagedObject)(pool._pool[pool._pool_stock].initObject());
+			return (FLARManagedObject)(pool._pool[pool._pool_stock].initObject());
 		}
 		/**
 		 * 実体化の拒否の為に、コンストラクタを隠蔽します。
 		 * 継承クラスを作成して、初期化処理を実装してください。
 		 */
-		public function NyARManagedObjectPool()
+		public function FLARManagedObjectPool()
 		{
 		}
 		/**
 		 * オブジェクトを初期化します。この関数は、このクラスを継承したクラスを公開するときに、コンストラクタから呼び出します。
 		 * @param i_length
 		 * @param i_element_type
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		protected function initInstance(i_length:int):void
 		{
 			var pool:Operator=this._op_interface;
 			//領域確保
-			pool._buffer = new Vector.<NyARManagedObject>(i_length);
-			pool._pool = new Vector.<NyARManagedObject>(i_length);
+			pool._buffer = new Vector.<FLARManagedObject>(i_length);
+			pool._pool = new Vector.<FLARManagedObject>(i_length);
 			//使用中個数をリセット
 			pool._pool_stock=i_length;
 			//オブジェクトを作成
@@ -67,8 +67,8 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		{
 			var pool:Operator=this._op_interface;
 			//領域確保
-			pool._buffer = new Vector.<NyARManagedObject>(i_length);
-			pool._pool = new Vector.<NyARManagedObject>(i_length);
+			pool._buffer = new Vector.<FLARManagedObject>(i_length);
+			pool._pool = new Vector.<FLARManagedObject>(i_length);
 			//使用中個数をリセット
 			pool._pool_stock=i_length;
 			//オブジェクトを作成
@@ -81,28 +81,28 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		/**
 		 * オブジェクトを作成します。継承クラス内で、型Tのオブジェクトを作成して下さい。
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function createElement():NyARManagedObject
+		protected function createElement():FLARManagedObject
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
-		protected function createElement_2(i_param:Object):NyARManagedObject
+		protected function createElement_2(i_param:Object):FLARManagedObject
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}
 }
-import jp.nyatla.nyartoolkit.as3.core.utils.*;
+import org.libspark.flartoolkit.core.utils.*;
 /**
  * Javaの都合でバッファを所有させていますが、別にこの形で実装しなくてもかまいません。
  */
-class Operator implements INyARManagedObjectPoolOperater
+class Operator implements IFLARManagedObjectPoolOperater
 {
-	public var _buffer:Vector.<NyARManagedObject>;
-	public var _pool:Vector.<NyARManagedObject>;
+	public var _buffer:Vector.<FLARManagedObject>;
+	public var _pool:Vector.<FLARManagedObject>;
 	public var _pool_stock:int;
-	public function deleteObject(i_object:NyARManagedObject):void
+	public function deleteObject(i_object:FLARManagedObject):void
 	{
 		//assert(i_object!=null);
 		//assert(this._pool_stock<this._pool.length);

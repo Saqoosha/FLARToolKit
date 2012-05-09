@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,12 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs 
+package org.libspark.flartoolkit.core.rasterfilter.rgb2gs 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 
-	public interface INyARRgb2GsFilterArtkTh
+	public interface IFLARRgb2GsFilterArtkTh
 	{
 		/**
 		 * RGBラスタを(R+G+B)<th*3?0:i_high_valueで2値にします。
@@ -42,7 +42,7 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 		 * @param i_gsraster
 		 * INT1D_BIN_8形式である必要があります。
 		 */
-		function doFilter(i_th:int,i_gsraster:INyARGrayscaleRaster):void;
-		function doFilter_2(i_l:int,i_t:int,i_w:int,i_h:int,i_th:int,i_gsraster:INyARGrayscaleRaster):void;
+		function doFilter(i_th:int,i_gsraster:IFLARGrayscaleRaster):void;
+		function doFilter_2(i_l:int,i_t:int,i_w:int,i_h:int,i_th:int,i_gsraster:IFLARGrayscaleRaster):void;
 	}
 }

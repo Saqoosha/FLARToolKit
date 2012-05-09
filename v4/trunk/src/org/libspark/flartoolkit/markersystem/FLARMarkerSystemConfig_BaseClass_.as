@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,27 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem
+package org.libspark.flartoolkit.markersystem
 {
 
 	import flash.utils.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.INyARHistogramAnalyzer_Threshold;
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.NyARHistogramAnalyzer_SlidePTile;
-	import jp.nyatla.nyartoolkit.as3.core.param.NyARParam;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.INyARTransMat;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARTransMat;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.analyzer.histogram.IFLARHistogramAnalyzer_Threshold;
+	import org.libspark.flartoolkit.core.analyzer.histogram.FLARHistogramAnalyzer_SlidePTile;
+	import org.libspark.flartoolkit.core.param.FLARParam;
+	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
+	import org.libspark.flartoolkit.core.transmat.FLARTransMat;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 
 	/**
-	 * このクラスは、NyARToolkitの姿勢推定アルゴリズムに調整したコンフィギュレーションクラスです。
+	 * このクラスは、FLARToolkitの姿勢推定アルゴリズムに調整したコンフィギュレーションクラスです。
 	 *
 	 */
-	public class NyARMarkerSystemConfig implements INyARMarkerSystemConfig
+	public class FLARMarkerSystemConfig implements IFLARMarkerSystemConfig
 	{
-		protected var _param:NyARParam;
-		public function NyARMarkerSystemConfig(...args:Array)
+		protected var _param:FLARParam;
+		public function FLARMarkerSystemConfig(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -50,18 +50,18 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 					break;
 					//blank
 				}else {
-					NyARMarkerSystemConfig_1o(NyARParam(args[0]));
+					FLARMarkerSystemConfig_1o(FLARParam(args[0]));
 					break;
 				}
-				throw new NyARException();
+				throw new FLARException();
 			case 2:
-				NyARMarkerSystemConfig_2ii(int(args[0]), int(args[1]));
+				FLARMarkerSystemConfig_2ii(int(args[0]), int(args[1]));
 				break;
 			case 3:
-				NyARMarkerSystemConfig_3oii(ByteArray(args[0]), int(args[1]),int(args[2]));
+				FLARMarkerSystemConfig_3oii(ByteArray(args[0]), int(args[1]),int(args[2]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 
@@ -71,7 +71,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @param i_param
 		 * 初期化に使うカメラパラメータオブジェクト。インスタンスの所有権は、インスタンスに移ります。
 		 */
-		protected function NyARMarkerSystemConfig_1o(i_param:NyARParam):void
+		protected function FLARMarkerSystemConfig_1o(i_param:FLARParam):void
 		{
 			this._param=i_param;
 		}
@@ -85,11 +85,11 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * スクリーンサイズ
 		 * @param i_height
 		 * スクリーンサイズ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function NyARMarkerSystemConfig_3oii(i_ar_param_stream:ByteArray,i_width:int,i_height:int):void
+		protected function FLARMarkerSystemConfig_3oii(i_ar_param_stream:ByteArray,i_width:int,i_height:int):void
 		{
-			this._param=new NyARParam();
+			this._param=new FLARParam();
 			this._param.loadARParam(i_ar_param_stream);
 			this._param.changeScreenSize(i_width,i_height);
 		}
@@ -100,39 +100,39 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * スクリーンサイズ
 		 * @param i_height
 		 * スクリーンサイズ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function NyARMarkerSystemConfig_2ii(i_width:int,i_height:int):void
+		protected function FLARMarkerSystemConfig_2ii(i_width:int,i_height:int):void
 		{
-			this._param=new NyARParam();
+			this._param=new FLARParam();
 			this._param.loadDefaultParameter();
 			this._param.changeScreenSize(i_width,i_height);		
 		}
 		/**
 		 * この値は、カメラパラメータのスクリーンサイズです。
 		 */
-		public function getScreenSize():NyARIntSize
+		public function getScreenSize():FLARIntSize
 		{
 			return this._param.getScreenSize();
 		}
 		/**
 		 * @Override
 		 */
-		public function createTransmatAlgorism():INyARTransMat
+		public function createTransmatAlgorism():IFLARTransMat
 		{
-			return new NyARTransMat(this._param);
+			return new FLARTransMat(this._param);
 		}
 		/**
 		 * @Override
 		 */
-		public function createAutoThresholdArgorism():INyARHistogramAnalyzer_Threshold
+		public function createAutoThresholdArgorism():IFLARHistogramAnalyzer_Threshold
 		{
-			return new NyARHistogramAnalyzer_SlidePTile(15);
+			return new FLARHistogramAnalyzer_SlidePTile(15);
 		}
 		/**
 		 * @Override
 		 */
-		public function getNyARParam():NyARParam
+		public function getFLARParam():FLARParam
 		{
 			return 	this._param;
 		}

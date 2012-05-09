@@ -1,29 +1,29 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * 2つの点集合同士を比較して、集合の各点同士の距離が最も近くになる組み合わせを計算
 	 * するためのクラスです。
 	 * 点集合の2次元距離マップを作成して、そこから最適な組み合わせを計算します。
 	 */
-	public class NyARDistMap
+	public class FLARDistMap
 	{
-		protected var _map:Vector.<NyARDistMap_DistItem>;
+		protected var _map:Vector.<FLARDistMap_DistItem>;
 
 		protected var _min_dist:int;
 		protected var _min_dist_index:int;
 		protected var _size_row:int;
 		protected var _size_col:int;
 
-		public function NyARDistMap(i_max_col:int,i_max_row:int)
+		public function FLARDistMap(i_max_col:int,i_max_row:int)
 		{
 			this._min_dist=int.MAX_VALUE;
 			this._min_dist_index=0;
 			this._size_col=i_max_col;
 			this._size_row=i_max_row;
-			this._map=new Vector.<NyARDistMap_DistItem>(i_max_col*i_max_row);
+			this._map=new Vector.<FLARDistMap_DistItem>(i_max_col*i_max_row);
 			for(var i:int=0;i<i_max_col*i_max_row;i++){
-				this._map[i]=new NyARDistMap_DistItem();
+				this._map[i]=new FLARDistMap_DistItem();
 			}
 		}
 		/**
@@ -47,7 +47,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		public function setDist(i_col:int,i_row:int,i_dist:int):void
 		{
 			this._min_dist_index=this._size_col*i_row+i_col;
-			var item:NyARDistMap_DistItem=this._map[this._min_dist_index];
+			var item:FLARDistMap_DistItem=this._map[this._min_dist_index];
 			item.col=i_col;
 			item.row=i_row;
 			item.dist=i_dist;
@@ -66,9 +66,9 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @param i_col_len
 		 * @param o_rowindex
 		 */
-		public function setPointDists(i_vertex_r:Vector.<NyARIntPoint2d>,i_row_len:int,i_vertex_c:Vector.<NyARIntPoint2d>,i_col_len:int):void
+		public function setPointDists(i_vertex_r:Vector.<FLARIntPoint2d>,i_row_len:int,i_vertex_c:Vector.<FLARIntPoint2d>,i_col_len:int):void
 		{
-			var map:Vector.<NyARDistMap_DistItem>=this._map;
+			var map:Vector.<FLARDistMap_DistItem>=this._map;
 			//distortionMapを作成。ついでに最小値のインデクスも取得
 			var min_index:int=0;
 			var min_dist:int =int.MAX_VALUE;
@@ -100,11 +100,11 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 */
 		public function getMinimumPair(o_rowindex:Vector.<int>):void
 		{
-			var map:Vector.<NyARDistMap_DistItem>=this._map;
+			var map:Vector.<FLARDistMap_DistItem>=this._map;
 			var map_length:int=this._size_col*this._size_row;
 			var col_len:int=this._size_col;
 			//[0]と差し替え
-			var temp_map:NyARDistMap_DistItem;
+			var temp_map:FLARDistMap_DistItem;
 			var i:int;
 			temp_map=map[0];
 			map[0]=map[this._min_dist_index];

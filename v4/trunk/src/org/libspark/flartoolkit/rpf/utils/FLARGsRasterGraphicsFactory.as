@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,74 +22,74 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.rpf.utils
+package org.libspark.flartoolkit.rpf.utils
 {
 
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.raster.INyARGrayscaleRaster;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARBufferType;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 
 
 	/**
-	 * この関数は、NyARRgbRasterからコールします。
+	 * この関数は、FLARRgbRasterからコールします。
 	 */
-	public class NyARGsRasterGraphicsFactory
+	public class FLARGsRasterGraphicsFactory
 	{
 		/**
 		 * この関数は、i_rasterを操作するピクセルドライバインスタンスを生成します。
 		 * @param i_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public static function createDriver(i_raster:INyARGrayscaleRaster):INyARGsRasterGraphics
+		public static function createDriver(i_raster:IFLARGrayscaleRaster):IFLARGsRasterGraphics
 		{
 			switch(i_raster.getBufferType()){
-			case NyARBufferType.INT1D_GRAY_8:
-				return new NyARGsRasterGraphics_GS_INT8(i_raster);
+			case FLARBufferType.INT1D_GRAY_8:
+				return new FLARGsRasterGraphics_GS_INT8(i_raster);
 			default:
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}
 }
 
 import jp.nyatla.as3utils.*;
-import jp.nyatla.nyartoolkit.as3.core.NyARException;
-import jp.nyatla.nyartoolkit.as3.core.raster.INyARGrayscaleRaster;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+import org.libspark.flartoolkit.core.FLARException;
+import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.rpf.utils.*;
 /**
  * このインタフェイスは、グレースケール画像に対するグラフィクス機能を定義します。
  */
-class NyARGsRasterGraphics_GS_INT8 implements INyARGsRasterGraphics
+class FLARGsRasterGraphics_GS_INT8 implements IFLARGsRasterGraphics
 {
-	private var _raster:INyARGrayscaleRaster;
+	private var _raster:IFLARGrayscaleRaster;
 
-	public function NyARGsRasterGraphics_GS_INT8(i_raster:INyARGrayscaleRaster)
+	public function FLARGsRasterGraphics_GS_INT8(i_raster:IFLARGrayscaleRaster)
 	{
 		this._raster=i_raster;
 	}
 	public function fill(i_value:int):void
 	{
 		var buf:Vector.<int>=Vector.<int>(this._raster.getBuffer());
-		var s:NyARIntSize=this._raster.getSize();
+		var s:FLARIntSize=this._raster.getSize();
 		for (var i:int = s.h * s.w - 1; i >= 0; i--) {
 			buf[i] = i_value;
 		}
 	}
-	public function copyTo(i_left:int,i_top:int,i_skip:int ,o_output:INyARGrayscaleRaster):void
+	public function copyTo(i_left:int,i_top:int,i_skip:int ,o_output:IFLARGrayscaleRaster):void
 	{
 		NyAS3Utils.assert (this._raster.getSize().isInnerSize(i_left + o_output.getWidth() * i_skip, i_top+ o_output.getHeight() * i_skip));		
 		var input:Vector.<int> = Vector.<int>(this._raster.getBuffer());
 		switch(o_output.getBufferType())
 		{
-		case NyARBufferType.INT1D_GRAY_8:
+		case FLARBufferType.INT1D_GRAY_8:
 			var output:Vector.<int> = Vector.<int>(o_output.getBuffer());
-			var dest_size:NyARIntSize = o_output.getSize();
-			var src_size:NyARIntSize = this._raster.getSize();
+			var dest_size:FLARIntSize = o_output.getSize();
+			var src_size:FLARIntSize = this._raster.getSize();
 			var skip_src_y:int = (src_size.w - dest_size.w * i_skip) + src_size.w * (i_skip - 1);
 			var pix_count:int = dest_size.w;
 			var pix_mod_part:int = pix_count - (pix_count % 8);
@@ -125,7 +125,7 @@ class NyARGsRasterGraphics_GS_INT8 implements INyARGsRasterGraphics
 			}
 			return;			
 		default:
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}
 }

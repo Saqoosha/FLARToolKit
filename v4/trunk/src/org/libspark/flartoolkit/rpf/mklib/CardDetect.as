@@ -1,4 +1,4 @@
-package jp.nyatla.nyartoolkit.as3.rpf.mklib 
+package org.libspark.flartoolkit.rpf.mklib 
 {
 	/**
 	 * 未知の矩形を認識するサンプル。
@@ -23,9 +23,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * はじめてターゲットの推定をするときは、リセットした{@link UnknownRectInfo}を入力してください。
 		 * @return
 		 * 認識状況を返します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function detectCardDirection(i_target:NyARRealityTarget, io_result:UnknownRectInfo):void
+		public function detectCardDirection(i_target:FLARRealityTarget, io_result:UnknownRectInfo):void
 		{
 			//成功点数が20点を超えたら推定完了。
 			if(io_result._success_point>20){
@@ -37,7 +37,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 				io_result.last_status=CardDetect.FAILED_ESTIMATE;
 				return;
 			}
-			var pos:Vector.<NyARDoublePoint2d>=i_target.refTargetVertex();
+			var pos:Vector.<FLARDoublePoint2d>=i_target.refTargetVertex();
 			//正面から一回認識させてほしい。
 			for(var i:int=0;i<4;i++){
 				//正面判定。辺のなす角が90、または-90度の10度以内であること。
@@ -57,7 +57,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 			t2=d2+d4*0.5;
 			t3=t/t2;
 			t3=t3<1?1/t3:t3;
-			if(io_result._target_serial==NyARRealityTarget.INVALID_REALITY_TARGET_ID){
+			if(io_result._target_serial==FLARRealityTarget.INVALID_REALITY_TARGET_ID){
 				//サイクルをリセット
 				io_result._target_serial=i_target.getSerialId();
 				io_result.rate=t3;
@@ -89,9 +89,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * @param p3
 		 * @return
 		 */
-		public final static function getAbsSin(p1:NyARDoublePoint2d,p2:NyARDoublePoint2d,p3:NyARDoublePoint2d):Number
+		public final static function getAbsSin(p1:FLARDoublePoint2d,p2:FLARDoublePoint2d,p3:FLARDoublePoint2d):Number
 		{
-			var cp:Number=NyARDoublePoint2d.crossProduct3Point(p1,p2,p3);
+			var cp:Number=FLARDoublePoint2d.crossProduct3Point(p1,p2,p3);
 			cp/=(Math.sqrt(p1.sqDist(p2))*Math.sqrt(p2.sqDist(p3)));
 			return cp>0?cp:-cp;
 		}	
@@ -124,6 +124,6 @@ class UnknownRectInfo
 	public var last_status:int;
 	public function UnknownRectInfo()
 	{
-		this._target_serial=NyARRealityTarget.INVALID_REALITY_TARGET_ID;
+		this._target_serial=FLARRealityTarget.INVALID_REALITY_TARGET_ID;
 	}
 }

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types
+package org.libspark.flartoolkit.core.types
 {
 
 	/**
@@ -36,21 +36,21 @@ package jp.nyatla.nyartoolkit.as3.core.types
 	 * x,yの増加方向は、x=L→R,y=B→Tです。 y軸が反転しているので注意してください。
 	 *
 	 */
-	public class NyARLinear
+	public class FLARLinear
 	{
 		public var b:Number;//係数b
 		public var a:Number;//係数a
 		public var c:Number;//切片
-		public static function createArray(i_number:int):Vector.<NyARLinear>
+		public static function createArray(i_number:int):Vector.<FLARLinear>
 		{
-			var ret:Vector.<NyARLinear>=new Vector.<NyARLinear>(i_number);
+			var ret:Vector.<FLARLinear>=new Vector.<FLARLinear>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
-				ret[i]=new NyARLinear();
+				ret[i]=new FLARLinear();
 			}
 			return ret;
 		}	
-		public final function copyFrom(i_source:NyARLinear):void
+		public final function copyFrom(i_source:FLARLinear):void
 		{
 			this.b=i_source.b;
 			this.a=i_source.a;
@@ -64,7 +64,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function crossPos(l_line_2:NyARLinear ,o_point:NyARDoublePoint2d):Boolean
+		public function crossPos(l_line_2:FLARLinear ,o_point:FLARDoublePoint2d):Boolean
 		{
 			var w1:Number = this.a * l_line_2.b - l_line_2.a * this.b;
 			if (w1 == 0.0) {
@@ -82,7 +82,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function crossPos_2(i_a:Number,i_b:Number,i_c:Number,o_point:NyARDoublePoint2d):Boolean
+		public function crossPos_2(i_a:Number,i_b:Number,i_c:Number,o_point:FLARDoublePoint2d):Boolean
 		{
 			var w1:Number = this.a * i_b - i_a * this.b;
 			if (w1 == 0.0) {
@@ -92,7 +92,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			o_point.y = (i_a * this.c - this.a * i_c) / w1;
 			return true;
 		}
-		public function crossPos_3(i_a:Number,i_b:Number,i_c:Number,o_point:NyARIntPoint2d):Boolean
+		public function crossPos_3(i_a:Number,i_b:Number,i_c:Number,o_point:FLARIntPoint2d):Boolean
 		{
 			var w1:Number = this.a * i_b - i_a * this.b;
 			if (w1 == 0.0) {
@@ -107,7 +107,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param l_line_2
 		 * @return
 		 */
-		public function isCross(l_line_2:NyARLinear):Boolean
+		public function isCross(l_line_2:FLARLinear):Boolean
 		{
 			var w1:Number = this.a * l_line_2.b - l_line_2.a * this.b;
 			return (w1 == 0.0)?false:true;
@@ -119,7 +119,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_point2
 		 * @return
 		 */
-		public function makeLinearWithNormalize(i_point1:NyARIntPoint2d,i_point2:NyARIntPoint2d):Boolean
+		public function makeLinearWithNormalize(i_point1:FLARIntPoint2d,i_point2:FLARIntPoint2d):Boolean
 		{
 			return makeLinearWithNormalize_3(i_point1.x,i_point1.y,i_point2.x,i_point2.y);
 		}
@@ -129,7 +129,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_point2
 		 * @return
 		 */
-		public function makeLinearWithNormalize_2(i_point1:NyARDoublePoint2d,i_point2:NyARDoublePoint2d):Boolean
+		public function makeLinearWithNormalize_2(i_point1:FLARDoublePoint2d,i_point2:FLARDoublePoint2d):Boolean
 		{
 			return makeLinearWithNormalize_3(i_point1.x,i_point1.y,i_point2.x,i_point2.y);
 		}
@@ -167,14 +167,14 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			this.c=(i_dx*i_y-i_dy*i_x);
 			return;
 		}
-		public function setVector_2(i_vector:NyARVecLinear2d):void
+		public function setVector_2(i_vector:FLARVecLinear2d):void
 		{
 			this.a= i_vector.dy;
 			this.b=-i_vector.dx;
 			this.c=(i_vector.dx*i_vector.y-i_vector.dy*i_vector.x);
 			return;		
 		}
-		public function setVectorWithNormalize(i_vector:NyARVecLinear2d):Boolean
+		public function setVectorWithNormalize(i_vector:FLARVecLinear2d):Boolean
 		{
 			var dx:Number=i_vector.dx;
 			var dy:Number=i_vector.dy;
@@ -191,7 +191,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		/**
 		 * i_x,i_yを通過する、i_linearの法線を計算して、格納します。
 		 */
-		public function normalLine(i_x:Number,i_y:Number,i_linear:NyARLinear):void
+		public function normalLine(i_x:Number,i_y:Number,i_linear:FLARLinear):void
 		{
 			var la:Number=i_linear.a;
 			var lb:Number=i_linear.b;
@@ -207,7 +207,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function normalLineCrossPos(i_x:Number,i_y:Number,i_linear:NyARLinear,o_point:NyARDoublePoint2d):Boolean
+		public function normalLineCrossPos(i_x:Number,i_y:Number,i_linear:FLARLinear,o_point:FLARDoublePoint2d):Boolean
 		{
 			//thisを法線に変換
 			var la:Number=this.b;
@@ -231,10 +231,10 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function makeSegmentLine(i_width:int,i_height:int,o_point:Vector.<NyARIntPoint2d>):Boolean
+		public function makeSegmentLine(i_width:int,i_height:int,o_point:Vector.<FLARIntPoint2d>):Boolean
 		{	
 			var idx:int=0;
-			var ptr:NyARIntPoint2d=o_point[0];
+			var ptr:FLARIntPoint2d=o_point[0];
 			if(this.crossPos_3(0,-1,0,ptr) && ptr.x>=0 && ptr.x<i_width)
 			{
 				//y=rect.yの線
@@ -278,12 +278,12 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param o_point
 		 * @return
 		 */
-		public function makeSegmentLine_2(i_left:int,i_top:int,i_width:int,i_height:int,o_point:Vector.<NyARIntPoint2d>):Boolean
+		public function makeSegmentLine_2(i_left:int,i_top:int,i_width:int,i_height:int,o_point:Vector.<FLARIntPoint2d>):Boolean
 		{	
 			var bottom:int=i_top+i_height;
 			var right:int=i_left+i_width;
 			var idx:int=0;
-			var ptr:NyARIntPoint2d=o_point[0];
+			var ptr:FLARIntPoint2d=o_point[0];
 			if(this.crossPos_3(0,-1,i_top,ptr) && ptr.x>=i_left && ptr.x<right)
 			{
 				//y=rect.yの線
@@ -327,7 +327,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @return
 		 * 距離が取れないときは無限大です。
 		 */
-		public function sqDistBySegmentLineEdge(i_sp1:NyARDoublePoint2d,i_sp2:NyARDoublePoint2d):Number
+		public function sqDistBySegmentLineEdge(i_sp1:FLARDoublePoint2d,i_sp2:FLARDoublePoint2d):Number
 		{
 			var la:Number,lb:Number,lc:Number;
 			var x:Number,y:Number,w1:Number;
@@ -358,13 +358,13 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_number_of_data
 		 * @return
 		 */
-		public function leastSquares(i_points:Vector.<NyARDoublePoint2d>,i_number_of_data:int):Boolean
+		public function leastSquares(i_points:Vector.<FLARDoublePoint2d>,i_number_of_data:int):Boolean
 		{
 			//assert(i_number_of_data>1);
 			var i:int;
 			var sum_xy:Number = 0, sum_x:Number = 0, sum_y:Number = 0, sum_x2:Number = 0;
 			for (i=0; i<i_number_of_data; i++){
-				var ptr:NyARDoublePoint2d=i_points[i];
+				var ptr:FLARDoublePoint2d=i_points[i];
 				var xw:Number=ptr.x;
 				sum_xy += xw * ptr.y;
 				sum_x += xw;

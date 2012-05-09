@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 
 	/**
 	 * このクラスは、NyIdマーカの検出結果を保存するデータクラスです。
@@ -44,7 +44,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 * @param i_range_s
 		 * @param i_range_e
 		 * @param i_patt_size
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function MarkerInfoNyId(i_nyid_range_s:Number,i_nyid_range_e:Number,i_patt_size:Number)
 		{

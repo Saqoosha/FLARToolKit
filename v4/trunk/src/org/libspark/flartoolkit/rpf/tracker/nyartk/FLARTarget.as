@@ -1,31 +1,31 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARDoublePoint2d;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntRect;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.NyARTargetStatus;
+	import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
+	import org.libspark.flartoolkit.core.types.FLARIntRect;
+	import org.libspark.flartoolkit.core.utils.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.FLARTargetStatus;
 
 	/**
 	 * トラッキングターゲットのクラスです。
 	 * {@link #tag}以外の要素については、ユーザからの直接アクセスを推奨しません。
 	 *
 	 */
-	public class NyARTarget extends NyARManagedObject
+	public class FLARTarget extends FLARManagedObject
 	{
 		/**
 		 * システム動作中に一意なシリアル番号
 		 */
 		private static var _serial_counter:Number=0;
 		/**
-		 * 新しいシリアルIDを返します。この値は、NyARTargetを新規に作成したときに、Poolクラスがserialプロパティに設定します。
+		 * 新しいシリアルIDを返します。この値は、FLARTargetを新規に作成したときに、Poolクラスがserialプロパティに設定します。
 		 * @return
 		 */
 		public static function createSerialId():Number
 		{
 			//マルチスレッドをサポートする環境では、排他ロックをかけること。
-			return NyARTarget._serial_counter++;
+			return FLARTarget._serial_counter++;
 		}
 		////////////////////////
 		//targetの基本情報
@@ -49,7 +49,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 
 		////////////////////////
 		//targetの情報
-		public var _ref_status:NyARTargetStatus;
+		public var _ref_status:FLARTargetStatus;
 		
 		/**
 		 * ユーザオブジェクトを配置するポインタータグです。リリース時にNULL初期化されます。
@@ -60,13 +60,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		/**
 		 * サンプリングエリアを格納する変数です。
 		 */
-		public var _sample_area:NyARIntRect=new NyARIntRect();
+		public var _sample_area:FLARIntRect=new FLARIntRect();
 		//アクセス用関数
 		
 		/**
 		 * Constructor
 		 */
-		public function NyARTarget(iRefPoolOperator:INyARManagedObjectPoolOperater)
+		public function FLARTarget(iRefPoolOperator:IFLARManagedObjectPoolOperater)
 		{
 			super(iRefPoolOperator);
 			this.tag=null;
@@ -88,7 +88,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * 頂点情報を元に、sampleAreaにRECTを設定します。
 		 * @param i_vertex
 		 */
-		public function setSampleArea(i_vertex:Vector.<NyARDoublePoint2d>):void
+		public function setSampleArea(i_vertex:Vector.<FLARDoublePoint2d>):void
 		{
 			this._sample_area.setAreaRect(i_vertex,4);
 		}	

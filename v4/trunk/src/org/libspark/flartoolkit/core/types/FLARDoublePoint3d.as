@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types
+package org.libspark.flartoolkit.core.types
 {
 
-	public class NyARDoublePoint3d
+	public class FLARDoublePoint3d
 	{
 		public var x:Number;
 		public var y:Number;
@@ -41,16 +41,16 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_number
 		 * @return
 		 */
-		public static function createArray(i_number:int):Vector.<NyARDoublePoint3d>
+		public static function createArray(i_number:int):Vector.<FLARDoublePoint3d>
 		{
-			var ret:Vector.<NyARDoublePoint3d>=new Vector.<NyARDoublePoint3d>(i_number);
+			var ret:Vector.<FLARDoublePoint3d>=new Vector.<FLARDoublePoint3d>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
-				ret[i]=new NyARDoublePoint3d();
+				ret[i]=new FLARDoublePoint3d();
 			}
 			return ret;
 		}
-		public function setValue(i_in:NyARDoublePoint3d):void
+		public function setValue(i_in:FLARDoublePoint3d):void
 		{
 			this.x=i_in.x;
 			this.y=i_in.y;
@@ -62,7 +62,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_p1
 		 * @return
 		 */	
-		public function sqDist(i_p1:NyARDoublePoint3d):Number
+		public function sqDist(i_p1:FLARDoublePoint3d):Number
 		{
 			var x:Number,y:Number,z:Number;
 			x=this.x-i_p1.x;

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.pca2d 
+package org.libspark.flartoolkit.core.pca2d 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	public interface INyARPca2d
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	public interface IFLARPca2d
 	{
 		/**
 		 * 通常のPCA
@@ -44,9 +44,9 @@ package jp.nyatla.nyartoolkit.as3.core.pca2d
 		 * @param o_ev
 		 * 要素2の変数を指定してください。
 		 * @param o_mean
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function pca(i_v1:Vector.<Number>, i_v2:Vector.<Number>, i_number_of_point:int, o_evec:NyARDoubleMatrix22, o_ev:Vector.<Number>, o_mean:Vector.<Number>):void;
+		function pca(i_v1:Vector.<Number>, i_v2:Vector.<Number>, i_number_of_point:int, o_evec:FLARDoubleMatrix22, o_ev:Vector.<Number>, o_mean:Vector.<Number>):void;
 	}
 
 	
