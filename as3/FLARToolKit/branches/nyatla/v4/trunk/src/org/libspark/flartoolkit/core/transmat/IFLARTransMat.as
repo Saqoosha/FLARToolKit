@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,24 +28,24 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat
+package org.libspark.flartoolkit.core.transmat
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
 	/**
 	 * This class calculates ARMatrix from square information. -- 変換行列を計算するクラス。
 	 * 
 	 */
-	public interface INyARTransMat
+	public interface IFLARTransMat
 	{
 		/**
 		 * 理想座標系の四角系から、i_offsetのパラメタで示される矩形を(0,0,0)の点から移動するための行列式を計算し、o_resultへ格納します。
 		 * @param i_square
 		 * @param i_offset
 		 * @param o_result
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function transMat(i_square:NyARSquare,i_offset:NyARRectOffset,o_result:NyARTransMatResult):Boolean;
+		function transMat(i_square:FLARSquare,i_offset:FLARRectOffset,o_result:FLARTransMatResult):Boolean;
 		/**
 		 * 理想座標系の四角系から、i_offsetのパラメタで示される矩形を(0,0,0)の点から移動するための行列式を計算し、o_resultへ格納します。
 		 * i_prev_resultにある過去の情報を参照するため、変移が少ない場合はより高精度な値を返します。
@@ -55,8 +55,8 @@ package jp.nyatla.nyartoolkit.as3.core.transmat
 		 * 参照する過去のオブジェクトです。このオブジェクトとo_resultには同じものを指定できます。
 		 * @param o_result
 		 * 結果を格納するオブジェクトです。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function transMatContinue(i_square:NyARSquare,i_offset:NyARRectOffset,i_prev_result:NyARTransMatResult,o_result:NyARTransMatResult):Boolean;
+		function transMatContinue(i_square:FLARSquare,i_offset:FLARRectOffset,i_prev_result:FLARTransMatResult,o_result:FLARTransMatResult):Boolean;
 	}
 }

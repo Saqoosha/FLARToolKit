@@ -1,15 +1,15 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
+package org.libspark.flartoolkit.rpf.tracker.nyartk.status
 {
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-import jp.nyatla.nyartoolkit.as3.core.utils.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+import org.libspark.flartoolkit.core.utils.*;
 
-public class NyARNewTargetStatus extends NyARTargetStatus
+public class FLARNewTargetStatus extends FLARTargetStatus
 {
 
 	public var current_sampleout:LowResolutionLabelingSamplerOut_Item;
-	public function NyARNewTargetStatus(i_ref_pool_operator:INyARManagedObjectPoolOperater)
+	public function FLARNewTargetStatus(i_ref_pool_operator:IFLARManagedObjectPoolOperater)
 	{
 		super(i_ref_pool_operator);
 		this.current_sampleout=null;
@@ -31,7 +31,7 @@ public class NyARNewTargetStatus extends NyARTargetStatus
 	 * 値をセットします。この関数は、処理の成功失敗に関わらず、内容変更を行います。
 	 * @param i_src
 	 * セットするLowResolutionLabelingSamplerOut.Itemを指定します。関数は、このアイテムの参照カウンタをインクリメントします。
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
 	public function setValue(i_src:LowResolutionLabelingSamplerOut_Item):void
 	{

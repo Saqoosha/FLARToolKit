@@ -1,11 +1,11 @@
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public interface NyARSquareContourDetector_CbHandler 
+	public interface FLARSquareContourDetector_CbHandler 
 	{
 		/**
 		 * 通知ハンドラです。
@@ -14,9 +14,9 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * @param i_coord
 		 * @param i_coor_num
 		 * @param i_vertex_index
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function detectMarkerCallback(i_coord:NyARIntCoordinates, i_vertex_index:Vector.<int>):void;		
+		function detectMarkerCallback(i_coord:FLARIntCoordinates, i_vertex_index:Vector.<int>):void;		
 	}
 
 }

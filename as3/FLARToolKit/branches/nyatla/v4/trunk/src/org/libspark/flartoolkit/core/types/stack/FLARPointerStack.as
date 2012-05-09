@@ -1,22 +1,22 @@
-package jp.nyatla.nyartoolkit.as3.core.types.stack 
+package org.libspark.flartoolkit.core.types.stack 
 {
-	public class NyARPointerStack
+	public class FLARPointerStack
 	{
 		protected var _items:Vector.<Object>;
 		protected var _length:int;
 		
 		/**
 		 * このクラスは実体化できません。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARPointerStack()
+		public function FLARPointerStack()
 		{
 		}
 
 		/**
 		 * スタックのメンバ変数を初期化します。この関数は、このクラスを継承したクラスを公開するときに、コンストラクタから呼び出します。
 		 * @param i_length
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		protected function initInstance(i_length:int):void
 		{
@@ -51,7 +51,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.stack
 		public function pushAssert(i_object:Object):Object
 		{
 			// 必要に応じてアロケート
-			//NyARUtils.assert(this._length < this._items.length);
+			//FLARUtils.assert(this._length < this._items.length);
 			// 使用領域を+1して、予約した領域を返す。
 			this._items[this._length]=i_object;
 			this._length++;

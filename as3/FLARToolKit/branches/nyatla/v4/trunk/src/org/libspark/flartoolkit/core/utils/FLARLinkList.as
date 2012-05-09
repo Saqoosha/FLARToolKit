@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.utils
+package org.libspark.flartoolkit.core.utils
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.*;
 
 
 
 	/**
 	 * このクラスは、可変長のリンクリストです。
 	 */
-	public class NyARLinkList
+	public class FLARLinkList
 	{
 
 		/**
@@ -40,15 +40,15 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @return
 		 * new T()を実装してください。
 		 */
-		protected function createElement():NyARLinkList_Item
+		protected function createElement():FLARLinkList_Item
 		{
-			throw new NyARException("abstract method!");
+			throw new FLARException("abstract method!");
 		}
 		/**
 		 * リンクリストの要素数の合計です。
 		 */
 		protected var _num_of_item:int;
-		protected var _head_item:NyARLinkList_Item;
+		protected var _head_item:FLARLinkList_Item;
 		/**
 		 * i_num_of_item以上の要素を予約する。
 		 * @param i_num_of_item
@@ -57,9 +57,9 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		{
 			if(this._num_of_item<i_num_of_item){
 				this._head_item=this.createElement();
-				var ptr:NyARLinkList_Item=this._head_item;
+				var ptr:FLARLinkList_Item=this._head_item;
 				for(var i:int=1;i<i_num_of_item;i++){
-					var n:NyARLinkList_Item=this.createElement();
+					var n:FLARLinkList_Item=this.createElement();
 					ptr.next=n;
 					n.prev=ptr;
 					ptr=n;
@@ -75,8 +75,8 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 */
 		public function append():void
 		{
-			var new_element:NyARLinkList_Item=this.createElement();
-			var tail:NyARLinkList_Item=NyARLinkList_Item(this._head_item.prev);
+			var new_element:FLARLinkList_Item=this.createElement();
+			var tail:FLARLinkList_Item=FLARLinkList_Item(this._head_item.prev);
 			tail.next=new_element;
 			new_element.next=this._head_item;
 			new_element.prev=tail;
@@ -89,7 +89,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @param i_num_of_item
 		 * 要素数の初期値。
 		 */
-		public function NyARLinkList(i_num_of_item:int)
+		public function FLARLinkList(i_num_of_item:int)
 		{
 			this._num_of_item=0;
 			reserv(1);
@@ -103,9 +103,9 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @return
 		 * 追加した要素
 		 */
-		public function insertFromTailBefore(i_item:NyARLinkList_Item):NyARLinkList_Item
+		public function insertFromTailBefore(i_item:FLARLinkList_Item):FLARLinkList_Item
 		{
-			var ptr:NyARLinkList_Item=this._head_item;
+			var ptr:FLARLinkList_Item=this._head_item;
 			//先頭の場合
 			if(ptr==i_item){
 				//リストを後方にシフトする。
@@ -118,7 +118,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 				return i_item;
 			}
 			//最後尾切り離し
-			var n:NyARLinkList_Item=NyARLinkList_Item(this._head_item.prev);
+			var n:FLARLinkList_Item=FLARLinkList_Item(this._head_item.prev);
 			n.prev.next=this._head_item;
 			this._head_item.prev=n.prev;
 			

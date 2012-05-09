@@ -1,37 +1,37 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
+package org.libspark.flartoolkit.rpf.tracker.nyartk.status
 {
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.types.NyARDoublePoint2d;
-import jp.nyatla.nyartoolkit.as3.core.types.NyARLinear;
-import jp.nyatla.nyartoolkit.as3.core.utils.*;
-import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
+import org.libspark.flartoolkit.core.types.FLARLinear;
+import org.libspark.flartoolkit.core.utils.*;
+import org.libspark.flartoolkit.rpf.utils.*;
 
 
-public class NyARRectTargetStatusPool extends NyARManagedObjectPool
+public class FLARRectTargetStatusPool extends FLARManagedObjectPool
 {
 	/**
-	 * 要素間で共有するオブジェクト。この変数は、NyARRectTargetStatus以外から使わないでください。
+	 * 要素間で共有するオブジェクト。この変数は、FLARRectTargetStatus以外から使わないでください。
 	 */
 	public var _vecpos:VecLinearCoordinates=new VecLinearCoordinates(100);
 	public var _line_detect:LineBaseVertexDetector=new LineBaseVertexDetector();
 	public var _vecpos_op:VecLinearCoordinatesOperator=new VecLinearCoordinatesOperator(); 
 	public var _indexbuf:Vector.<VecLinearCoordinatePoint>=new Vector.<VecLinearCoordinatePoint>(4);
-	public var _line:Vector.<NyARLinear>=NyARLinear.createArray(4);
+	public var _line:Vector.<FLARLinear>=FLARLinear.createArray(4);
 	/**
 	 * @param i_size
 	 * スタックの最大サイズ
 	 * @param i_cood_max
 	 * 輪郭ベクトルの最大数
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function NyARRectTargetStatusPool(i_size:int)
+	public function FLARRectTargetStatusPool(i_size:int)
 	{
 		super.initInstance(i_size);
 	}
-	protected override function createElement():NyARManagedObject
+	protected override function createElement():FLARManagedObject
 	{
-		return new NyARRectTargetStatus(this);
+		return new FLARRectTargetStatus(this);
 	}
 
 	private var __sq_table:Vector.<int>=new Vector.<int>(4);
@@ -43,7 +43,7 @@ public class NyARRectTargetStatusPool extends NyARManagedObjectPool
 	 * @return
 	 * @todo 展開して最適化
 	 */
-	public function checkLargeDiff(i_point1:Vector.<NyARDoublePoint2d>,i_point2:Vector.<NyARDoublePoint2d>):Boolean
+	public function checkLargeDiff(i_point1:Vector.<FLARDoublePoint2d>,i_point2:Vector.<FLARDoublePoint2d>):Boolean
 	{
 		//assert(i_point1.length==i_point2.length);
 		var sq_tbl:Vector.<int>=this.__sq_table;

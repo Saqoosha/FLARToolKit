@@ -1,4 +1,4 @@
-package jp.nyatla.nyartoolkit.as3.rpf.mklib 
+package org.libspark.flartoolkit.rpf.mklib 
 {
 	/**
 	 * selectTarget関数の戻り値を格納します。

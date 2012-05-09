@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,15 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.match.NyARMatchPattDeviationColorData;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.INyARPerspectiveCopy;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.match.FLARMatchPattDeviationColorData;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.IFLARPerspectiveCopy;
+	import org.libspark.flartoolkit.core.types.*;
 
 
 	/**
@@ -44,10 +44,10 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 */
 		private var items:Vector.<MultiResolutionPattProvider_Item>=new Vector.<MultiResolutionPattProvider_Item>();
 		/**
-		 * [readonly]マーカにマッチした{@link NyARMatchPattDeviationColorData}インスタンスを得る。
-		 * @throws NyARException 
+		 * [readonly]マーカにマッチした{@link FLARMatchPattDeviationColorData}インスタンスを得る。
+		 * @throws FLARException 
 		 */
-		public function getDeviationColorData(i_marker:MarkerInfoARMarker,i_pix_drv:INyARPerspectiveCopy,i_vertex:Vector.<NyARIntPoint2d>):NyARMatchPattDeviationColorData
+		public function getDeviationColorData(i_marker:MarkerInfoARMarker,i_pix_drv:IFLARPerspectiveCopy,i_vertex:Vector.<FLARIntPoint2d>):FLARMatchPattDeviationColorData
 		{
 			var mk_edge:int=i_marker.patt_edge_percentage;
 			for(var i:int=this.items.length-1;i>=0;i--)

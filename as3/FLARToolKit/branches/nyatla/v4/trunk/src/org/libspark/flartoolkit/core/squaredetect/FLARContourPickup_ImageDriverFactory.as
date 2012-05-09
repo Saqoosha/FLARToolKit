@@ -1,28 +1,28 @@
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class NyARContourPickup_ImageDriverFactory 
+	public class FLARContourPickup_ImageDriverFactory 
 	{
 		
-		public static function createDriver(i_ref_raster:INyARGrayscaleRaster):NyARContourPickup_IRasterDriver
+		public static function createDriver(i_ref_raster:IFLARGrayscaleRaster):FLARContourPickup_IRasterDriver
 		{
 			switch(i_ref_raster.getBufferType()){
-			case NyARBufferType.INT1D_GRAY_8:
-			case NyARBufferType.INT1D_BIN_8:
-				return new NyARContourPickup_BIN_GS8(i_ref_raster);
+			case FLARBufferType.INT1D_GRAY_8:
+			case FLARBufferType.INT1D_BIN_8:
+				return new FLARContourPickup_BIN_GS8(i_ref_raster);
 			default:
-				if(i_ref_raster is NyARContourPickup_GsReader){
-					return new NyARContourPickup_GsReader(INyARGrayscaleRaster(i_ref_raster));
+				if(i_ref_raster is FLARContourPickup_GsReader){
+					return new FLARContourPickup_GsReader(IFLARGrayscaleRaster(i_ref_raster));
 				}
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}
 
@@ -30,17 +30,17 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 
 
 	
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
 	
 	
 
 
-class NyARContourPickup_Base implements NyARContourPickup_IRasterDriver
+class FLARContourPickup_Base implements FLARContourPickup_IRasterDriver
 {
 	//巡回参照できるように、テーブルを二重化
 	//                                           0  1  2  3  4  5  6  7   0  1  2  3  4  5  6
@@ -48,9 +48,9 @@ class NyARContourPickup_Base implements NyARContourPickup_IRasterDriver
 	protected static var _getContour_xdir:Vector.<int> = Vector.<int>([0, 1, 1, 1, 0,-1,-1,-1 , 0, 1, 1, 1, 0,-1,-1]);
 	/** 8方位探索の座標マップ*/
 	protected static var _getContour_ydir:Vector.<int> = Vector.<int>([-1,-1, 0, 1, 1, 1, 0,-1 ,-1,-1, 0, 1, 1, 1, 0]);
-	public function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:NyARIntCoordinates):Boolean 
+	public function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:FLARIntCoordinates):Boolean 
 	{
-		throw new NyARException();
+		throw new FLARException();
 	}
 }
 
@@ -59,14 +59,14 @@ class NyARContourPickup_Base implements NyARContourPickup_IRasterDriver
 /**
  * (INT_BIN_8とINT_GS_8に対応)
  */
-class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
+class FLARContourPickup_BIN_GS8 extends FLARContourPickup_Base
 {
-	private var _ref_raster:INyARRaster;
-	public function NyARContourPickup_BIN_GS8(i_ref_raster:INyARRaster)
+	private var _ref_raster:IFLARRaster;
+	public function FLARContourPickup_BIN_GS8(i_ref_raster:IFLARRaster)
 	{
 		this._ref_raster=i_ref_raster;
 	}
-	public override function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:NyARIntCoordinates):Boolean
+	public override function getContour(i_l:int, i_t:int, i_r:int, i_b:int, i_entry_x:int, i_entry_y:int, i_th:int, o_coord:FLARIntCoordinates):Boolean
 	{
 		//assert(i_t<=i_entry_x);
 		var buf:Vector.<int>=Vector.<int>(this._ref_raster.getBuffer());
@@ -74,7 +74,7 @@ class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
 		var ydir:Vector.<int> = _getContour_ydir;// static int ydir[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
 		var width:int=this._ref_raster.getWidth();
 		//クリップ領域の上端に接しているポイントを得る。
-		var coord:Vector.<NyARIntPoint2d>=o_coord.items;
+		var coord:Vector.<FLARIntPoint2d>=o_coord.items;
 		var max_coord:int=o_coord.items.length;
 		coord[0].x = i_entry_x;
 		coord[0].y = i_entry_y;
@@ -122,7 +122,7 @@ class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
 						break;
 					}
 					//8方向全て調べたけどラベルが無いよ？
-					throw new NyARException();			
+					throw new FLARException();			
 				}
 			}else{
 				//境界に接しているとき
@@ -140,7 +140,7 @@ class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
 				}
 				if (i == 8) {
 					//8方向全て調べたけどラベルが無いよ？
-					throw new NyARException();// return(-1);
+					throw new FLARException();// return(-1);
 				}				
 			}
 			// xcoordとycoordをc,rにも保存
@@ -172,7 +172,7 @@ class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
 				}
 				if (i == 8) {
 					//8方向全て調べたけどラベルが無いよ？
-					throw new NyARException();
+					throw new FLARException();
 				}
 				//得たピクセルが、[1]と同じならば、末端である。
 				c = c + xdir[dir];
@@ -201,21 +201,21 @@ class NyARContourPickup_BIN_GS8 extends NyARContourPickup_Base
 /**
  * (INT_BIN_8とINT_GS_8に対応)
  */
-class NyARContourPickup_GsReader extends NyARContourPickup_Base
+class FLARContourPickup_GsReader extends FLARContourPickup_Base
 {
-	private var _ref_raster:INyARGrayscaleRaster;
-	public function NyARContourPickup_GsReader(i_ref_raster:INyARGrayscaleRaster)
+	private var _ref_raster:IFLARGrayscaleRaster;
+	public function FLARContourPickup_GsReader(i_ref_raster:IFLARGrayscaleRaster)
 	{
 		this._ref_raster=i_ref_raster;
 	}
-	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:NyARIntCoordinates):Boolean
+	public override function getContour(i_l:int,i_t:int,i_r:int,i_b:int,i_entry_x:int,i_entry_y:int,i_th:int,o_coord:FLARIntCoordinates):Boolean
 	{
 		//assert(i_t<=i_entry_x);
-		var reader:INyARGsPixelDriver=this._ref_raster.getGsPixelDriver();
+		var reader:IFLARGsPixelDriver=this._ref_raster.getGsPixelDriver();
 		var xdir:Vector.<int> = _getContour_xdir;// static int xdir[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
 		var ydir:Vector.<int> = _getContour_ydir;// static int ydir[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
 		//クリップ領域の上端に接しているポイントを得る。
-		var coord:Vector.<NyARIntPoint2d>=o_coord.items;
+		var coord:Vector.<FLARIntPoint2d>=o_coord.items;
 		var max_coord:int=o_coord.items.length;
 		coord[0].x = i_entry_x;
 		coord[0].y = i_entry_y;
@@ -242,7 +242,7 @@ class NyARContourPickup_GsReader extends NyARContourPickup_Base
 			}
 			if (i == 8) {
 				//8方向全て調べたけどラベルが無いよ？
-				throw new NyARException();// return(-1);
+				throw new FLARException();// return(-1);
 			}				
 			// xcoordとycoordをc,rにも保存
 			c = c + xdir[dir];
@@ -273,7 +273,7 @@ class NyARContourPickup_GsReader extends NyARContourPickup_Base
 				}
 				if (i == 8) {
 					//8方向全て調べたけどラベルが無いよ？
-					throw new NyARException();
+					throw new FLARException();
 				}
 				//得たピクセルが、[1]と同じならば、末端である。
 				c = c + xdir[dir];

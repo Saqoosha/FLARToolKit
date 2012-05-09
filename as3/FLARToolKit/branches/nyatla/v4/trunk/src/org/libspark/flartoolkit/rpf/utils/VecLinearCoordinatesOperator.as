@@ -1,7 +1,7 @@
-package jp.nyatla.nyartoolkit.as3.rpf.utils 
+package org.libspark.flartoolkit.rpf.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.utils.*;
 	public class VecLinearCoordinatesOperator
 	{
 		/**
@@ -13,12 +13,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.utils
 		 * margeResembleCoordsで使う角度敷居値の値です。
 		 * Cos(n)の値です。
 		 */
-		private static const _SQ_ANG_TH:Number=NyARMath.COS_DEG_10;
+		private static const _SQ_ANG_TH:Number=FLARMath.COS_DEG_10;
 
 		//ワーク
-		private var _l1:NyARLinear = new NyARLinear();
-		private var _l2:NyARLinear = new NyARLinear();
-		private var _p:NyARDoublePoint2d = new NyARDoublePoint2d();
+		private var _l1:FLARLinear = new FLARLinear();
+		private var _l2:FLARLinear = new FLARLinear();
+		private var _p:FLARDoublePoint2d = new FLARDoublePoint2d();
 		
 		/**
 		 * 配列の前方に、似たベクトルを集めます。似たベクトルの判定基準は、2線の定義点における直線の法線上での距離の二乗和です。
@@ -29,9 +29,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.utils
 		public function margeResembleCoords(i_vector:VecLinearCoordinates):void
 		{
 			var items:Vector.<VecLinearCoordinatePoint>=i_vector.items;
-			var l1:NyARLinear  = this._l1;
-			var l2:NyARLinear = this._l2;
-			var p:NyARDoublePoint2d = this._p;
+			var l1:FLARLinear  = this._l1;
+			var l2:FLARLinear = this._l2;
+			var p:FLARDoublePoint2d = this._p;
 			var i:int;
 
 

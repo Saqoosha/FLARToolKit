@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,16 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.raster 
+package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.utils.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.utils.as3.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.*;
 	import jp.nyatla.as3utils.*;
 
 	
@@ -48,10 +48,10 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 	 * このクラスは、グレースケース画像を格納するラスタクラスです。
 	 * 外部バッファ、内部バッファの両方に対応します。
 	 */
-	public class NyARGrayscaleRaster implements INyARGrayscaleRaster
+	public class FLARGrayscaleRaster implements IFLARGrayscaleRaster
 	{
 
-		protected var _size:NyARIntSize;
+		protected var _size:FLARIntSize;
 		protected var _buffer_type:int;
 		/**
 		 * この関数は、ラスタの幅を返します。
@@ -70,7 +70,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		/**
 		 * この関数は、ラスタのサイズを格納したオブジェクトを返します。
 		 */
-		public function getSize():NyARIntSize
+		public function getSize():FLARIntSize
 		{
 			return this._size;
 		}
@@ -89,7 +89,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		{
 			return this._buffer_type==i_type_value;
 		}
-		public function getGsPixelDriver():INyARGsPixelDriver
+		public function getGsPixelDriver():IFLARGsPixelDriver
 		{
 			return this._pixdrv;
 		}
@@ -98,10 +98,10 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		protected var _buf:Object;
 		/** バッファオブジェクトがアタッチされていればtrue*/
 		protected var _is_attached_buffer:Boolean;
-		protected var _pixdrv:INyARGsPixelDriver;
+		protected var _pixdrv:IFLARGsPixelDriver;
 
 		
-		public function NyARGrayscaleRaster(...args:Array)
+		public function FLARGrayscaleRaster(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -110,38 +110,38 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 				}
 				break;
 			case 2:
-				overload_NyARGrayscaleRaster_2ii(int(args[0]), int(args[1]));
+				overload_FLARGrayscaleRaster_2ii(int(args[0]), int(args[1]));
 				break;
 			case 3:
-				overload_NyARGrayscaleRaster_3iib(int(args[0]), int(args[1]),Boolean(args[2]));
+				overload_FLARGrayscaleRaster_3iib(int(args[0]), int(args[1]),Boolean(args[2]));
 				break;
 			case 4:
-				overload_NyARGrayscaleRaster_4iiib(int(args[0]), int(args[1]), int(args[2]),Boolean(args[3]));
+				overload_FLARGrayscaleRaster_4iiib(int(args[0]), int(args[1]), int(args[2]),Boolean(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 		
 		/**
 		 * コンストラクタです。
-		 * 内部参照のバッファ（{@link NyARBufferType#INT1D_GRAY_8}形式）を持つインスタンスを生成します。
+		 * 内部参照のバッファ（{@link FLARBufferType#INT1D_GRAY_8}形式）を持つインスタンスを生成します。
 		 * @param i_width
 		 * ラスタのサイズ
 		 * @param i_height
 		 * ラスタのサイズ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARGrayscaleRaster_2ii(i_width:int,i_height:int):void
+		protected function overload_FLARGrayscaleRaster_2ii(i_width:int,i_height:int):void
 		{
-			this._size= new NyARIntSize(i_width,i_height);
-			this._buffer_type=NyARBufferType.INT1D_GRAY_8;		
-			initInstance(this._size, NyARBufferType.INT1D_GRAY_8, true);
+			this._size= new FLARIntSize(i_width,i_height);
+			this._buffer_type=FLARBufferType.INT1D_GRAY_8;		
+			initInstance(this._size, FLARBufferType.INT1D_GRAY_8, true);
 		}
 		/**
 		 * コンストラクタです。
 		 * 画像のサイズパラメータとバッファ参照方式を指定して、インスタンスを生成します。
-		 * バッファの形式は、{@link NyARBufferType#INT1D_GRAY_8}です。
+		 * バッファの形式は、{@link FLARBufferType#INT1D_GRAY_8}です。
 		 * @param i_width
 		 * ラスタのサイズ
 		 * @param i_height
@@ -150,13 +150,13 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		 * バッファを外部参照にするかのフラグ値。
 		 * trueなら内部バッファ、falseなら外部バッファを使用します。
 		 * falseの場合、初期のバッファはnullになります。インスタンスを生成したのちに、{@link #wrapBuffer}を使って割り当ててください。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARGrayscaleRaster_3iib(i_width:int,i_height:int,i_is_alloc:Boolean):void
+		protected function overload_FLARGrayscaleRaster_3iib(i_width:int,i_height:int,i_is_alloc:Boolean):void
 		{
-			this._size= new NyARIntSize(i_width,i_height);
-			this._buffer_type=NyARBufferType.INT1D_GRAY_8;		
-			initInstance(this._size, NyARBufferType.INT1D_GRAY_8, i_is_alloc);
+			this._size= new FLARIntSize(i_width,i_height);
+			this._buffer_type=FLARBufferType.INT1D_GRAY_8;		
+			initInstance(this._size, FLARBufferType.INT1D_GRAY_8, i_is_alloc);
 		}
 
 		/**
@@ -168,19 +168,19 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		 * ラスタのサイズ
 		 * @param i_raster_type
 		 * ラスタのバッファ形式。
-		 * {@link NyARBufferType}に定義された定数値を指定してください。指定できる値は、以下の通りです。
+		 * {@link FLARBufferType}に定義された定数値を指定してください。指定できる値は、以下の通りです。
 		 * <ul>
-		 * <li>{@link NyARBufferType#INT1D_GRAY_8}
+		 * <li>{@link FLARBufferType#INT1D_GRAY_8}
 		 * <ul>
 		 * @param i_is_alloc
 		 * バッファを外部参照にするかのフラグ値。
 		 * trueなら内部バッファ、falseなら外部バッファを使用します。
 		 * falseの場合、初期のバッファはnullになります。インスタンスを生成したのちに、{@link #wrapBuffer}を使って割り当ててください。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARGrayscaleRaster_4iiib(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean):void
+		protected function overload_FLARGrayscaleRaster_4iiib(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean):void
 		{
-			this._size= new NyARIntSize(i_width,i_height);
+			this._size= new FLARIntSize(i_width,i_height);
 			this._buffer_type=i_raster_type;
 			initInstance(this._size, i_raster_type, i_is_alloc);
 		}
@@ -193,33 +193,33 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 		 * バッファ形式
 		 * @param i_is_alloc
 		 * バッファ参照方法値
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		protected function initInstance(i_size:NyARIntSize,i_raster_type:int,i_is_alloc:Boolean):void
+		protected function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):void
 		{
 			switch (i_raster_type) {
-			case NyARBufferType.INT1D_GRAY_8:
+			case FLARBufferType.INT1D_GRAY_8:
 				this._buf = i_is_alloc ? new Vector.<int>(i_size.w * i_size.h) : null;
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}
 			this._is_attached_buffer = i_is_alloc;
 			//ピクセルドライバの生成
-			this._pixdrv=NyARGsPixelDriverFactory.createDriver(this);
+			this._pixdrv=FLARGsPixelDriverFactory.createDriver(this);
 		}
 		public function createInterface(i_iid:Class):Object
 		{
-			if(i_iid==NyARLabeling_Rle_IRasterDriver){
-				return NyARLabeling_Rle_RasterDriverFactory.createDriver(this);
+			if(i_iid==FLARLabeling_Rle_IRasterDriver){
+				return FLARLabeling_Rle_RasterDriverFactory.createDriver(this);
 			}
-			if(i_iid==NyARContourPickup_IRasterDriver){
-				return NyARContourPickup_ImageDriverFactory.createDriver(this);
+			if(i_iid==FLARContourPickup_IRasterDriver){
+				return FLARContourPickup_ImageDriverFactory.createDriver(this);
 			}
-			if(i_iid==INyARHistogramFromRaster){
-				return NyARHistogramFromRasterFactory.createInstance(this);
+			if(i_iid==IFLARHistogramFromRaster){
+				return FLARHistogramFromRasterFactory.createInstance(this);
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}	
 		/**
 		 * この関数は、ラスタのバッファへの参照値を返します。

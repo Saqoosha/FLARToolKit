@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,24 +22,24 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.utils.*;
 
 
 	/**
 	 * このクラスは、近距離頂点トラッキングのマッピングをすうリストです。
 	 *
 	 */
-	public class VertexSortTable extends NyARLinkList
+	public class VertexSortTable extends FLARLinkList
 	{
 		public function VertexSortTable(iNumOfItem:int)
 		{
 			super(iNumOfItem);
 		}
 //		protected function createElement():VertexSortTable_Item
-		protected override function createElement():NyARLinkList_Item
+		protected override function createElement():FLARLinkList_Item
 		{
 			return new VertexSortTable_Item();
 		}

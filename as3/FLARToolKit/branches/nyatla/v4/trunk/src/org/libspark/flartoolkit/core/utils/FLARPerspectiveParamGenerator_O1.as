@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public class NyARPerspectiveParamGenerator_O1 extends NyARPerspectiveParamGenerator
+	import org.libspark.flartoolkit.core.types.*;
+	public class FLARPerspectiveParamGenerator_O1 extends FLARPerspectiveParamGenerator
 	{
 		/**
 		 * コンストラクタです。
@@ -40,7 +40,7 @@ package jp.nyatla.nyartoolkit.as3.core.utils
 		 * @param i_local_y
 		 * パラメータ計算の基準点を指定します。
 		 */
-		public function NyARPerspectiveParamGenerator_O1(i_local_x:int,i_local_y:int)
+		public function FLARPerspectiveParamGenerator_O1(i_local_x:int,i_local_y:int)
 		{
 			super(i_local_x, i_local_y);
 			return;

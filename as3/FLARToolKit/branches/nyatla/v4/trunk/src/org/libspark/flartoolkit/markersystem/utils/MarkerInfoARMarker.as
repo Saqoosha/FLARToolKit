@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.match.*;
 
 
 	/**
@@ -35,7 +35,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 	public class MarkerInfoARMarker extends TMarkerData
 	{
 		/** MK_ARの情報。比較のための、ARToolKitマーカを格納します。*/
-		public var matchpatt:NyARMatchPatt_Color_WITHOUT_PCA;
+		public var matchpatt:FLARMatchPatt_Color_WITHOUT_PCA;
 		/** MK_ARの情報。検出した矩形の格納変数。マーカの一致度を格納します。*/
 		public var cf:Number;
 		public var patt_w:int;
@@ -43,10 +43,10 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		/** MK_ARの情報。パターンのエッジ割合。*/
 		public var patt_edge_percentage:int;
 		/** */
-		public function MarkerInfoARMarker(i_patt:NyARCode,i_patt_edge_percentage:int,i_patt_size:Number)
+		public function MarkerInfoARMarker(i_patt:FLARCode,i_patt_edge_percentage:int,i_patt_size:Number)
 		{
 			super();
-			this.matchpatt=new NyARMatchPatt_Color_WITHOUT_PCA(i_patt);
+			this.matchpatt=new FLARMatchPatt_Color_WITHOUT_PCA(i_patt);
 			this.patt_edge_percentage=i_patt_edge_percentage;
 			this.marker_offset.setSquare(i_patt_size);
 			this.patt_w=i_patt.getWidth();

@@ -1,27 +1,27 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status
+package org.libspark.flartoolkit.rpf.tracker.nyartk.status
 	{
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.utils.*;
 
 
-	public class NyARNewTargetStatusPool extends NyARManagedObjectPool
+	public class FLARNewTargetStatusPool extends FLARManagedObjectPool
 	{
 		/**
 		 * コンストラクタです。
 		 * @param i_size
 		 * poolのサイズ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARNewTargetStatusPool(i_size:int)
+		public function FLARNewTargetStatusPool(i_size:int)
 		{
 			super.initInstance(i_size);
 		}
 		/**
 		 * @Override
 		 */
-		protected override function createElement():NyARManagedObject
+		protected override function createElement():FLARManagedObject
 		{
-			return new NyARNewTargetStatus(this._op_interface);
+			return new FLARNewTargetStatus(this._op_interface);
 		}
 
 	}

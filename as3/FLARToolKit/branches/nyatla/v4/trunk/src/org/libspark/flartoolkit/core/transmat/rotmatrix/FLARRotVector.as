@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,20 +28,20 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
+package org.libspark.flartoolkit.core.transmat.rotmatrix
 {
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	public class NyARRotVector
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.*;
+	public class FLARRotVector
 	{
 		//publicメンバ達
 		public var v1:Number;
 		public var v2:Number;
 		public var v3:Number;
-		public function NyARRotVector()
+		public function FLARRotVector()
 		{
 		}
 
@@ -50,10 +50,10 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * int check_rotation( double rot[2][3] )
 		 * 2つのベクトル引数の調整をする？
 		 * @param i_r
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 
-		public static function checkRotation(io_vec1:NyARRotVector,io_vec2:NyARRotVector):void
+		public static function checkRotation(io_vec1:FLARRotVector,io_vec2:FLARRotVector):void
 		{
 			var w:Number;
 			var f:int;
@@ -70,7 +70,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 			var vec32:Number = vec10 * vec21 - vec11 * vec20;
 			w = Math.sqrt(vec30 * vec30 + vec31 * vec31 + vec32 * vec32);
 			if (w == 0.0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			vec30 /= w;
 			vec31 /= w;
@@ -96,7 +96,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 				}
 			}
 			if (vec31 * vec10 - vec11 * vec30 == 0.0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			
 			var k1:Number,k2:Number,k3:Number,k4:Number;
@@ -118,7 +118,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 
 			d = b * b - a * c;
 			if (d < 0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			r1 = (-b + Math.sqrt(d)) / a;
 			p1 = k1 * r1 + k2;
@@ -155,7 +155,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 				}
 			}
 			if (vec31 * vec20 - vec21 * vec30 == 0.0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			k1 = (vec21 * vec32 - vec31 * vec22) / (vec31 * vec20 - vec21 * vec30);
 			k2 = (vec31 * ca) / (vec31 * vec20 - vec21 * vec30);
@@ -168,7 +168,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 
 			d = b * b - a * c;
 			if (d < 0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			r3 = (-b + Math.sqrt(d)) / a;
 			p3 = k1 * r3 + k2;

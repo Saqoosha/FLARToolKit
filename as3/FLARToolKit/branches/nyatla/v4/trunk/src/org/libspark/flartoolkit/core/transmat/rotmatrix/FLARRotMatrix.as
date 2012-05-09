@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,36 +28,36 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
+package org.libspark.flartoolkit.core.transmat.rotmatrix
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.transmat.*;
 	/**
 	 * 回転行列計算用の、3x3行列
 	 *
 	 */
-	public class NyARRotMatrix extends NyARDoubleMatrix33
+	public class FLARRotMatrix extends FLARDoubleMatrix33
 	{
 		/**
 		 * インスタンスを準備します。
 		 * 
 		 * @param i_param
 		 */
-		public function NyARRotMatrix(i_matrix:NyARPerspectiveProjectionMatrix)
+		public function FLARRotMatrix(i_matrix:FLARPerspectiveProjectionMatrix)
 		{
-			this.__initRot_vec1=new NyARRotVectorV2(i_matrix);
-			this.__initRot_vec2=new NyARRotVectorV2(i_matrix);
+			this.__initRot_vec1=new FLARRotVectorV2(i_matrix);
+			this.__initRot_vec2=new FLARRotVectorV2(i_matrix);
 			return;
 		}
-		private var __initRot_vec1:NyARRotVectorV2;
-		private var __initRot_vec2:NyARRotVectorV2;
+		private var __initRot_vec1:FLARRotVectorV2;
+		private var __initRot_vec2:FLARRotVectorV2;
 		/**
-		 * NyARTransMatResultの内容からNyARRotMatrixを復元します。
+		 * FLARTransMatResultの内容からFLARRotMatrixを復元します。
 		 * @param i_prev_result
 		 */
-		public function initRotByPrevResult(i_prev_result:NyARTransMatResult):void
+		public function initRotByPrevResult(i_prev_result:FLARTransMatResult):void
 		{
 
 			this.m00=i_prev_result.m00;
@@ -77,12 +77,12 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * 
 		 * @param i_linear
 		 * @param i_sqvertex
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function initRotBySquare(i_linear:Vector.<NyARLinear>, i_sqvertex:Vector.<NyARDoublePoint2d>):void
+		public function initRotBySquare(i_linear:Vector.<FLARLinear>, i_sqvertex:Vector.<FLARDoublePoint2d>):void
 		{
-			var vec1:NyARRotVectorV2=this.__initRot_vec1;
-			var vec2:NyARRotVectorV2=this.__initRot_vec2;
+			var vec1:FLARRotVectorV2=this.__initRot_vec1;
+			var vec2:FLARRotVectorV2=this.__initRot_vec2;
 
 			//向かい合った辺から、２本のベクトルを計算
 			
@@ -95,7 +95,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 			vec2.checkVectorByVertex(i_sqvertex[3], i_sqvertex[0]);
 
 			//回転の最適化？
-			NyARRotVector.checkRotation(vec1,vec2);
+			FLARRotVector.checkRotation(vec1,vec2);
 
 			this.m00 =vec1.v1;
 			this.m10 =vec1.v2;
@@ -114,7 +114,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 			this.m22 = w22/w;
 			return;
 		}
-		public function initRotByAngle(i_angle:NyARDoublePoint3d):void
+		public function initRotByAngle(i_angle:FLARDoublePoint3d):void
 		{
 			this.setZXYAngle(i_angle);
 		}
@@ -123,7 +123,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * @param i_in_point
 		 * @param i_out_point
 		 */
-		public function getPoint3d(i_in_point:NyARDoublePoint3d,i_out_point:NyARDoublePoint3d):void
+		public function getPoint3d(i_in_point:FLARDoublePoint3d,i_out_point:FLARDoublePoint3d):void
 		{
 			var x:Number=i_in_point.x;
 			var y:Number=i_in_point.y;
@@ -139,11 +139,11 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * @param i_out_point
 		 * @param i_number_of_vertex
 		 */
-		public function getPoint3dBatch(i_in_point:Vector.<NyARDoublePoint3d>,i_out_point:Vector.<NyARDoublePoint3d>,i_number_of_vertex:int):void
+		public function getPoint3dBatch(i_in_point:Vector.<FLARDoublePoint3d>,i_out_point:Vector.<FLARDoublePoint3d>,i_number_of_vertex:int):void
 		{
 			for(var i:int=i_number_of_vertex-1;i>=0;i--){
-				var out_ptr:NyARDoublePoint3d =i_out_point[i];
-				var in_ptr:NyARDoublePoint3d=i_in_point[i];
+				var out_ptr:FLARDoublePoint3d =i_out_point[i];
+				var in_ptr:FLARDoublePoint3d=i_in_point[i];
 				var x:Number=in_ptr.x;
 				var y:Number=in_ptr.y;
 				var z:Number=in_ptr.z;

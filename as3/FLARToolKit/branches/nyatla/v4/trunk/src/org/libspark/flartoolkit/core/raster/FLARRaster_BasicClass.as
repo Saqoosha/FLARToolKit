@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,22 +28,22 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.raster
+package org.libspark.flartoolkit.core.raster
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterreader.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 
-	public class NyARRaster_BasicClass implements INyARRaster
+	public class FLARRaster_BasicClass implements IFLARRaster
 	{
-		protected var _size:NyARIntSize;
+		protected var _size:FLARIntSize;
 		protected var _buffer_type:int;
 		/*
-		 * public function NyARRaster_BasicClass(int i_width,int i_height,int i_buffer_type)
+		 * public function FLARRaster_BasicClass(int i_width,int i_height,int i_buffer_type)
 		 */
-		public function NyARRaster_BasicClass(...args:Array)
+		public function FLARRaster_BasicClass(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
@@ -53,16 +53,16 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 				break;
 			case 3:
 				if (args[0] is int && args[1] is int && args[2] is int){
-					overload_NyARRaster_BasicClass(int(args[0]),int(args[1]),int(args[2]));
+					overload_FLARRaster_BasicClass(int(args[0]),int(args[1]),int(args[2]));
 				}
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}
 		}
-		protected function overload_NyARRaster_BasicClass(i_width:int ,i_height:int,i_buffer_type:int):void
+		protected function overload_FLARRaster_BasicClass(i_width:int ,i_height:int,i_buffer_type:int):void
 		{
-			this._size = new NyARIntSize(i_width, i_height);
+			this._size = new FLARIntSize(i_width, i_height);
 			this._buffer_type=i_buffer_type;
 		}
 
@@ -76,7 +76,7 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 			return this._size.h;
 		}
 
-		final public function getSize():NyARIntSize
+		final public function getSize():FLARIntSize
 		{
 			return this._size;
 		}
@@ -91,15 +91,15 @@ package jp.nyatla.nyartoolkit.as3.core.raster
 
 		public function getBuffer():Object
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function hasBuffer():Boolean
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}		
 		public function wrapBuffer(i_ref_buf:Object):void
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function getBuffer():Object{}
 		public function hasBuffer():Boolean{}

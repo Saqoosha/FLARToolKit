@@ -1,15 +1,15 @@
-package jp.nyatla.nyartoolkit.as3.rpf.mklib 
+package org.libspark.flartoolkit.rpf.mklib 
 {
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.nyidmarker.data.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.realitysource.nyartk.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk.*;
+	import org.libspark.flartoolkit.nyidmarker.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.nyidmarker.data.*;
+	import org.libspark.flartoolkit.rpf.realitysource.nyartk.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.*;
+	import org.libspark.flartoolkit.rpf.reality.nyartk.*;
 	/**
 	 * 簡易な同期型NyIdマーカIDテーブルです。
 	 * このクラスは、RawBitフォーマットドメインのNyIdマーカのIdとメタデータセットテーブルを定義します。
@@ -38,7 +38,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * コンストラクタです。
 		 * @param i_max
 		 * 登録するアイテムの最大数です。
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
 		public function RawbitSerialIdTable(i_max:int)
 		{
@@ -100,8 +100,8 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 			d.setValue(i_name,0,Number.MAX_VALUE,i_width);
 			return true;
 		}
-		private var _last_laster:INyARRaster=null;
-		private var _gs_pix_reader:INyARGsPixelDriver;
+		private var _last_laster:IFLARRaster=null;
+		private var _gs_pix_reader:IFLARGsPixelDriver;
 		/**
 		 * i_raster上にあるi_vertexの頂点で定義される四角形のパターンから、一致するID値を特定します。
 		 * @param i_vertex
@@ -109,12 +109,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * @param i_raster
 		 * @param o_result
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function identifyId(i_vertex:Vector.<NyARDoublePoint2d>,i_raster:INyARRgbRaster,o_result:RawbitSerialIdTable_IdentifyIdResult):Boolean
+		public function identifyId(i_vertex:Vector.<FLARDoublePoint2d>,i_raster:IFLARRgbRaster,o_result:RawbitSerialIdTable_IdentifyIdResult):Boolean
 		{
 			if(this._last_laster!=i_raster){
-				this._gs_pix_reader=NyARGsPixelDriverFactory.createDriver_2(i_raster);
+				this._gs_pix_reader=FLARGsPixelDriverFactory.createDriver_2(i_raster);
 				this._last_laster=i_raster;
 			}
 			if(!this._id_pickup.pickFromRaster(this._gs_pix_reader,i_vertex,this._temp_nyid_info,this._temp_nyid_param))
@@ -173,13 +173,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 		 * 返却値がtrueの場合のみ、内容が更新されています。
 		 * @return
 		 * 特定に成功すると、trueを返します。
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function identifyId_2(i_target:NyARRealityTarget,i_rtsorce:NyARRealitySource,o_result:RawbitSerialIdTable_IdentifyIdResult):Boolean
+		public function identifyId_2(i_target:FLARRealityTarget,i_rtsorce:FLARRealitySource,o_result:RawbitSerialIdTable_IdentifyIdResult):Boolean
 		{
-			//NyARDoublePoint2d[] i_vertex,NyARRgbRaster i_raster,SelectResult o_result
+			//FLARDoublePoint2d[] i_vertex,FLARRgbRaster i_raster,SelectResult o_result
 			return this.identifyId(
-				((NyARRectTargetStatus)(i_target._ref_tracktarget._ref_status)).vertex,
+				((FLARRectTargetStatus)(i_target._ref_tracktarget._ref_status)).vertex,
 				i_rtsorce.refRgbSource(),
 				o_result);
 		}
@@ -187,7 +187,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.mklib
 	}
 
 }
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
+import org.libspark.flartoolkit.core.types.stack.*;
 
 class SerialTableRow
 {
@@ -204,7 +204,7 @@ class SerialTableRow
 	}
 }
 
-class SerialTable extends NyARObjectStack
+class SerialTable extends FLARObjectStack
 {
 	public function SerialTable(i_length:int)
 	{

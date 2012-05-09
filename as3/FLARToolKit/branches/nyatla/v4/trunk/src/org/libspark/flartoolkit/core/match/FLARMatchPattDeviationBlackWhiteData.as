@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.match 
+package org.libspark.flartoolkit.core.match 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.*;
 	
-	public class NyARMatchPattDeviationBlackWhiteData
+	public class FLARMatchPattDeviationBlackWhiteData
 	{
 		private var _data:Vector.<int>;
 		private var _pow:Number;
@@ -47,7 +47,7 @@ package jp.nyatla.nyartoolkit.as3.core.match
 			return this._pow;
 		}
 						  
-		public function NyARMatchPattDeviationBlackWhiteData(i_width:int,i_height:int)
+		public function FLARMatchPattDeviationBlackWhiteData(i_width:int,i_height:int)
 		{
 			this._number_of_pixels=i_height*i_width;
 			this._data=new Vector.<int>(this._number_of_pixels);
@@ -57,7 +57,7 @@ package jp.nyatla.nyartoolkit.as3.core.match
 		 * XRGB[width*height]の配列から、パターンデータを構築。
 		 * @param i_buffer
 		 */
-		public function setRaster(i_raster:INyARRaster):void
+		public function setRaster(i_raster:IFLARRaster):void
 		{
 			//i_buffer[XRGB]→差分[BW]変換			
 			var i:int;

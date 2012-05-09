@@ -1,14 +1,14 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk 
+package org.libspark.flartoolkit.rpf.tracker.nyartk 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.NyARCameraDistortionFactor;
-	import jp.nyatla.nyartoolkit.as3.core.raster.NyARGrayscaleRaster;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARContourPickup;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.NyARMath;
-	import jp.nyatla.nyartoolkit.as3.rpf.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.utils.FLARMath;
+	import org.libspark.flartoolkit.rpf.utils.*;
 	
-	public interface INyARVectorReader 
+	public interface IFLARVectorReader 
 	{
 		/**
 		 * RECT範囲内の画素ベクトルの合計値と、ベクトルのエッジ中心を取得します。 320*240の場合、
@@ -26,10 +26,10 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @return
 		 * ベクトルの強度を返します。強度値は、差分値の二乗の合計です。
 		 */
-		function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int;
-		function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:NyARVecLinear2d):int;
+		function getAreaVector33(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int;
+		function getAreaVector22(ix:int,iy:int,iw:int,ih:int,o_posvec:FLARVecLinear2d):int;
 
-		function traceConture(i_th:int,i_entry:NyARIntPoint2d,o_coord:VecLinearCoordinates):Boolean;
+		function traceConture(i_th:int,i_entry:FLARIntPoint2d,o_coord:VecLinearCoordinates):Boolean;
 
 		/**
 		 * 点1と点2の間に線分を定義して、その線分上のベクトルを得ます。点は、画像の内側でなければなりません。 320*240の場合、(x>=0 &&
@@ -44,11 +44,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param o_coord
 		 *            結果を受け取るオブジェクトです。
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function traceLine(i_pos1:NyARIntPoint2d,i_pos2:NyARIntPoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
+		function traceLine(i_pos1:FLARIntPoint2d,i_pos2:FLARIntPoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
 
-		function traceLine_2(i_pos1:NyARDoublePoint2d,i_pos2:NyARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
+		function traceLine_2(i_pos1:FLARDoublePoint2d,i_pos2:FLARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
 
 		/**
 		 * 輪郭線を取得します。
@@ -59,7 +59,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * 4.3点以上の集合になったら、最小二乗法で直線を計算。
 		 * 5.直線の加重値を個々の画素ベクトルの和として返却。
 		 */
-		function traceConture_2(i_coord:NyARIntCoordinates,i_pos_mag:int,i_cell_size:int,o_coord:VecLinearCoordinates):Boolean;
+		function traceConture_2(i_coord:FLARIntCoordinates,i_pos_mag:int,i_cell_size:int,o_coord:VecLinearCoordinates):Boolean;
 		/**
 		 * クリッピング付きのライントレーサです。
 		 * 
@@ -68,9 +68,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_edge
 		 * @param o_coord
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function traceLineWithClip(i_pos1:NyARDoublePoint2d,i_pos2:NyARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
+		function traceLineWithClip(i_pos1:FLARDoublePoint2d,i_pos2:FLARDoublePoint2d,i_edge:int,o_coord:VecLinearCoordinates):Boolean;
 		
 	}
 	

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,37 +28,37 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.pca2d.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
+	import org.libspark.flartoolkit.core.pca2d.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.param.*;
 	
-	public class NyARCoord2Linear
+	public class FLARCoord2Linear
 	{
 		private var _xpos:Vector.<Number>;
 		private var _ypos:Vector.<Number>;	
-		private var _pca:INyARPca2d;
-		private var __getSquareLine_evec:NyARDoubleMatrix22=new NyARDoubleMatrix22();
+		private var _pca:IFLARPca2d;
+		private var __getSquareLine_evec:FLARDoubleMatrix22=new FLARDoubleMatrix22();
 		private var __getSquareLine_mean:Vector.<Number> = new Vector.<Number>(2);
 		private var __getSquareLine_ev:Vector.<Number> = new Vector.<Number>(2);
-		private var _dist_factor:NyARObserv2IdealMap;
+		private var _dist_factor:FLARObserv2IdealMap;
 		/**
 		 * @param i_size
 		 * @param i_distfactor_ref
 		 * カメラ歪みを補正する場合のパラメータを指定します。
 		 * nullの場合、補正マップを使用しません。
 		 */
-		public function NyARCoord2Linear(i_size:NyARIntSize,i_distfactor:NyARCameraDistortionFactor)
+		public function FLARCoord2Linear(i_size:FLARIntSize,i_distfactor:FLARCameraDistortionFactor)
 		{
 			if(i_distfactor!=null){
-				this._dist_factor = new NyARObserv2IdealMap(i_distfactor,i_size);
+				this._dist_factor = new FLARObserv2IdealMap(i_distfactor,i_size);
 			}else{
 				this._dist_factor=null;
 			}
 			// 輪郭バッファ
-			this._pca=new NyARPca2d_MatrixPCA_O2();
+			this._pca=new FLARPca2d_MatrixPCA_O2();
 			this._xpos=new Vector.<Number>(i_size.w+i_size.h);//最大辺長はthis._width+this._height
 			this._ypos=new Vector.<Number>(i_size.w+i_size.h);//最大辺長はthis._width+this._height
 			return;
@@ -72,9 +72,9 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * @param i_coord
 		 * @param o_line
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function coord2Line(i_st:int,i_ed:int,i_coord:NyARIntCoordinates,o_line:NyARLinear):Boolean
+		public function coord2Line(i_st:int,i_ed:int,i_coord:FLARIntCoordinates,o_line:FLARLinear):Boolean
 		{
 			//頂点を取得
 			var n:int,st:int,ed:int;
@@ -116,7 +116,7 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 				return false;
 			}
 			//主成分分析する。
-			var evec:NyARDoubleMatrix22=this.__getSquareLine_evec;
+			var evec:FLARDoubleMatrix22=this.__getSquareLine_evec;
 			var mean:Vector.<Number>=this.__getSquareLine_mean;
 
 			

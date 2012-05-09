@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -30,9 +30,9 @@ package org.libspark.flartoolkit.core.rasterfilter
 {
 	import flash.geom.*;
 	import flash.display.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import jp.nyatla.as3utils.*;
@@ -51,7 +51,7 @@ package org.libspark.flartoolkit.core.rasterfilter
 		]);
         public function FLARRgb2GsFilter(i_ref_raster:FLARRgbRaster)
         {
-            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
             this._ref_raster = i_ref_raster;
         }		
 		/**
@@ -65,7 +65,7 @@ package org.libspark.flartoolkit.core.rasterfilter
 		 */
 		public function convertRect(l:int, t:int, w:int, h:int, i_gs:FLARGrayscaleRaster):void
 		{
-			NyAS3Utils.assert (i_gs.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));			
+			NyAS3Utils.assert (i_gs.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));			
 			var inbmp:BitmapData = this._ref_raster.getBitmapData();
 			this._src.left  =l;
 			this._src.top   =t;
@@ -79,11 +79,11 @@ package org.libspark.flartoolkit.core.rasterfilter
 		/**
 		 * 同一サイズの画像にグレースケール画像を生成します。
 		 * @param i_raster
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function convert(i_gs:FLARGrayscaleRaster):void
 		{
-			var s:NyARIntSize = this._ref_raster.getSize();
+			var s:FLARIntSize = this._ref_raster.getSize();
 			this.convertRect(0, 0, s.w, s.h, i_gs);			
 		}
 	}

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,32 +28,32 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect
+package org.libspark.flartoolkit.core.squaredetect
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * ARMarkerInfoに相当するクラス。 矩形情報を保持します。
 	 * 
 	 */
-	public class NyARSquare
+	public class FLARSquare
 	{
-		public var line:Vector.<NyARLinear> = NyARLinear.createArray(4);
-		public var sqvertex:Vector.<NyARDoublePoint2d>= NyARDoublePoint2d.createArray(4);
+		public var line:Vector.<FLARLinear> = FLARLinear.createArray(4);
+		public var sqvertex:Vector.<FLARDoublePoint2d>= FLARDoublePoint2d.createArray(4);
 		/**
 		 * 中心点を計算します。
 		 * @param o_out
 		 * 結果を格納するバッファ。
 		 */
-		public function getCenter2d(o_out:NyARDoublePoint2d):void
+		public function getCenter2d(o_out:FLARDoublePoint2d):void
 		{
 			o_out.x=(this.sqvertex[0].x+this.sqvertex[1].x+this.sqvertex[2].x+this.sqvertex[3].x)/4;
 			o_out.y=(this.sqvertex[0].y+this.sqvertex[1].y+this.sqvertex[2].y+this.sqvertex[3].y)/4;
 			return;
 		}
-		public function checkVertexShiftValue( i_square:NyARSquare ):int
+		public function checkVertexShiftValue( i_square:FLARSquare ):int
 		{ 
-			var a:Vector.<NyARDoublePoint2d> = this.sqvertex ;
-			var b:Vector.<NyARDoublePoint2d> = i_square.sqvertex ;
+			var a:Vector.<FLARDoublePoint2d> = this.sqvertex ;
+			var b:Vector.<FLARDoublePoint2d> = i_square.sqvertex ;
 			var min_dist:int = int.MAX_VALUE ;
 			var min_index:int = 0 ;
 			var xd:int , yd:int ;
@@ -77,8 +77,8 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		public function rotateVertexL( i_shift:int ):void
 		{ 
 			//assert( ! (( i_shift < 4 ) ) );
-			var vertext:NyARDoublePoint2d ;
-			var linet:NyARLinear ;
+			var vertext:FLARDoublePoint2d ;
+			var linet:FLARLinear ;
 			if( i_shift == 0 ) {
 				return  ;
 			}

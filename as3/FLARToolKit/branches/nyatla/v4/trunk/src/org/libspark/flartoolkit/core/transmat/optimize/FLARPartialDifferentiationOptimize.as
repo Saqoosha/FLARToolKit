@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,22 +28,22 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.optimize 
+package org.libspark.flartoolkit.core.transmat.optimize 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.solver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.transmat.solver.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.utils.*;
 	/**
 	 * 基本姿勢と実画像を一致するように、角度を微調整→平行移動量を再計算 を繰り返して、変換行列を最適化する。
 	 * 
 	 */
-	public class NyARPartialDifferentiationOptimize
+	public class FLARPartialDifferentiationOptimize
 	{
-		private var _projection_mat_ref:NyARPerspectiveProjectionMatrix;
+		private var _projection_mat_ref:FLARPerspectiveProjectionMatrix;
 
-		public function NyARPartialDifferentiationOptimize(i_projection_mat_ref:NyARPerspectiveProjectionMatrix)
+		public function FLARPartialDifferentiationOptimize(i_projection_mat_ref:FLARPerspectiveProjectionMatrix)
 		{
 			this._projection_mat_ref = i_projection_mat_ref;
 			return;
@@ -71,9 +71,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 		 * J=2*Σ(d[n]*f[n]+a[n]*c[n])/L K=2*Σ(-e[n]*f[n]+b[n]*c[n])/L M=Σ(-e[n]^2+d[n]^2-b[n]^2+a[n]^2)/L 偏微分式 +J*cos(x) +K*sin(x) -sin(x)^2 +cos(x)^2
 		 * +2*M*cos(x)*sin(x)
 		 */
-		private function optimizeParamX(sinb:Number,cosb:Number,sinc:Number,cosc:Number,i_trans:NyARDoublePoint3d,i_vertex3d:Vector.<NyARDoublePoint3d>,i_vertex2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
+		private function optimizeParamX(sinb:Number,cosb:Number,sinc:Number,cosc:Number,i_trans:FLARDoublePoint3d,i_vertex3d:Vector.<FLARDoublePoint3d>,i_vertex2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
 		{
-			var cp:NyARPerspectiveProjectionMatrix = this._projection_mat_ref;
+			var cp:FLARPerspectiveProjectionMatrix = this._projection_mat_ref;
 			var L:Number, J:Number, K:Number, M:Number, N:Number, O:Number;
 			L = J = K = M = N = O = 0;
 			var cp00:Number = cp.m00 ; 
@@ -125,9 +125,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 
 
 		}
-		private function optimizeParamY(sina:Number,cosa:Number,sinc:Number,cosc:Number,i_trans:NyARDoublePoint3d,i_vertex3d:Vector.<NyARDoublePoint3d>,i_vertex2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
+		private function optimizeParamY(sina:Number,cosa:Number,sinc:Number,cosc:Number,i_trans:FLARDoublePoint3d,i_vertex3d:Vector.<FLARDoublePoint3d>,i_vertex2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
 		{
-			var cp:NyARPerspectiveProjectionMatrix = this._projection_mat_ref;
+			var cp:FLARPerspectiveProjectionMatrix = this._projection_mat_ref;
 			var L:Number, J:Number, K:Number, M:Number, N:Number, O:Number;
 			L = J = K = M = N = O = 0;
 			var cp00:Number = cp.m00 ; 
@@ -176,9 +176,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 			return getMinimumErrorAngleFromParam(L,J, K, M, N, O, i_hint_angle);
 
 		}
-		private function optimizeParamZ(sina:Number,cosa:Number,sinb:Number,cosb:Number,i_trans:NyARDoublePoint3d,i_vertex3d:Vector.<NyARDoublePoint3d>,i_vertex2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
+		private function optimizeParamZ(sina:Number,cosa:Number,sinb:Number,cosb:Number,i_trans:FLARDoublePoint3d,i_vertex3d:Vector.<FLARDoublePoint3d>,i_vertex2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int,i_hint_angle:Number):Number
 		{
-			var cp:NyARPerspectiveProjectionMatrix = this._projection_mat_ref;
+			var cp:FLARPerspectiveProjectionMatrix = this._projection_mat_ref;
 			var L:Number, J:Number, K:Number, M:Number, N:Number, O:Number;
 			L = J = K = M = N = O = 0;
 			var cp00:Number = cp.m00 ; 
@@ -229,17 +229,17 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 			return getMinimumErrorAngleFromParam(L,J, K, M, N, O, i_hint_angle);
 		}
 //		private var __angles_in:Vector.<TSinCosValue>=TSinCosValue.createArray(3);
-		private var __ang:NyARDoublePoint3d=new NyARDoublePoint3d();
-		public function modifyMatrix(io_rot:NyARDoubleMatrix33,i_trans:NyARDoublePoint3d,i_vertex3d:Vector.<NyARDoublePoint3d>,i_vertex2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int):void
+		private var __ang:FLARDoublePoint3d=new FLARDoublePoint3d();
+		public function modifyMatrix(io_rot:FLARDoubleMatrix33,i_trans:FLARDoublePoint3d,i_vertex3d:Vector.<FLARDoublePoint3d>,i_vertex2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int):void
 		{
-			var ang:NyARDoublePoint3d = this.__ang;		
+			var ang:FLARDoublePoint3d = this.__ang;		
 			// ZXY系のsin/cos値を抽出
 			io_rot.getZXYAngle(ang);
 			modifyMatrix_2(ang,i_trans,i_vertex3d,i_vertex2d,i_number_of_vertex,ang);
 			io_rot.setZXYAngle_2(ang.x, ang.y, ang.z);
 			return;
 		}
-		public function modifyMatrix_2( i_angle:NyARDoublePoint3d , i_trans:NyARDoublePoint3d , i_vertex3d:Vector.<NyARDoublePoint3d> , i_vertex2d:Vector.<NyARDoublePoint2d> , i_number_of_vertex:int , o_angle:NyARDoublePoint3d ):void
+		public function modifyMatrix_2( i_angle:FLARDoublePoint3d , i_trans:FLARDoublePoint3d , i_vertex3d:Vector.<FLARDoublePoint3d> , i_vertex2d:Vector.<FLARDoublePoint2d> , i_number_of_vertex:int , o_angle:FLARDoublePoint3d ):void
 		{
 			var sinx:Number = Math.sin(i_angle.x) ;
 			var cosx:Number = Math.cos(i_angle.x) ;
@@ -267,7 +267,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.optimize
 
 			// パラメータからsinテーブルを作成
 			// (- 4*M^2-4)*x^4 + (4*K- 4*J*M)*x^3 + (4*M^2 -(K^2- 4)- J^2)*x^2 +(4*J*M- 2*K)*x + J^2-1 = 0
-			var number_of_sin:int = NyAREquationSolver.solve4Equation(-4 * M * M - 4, 4 * K - 4 * J * M, 4 * M * M - (K * K - 4) - J * J, 4 * J * M - 2 * K, J * J - 1, sin_table);
+			var number_of_sin:int = FLAREquationSolver.solve4Equation(-4 * M * M - 4, 4 * K - 4 * J * M, 4 * M * M - (K * K - 4) - J * J, 4 * J * M - 2 * K, J * J - 1, sin_table);
 
 
 			// 最小値２個を得ておく。

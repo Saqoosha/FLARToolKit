@@ -1,17 +1,17 @@
-package jp.nyatla.nyartoolkit.as3.core.types 
+package org.libspark.flartoolkit.core.types 
 {
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class NyARQuaternion 
+	public class FLARQuaternion 
 	{
 		public var x:Number;
 		public var y:Number;
 		public var z:Number;
 		public var w:Number;
 		
-		public function setFromMatrix(i_mat:NyARDoubleMatrix44)
+		public function setFromMatrix(i_mat:FLARDoubleMatrix44)
 		{
 			// 最大成分を検索
 			var elem0:Number = i_mat.m00 - i_mat.m11 - i_mat.m22 + 1.0;

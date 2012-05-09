@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,31 +28,31 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types
+package org.libspark.flartoolkit.core.types
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	public class NyARIntSize
+	import org.libspark.flartoolkit.core.*;
+	public class FLARIntSize
 	{
 		public var h:int;
 		public var w:int;
-		/*	public function NyARIntSize()
-		 * 	public function NyARIntSize(i_width:int,i_height:int)
-		 *	public function NyARIntSize(i_ref_object:NyARIntSize)
+		/*	public function FLARIntSize()
+		 * 	public function FLARIntSize(i_width:int,i_height:int)
+		 *	public function FLARIntSize(i_ref_object:FLARIntSize)
 		*/
-		public function NyARIntSize(...args:Array)
+		public function FLARIntSize(...args:Array)
 		{
 			switch(args.length) {
 			case 0:
-				{//public function NyARIntSize()
+				{//public function FLARIntSize()
 					this.w = 0;
 					this.h = 0;
 					return;
 				}
 			case 1:
-				if(args[0] is NyARIntSize)
+				if(args[0] is FLARIntSize)
 				{
 					
-					{	//public function NyARIntSize(i_width:int,i_height:int)
+					{	//public function FLARIntSize(i_width:int,i_height:int)
 						this.w=args[0].w;
 						this.h = args[0].h;
 						return;
@@ -60,7 +60,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 				}
 				break;
 			case 2:
-				{	//public function NyARIntSize(i_ref_object:NyARIntSize)
+				{	//public function FLARIntSize(i_ref_object:FLARIntSize)
 					this.w=int(args[0]);
 					this.h=int(args[1]);
 					return;
@@ -69,7 +69,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			default:
 				break;
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}
 		public function setValue(i_w:int,i_h:int):void
 		{
@@ -83,7 +83,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_width
 		 * @param i_height
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function isEqualSize(i_width:int,i_height:int):Boolean
 		{
@@ -99,9 +99,9 @@ package jp.nyatla.nyartoolkit.as3.core.types
 		 * @param i_width
 		 * @param i_height
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function isEqualSize_2(i_size:NyARIntSize):Boolean
+		public function isEqualSize_2(i_size:FLARIntSize):Boolean
 		{
 			if (i_size.w == this.w && i_size.h == this.h) {
 				return true;
@@ -113,12 +113,12 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			return ( i_x <= this.w && i_y <= this.h ) ;
 		}
 		
-		public function isInnerSize_2( i_size:NyARIntSize ):Boolean
+		public function isInnerSize_2( i_size:FLARIntSize ):Boolean
 		{ 
 			return ( i_size.w <= this.w && i_size.h <= this.h ) ;
 		}
 		
-		public function isInnerSize_3( i_point:NyARDoublePoint2d ):Boolean
+		public function isInnerSize_3( i_point:FLARDoublePoint2d ):Boolean
 		{ 
 			return ( i_point.x < this.w && i_point.y < this.h && 0 <= i_point.x && 0 <= i_point.y ) ;
 		}
@@ -128,17 +128,17 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			return ( i_x < this.w && i_y < this.h && 0 <= i_x && 0 <= i_y ) ;
 		}
 		
-		public function isInnerPoint_2( i_pos:NyARDoublePoint2d ):Boolean
+		public function isInnerPoint_2( i_pos:FLARDoublePoint2d ):Boolean
 		{ 
 			return ( i_pos.x < this.w && i_pos.y < this.h && 0 <= i_pos.x && 0 <= i_pos.y ) ;
 		}
 		
-		public function isInnerPoint_3( i_pos:NyARIntPoint2d ):Boolean
+		public function isInnerPoint_3( i_pos:FLARIntPoint2d ):Boolean
 		{ 
 			return ( i_pos.x < this.w && i_pos.y < this.h && 0 <= i_pos.x && 0 <= i_pos.y ) ;
 		}
 		
-		public function setAreaRect( i_vertex:Vector.<NyARDoublePoint2d>, i_num_of_vertex:int ):void
+		public function setAreaRect( i_vertex:Vector.<FLARDoublePoint2d>, i_num_of_vertex:int ):void
 		{ 
 			var xmax:int , xmin:int , ymax:int , ymin:int ;
 			xmin = xmax = int(i_vertex[i_num_of_vertex - 1].x) ;
@@ -164,7 +164,7 @@ package jp.nyatla.nyartoolkit.as3.core.types
 			this.w = xmax - xmin + 1 ;
 		}
 		
-		public function setAreaRect_2( i_vertex:Vector.<NyARIntPoint2d>, i_num_of_vertex:int ):void
+		public function setAreaRect_2( i_vertex:Vector.<FLARIntPoint2d>, i_num_of_vertex:int ):void
 		{ 
 			var xmax:int , xmin:int , ymax:int , ymin:int ;
 			xmin = xmax = int(i_vertex[i_num_of_vertex - 1].x) ;

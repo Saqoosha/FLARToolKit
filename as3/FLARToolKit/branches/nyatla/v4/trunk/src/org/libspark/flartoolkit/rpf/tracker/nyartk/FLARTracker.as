@@ -1,11 +1,11 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.stack.NyARPointerStack;
-	import jp.nyatla.nyartoolkit.as3.core.utils.NyARDistMap;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.stack.FLARPointerStack;
+	import org.libspark.flartoolkit.core.utils.FLARDistMap;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.*;
 
 
 
@@ -15,21 +15,21 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 	 * @author nyatla
 	 *
 	 */
-	public class NyARTracker
+	public class FLARTracker
 	{
 		private var _map:DistMap;
 		protected var _index:Vector.<int>;
 
-		private var newst_pool:NyARNewTargetStatusPool;
-		private var contourst_pool:NyARContourTargetStatusPool;
-		private var rect_pool:NyARRectTargetStatusPool;
+		private var newst_pool:FLARNewTargetStatusPool;
+		private var contourst_pool:FLARContourTargetStatusPool;
+		private var rect_pool:FLARRectTargetStatusPool;
 
-		private var target_pool:NyARTargetPool;
+		private var target_pool:FLARTargetPool;
 		/**
 		 * ターゲットリストです。このプロパティは内部向けです。
 		 * refTrackTarget関数を介してアクセスしてください。
 		 */
-		public var _targets:NyARTargetList;
+		public var _targets:FLARTargetList;
 
 
 		//環境定数
@@ -42,7 +42,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		private var _igsource:SampleStack;
 		private var _coordsource:SampleStack;
 		private var _rectsource:SampleStack;	
-		public var _temp_targets:Vector.<NyARTargetList>;
+		public var _temp_targets:Vector.<FLARTargetList>;
 
 		private var _number_of_new:int;
 		private var _number_of_ignore:int;
@@ -85,7 +85,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * ターゲットリストの参照値を返します。
 		 * @return
 		 */
-		public function refTrackTarget():NyARTargetList
+		public function refTrackTarget():FLARTargetList
 		{
 			return this._targets;
 		}
@@ -97,9 +97,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * Contourトラックターゲットの最大数を指定します。
 		 * @param i_max_rect
 		 * Rectトラックターゲットの最大数を指定します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARTracker(i_max_new:int,i_max_cont:int,i_max_rect:int)
+		public function FLARTracker(i_max_new:int,i_max_cont:int,i_max_rect:int)
 		{
 			//環境定数の設定
 			this.MAX_NUMBER_OF_NEW=i_max_new;
@@ -108,12 +108,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			this.MAX_NUMBER_OF_TARGET=(i_max_new+i_max_cont+i_max_rect)*5;		
 
 
-			//ターゲットマップ用の配列と、リスト。この関数はNyARTargetStatusのIDと絡んでるので、気をつけて！
-			this._temp_targets=new Vector.<NyARTargetList>(NyARTargetStatus.MAX_OF_ST_KIND+1);
-			this._temp_targets[NyARTargetStatus.ST_NEW]    =new NyARTargetList(i_max_new);
-			this._temp_targets[NyARTargetStatus.ST_IGNORE] =new NyARTargetList(this.MAX_NUMBER_OF_TARGET);
-			this._temp_targets[NyARTargetStatus.ST_CONTURE]=new NyARTargetList(i_max_cont);
-			this._temp_targets[NyARTargetStatus.ST_RECT]   =new NyARRectTargetList(i_max_rect);
+			//ターゲットマップ用の配列と、リスト。この関数はFLARTargetStatusのIDと絡んでるので、気をつけて！
+			this._temp_targets=new Vector.<FLARTargetList>(FLARTargetStatus.MAX_OF_ST_KIND+1);
+			this._temp_targets[FLARTargetStatus.ST_NEW]    =new FLARTargetList(i_max_new);
+			this._temp_targets[FLARTargetStatus.ST_IGNORE] =new FLARTargetList(this.MAX_NUMBER_OF_TARGET);
+			this._temp_targets[FLARTargetStatus.ST_CONTURE]=new FLARTargetList(i_max_cont);
+			this._temp_targets[FLARTargetStatus.ST_RECT]   =new FLARRectTargetList(i_max_rect);
 
 			//ソースリスト
 			this._newsource=new SampleStack(i_max_new);
@@ -122,13 +122,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			this._rectsource=new SampleStack(i_max_rect);
 
 			//ステータスプール
-			this.newst_pool=new NyARNewTargetStatusPool(i_max_new*2);
-			this.contourst_pool=new NyARContourTargetStatusPool(i_max_rect+i_max_cont*2);
-			this.rect_pool=new NyARRectTargetStatusPool(i_max_rect*2);
+			this.newst_pool=new FLARNewTargetStatusPool(i_max_new*2);
+			this.contourst_pool=new FLARContourTargetStatusPool(i_max_rect+i_max_cont*2);
+			this.rect_pool=new FLARRectTargetStatusPool(i_max_rect*2);
 			//ターゲットプール
-			this.target_pool=new NyARTargetPool(this.MAX_NUMBER_OF_TARGET);
+			this.target_pool=new FLARTargetPool(this.MAX_NUMBER_OF_TARGET);
 			//ターゲット
-			this._targets=new NyARTargetList(this.MAX_NUMBER_OF_TARGET);		
+			this._targets=new FLARTargetList(this.MAX_NUMBER_OF_TARGET);		
 			
 			//ここ注意！マップの最大値は、ソースアイテムの個数よりおおきいこと！
 			this._map=new DistMap(this.MAX_NUMBER_OF_TARGET,this.MAX_NUMBER_OF_TARGET);
@@ -141,21 +141,21 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		/**
 		 * Trackerの状態を更新します。
 		 * @param i_source
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function progress(i_s:NyARTrackerSource):void
+		public function progress(i_s:FLARTrackerSource):void
 		{
 			var i:int;
 			//SampleOutを回収
 			var sample_out:LowResolutionLabelingSamplerOut=i_s.makeSampleOut();
 			
-			var targets:Vector.<NyARTargetList>=this._temp_targets;
-			var newtr:NyARTargetList=targets[NyARTargetStatus.ST_NEW];
-			var igtr:NyARTargetList=targets[NyARTargetStatus.ST_IGNORE];
-			var cotr:NyARTargetList=targets[NyARTargetStatus.ST_CONTURE];
-			var retw:NyARTargetList=targets[NyARTargetStatus.ST_RECT];
+			var targets:Vector.<FLARTargetList>=this._temp_targets;
+			var newtr:FLARTargetList=targets[FLARTargetStatus.ST_NEW];
+			var igtr:FLARTargetList=targets[FLARTargetStatus.ST_IGNORE];
+			var cotr:FLARTargetList=targets[FLARTargetStatus.ST_CONTURE];
+			var retw:FLARTargetList=targets[FLARTargetStatus.ST_RECT];
 
-			var vecreader:INyARVectorReader=i_s.getBaseVectorReader();
+			var vecreader:IFLARVectorReader=i_s.getBaseVectorReader();
 			//ターゲットリストの振り分け
 			var target_array:Vector.<Object>=this._targets.getArray();
 			newtr.clear();
@@ -185,17 +185,17 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			//ターゲットのアップグレード
 			for(i=this._targets.getLength()-1;i>=0;i--){
 				switch(target_array[i]._st_type){
-				case NyARTargetStatus.ST_IGNORE:
+				case FLARTargetStatus.ST_IGNORE:
 					upgradeIgnoreTarget(i);
 					continue;
-				case NyARTargetStatus.ST_NEW:
-					upgradeNewTarget(NyARTarget(target_array[i]),vecreader);
+				case FLARTargetStatus.ST_NEW:
+					upgradeNewTarget(FLARTarget(target_array[i]),vecreader);
 					continue;
-				case NyARTargetStatus.ST_RECT:
-					upgradeRectTarget(NyARTarget(target_array[i]));
+				case FLARTargetStatus.ST_RECT:
+					upgradeRectTarget(FLARTarget(target_array[i]));
 					continue;
-				case NyARTargetStatus.ST_CONTURE:
-					upgradeContourTarget(NyARTarget(target_array[i]));
+				case FLARTargetStatus.ST_CONTURE:
+					upgradeContourTarget(FLARTarget(target_array[i]));
 					continue;
 				}
 			}
@@ -217,11 +217,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_new_target
 		 * @param i_base_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function upgradeNewTarget(i_new_target:NyARTarget,i_vecreader:INyARVectorReader):void
+		private function upgradeNewTarget(i_new_target:FLARTarget,i_vecreader:IFLARVectorReader):void
 		{
-			//assert(i_new_target._st_type==NyARTargetStatus.ST_NEW);
+			//assert(i_new_target._st_type==FLARTargetStatus.ST_NEW);
 
 			//寿命を超えたらignoreへ遷移
 			if(i_new_target._status_life<=0)
@@ -229,14 +229,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				this.changeStatusToIgnore(i_new_target,LIFE_OF_IGNORE_FROM_NEW);
 				return;
 			}
-			var st:NyARNewTargetStatus=(NyARNewTargetStatus)(i_new_target._ref_status);
+			var st:FLARNewTargetStatus=(FLARNewTargetStatus)(i_new_target._ref_status);
 			//このターゲットをアップグレードできるか確認
 			if(st.current_sampleout==null){
 				//直近のsampleoutが無い。->なにもできない。
 				return;
 			}
 			//coordステータスを生成
-			var c:NyARContourTargetStatus=NyARContourTargetStatus(this.contourst_pool.newObject());
+			var c:FLARContourTargetStatus=FLARContourTargetStatus(this.contourst_pool.newObject());
 			if(c==null){
 				//ターゲットがいっぱい。(失敗して何もしない)
 				//System.out.println("upgradeNewTarget:status pool full");
@@ -262,11 +262,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * 指定したi_ig_targetをリストから削除します。
 		 * リストは詰められますが、そのルールはdeleatTarget依存です。
 		 * @param i_ig_index
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		private function upgradeIgnoreTarget(i_ig_index:int):void
 		{
-			//assert(this._targets.getItem(i_ig_index)._st_type==NyARTargetStatus.ST_IGNORE);
+			//assert(this._targets.getItem(i_ig_index)._st_type==FLARTargetStatus.ST_IGNORE);
 			if(this._targets.getItem(i_ig_index)._status_life<=0)
 			{
 				//オブジェクトのリリース
@@ -276,15 +276,15 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		}
 		
 		/**
-		 * NyARTrackerOutのCOntourTargetについて、アップグレード処理をします。
+		 * FLARTrackerOutのCOntourTargetについて、アップグレード処理をします。
 		 * アップグレードの種類は以下のにとおりです。1.一定期間経過後の破棄ルート(Ignoreへ遷移)2.正常認識ルート(Rectへ遷移)
 		 * @param i_base_raster
 		 * @param i_trackdata
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function upgradeContourTarget(i_contoure_target:NyARTarget):void
+		private function upgradeContourTarget(i_contoure_target:FLARTarget):void
 		{
-			//assert(i_contoure_target._st_type==NyARTargetStatus.ST_CONTURE);
+			//assert(i_contoure_target._st_type==FLARTargetStatus.ST_CONTURE);
 			if(i_contoure_target._status_life<=0)
 			{
 				//一定の期間が経過したら、ignoreへ遷移
@@ -298,9 +298,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				//一定の期間updateができなければ、ignoreへ遷移
 			}
 
-			var st:NyARContourTargetStatus=(NyARContourTargetStatus)(i_contoure_target._ref_status);
+			var st:FLARContourTargetStatus=(FLARContourTargetStatus)(i_contoure_target._ref_status);
 			//coordステータスを生成
-			var c:NyARRectTargetStatus=NyARRectTargetStatus(this.rect_pool.newObject());
+			var c:FLARRectTargetStatus=FLARRectTargetStatus(this.rect_pool.newObject());
 			if(c==null){
 				//ターゲットがいっぱい。
 				return;
@@ -318,9 +318,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			}	
 			return;
 		}	
-		private function upgradeRectTarget(i_rect_target:NyARTarget):void
+		private function upgradeRectTarget(i_rect_target:FLARTarget):void
 		{
-			//assert(i_rect_target._st_type==NyARTargetStatus.ST_RECT);
+			//assert(i_rect_target._st_type==FLARTargetStatus.ST_RECT);
 			if(i_rect_target._delay_tick>20)
 			{
 				this.changeStatusToIgnore(i_rect_target,LIFE_OF_IGNORE_FROM_RECT);
@@ -331,14 +331,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		//
 		//update
 		//
-		private function updateIgnoreStatus(i_igliet:NyARTargetList,source:Vector.<Object>,index:Vector.<int>):void
+		private function updateIgnoreStatus(i_igliet:FLARTargetList,source:Vector.<Object>,index:Vector.<int>):void
 		{
-			var d_ptr:NyARTarget;
+			var d_ptr:FLARTarget;
 			//マップする。
 			var i_ignore_target:Vector.<Object>=i_igliet.getArray();
 			//ターゲットの更新
 			for(var i:int=i_igliet.getLength()-1;i>=0;i--){
-				d_ptr=NyARTarget(i_ignore_target[i]);
+				d_ptr=FLARTarget(i_ignore_target[i]);
 				var sample_index:int=index[i];
 				//年齢を加算
 				d_ptr._status_life--;
@@ -354,29 +354,29 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			
 		/**
 		 * NewTargetのステータスを更新します。
-		 * public static function updateNewStatus(i_list:NyARTargetList,i_pool:NyARNewTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void 
+		 * public static function updateNewStatus(i_list:FLARTargetList,i_pool:FLARNewTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void 
 		 * @param i_sample
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public static function updateNewStatus(i_list:NyARTargetList,i_pool:NyARNewTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void 
+		public static function updateNewStatus(i_list:FLARTargetList,i_pool:FLARNewTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void 
 		{
-			var d_ptr:NyARTarget;
+			var d_ptr:FLARTarget;
 			var i_nes:Vector.<Object>=i_list.getArray();		
 			//ターゲットの更新
 			for(var i:int=i_list.getLength()-1;i>=0;i--){
-				d_ptr=NyARTarget(i_nes[i]);
+				d_ptr=FLARTarget(i_nes[i]);
 				var sample_index:int=index[i];
 				//年齢を加算
 				d_ptr._status_life--;
 				if(sample_index<0){
 					//このターゲットに合致するアイテムは無い。
-					((NyARNewTargetStatus)(d_ptr._ref_status)).setValue(null);
+					((FLARNewTargetStatus)(d_ptr._ref_status)).setValue(null);
 					d_ptr._delay_tick++;
 					continue;
 				}
 				var s:LowResolutionLabelingSamplerOut_Item=LowResolutionLabelingSamplerOut_Item(source[sample_index]);
 				//先にステータスを作成しておく
-				var st:NyARNewTargetStatus=NyARNewTargetStatus(i_pool.newObject());
+				var st:FLARNewTargetStatus=FLARNewTargetStatus(i_pool.newObject());
 				if(st==null){
 					//ステータスの生成に失敗
 					d_ptr._delay_tick++;
@@ -397,23 +397,23 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		}
 		/**
 		 * ContoureTargetのステータスを更新します。
-		 * public static function updateContureStatus(i_list:NyARTargetList,i_vecreader:NyARVectorReader_INT1D_GRAY_8,i_stpool:NyARContourTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void
+		 * public static function updateContureStatus(i_list:FLARTargetList,i_vecreader:FLARVectorReader_INT1D_GRAY_8,i_stpool:FLARContourTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void
 		 * @param i_list
 		 * @param i_vecreader
 		 * @param i_stpool
 		 * @param source
 		 * @param index
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public static function updateContureStatus(i_list:NyARTargetList,i_vecreader:INyARVectorReader,i_stpool:NyARContourTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void
+		public static function updateContureStatus(i_list:FLARTargetList,i_vecreader:IFLARVectorReader,i_stpool:FLARContourTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void
 		{
 
 			var crd:Vector.<Object>=i_list.getArray();		
-			var d_ptr:NyARTarget;
+			var d_ptr:FLARTarget;
 			//ターゲットの更新
 			for(var i:int=i_list.getLength()-1;i>=0;i--){
 
-				d_ptr=NyARTarget(crd[i]);
+				d_ptr=FLARTarget(crd[i]);
 				var sample_index:int=index[i];
 				//年齢を加算
 				d_ptr._status_life--;
@@ -424,7 +424,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				}
 				var s:LowResolutionLabelingSamplerOut_Item=LowResolutionLabelingSamplerOut_Item(source[sample_index]);
 				//失敗の可能性を考慮して、Statusを先に生成しておく
-				var st:NyARContourTargetStatus=NyARContourTargetStatus(i_stpool.newObject());
+				var st:FLARContourTargetStatus=FLARContourTargetStatus(i_stpool.newObject());
 				if(st==null){
 					//失敗（作れなかった？）
 					d_ptr._delay_tick++;
@@ -444,21 +444,21 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 			}
 		}
 		/**
-		 * public static function updateRectStatus(i_list:NyARTargetList,i_vecreader:NyARVectorReader_INT1D_GRAY_8,i_stpool:NyARRectTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void
+		 * public static function updateRectStatus(i_list:FLARTargetList,i_vecreader:FLARVectorReader_INT1D_GRAY_8,i_stpool:FLARRectTargetStatusPool,source:Vector.<LowResolutionLabelingSamplerOut_Item>,index:Vector.<int>):void
 		 */
-		public static function updateRectStatus(i_list:NyARTargetList,i_vecreader:INyARVectorReader,i_stpool:NyARRectTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void
+		public static function updateRectStatus(i_list:FLARTargetList,i_vecreader:IFLARVectorReader,i_stpool:FLARRectTargetStatusPool,source:Vector.<Object>,index:Vector.<int>):void
 		{	
 			
 			var rct:Vector.<Object>=i_list.getArray();
-			var d_ptr:NyARTarget;
+			var d_ptr:FLARTarget;
 			//ターゲットの更新
 			for (var i:int = i_list.getLength() - 1; i >= 0; i--) {
 				
-				d_ptr=NyARTarget(rct[i]);
+				d_ptr=FLARTarget(rct[i]);
 				//年齢を加算
 				d_ptr._status_life--;
 				//新しいステータスの作成
-				var st:NyARRectTargetStatus=NyARRectTargetStatus(i_stpool.newObject());
+				var st:FLARRectTargetStatus=FLARRectTargetStatus(i_stpool.newObject());
 				if(st==null){
 					//失敗（作れなかった？）
 					d_ptr._delay_tick++;
@@ -466,7 +466,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 				}
 				var sample_index:int=index[i];
 				var s:LowResolutionLabelingSamplerOut_Item=LowResolutionLabelingSamplerOut_Item(sample_index<0?null:source[sample_index]);		
-				if(!st.setValueByAutoSelect(i_vecreader, s, (NyARRectTargetStatus)(d_ptr._ref_status))){
+				if(!st.setValueByAutoSelect(i_vecreader, s, (FLARRectTargetStatus)(d_ptr._ref_status))){
 					st.releaseObject();
 					d_ptr._delay_tick++;
 					continue;
@@ -494,11 +494,11 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_igsrc
 		 * @param i_coodsrc
 		 * @param i_rectsrc
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		private function sampleMapper(
 			i_source:LowResolutionLabelingSamplerOut,
-			i_new:NyARTargetList,i_ig:NyARTargetList,i_cood:NyARTargetList,i_rect:NyARTargetList,
+			i_new:FLARTargetList,i_ig:FLARTargetList,i_cood:FLARTargetList,i_rect:FLARTargetList,
 			i_newsrc:SampleStack,i_igsrc:SampleStack,i_coodsrc:SampleStack,i_rectsrc:SampleStack):void
 		{
 			//スタックを初期化
@@ -538,7 +538,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 					continue;
 				}
 				//マップできなかったものは、NewTragetへ登録(種類別のListには反映しない)
-				var t:NyARTarget=this.addNewTarget(sample_item);
+				var t:FLARTarget=this.addNewTarget(sample_item);
 				if(t==null){
 					continue;
 				}
@@ -560,29 +560,29 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_clock
 		 * @param i_sample
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		private function addNewTarget( i_sample:LowResolutionLabelingSamplerOut_Item):NyARTarget
+		private function addNewTarget( i_sample:LowResolutionLabelingSamplerOut_Item):FLARTarget
 		{
 			//個数制限
 			if(this._number_of_new>=this.MAX_NUMBER_OF_NEW){
 				return null;
 			}
 			//アイテム生成
-			var t:NyARTarget=this.target_pool.newNewTarget();
+			var t:FLARTarget=this.target_pool.newNewTarget();
 			if(t==null){
 				return null;
 			}
 			t._status_life=LIFE_OF_NEW;
-			t._st_type=NyARTargetStatus.ST_NEW;
+			t._st_type=FLARTargetStatus.ST_NEW;
 			t._delay_tick=0;
 			t.setSampleArea_2(i_sample);
-			t._ref_status=NyARTargetStatus(this.newst_pool.newObject());
+			t._ref_status=FLARTargetStatus(this.newst_pool.newObject());
 			if(t._ref_status==null){
 				t.releaseObject();
 				return null;
 			}
-			(NyARNewTargetStatus(t._ref_status)).setValue(i_sample);
+			(FLARNewTargetStatus(t._ref_status)).setValue(i_sample);
 			//ターゲットリストへ追加
 			this._targets.pushAssert(t);
 			this._number_of_new++;
@@ -594,12 +594,12 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * ターゲットをignoreステータスに設定して、trackerのprogressを経由してdeleateを実行します。
 		 * @param i_index
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		private function deleatTarget(i_index:int):void
 		{
-			//assert(this._targets.getItem(i_index)._st_type==NyARTargetStatus.ST_IGNORE);
-			var tr:NyARTarget=NyARTarget(this._targets.getItem(i_index));
+			//assert(this._targets.getItem(i_index)._st_type==FLARTargetStatus.ST_IGNORE);
+			var tr:FLARTarget=FLARTarget(this._targets.getItem(i_index));
 			this._targets.removeIgnoreOrder(i_index);
 			tr.releaseObject();
 			this._number_of_ignore--;
@@ -608,31 +608,31 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		
 		/**
 		 * このターゲットのステータスを、IgnoreStatusへ変更します。
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function changeStatusToIgnore(i_target:NyARTarget,i_life:int):void
+		public function changeStatusToIgnore(i_target:FLARTarget,i_life:int):void
 		{
 			//遷移元のステータスを制限すること！
-			//assert( (i_target._st_type==NyARTargetStatus.ST_NEW) || 
-			//		(i_target._st_type==NyARTargetStatus.ST_CONTURE) || 
-			//		(i_target._st_type==NyARTargetStatus.ST_RECT));
+			//assert( (i_target._st_type==FLARTargetStatus.ST_NEW) || 
+			//		(i_target._st_type==FLARTargetStatus.ST_CONTURE) || 
+			//		(i_target._st_type==FLARTargetStatus.ST_RECT));
 
 			//カウンタ更新
 			switch(i_target._st_type)
 			{
-			case NyARTargetStatus.ST_NEW:
+			case FLARTargetStatus.ST_NEW:
 				this._number_of_new--;
 				break;
-			case NyARTargetStatus.ST_RECT:
+			case FLARTargetStatus.ST_RECT:
 				this._number_of_rect--;
 				break;
-			case NyARTargetStatus.ST_CONTURE:
+			case FLARTargetStatus.ST_CONTURE:
 				this._number_of_contoure--;
 				break;
 			default:
 				return;
 			}
-			i_target._st_type=NyARTargetStatus.ST_IGNORE;
+			i_target._st_type=FLARTargetStatus.ST_IGNORE;
 			i_target._ref_status.releaseObject();
 			i_target._status_life=i_life;
 			i_target._ref_status=null;
@@ -643,16 +643,16 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * このターゲットのステータスを、CntoureStatusへ遷移させます。
 		 * @param i_c
 		 */
-		private function changeStatusToCntoure(i_target:NyARTarget,i_c:NyARContourTargetStatus):NyARTarget
+		private function changeStatusToCntoure(i_target:FLARTarget,i_c:FLARContourTargetStatus):FLARTarget
 		{
 			//遷移元のステータスを制限
 			//assert(i_c!=null);
-			//assert(i_target._st_type==NyARTargetStatus.ST_NEW);
+			//assert(i_target._st_type==FLARTargetStatus.ST_NEW);
 			//個数制限
 			if(this._number_of_contoure>=this.MAX_NUMBER_OF_CONTURE){
 				return null;
 			}
-			i_target._st_type=NyARTargetStatus.ST_CONTURE;
+			i_target._st_type=FLARTargetStatus.ST_CONTURE;
 			i_target._ref_status.releaseObject();
 			i_target._status_life=LIFE_OF_CONTURE_FROM_NEW;
 			i_target._ref_status=i_c;
@@ -667,13 +667,13 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 		 * @param i_c
 		 * @return
 		 */
-		private function changeStatusToRect(i_target:NyARTarget,i_c:NyARRectTargetStatus):NyARTarget 
+		private function changeStatusToRect(i_target:FLARTarget,i_c:FLARRectTargetStatus):FLARTarget 
 		{
-			//assert(i_target._st_type==NyARTargetStatus.ST_CONTURE);
+			//assert(i_target._st_type==FLARTargetStatus.ST_CONTURE);
 			if(this._number_of_rect>=this.MAX_NUMBER_OF_RECT){
 				return null;
 			}
-			i_target._st_type=NyARTargetStatus.ST_RECT;
+			i_target._st_type=FLARTargetStatus.ST_RECT;
 			i_target._ref_status.releaseObject();
 			i_target._status_life=LIFE_OF_RECT_FROM_CONTOUR;
 			i_target._ref_status=i_c;
@@ -687,14 +687,14 @@ package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.types.stack.*;
-import jp.nyatla.nyartoolkit.as3.core.utils.*;
-import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.*;
+import org.libspark.flartoolkit.core.types.stack.*;
+import org.libspark.flartoolkit.core.utils.*;
+import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
 /**
  * サンプルを格納するスタックです。このクラスは、一時的なリストを作るために使います。
  */
-class SampleStack extends NyARPointerStack
+class SampleStack extends FLARPointerStack
 {
 	public function SampleStack(i_size:int)
 	{
@@ -705,17 +705,17 @@ class SampleStack extends NyARPointerStack
 
 
 /**
- * NyARTargetとSampleStack.Item間の、点間距離マップを作製するクラスです。
+ * FLARTargetとSampleStack.Item間の、点間距離マップを作製するクラスです。
  * スーパークラスから、setPointDists関数をオーバライドします。
  *
  */
-class DistMap extends NyARDistMap
+class DistMap extends FLARDistMap
 {
 	public function DistMap(i_max_col:int,i_max_row:int)
 	{
 		super(i_max_col,i_max_row);
 	}
-	public function makePairIndexes(igsource:SampleStack,igtr:NyARTargetList ,index:Vector.<int>):void
+	public function makePairIndexes(igsource:SampleStack,igtr:FLARTargetList ,index:Vector.<int>):void
 	{
 		this.setPointDists_3(igsource.getArray(),igsource.getLength(),igtr.getArray(),igtr.getLength());
 		this.getMinimumPair(index);
@@ -723,8 +723,8 @@ class DistMap extends NyARDistMap
 	}
 	/**
 	 * ２ペアの点間距離を計算します。
-	 * getMinimumPairで求まるインデクスは、NyARTargetに最も一致するLowResolutionLabelingSamplerOut.Itemのインデックスになります。
-	 * setPointDists(i_sample:Vector.<LowResolutionLabelingSamplerOut_Item>,i_smp_len:int,i_target:Vector.<NyARTarget>,i_target_len:int):void
+	 * getMinimumPairで求まるインデクスは、FLARTargetに最も一致するLowResolutionLabelingSamplerOut.Itemのインデックスになります。
+	 * setPointDists(i_sample:Vector.<LowResolutionLabelingSamplerOut_Item>,i_smp_len:int,i_target:Vector.<FLARTarget>,i_target_len:int):void
 	 * @param i_sample
 	 * @param i_smp_len
 	 * @param i_target
@@ -732,7 +732,7 @@ class DistMap extends NyARDistMap
 	 */
 	public function setPointDists_3(i_sample:Vector.<Object>,i_smp_len:int,i_target:Vector.<Object>,i_target_len:int):void
 	{
-		var map:Vector.<NyARDistMap_DistItem>=this._map;
+		var map:Vector.<FLARDistMap_DistItem>=this._map;
 		//distortionMapを作成。ついでに最小値のインデクスも取得
 		var min_index:int=0;
 		var min_dist:int =int.MAX_VALUE;

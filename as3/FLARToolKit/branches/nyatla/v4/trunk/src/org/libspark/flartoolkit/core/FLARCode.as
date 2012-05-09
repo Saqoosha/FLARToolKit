@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,28 +28,28 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core
+package org.libspark.flartoolkit.core
 {
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.match.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import jp.nyatla.as3utils.*;
 	/**
 	 * ARToolKitのマーカーコードを1個保持します。
 	 * 
 	 */
-	public class NyARCode
+	public class FLARCode
 	{
-		private var _color_pat:Vector.<NyARMatchPattDeviationColorData>=new Vector.<NyARMatchPattDeviationColorData>(4);
-		private var _bw_pat:Vector.<NyARMatchPattDeviationBlackWhiteData>=new Vector.<NyARMatchPattDeviationBlackWhiteData>(4);
+		private var _color_pat:Vector.<FLARMatchPattDeviationColorData>=new Vector.<FLARMatchPattDeviationColorData>(4);
+		private var _bw_pat:Vector.<FLARMatchPattDeviationBlackWhiteData>=new Vector.<FLARMatchPattDeviationBlackWhiteData>(4);
 		private var _width:int;
 		private var _height:int;
 		
-		public function getColorData(i_index:int):NyARMatchPattDeviationColorData
+		public function getColorData(i_index:int):FLARMatchPattDeviationColorData
 		{
 			return this._color_pat[i_index];
 		}
-		public function getBlackWhiteData(i_index:int):NyARMatchPattDeviationBlackWhiteData
+		public function getBlackWhiteData(i_index:int):FLARMatchPattDeviationBlackWhiteData
 		{
 			return this._bw_pat[i_index];
 		}
@@ -62,20 +62,20 @@ package jp.nyatla.nyartoolkit.as3.core
 		{
 			return _height;
 		}
-		public function NyARCode(i_width:int, i_height:int)
+		public function FLARCode(i_width:int, i_height:int)
 		{
 			this._width = i_width;
 			this._height = i_height;
 			//空のラスタを4個作成
 			for(var i:int=0;i<4;i++){
-				this._color_pat[i]=new NyARMatchPattDeviationColorData(i_width,i_height);
-				this._bw_pat[i]=new NyARMatchPattDeviationBlackWhiteData(i_width,i_height);
+				this._color_pat[i]=new FLARMatchPattDeviationColorData(i_width,i_height);
+				this._bw_pat[i]=new FLARMatchPattDeviationBlackWhiteData(i_width,i_height);
 			}
 			return;
 		}
 		public function loadARPatt(i_stream:String):void
 		{
-			NyARCodeFileReader.loadFromARToolKitFormFile(i_stream,this);
+			FLARCodeFileReader.loadFromARToolKitFormFile(i_stream,this);
 			return;
 		}
 		/**
@@ -84,9 +84,9 @@ package jp.nyatla.nyartoolkit.as3.core
 		 * direction毎のパターンを格納したラスタ配列を指定します。
 		 * ラスタは同一なサイズ、かつマーカーパターンと同じサイズである必要があります。
 		 * 格納順は、パターンの右上が、1,2,3,4象限になる順番です。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function setRaster(i_raster:Vector.<INyARRgbRaster>):void
+		public function setRaster(i_raster:Vector.<IFLARRgbRaster>):void
 		{
 			NyAS3Utils.assert(i_raster.length!=4);
 			//ラスタにパターンをロードする。
@@ -99,9 +99,9 @@ package jp.nyatla.nyartoolkit.as3.core
 		 * inputStreamから、パターンデータをロードします。
 		 * ロードするパターンのサイズは、現在の値と同じである必要があります。
 		 * @param i_stream
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function setRaster_2(i_raster:INyARRgbRaster):void
+		public function setRaster_2(i_raster:IFLARRgbRaster):void
 		{
 			//ラスタにパターンをロードする。
 			for(var i:int=0;i<4;i++){
@@ -112,26 +112,26 @@ package jp.nyatla.nyartoolkit.as3.core
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.types.*;
 	
-class NyARCodeFileReader
+class FLARCodeFileReader
 {
 	/**
 	 * ARコードファイルからデータを読み込んでo_codeに格納します。
 	 * @param i_stream
 	 * @param o_code
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public static function loadFromARToolKitFormFile(i_stream:String,o_code:NyARCode):void
+	public static function loadFromARToolKitFormFile(i_stream:String,o_code:FLARCode):void
 	{
 		var width:int=o_code.getWidth();
 		var height:int=o_code.getHeight();
-		var tmp_raster:NyARRgbRaster=new NyARRgbRaster(width,height,NyARBufferType.INT1D_X8R8G8B8_32);
+		var tmp_raster:FLARRgbRaster=new FLARRgbRaster(width,height,FLARBufferType.INT1D_X8R8G8B8_32);
 		//4個の要素をラスタにセットする。
 		var token:Array = i_stream.match(/\d+/g);
 		var buf:Vector.<int>=Vector.<int>(tmp_raster.getBuffer());
@@ -160,7 +160,7 @@ class NyARCodeFileReader
 				// 数値のみ読み出す
 				var val:int = parseInt(i_st.shift());
 				if(isNaN(val)){
-					throw new NyARException("syntax error in pattern file.");
+					throw new FLARException("syntax error in pattern file.");
 				}
 				o_buf[i2]=(o_buf[i2]<<8)|((0x000000ff&(int)(val)));
 			}

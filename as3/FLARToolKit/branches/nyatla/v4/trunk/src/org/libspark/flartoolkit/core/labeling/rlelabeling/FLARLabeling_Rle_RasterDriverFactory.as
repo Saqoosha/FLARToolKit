@@ -1,30 +1,30 @@
-package jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling 
+package org.libspark.flartoolkit.core.labeling.rlelabeling 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
 	/**
 	 * Labeling用の画像ドライバを構築します。
 	 */
-	public class NyARLabeling_Rle_RasterDriverFactory
+	public class FLARLabeling_Rle_RasterDriverFactory
 	{
 		/**
 		 * この関数はラスタから呼ばれる。
 		 * @param i_raster
 		 * @return
 		 */
-		public static function createDriver(i_raster:INyARGrayscaleRaster):NyARLabeling_Rle_IRasterDriver
+		public static function createDriver(i_raster:IFLARGrayscaleRaster):FLARLabeling_Rle_IRasterDriver
 		{
 			switch(i_raster.getBufferType()){
-			case NyARBufferType.INT1D_GRAY_8:
-			case NyARBufferType.INT1D_BIN_8:
-				return new NyARRlePixelDriver_BIN_GS8(i_raster);
+			case FLARBufferType.INT1D_GRAY_8:
+			case FLARBufferType.INT1D_BIN_8:
+				return new FLARRlePixelDriver_BIN_GS8(i_raster);
 			default:
-				if(i_raster is INyARGrayscaleRaster){
-					return new NyARRlePixelDriver_GSReader(INyARGrayscaleRaster(i_raster));
+				if(i_raster is IFLARGrayscaleRaster){
+					return new FLARRlePixelDriver_GSReader(IFLARGrayscaleRaster(i_raster));
 				}
-				throw new NyARException();
+				throw new FLARException();
 			}
 		}		
 	}
@@ -33,10 +33,10 @@ package jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling
 
 
 
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 
 
 
@@ -44,14 +44,14 @@ import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
 //画像ドライバ
 //
 
-class NyARRlePixelDriver_BIN_GS8 implements NyARLabeling_Rle_IRasterDriver
+class FLARRlePixelDriver_BIN_GS8 implements FLARLabeling_Rle_IRasterDriver
 {
-	private var _ref_raster:INyARRaster;
-	public function NyARRlePixelDriver_BIN_GS8(i_ref_raster:INyARRaster)
+	private var _ref_raster:IFLARRaster;
+	public function FLARRlePixelDriver_BIN_GS8(i_ref_raster:IFLARRaster)
 	{
 		this._ref_raster=i_ref_raster;
 	}
-	public function xLineToRle(i_x:int, i_y:int, i_len:int,i_th:int,i_out:Vector.<NyARLabeling_Rle_RleElement>):int
+	public function xLineToRle(i_x:int, i_y:int, i_len:int,i_th:int,i_out:Vector.<FLARLabeling_Rle_RleElement>):int
 	{
 		var buf:Vector.<int>=Vector.<int>(this._ref_raster.getBuffer());
 		var current:int = 0;
@@ -112,14 +112,14 @@ class NyARRlePixelDriver_BIN_GS8 implements NyARLabeling_Rle_IRasterDriver
 /**
  * GSPixelDriverを使ったクラス
  */
-class NyARRlePixelDriver_GSReader implements NyARLabeling_Rle_IRasterDriver
+class FLARRlePixelDriver_GSReader implements FLARLabeling_Rle_IRasterDriver
 {
-	private var _ref_driver:INyARGsPixelDriver;
-	public function NyARRlePixelDriver_GSReader(i_raster:INyARGrayscaleRaster)
+	private var _ref_driver:IFLARGsPixelDriver;
+	public function FLARRlePixelDriver_GSReader(i_raster:IFLARGrayscaleRaster)
 	{
 		this._ref_driver=i_raster.getGsPixelDriver();
 	}	
-	public function xLineToRle(i_x:int,i_y:int,i_len:int,i_th:int,i_out:Vector.<NyARLabeling_Rle_RleElement>):int
+	public function xLineToRle(i_x:int,i_y:int,i_len:int,i_th:int,i_out:Vector.<FLARLabeling_Rle_RleElement>):int
 	{
 		var current:int = 0;
 		var r:int = -1;

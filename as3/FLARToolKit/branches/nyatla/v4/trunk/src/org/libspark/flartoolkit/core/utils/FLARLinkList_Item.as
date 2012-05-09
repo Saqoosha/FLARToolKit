@@ -1,13 +1,13 @@
-package jp.nyatla.nyartoolkit.as3.core.utils 
+package org.libspark.flartoolkit.core.utils 
 {
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class NyARLinkList_Item 
+	public class FLARLinkList_Item 
 	{
-		public var next:NyARLinkList_Item;
-		public var prev:NyARLinkList_Item;		
+		public var next:FLARLinkList_Item;
+		public var prev:FLARLinkList_Item;		
 	}
 
 }

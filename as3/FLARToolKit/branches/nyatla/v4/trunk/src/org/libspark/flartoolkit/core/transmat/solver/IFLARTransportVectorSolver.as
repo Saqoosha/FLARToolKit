@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,12 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.solver 
+package org.libspark.flartoolkit.core.transmat.solver 
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public interface INyARTransportVectorSolver
+	import org.libspark.flartoolkit.core.types.*;
+	public interface IFLARTransportVectorSolver
 	{
-		function set2dVertex(i_ref_vertex_2d:Vector.<NyARDoublePoint2d>,i_number_of_vertex:int):void;
+		function set2dVertex(i_ref_vertex_2d:Vector.<FLARDoublePoint2d>,i_number_of_vertex:int):void;
 		/**
 		 * 画面座標群と3次元座標群から、平行移動量を計算します。
 		 * 2d座標系は、直前に実行したset2dVertexのものを使用します。
@@ -42,9 +42,9 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.solver
 		 * @param i_vertex3d
 		 * 3次元空間の座標群を設定します。頂点の順番は、画面座標群と同じ順序で格納してください。
 		 * @param o_transfer
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function solveTransportVector(i_vertex3d:Vector.<NyARDoublePoint3d>, o_transfer:NyARDoublePoint3d):void;
+		function solveTransportVector(i_vertex3d:Vector.<FLARDoublePoint3d>, o_transfer:FLARDoublePoint3d):void;
 	}
 	
 }

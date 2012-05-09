@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,37 +22,37 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.pixeldriver
+package org.libspark.flartoolkit.core.pixeldriver
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARBufferType;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
-	 * この関数は、NyARRgbRasterからコールします。
+	 * この関数は、FLARRgbRasterからコールします。
 	 */
-	public class NyARRgbPixelDriverFactory
+	public class FLARRgbPixelDriverFactory
 	{
 		/**
 		 * この関数は、i_rasterを操作するピクセルドライバインスタンスを生成します。
 		 * @param i_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public static function createDriver(i_raster:INyARRgbRaster):INyARRgbPixelDriver
+		public static function createDriver(i_raster:IFLARRgbRaster):IFLARRgbPixelDriver
 		{
-			var ret:INyARRgbPixelDriver;
+			var ret:IFLARRgbPixelDriver;
 			switch(i_raster.getBufferType()){
-			case NyARBufferType.INT1D_GRAY_8:
-				ret=new NyARRgbPixelDriver_INT1D_GRAY_8();
+			case FLARBufferType.INT1D_GRAY_8:
+				ret=new FLARRgbPixelDriver_INT1D_GRAY_8();
 				break;
-			case NyARBufferType.INT1D_X8R8G8B8_32:
-				ret= new NyARRgbPixelDriver_INT1D_X8R8G8B8_32();
+			case FLARBufferType.INT1D_X8R8G8B8_32:
+				ret= new FLARRgbPixelDriver_INT1D_X8R8G8B8_32();
 				break;
 			default:
-				throw new NyARException();		
+				throw new FLARException();		
 			}
 			ret.switchRaster(i_raster);
 			return ret;
@@ -62,23 +62,23 @@ package jp.nyatla.nyartoolkit.as3.core.pixeldriver
 //--------------------------------------------------------------------------------
 //ピクセルドライバの定義
 //--------------------------------------------------------------------------------
-import jp.nyatla.nyartoolkit.as3.core.NyARException;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-import jp.nyatla.nyartoolkit.as3.core.types.NyARBufferType;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.FLARException;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.pixeldriver.*;
+import org.libspark.flartoolkit.core.types.FLARBufferType;
+import org.libspark.flartoolkit.core.types.*;
 
 
 /**
-* このクラスは、{@link NyARBufferType#INT1D_GRAY_8}形式のラスタバッファに対応する、ピクセルリーダです。
+* このクラスは、{@link FLARBufferType#INT1D_GRAY_8}形式のラスタバッファに対応する、ピクセルリーダです。
 */
-class NyARRgbPixelDriver_INT1D_GRAY_8 implements INyARRgbPixelDriver
+class FLARRgbPixelDriver_INT1D_GRAY_8 implements IFLARRgbPixelDriver
 {
 	/** 参照する外部バッファ */
 	private var _ref_buf:Vector.<int>;
 
-	private var _ref_size:NyARIntSize;
-	public function getSize():NyARIntSize
+	private var _ref_size:FLARIntSize;
+	public function getSize():FLARIntSize
 	{
 		return this._ref_size;
 	}
@@ -109,7 +109,7 @@ class NyARRgbPixelDriver_INT1D_GRAY_8 implements INyARRgbPixelDriver
 	 */
 	public function setPixel_2(i_x:int,i_y:int,i_rgb:Vector.<int>):void
 	{
-		NyARException.notImplement();
+		FLARException.notImplement();
 	}
 
 	/**
@@ -117,7 +117,7 @@ class NyARRgbPixelDriver_INT1D_GRAY_8 implements INyARRgbPixelDriver
 	 */
 	public function setPixel(i_x:int,i_y:int,i_r:int,i_g:int,i_b:int):void
 	{
-		NyARException.notImplement();
+		FLARException.notImplement();
 	}
 
 	/**
@@ -125,10 +125,10 @@ class NyARRgbPixelDriver_INT1D_GRAY_8 implements INyARRgbPixelDriver
 	 */
 	public function setPixels(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, i_intrgb:Vector.<int>):void
 	{
-		NyARException.notImplement();
+		FLARException.notImplement();
 	}
 
-	public function switchRaster(i_raster:INyARRgbRaster):void
+	public function switchRaster(i_raster:IFLARRgbRaster):void
 	{
 		this._ref_buf = (Vector.<int>)(i_raster.getBuffer());
 		this._ref_size = i_raster.getSize();
@@ -136,15 +136,15 @@ class NyARRgbPixelDriver_INT1D_GRAY_8 implements INyARRgbPixelDriver
 }
 
 /**
-* このクラスは、{@link NyARBufferType#INT1D_X8R8G8B8_32}形式のラスタバッファに対応する、ピクセルリーダです。
+* このクラスは、{@link FLARBufferType#INT1D_X8R8G8B8_32}形式のラスタバッファに対応する、ピクセルリーダです。
 */
-class NyARRgbPixelDriver_INT1D_X8R8G8B8_32 implements INyARRgbPixelDriver
+class FLARRgbPixelDriver_INT1D_X8R8G8B8_32 implements IFLARRgbPixelDriver
 {
 	/** 参照する外部バッファ */
 	private var _ref_buf:Vector.<int>;
 
-	private var _ref_size:NyARIntSize;
-	public function getSize():NyARIntSize
+	private var _ref_size:FLARIntSize;
+	public function getSize():FLARIntSize
 	{
 		return this._ref_size;
 	}
@@ -198,10 +198,10 @@ class NyARRgbPixelDriver_INT1D_X8R8G8B8_32 implements INyARRgbPixelDriver
 	 */
 	public function setPixels(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, i_intrgb:Vector.<int>):void
 	{
-		NyARException.notImplement();
+		FLARException.notImplement();
 	}
 
-	public function switchRaster(i_raster:INyARRgbRaster):void
+	public function switchRaster(i_raster:IFLARRgbRaster):void
 	{
 		this._ref_buf = Vector.<int>(i_raster.getBuffer());
 		this._ref_size = i_raster.getSize();

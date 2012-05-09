@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,48 +22,48 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem
+package org.libspark.flartoolkit.markersystem
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.analyzer.histogram.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.types.*;
 
 	/**
-	 * このインタフェイスは、NyARMarkerSystemのコンフィギュレーションオブジェクトに使用します。
-	 * {@link NyARMarkerSystem}は、このインタフェイスを継承したクラスから、動作に必要なオブジェクトや定数を取得します。
+	 * このインタフェイスは、FLARMarkerSystemのコンフィギュレーションオブジェクトに使用します。
+	 * {@link FLARMarkerSystem}は、このインタフェイスを継承したクラスから、動作に必要なオブジェクトや定数を取得します。
 	 */
-	public interface INyARMarkerSystemConfig
+	public interface IFLARMarkerSystemConfig
 	{
 		/**
 		 * 姿勢行列計算クラスを生成して返します。
 		 * @return
 		 * 新しいオブジェクト。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function createTransmatAlgorism():INyARTransMat;
+		function createTransmatAlgorism():IFLARTransMat;
 		/**
 		 * 敷居値決定クラスを生成して返します。
 		 * @return
 		 * 新しいオブジェクト
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		function createAutoThresholdArgorism():INyARHistogramAnalyzer_Threshold;
+		function createAutoThresholdArgorism():IFLARHistogramAnalyzer_Threshold;
 		/**
 		 * ARToolKitのカメラパラメータのオブジェクトを返します。
 		 * @return
 		 * [readonly]
 		 * 参照値です。
 		 */
-		function getNyARParam():NyARParam;
+		function getFLARParam():FLARParam;
 		/**
 		 * このコンフィギュレーションのスクリーンサイズを返します。
 		 * @return
 		 * [readonly]
 		 * 参照値です。
 		 */
-		function getScreenSize():NyARIntSize;
+		function getScreenSize():FLARIntSize;
 	}
 }

@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,31 +22,31 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs 
+package org.libspark.flartoolkit.core.rasterfilter.rgb2gs 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 
-	public class NyARRgb2GsFilterFactory
+	public class FLARRgb2GsFilterFactory
 	{
 		/**
 		 * この関数は、(R*G*B)/3 でグレースケール化するフィルタを生成します。
 		 * 最適化されている形式は以下の通りです。
 		 * <ul>
-		 * <li>{@link NyARBufferType#BYTE1D_B8G8R8X8_32}</li>
+		 * <li>{@link FLARBufferType#BYTE1D_B8G8R8X8_32}</li>
 		 * </ul>
 		 * @param i_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public static function createRgbAveDriver(i_raster:INyARRgbRaster):INyARRgb2GsFilterRgbAve
+		public static function createRgbAveDriver(i_raster:IFLARRgbRaster):IFLARRgb2GsFilterRgbAve
 		{
 			switch(i_raster.getBufferType()){
-			case NyARBufferType.INT1D_X8R8G8B8_32:
-				return new NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32(i_raster);
+			case FLARBufferType.INT1D_X8R8G8B8_32:
+				return new FLARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32(i_raster);
 			default:
-				return new NyARRgb2GsFilterRgbAve_Any(i_raster);
+				return new FLARRgb2GsFilterRgbAve_Any(i_raster);
 			}
 		}
 		/**
@@ -54,13 +54,13 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 		 * 最適化されていません。
 		 * @param i_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-//		public static function createRgbCubeDriver(i_raster:INyARRgbRaster):INyARRgb2GsFilterRgbAve
+//		public static function createRgbCubeDriver(i_raster:IFLARRgbRaster):IFLARRgb2GsFilterRgbAve
 //		{
 //			switch(i_raster.getBufferType()){
 //			default:
-//				return new NyARRgb2GsFilterRgbCube_Any(i_raster);
+//				return new FLARRgb2GsFilterRgbCube_Any(i_raster);
 //			}
 //		}
 		/**
@@ -68,13 +68,13 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 		 * 最適化されていません。
 		 * @param i_raster
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-//		public static function createYCbCrDriver(i_raster:INyARRgbRaster):INyARRgb2GsFilterYCbCr
+//		public static function createYCbCrDriver(i_raster:IFLARRgbRaster):IFLARRgb2GsFilterYCbCr
 //		{
 //			switch(i_raster.getBufferType()){
 //			default:
-//				return new NyARRgb2GsFilterYCbCr_Any(i_raster);
+//				return new FLARRgb2GsFilterYCbCr_Any(i_raster);
 //			}
 //		}
 	}
@@ -86,28 +86,28 @@ package jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
 import jp.nyatla.as3utils.*;
 
-class NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32 implements INyARRgb2GsFilterRgbAve
+class FLARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32 implements IFLARRgb2GsFilterRgbAve
 {
-	private var _ref_raster:INyARRaster;
-	public function NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32(i_ref_raster:INyARRaster)
+	private var _ref_raster:IFLARRaster;
+	public function FLARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32(i_ref_raster:IFLARRaster)
 	{
-		NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.INT1D_X8R8G8B8_32));
+		NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.INT1D_X8R8G8B8_32));
 		this._ref_raster=i_ref_raster;
 	}
-	public function convert(i_raster:INyARGrayscaleRaster):void
+	public function convert(i_raster:IFLARGrayscaleRaster):void
 	{
-		var s:NyARIntSize=this._ref_raster.getSize();
+		var s:FLARIntSize=this._ref_raster.getSize();
 		this.convertRect(0,0,s.w,s.h,i_raster);
 	}
-	public function convertRect(l:int,t:int,w:int,h:int,o_raster:INyARGrayscaleRaster):void
+	public function convertRect(l:int,t:int,w:int,h:int,o_raster:IFLARGrayscaleRaster):void
 	{
-		var size:NyARIntSize=this._ref_raster.getSize();
+		var size:FLARIntSize=this._ref_raster.getSize();
 		var bp:int = (l+t*size.w);
 		var b:int=t+h;
 		var row_padding_dst:int=(size.w-w);
@@ -117,7 +117,7 @@ class NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32 implements INyARRgb2GsFilterRgbAv
 		var src_ptr:int=t*size.w+l;
 		var in_buf:Vector.<int> = Vector.<int>(this._ref_raster.getBuffer());
 		switch(o_raster.getBufferType()){
-		case NyARBufferType.INT1D_GRAY_8:
+		case FLARBufferType.INT1D_GRAY_8:
 			var v:int;
 			var x:int, y:int;
 			var out_buf:Vector.<int>=Vector.<int>(o_raster.getBuffer());
@@ -141,7 +141,7 @@ class NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32 implements INyARRgb2GsFilterRgbAv
 			}
 			return;
 		default:
-			var out_drv:INyARGsPixelDriver=o_raster.getGsPixelDriver();
+			var out_drv:IFLARGsPixelDriver=o_raster.getGsPixelDriver();
 			for (y = t; y < b; y++) {
 				for (x = 0; x<pix_count; x++){
 					v=in_buf[src_ptr++];
@@ -157,28 +157,28 @@ class NyARRgb2GsFilterRgbAve_INT1D_X8R8G8B8_32 implements INyARRgb2GsFilterRgbAv
 
 
 
-class NyARRgb2GsFilterRgbAve_Any implements INyARRgb2GsFilterRgbAve
+class FLARRgb2GsFilterRgbAve_Any implements IFLARRgb2GsFilterRgbAve
 {
-	private var _ref_raster:INyARRgbRaster;
-	public function NyARRgb2GsFilterRgbAve_Any(i_ref_raster:INyARRgbRaster)
+	private var _ref_raster:IFLARRgbRaster;
+	public function FLARRgb2GsFilterRgbAve_Any(i_ref_raster:IFLARRgbRaster)
 	{
 		this._ref_raster=i_ref_raster;
 	}
 	private var _wk:Vector.<int>=new Vector.<int>(3);
-	public function convert(i_raster:INyARGrayscaleRaster):void
+	public function convert(i_raster:IFLARGrayscaleRaster):void
 	{
-		var s:NyARIntSize=this._ref_raster.getSize();
+		var s:FLARIntSize=this._ref_raster.getSize();
 		this.convertRect(0,0,s.w,s.h,i_raster);
 	}	
-	public function convertRect(l:int,t:int,w:int,h:int,o_raster:INyARGrayscaleRaster):void
+	public function convertRect(l:int,t:int,w:int,h:int,o_raster:IFLARGrayscaleRaster):void
 	{
 		var wk:Vector.<int>=this._wk;
 		var b:int=t+h;
 		var pix_count:int=w;
 		switch(o_raster.getBufferType()){
 		default:
-			var out_drv:INyARGsPixelDriver=o_raster.getGsPixelDriver();
-			var in_drv:INyARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
+			var out_drv:IFLARGsPixelDriver=o_raster.getGsPixelDriver();
+			var in_drv:IFLARRgbPixelDriver=this._ref_raster.getRgbPixelDriver();
 			for (var y:int = t; y < b; y++) {
 				for (var x:int = pix_count-1; x >=0; x--){
 					in_drv.getPixel(x,y,wk);

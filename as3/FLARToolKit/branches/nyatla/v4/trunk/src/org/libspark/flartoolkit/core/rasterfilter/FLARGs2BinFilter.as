@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -30,9 +30,9 @@ package org.libspark.flartoolkit.core.rasterfilter
 {
 	import flash.geom.*;
 	import flash.display.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.rasterfilter.*;
@@ -46,7 +46,7 @@ package org.libspark.flartoolkit.core.rasterfilter
 		private var _ref_raster:FLARGrayscaleRaster;
 		public function FLARGs2BinFilter(i_ref_raster:FLARGrayscaleRaster)
 		{
-			NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+			NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
 			this._ref_raster = i_ref_raster;
 		}		
 		/**
@@ -74,11 +74,11 @@ package org.libspark.flartoolkit.core.rasterfilter
 		/**
 		 * 同一サイズの画像にグレースケール画像を生成します。
 		 * @param i_raster
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function convert(i_th:int,i_bin:FLARBinRaster):void
 		{
-			var s:NyARIntSize = this._ref_raster.getSize();
+			var s:FLARIntSize = this._ref_raster.getSize();
 			this.convertRect(0, 0, s.w, s.h, i_th, i_bin);			
 		}
 	}

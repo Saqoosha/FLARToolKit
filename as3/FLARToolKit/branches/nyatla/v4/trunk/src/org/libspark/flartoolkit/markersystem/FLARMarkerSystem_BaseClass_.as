@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,19 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem
+package org.libspark.flartoolkit.markersystem
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.analyzer.histogram.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.markersystem.utils.*;
 
 
 
@@ -44,9 +44,9 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 	 * このクラスは、マーカベースARの制御クラスです。
 	 * 複数のARマーカとNyIDの検出情報の管理機能、撮影画像の取得機能を提供します。
 	 * このクラスは、ARToolKit固有の座標系を出力します。他の座標系を出力するときには、継承クラスで変換してください。
-	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link NyARGlMarkerSystem}クラスがあります。
+	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link FLARGlMarkerSystem}クラスがあります。
 	 */
-	public class NyARMarkerSystem
+	public class FLARMarkerSystem
 	{
 		/**　定数値。自動敷居値を示す値です。　*/
 		public const THLESHOLD_AUTO:int=0xffffffff;
@@ -63,9 +63,9 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		private const IDTYPE_ARTK:int=0x00000000;
 		private const IDTYPE_NYID:int=0x00001000;
 
-		protected var _sqdetect:INyARMarkerSystemSquareDetect;
-		protected var _ref_param:NyARParam;
-		protected var _frustum:NyARFrustum;
+		protected var _sqdetect:IFLARMarkerSystemSquareDetect;
+		protected var _ref_param:FLARParam;
+		protected var _frustum:FLARFrustum;
 		private var _last_gs_th:int;
 		private var _bin_threshold:int=THLESHOLD_AUTO;
 
@@ -74,19 +74,19 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		private var _idmk_list:NyIdList;
 		
 		private var lost_th:int=5;
-		private var _transmat:INyARTransMat;
+		private var _transmat:IFLARTransMat;
 		private static const INITIAL_MARKER_STACK_SIZE:int=10;
 		private var _sq_stack:SquareStack;
 		/**
-		 * コンストラクタです。{@link INyARMarkerSystemConfig}を元に、インスタンスを生成します。
+		 * コンストラクタです。{@link IFLARMarkerSystemConfig}を元に、インスタンスを生成します。
 		 * @param i_config
 		 * 初期化済の{@link MarkerSystem}を指定します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARMarkerSystem(i_config:INyARMarkerSystemConfig)
+		public function FLARMarkerSystem(i_config:IFLARMarkerSystemConfig)
 		{
-			this._ref_param=i_config.getNyARParam();
-			this._frustum=new NyARFrustum();
+			this._ref_param=i_config.getFLARParam();
+			this._frustum=new FLARFrustum();
 			this.initInstance(i_config);
 			this.setProjectionMatrixClipping(FRUSTUM_DEFAULT_NEAR_CLIP, FRUSTUM_DEFAULT_FAR_CLIP);
 			
@@ -99,7 +99,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 			this._sq_stack=new SquareStack(INITIAL_MARKER_STACK_SIZE);			
 			this._on_sq_handler=new OnSquareDetect(i_config,this._armk_list,this._idmk_list,this._tracking_list,this._sq_stack);
 		}
-		protected function initInstance(i_ref_config:INyARMarkerSystemConfig):void
+		protected function initInstance(i_ref_config:IFLARMarkerSystemConfig):void
 		{
 			this._sqdetect=new SquareDetect(i_ref_config);
 			this._hist_th=i_ref_config.createAutoThresholdArgorism();
@@ -109,7 +109,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @return
 		 * [readonly]
 		 */
-		public function getFrustum():NyARFrustum
+		public function getFrustum():FLARFrustum
 		{
 			return this._frustum;
 		}
@@ -118,7 +118,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @return
 		 * [readonly]
 		 */
-		public function getARParam():NyARParam
+		public function getARParam():FLARParam
 		{
 			return this._ref_param;
 		}	
@@ -131,7 +131,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 */
 		public function setProjectionMatrixClipping(i_near:Number,i_far:Number):void
 		{
-			var s:NyARIntSize=this._ref_param.getScreenSize();
+			var s:FLARIntSize=this._ref_param.getScreenSize();
 			this._frustum.setValue_2(this._ref_param.getPerspectiveProjectionMatrix(),s.w,s.h,i_near,i_far);
 		}
 		/**
@@ -143,16 +143,16 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカの四方サイズ[mm]
 		 * @return
 		 * マーカID（ハンドル）値。この値はIDの値ではなく、マーカのハンドル値です。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function addNyIdMarker(i_id:Number,i_marker_size:Number):int
 		{
 			var target:MarkerInfoNyId=new MarkerInfoNyId(i_id,i_id,i_marker_size);
 			if(!this._idmk_list.add(target)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			if(!this._tracking_list.add(target)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			return (this._idmk_list.size()-1)|IDTYPE_NYID;
 		}
@@ -169,13 +169,13 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカの四方サイズ[mm]
 		 * @return
 		 * マーカID（ハンドル）値。この値はNyIDの値ではなく、マーカのハンドル値です。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function addNyIdMarker_2(i_id_s:Number,i_id_e:Number,i_marker_size:Number):int
 		{
 			var target:MarkerInfoNyId=new MarkerInfoNyId(i_id_s,i_id_e,i_marker_size);
 			if(!this._idmk_list.add(target)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			this._tracking_list.add(target);
 			return (this._idmk_list.size()-1)|IDTYPE_NYID;
@@ -190,13 +190,13 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカの平方サイズ[mm]
 		 * @return
 		 * マーカID（ハンドル）値。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function addARMarker(i_code:NyARCode,i_patt_edge_percentage:int,i_marker_size:Number):int
+		public function addARMarker(i_code:FLARCode,i_patt_edge_percentage:int,i_marker_size:Number):int
 		{
 			var target:MarkerInfoARMarker=new MarkerInfoARMarker(i_code,i_patt_edge_percentage,i_marker_size);
 			if(!this._armk_list.add(target)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 			this._tracking_list.add(target);
 			return (this._armk_list.size()-1)| IDTYPE_ARTK;
@@ -211,11 +211,11 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカの平方サイズ[mm]
 		 * @return
 		 * マーカID（ハンドル）値。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function addARMarker_2(i_stream:String,i_patt_resolution:int,i_patt_edge_percentage:int,i_marker_size:Number):int
 		{
-			var c:NyARCode=new NyARCode(i_patt_resolution,i_patt_resolution);
+			var c:FLARCode=new FLARCode(i_patt_resolution,i_patt_resolution);
 			c.loadARPatt(i_stream);
 			return this.addARMarker(c, i_patt_edge_percentage, i_marker_size);
 		}
@@ -234,15 +234,15 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカの平方サイズ[mm]
 		 * @return
 		 * マーカID（ハンドル）値。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function addARMarker_3(i_raster:INyARRgbRaster, i_patt_resolution:int, i_patt_edge_percentage:int, i_marker_size:Number):int
+		public function addARMarker_3(i_raster:IFLARRgbRaster, i_patt_resolution:int, i_patt_edge_percentage:int, i_marker_size:Number):int
 		{
-			var c:NyARCode=new NyARCode(i_patt_resolution,i_patt_resolution);
-			var s:NyARIntSize=i_raster.getSize();
+			var c:FLARCode=new FLARCode(i_patt_resolution,i_patt_resolution);
+			var s:FLARIntSize=i_raster.getSize();
 			//ラスタからマーカパターンを切り出す。
-			var pc:INyARPerspectiveCopy=INyARPerspectiveCopy(i_raster.createInterface(INyARPerspectiveCopy));
-			var tr:NyARRgbRaster=new NyARRgbRaster(i_patt_resolution,i_patt_resolution);
+			var pc:IFLARPerspectiveCopy=IFLARPerspectiveCopy(i_raster.createInterface(IFLARPerspectiveCopy));
+			var tr:FLARRgbRaster=new FLARRgbRaster(i_patt_resolution,i_patt_resolution);
 			pc.copyPatt_3(0,0,s.w,0,s.w,s.h,0,s.h,i_patt_edge_percentage, i_patt_edge_percentage,4, tr);
 			//切り出したパターンをセット
 			c.setRaster_2(tr);
@@ -278,7 +278,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 				return MarkerInfoARMarker(this._armk_list.getItem(i_id &MASK_IDNUM)).cf;
 			}
 			//Idマーカ？
-			throw new NyARException();
+			throw new FLARException();
 		}
 		/**
 		 * この関数は、NyIdマーカのID値を返します。
@@ -287,7 +287,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * マーカID（ハンドル）値。
 		 * @return
 		 * 現在のNyIdの値
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function getNyId(i_id:int):Number
 		{
@@ -296,7 +296,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 				return MarkerInfoNyId(this._idmk_list.getItem(i_id &MASK_IDNUM)).nyid;
 			}
 			//ARマーカ？
-			throw new NyARException();
+			throw new FLARException();
 		}
 		/**
 		 * この関数は、現在の２値化敷居値を返します。
@@ -358,12 +358,12 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @return
 		 * 結果を格納したi_outに設定したオブジェクト
 		 */
-		public function getMarkerPlanePos(i_id:int,i_x:int,i_y:int,i_out:NyARDoublePoint3d):NyARDoublePoint3d
+		public function getMarkerPlanePos(i_id:int,i_x:int,i_y:int,i_out:FLARDoublePoint3d):FLARDoublePoint3d
 		{
 			this._frustum.unProjectOnMatrix(i_x, i_y,this.getMarkerMatrix(i_id),i_out);
 			return i_out;
 		}
-		private var _wk_3dpos:NyARDoublePoint3d=new NyARDoublePoint3d();
+		private var _wk_3dpos:FLARDoublePoint3d=new FLARDoublePoint3d();
 		/**
 		 * この関数は、マーカ座標系の点をスクリーン座標へ変換します。
 		 * {@link #isExistMarker(int)}がtrueの時にだけ使用できます。
@@ -380,15 +380,15 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @return
 		 * 結果を格納したi_outに設定したオブジェクト
 		 */
-		public function getScreenPos(i_id:int,i_x:Number,i_y:Number,i_z:Number,i_out:NyARDoublePoint2d):NyARDoublePoint2d
+		public function getScreenPos(i_id:int,i_x:Number,i_y:Number,i_z:Number,i_out:FLARDoublePoint2d):FLARDoublePoint2d
 		{
-			var _wk_3dpos:NyARDoublePoint3d=this._wk_3dpos;
+			var _wk_3dpos:FLARDoublePoint3d=this._wk_3dpos;
 			this.getMarkerMatrix(i_id).transform3d(i_x, i_y, i_z,_wk_3dpos);
 			this._frustum.project_2(_wk_3dpos,i_out);
 			return i_out;
 		}	
-		private var __pos3d:Vector.<NyARDoublePoint3d>=NyARDoublePoint3d.createArray(4);
-		private var __pos2d:Vector.<NyARDoublePoint2d>=NyARDoublePoint2d.createArray(4);
+		private var __pos3d:Vector.<FLARDoublePoint3d>=FLARDoublePoint3d.createArray(4);
+		private var __pos2d:Vector.<FLARDoublePoint2d>=FLARDoublePoint2d.createArray(4);
 
 		
 		/**
@@ -397,7 +397,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @param i_id
 		 * マーカID（ハンドル）値。
 		 * @param i_sensor
-		 * 画像を取得するセンサオブジェクト。通常は{@link #update(NyARSensor)}関数に入力したものと同じものを指定します。
+		 * 画像を取得するセンサオブジェクト。通常は{@link #update(FLARSensor)}関数に入力したものと同じものを指定します。
 		 * @param i_x1
 		 * 頂点1[mm]
 		 * @param i_y1
@@ -418,20 +418,20 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * 取得した画像を格納するオブジェクト
 		 * @return
 		 * 結果を格納したi_rasterオブジェクト
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function getMarkerPlaneImage(
 			i_id:int,
-			i_sensor:NyARSensor,
+			i_sensor:FLARSensor,
 			i_x1:int,i_y1:int,
 			i_x2:int,i_y2:int,
 			i_x3:int,i_y3:int,
 			i_x4:int,i_y4:int,
-			i_raster:INyARRgbRaster):INyARRgbRaster
+			i_raster:IFLARRgbRaster):IFLARRgbRaster
 		{
-			var pos:Vector.<NyARDoublePoint3d>  = this.__pos3d;
-			var pos2:Vector.<NyARDoublePoint2d> = this.__pos2d;
-			var tmat:NyARDoubleMatrix44=this.getMarkerMatrix(i_id);
+			var pos:Vector.<FLARDoublePoint3d>  = this.__pos3d;
+			var pos2:Vector.<FLARDoublePoint2d> = this.__pos2d;
+			var tmat:FLARDoubleMatrix44=this.getMarkerMatrix(i_id);
 			tmat.transform3d(i_x1, i_y1,0,	pos[1]);
 			tmat.transform3d(i_x2, i_y2,0,	pos[0]);
 			tmat.transform3d(i_x3, i_y3,0,	pos[3]);
@@ -447,7 +447,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @param i_id
 		 * マーカID（ハンドル）値。
 		 * @param i_sensor
-		 * 画像を取得するセンサオブジェクト。通常は{@link #update(NyARSensor)}関数に入力したものと同じものを指定します。
+		 * 画像を取得するセンサオブジェクト。通常は{@link #update(FLARSensor)}関数に入力したものと同じものを指定します。
 		 * @param i_l
 		 * 矩形の左上点です。
 		 * @param i_t
@@ -460,14 +460,14 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * 出力先のオブジェクト
 		 * @return
 		 * 結果を格納したi_rasterオブジェクト
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function getMarkerPlaneImage_2(
 			i_id:int,
-			i_sensor:NyARSensor,
+			i_sensor:FLARSensor,
 			i_l:int,i_t:int,
 			i_w:int,i_h:int,
-			i_raster:INyARRgbRaster ):INyARRgbRaster
+			i_raster:IFLARRgbRaster ):IFLARRgbRaster
 		{
 			return this.getMarkerPlaneImage(i_id,i_sensor,i_l+i_w-1,i_t+i_h-1,i_l,i_t+i_h-1,i_l,i_t,i_l+i_w-1,i_t,i_raster);
 		}
@@ -478,7 +478,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * [readonly]
 		 * 姿勢行列を格納したオブジェクト。座標系は、ARToolKit座標系です。
 		 */
-		public function getMarkerMatrix(i_id:int):NyARDoubleMatrix44
+		public function getMarkerMatrix(i_id:int):FLARDoubleMatrix44
 		{
 			if((i_id & MASK_IDTYPE)==IDTYPE_ARTK){
 				//ARマーカ
@@ -495,7 +495,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		 * @return
 		 * [readonly]
 		 */
-		public function getMarkerVertex2D(i_id:int):Vector.<NyARIntPoint2d>
+		public function getMarkerVertex2D(i_id:int):Vector.<FLARIntPoint2d>
 		{
 			if((i_id & MASK_IDTYPE)==IDTYPE_ARTK){
 				//ARマーカ
@@ -508,7 +508,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		/**
 		 * この関数は、2値化敷居値を設定します。
 		 * @param i_th
-		 * 2値化敷居値。{@link NyARMarkerSystem#THLESHOLD_AUTO}を指定すると、自動調整になります。
+		 * 2値化敷居値。{@link FLARMarkerSystem#THLESHOLD_AUTO}を指定すると、自動調整になります。
 		 */
 		public function setBinThreshold(i_th:int):void
 		{
@@ -526,7 +526,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 		}
 		/**
 		 * この関数は、消失時のディレイ値を指定します。
-		 * デフォルト値は、{@link NyARMarkerSystem#LOST_DELAY_DEFAULT}です。
+		 * デフォルト値は、{@link FLARMarkerSystem#LOST_DELAY_DEFAULT}です。
 		 * MarkerSystemは、ここで指定した回数を超えて連続でマーカを検出できないと、マーカが消失したと判定します。
 		 * @param i_delay
 		 * 回数を指定します。
@@ -536,16 +536,16 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 			this.lost_th=i_delay;
 		}
 		private var _time_stamp:int=-1;
-		protected var _hist_th:INyARHistogramAnalyzer_Threshold;
+		protected var _hist_th:IFLARHistogramAnalyzer_Threshold;
 		private var _on_sq_handler:OnSquareDetect;
 		/**
 		 * この関数は、入力したセンサ入力値から、インスタンスの状態を更新します。
 		 * 関数は、センサオブジェクトから画像を取得して、マーカ検出、一致判定、トラッキング処理を実行します。
 		 * @param i_sensor
 		 * {@link MarkerSystem}に入力する画像を含むセンサオブジェクト。
-		 * @throws NyARException 
+		 * @throws FLARException 
 		 */
-		public function update(i_sensor:NyARSensor):void
+		public function update(i_sensor:FLARSensor):void
 		{
 			var time_stamp:int=i_sensor.getTimeStamp();
 			//センサのタイムスタンプが変化していなければ何もしない。
@@ -601,44 +601,44 @@ package jp.nyatla.nyartoolkit.as3.markersystem
 
 }
 
-import jp.nyatla.nyartoolkit.as3.core.*;
-import jp.nyatla.nyartoolkit.as3.core.analyzer.histogram.*;
-import jp.nyatla.nyartoolkit.as3.core.param.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;
-import jp.nyatla.nyartoolkit.as3.core.transmat.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
-import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-import jp.nyatla.nyartoolkit.as3.markersystem.utils.*;
-import jp.nyatla.nyartoolkit.as3.markersystem.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.analyzer.histogram.*;
+import org.libspark.flartoolkit.core.param.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.rasterdriver.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+import org.libspark.flartoolkit.core.transmat.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.types.matrix.*;
+import org.libspark.flartoolkit.markersystem.utils.*;
+import org.libspark.flartoolkit.markersystem.*;
 
 
 /**
  * コールバック関数の隠蔽用クラス。
- * このクラスは、{@link NyARMarkerSystem}からプライベートに使います。
+ * このクラスは、{@link FLARMarkerSystem}からプライベートに使います。
  */
-class OnSquareDetect implements NyARSquareContourDetector_CbHandler
+class OnSquareDetect implements FLARSquareContourDetector_CbHandler
 {
 	private var _ref_tracking_list:TrackingList;
 	private var _ref_armk_list:ARMarkerList;
 	private var _ref_idmk_list:NyIdList;
 	private var _ref_sq_stack:SquareStack;
-	public var _ref_input_rfb:INyARPerspectiveCopy;
-	public var _ref_input_gs:INyARGrayscaleRaster;	
+	public var _ref_input_rfb:IFLARPerspectiveCopy;
+	public var _ref_input_gs:IFLARGrayscaleRaster;	
 	
-	private var _coordline:NyARCoord2Linear;
-	public function OnSquareDetect(i_config:INyARMarkerSystemConfig,i_armk_list:ARMarkerList,i_idmk_list:NyIdList,i_tracking_list:TrackingList ,i_ref_sq_stack:SquareStack)
+	private var _coordline:FLARCoord2Linear;
+	public function OnSquareDetect(i_config:IFLARMarkerSystemConfig,i_armk_list:ARMarkerList,i_idmk_list:NyIdList,i_tracking_list:TrackingList ,i_ref_sq_stack:SquareStack)
 	{
-		this._coordline=new NyARCoord2Linear(i_config.getNyARParam().getScreenSize(),i_config.getNyARParam().getDistortionFactor());
+		this._coordline=new FLARCoord2Linear(i_config.getFLARParam().getScreenSize(),i_config.getFLARParam().getDistortionFactor());
 		this._ref_armk_list=i_armk_list;
 		this._ref_idmk_list=i_idmk_list;
 		this._ref_tracking_list=i_tracking_list;
 		//同時に判定待ちにできる矩形の数
 		this._ref_sq_stack=i_ref_sq_stack;
 	}
-	public function detectMarkerCallback(i_coord:NyARIntCoordinates,i_vertex_index:Vector.<int>):void
+	public function detectMarkerCallback(i_coord:FLARIntCoordinates,i_vertex_index:Vector.<int>):void
 	{
 		var i2:int;
 		//とりあえずSquareスタックを予約
@@ -689,7 +689,7 @@ class OnSquareDetect implements NyARSquareContourDetector_CbHandler
 			for (i2 = 0; i2 < 4; i2++) {
 				//直線同士の交点計算
 				if(!sq_tmp.line[i2].crossPos(sq_tmp.line[(i2 + 3) % 4],sq_tmp.sqvertex[i2])){
-					throw new NyARException();//まずない。ありえない。
+					throw new FLARException();//まずない。ありえない。
 				}
 			}
 		}else{
@@ -702,14 +702,14 @@ class OnSquareDetect implements NyARSquareContourDetector_CbHandler
 
 
 
-class SquareDetect implements INyARMarkerSystemSquareDetect
+class SquareDetect implements IFLARMarkerSystemSquareDetect
 {
-	private var _sd:NyARSquareContourDetector_Rle;
-	public function SquareDetect(i_config:INyARMarkerSystemConfig)
+	private var _sd:FLARSquareContourDetector_Rle;
+	public function SquareDetect(i_config:IFLARMarkerSystemConfig)
 	{
-		this._sd=new NyARSquareContourDetector_Rle(i_config.getScreenSize());
+		this._sd=new FLARSquareContourDetector_Rle(i_config.getScreenSize());
 	}
-	public function detectMarkerCb(i_sensor:NyARSensor,i_th:int,i_handler:NyARSquareContourDetector_CbHandler):void
+	public function detectMarkerCb(i_sensor:FLARSensor,i_th:int,i_handler:FLARSquareContourDetector_CbHandler):void
 	{
 		this._sd.detectMarker_2(i_sensor.getGsImage(), i_th,i_handler);
 	}

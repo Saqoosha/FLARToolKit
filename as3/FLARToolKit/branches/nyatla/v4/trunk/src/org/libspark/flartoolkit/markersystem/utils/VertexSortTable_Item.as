@@ -1,11 +1,11 @@
-package jp.nyatla.nyartoolkit.as3.markersystem.utils 
+package org.libspark.flartoolkit.markersystem.utils 
 {
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.utils.*;
 	/**
 	 * ...
 	 * @author nyatla
 	 */
-	public class VertexSortTable_Item extends NyARLinkList_Item
+	public class VertexSortTable_Item extends FLARLinkList_Item
 	{
 		public var sq_dist:int;
 		public var marker:TMarkerData;

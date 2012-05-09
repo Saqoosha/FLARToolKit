@@ -1,18 +1,18 @@
-package jp.nyatla.nyartoolkit.as3.core.types 
+package org.libspark.flartoolkit.core.types 
 {
 
-	public class NyARIntCoordinates 
+	public class FLARIntCoordinates 
 	{
-		public var items:Vector.<NyARIntPoint2d>; 
+		public var items:Vector.<FLARIntPoint2d>; 
 		public var length:int ; 
-		public function NyARIntCoordinates(i_length:int )
+		public function FLARIntCoordinates(i_length:int )
 		{ 
-			this.items = NyARIntPoint2d.createArray(i_length) ;
+			this.items = FLARIntPoint2d.createArray(i_length) ;
 			this.length = 0 ;
 		}
 		public function setLineCoordinates( i_x0:int , i_y0:int , i_x1:int , i_y1:int ):Boolean
 		{ 
-			var ptr:Vector.<NyARIntPoint2d> = this.items ;
+			var ptr:Vector.<FLARIntPoint2d> = this.items ;
 			var dx:int = ( i_x1 > i_x0 ) ? i_x1 - i_x0 : i_x0 - i_x1 ;
 			var dy:int = ( i_y1 > i_y0 ) ? i_y1 - i_y0 : i_y0 - i_y1 ;
 			var sx:int = ( i_x1 > i_x0 ) ? 1 : -1 ;

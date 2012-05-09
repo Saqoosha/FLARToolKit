@@ -1,36 +1,36 @@
-package jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.tracker.nyartk.status.*;
-	import jp.nyatla.nyartoolkit.as3.rpf.reality.nyartk.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.utils.*;
+	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.status.*;
+	import org.libspark.flartoolkit.rpf.reality.nyartk.*;
 
-	public class NyARTargetPool extends NyARManagedObjectPool
+	public class FLARTargetPool extends FLARManagedObjectPool
 	{
-		public function NyARTargetPool(i_size:int)
+		public function FLARTargetPool(i_size:int)
 		{
 			this.initInstance(i_size);
 		}
-		protected override function createElement():NyARManagedObject
+		protected override function createElement():FLARManagedObject
 		{
-			return new NyARTarget(this._op_interface);
+			return new FLARTarget(this._op_interface);
 		}
 		/**
 		 * 新しいターゲットを生成します。ターゲットのserial,tagのみ初期化します。
 		 * @param i_clock
 		 * @param i_sample
 		 * @return
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function newNewTarget():NyARTarget
+		public function newNewTarget():FLARTarget
 		{
-			var t:NyARTarget=NyARTarget(super.newObject());
+			var t:FLARTarget=FLARTarget(super.newObject());
 			if(t==null){
 				return null;
 			}
-			t._serial=NyARTarget.createSerialId();
+			t._serial=FLARTarget.createSerialId();
 			t._ref_status=null;
 			t.tag=null;
 			return t;

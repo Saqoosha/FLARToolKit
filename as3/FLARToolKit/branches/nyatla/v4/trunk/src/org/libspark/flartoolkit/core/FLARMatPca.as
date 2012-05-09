@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,24 +28,24 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core
+package org.libspark.flartoolkit.core
 {
 	import jp.nyatla.as3utils.*;
 
 /**
- * このクラスは、主成分機能を追加した{@param NyARMat}です。
+ * このクラスは、主成分機能を追加した{@param FLARMat}です。
  */
-public class NyARMatPca extends NyARMat
+public class FLARMatPca extends FLARMat
 {
-	private var wk_PCA_QRM_ev:NyARVec = new NyARVec(1);
-	private var wk_PCA_PCA_u:NyARMatPca = null;
+	private var wk_PCA_QRM_ev:FLARVec = new FLARVec(1);
+	private var wk_PCA_PCA_u:FLARMatPca = null;
 	/**
 	 * コンストラクタです。
 	 * i_r * i_cの行列を作成します。
 	 * @param i_r
 	 * @param i_c
 	 */
-	public function NyARMatPca(i_r:int,i_c:int)
+	public function FLARMatPca(i_r:int,i_c:int)
 	{
 		super(i_r,i_c);
 	}
@@ -60,9 +60,9 @@ public class NyARMatPca extends NyARMat
 	 * 不明
 	 * @param o_mean
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	public function pca(o_evec:NyARMat,o_ev:NyARVec,o_mean:NyARVec):void
+	public function pca(o_evec:FLARMat,o_ev:FLARVec,o_mean:FLARVec):void
 	{
 		var l_row:Number = this.row;// row = input->row;
 		var l_clm:Number = this.clm;// clm = input->clm;
@@ -109,9 +109,9 @@ public class NyARMatPca extends NyARMat
 	 * 不明
 	 * @param o_ev
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private function PCA_PCA(o_output:NyARMat, o_ev:NyARVec):void
+	private function PCA_PCA(o_output:FLARMat, o_ev:FLARVec):void
 	{
 
 		var l_row:int, l_clm:int, min:int;
@@ -121,21 +121,21 @@ public class NyARMatPca extends NyARMat
 		l_clm = this.clm;// clm = input->clm;
 		min = (l_clm < l_row) ? l_clm : l_row;
 		if (l_row < 2 || l_clm < 2) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (o_output.clm != this.clm) {// if( output->clm != input->clm ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (o_output.row != min) {// if( output->row != min ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (o_ev.getClm() != min) {// if( ev->clm != min ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 
-		var u:NyARMatPca;// u =new NyARMat( min, min );
+		var u:FLARMatPca;// u =new FLARMat( min, min );
 		if (this.wk_PCA_PCA_u == null) {
-			u = new NyARMatPca(min, min);
+			u = new FLARMatPca(min, min);
 			this.wk_PCA_PCA_u = u;
 		} else {
 			u = this.wk_PCA_PCA_u;
@@ -143,7 +143,7 @@ public class NyARMatPca extends NyARMat
 		}
 
 		if (l_row < l_clm) {
-			NyARException.trap("未チェックのパス");
+			FLARException.trap("未チェックのパス");
 			PCA_x_by_xt(this, u);// if(x_by_xt( input, u ) < 0 ) {
 		} else {
 			PCA_xt_by_x(this, u);// if(xt_by_x( input, u ) < 0 ) {
@@ -152,7 +152,7 @@ public class NyARMatPca extends NyARMat
 
 		double[][] m1, m2;
 		if (l_row < l_clm) {
-			NyARException.trap("未チェックのパス");
+			FLARException.trap("未チェックのパス");
 			PCA_EV_create(this, u, o_output, o_ev);
 		} else {
 			m1 = u._m;// m1 = u->m;
@@ -167,7 +167,7 @@ public class NyARMatPca extends NyARMat
 				}
 			}
 			for (; i < min; i++) {// for( ; i < min; i++){
-				// コードを見た限りあってそうだからコメントアウト(2008/03/26)NyARException.trap("未チェックのパス");
+				// コードを見た限りあってそうだからコメントアウト(2008/03/26)FLARException.trap("未チェックのパス");
 				ev_array[i] = 0.0;// ev->v[i] = 0.0;
 				for (int j = 0; j < min; j++) {
 					m2[i][j] = 0.0;// *(m2++) = 0.0;
@@ -191,44 +191,44 @@ public class NyARMatPca extends NyARMat
 	 * 不明。
 	 * @param ev
 	 * 不明。
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private static void PCA_EV_create(NyARMat input, NyARMat u, NyARMat output,NyARVec ev) throws NyARException
+	private static void PCA_EV_create(FLARMat input, FLARMat u, FLARMat output,FLARVec ev) throws FLARException
 	{
-		NyARException.trap("未チェックのパス");
+		FLARException.trap("未チェックのパス");
 		int row, clm;
 		row = input.row;// row = input->row;
 		clm = input.clm;// clm = input->clm;
 		if (row <= 0 || clm <= 0) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (u.row != row || u.clm != row) {// if( u->row != row || u->clm !=
 											// row ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (output.row != row || output.clm != clm) {// if( output->row !=
 														// row || output->clm !=
 														// clm ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (ev.getClm() != row) {// if( ev->clm != row ){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		double[][] m, in_;
 		double[] m1, ev_array;
 		double sum, work;
 
-		NyARException.trap("未チェックのパス");
+		FLARException.trap("未チェックのパス");
 		m = output._m;// m = output->m;
 		in_ = input._m;
 		int i;
 		ev_array = ev.getArray();
 		for (i = 0; i < row; i++) {
-			NyARException.trap("未チェックのパス");
+			FLARException.trap("未チェックのパス");
 			if (ev_array[i] < PCA_VZERO) {// if( ev->v[i] < VZERO ){
 				break;
 			}
-			NyARException.trap("未チェックのパス");
+			FLARException.trap("未チェックのパス");
 			work = 1 / Math.sqrt(Math.abs(ev_array[i]));// work = 1 /
 														// sqrt(fabs(ev->v[i]));
 			for (int j = 0; j < clm; j++) {
@@ -247,7 +247,7 @@ public class NyARMatPca extends NyARMat
 			}
 		}
 		for (; i < row; i++) {
-			NyARException.trap("未チェックのパス");
+			FLARException.trap("未チェックのパス");
 			ev_array[i] = 0.0;// ev->v[i] = 0.0;
 			for (int j = 0; j < clm; j++) {
 				m[i][j] = 0.0;
@@ -262,9 +262,9 @@ public class NyARMatPca extends NyARMat
 	 * 詳細は不明です。
 	 * @param mean
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private void PCA_EX(NyARVec mean) throws NyARException
+	private void PCA_EX(FLARVec mean) throws FLARException
 	{
 		int lrow, lclm;
 		int i, i2;
@@ -273,10 +273,10 @@ public class NyARMatPca extends NyARMat
 		double[][] lm = this._m;
 
 		if (lrow <= 0 || lclm <= 0) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (mean.getClm() != lclm) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		// double[] mean_array=mean.getArray();
 		// mean.zeroClear();
@@ -301,7 +301,7 @@ public class NyARMatPca extends NyARMat
 	 * @param mean
 	 * 不明
 	 */
-	private static void PCA_CENTER(NyARMat inout, NyARVec mean)throws NyARException
+	private static void PCA_CENTER(FLARMat inout, FLARVec mean)throws FLARException
 	{
 		double[] v;
 		int row, clm;
@@ -309,7 +309,7 @@ public class NyARMatPca extends NyARMat
 		row = inout.row;
 		clm = inout.clm;
 		if (mean.getClm() != clm) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		double[][] im = inout._m;
 		double[] im_i;
@@ -352,32 +352,32 @@ public class NyARMatPca extends NyARMat
 	 * 不明
 	 * @param output
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private static void PCA_x_by_xt(NyARMat input, NyARMat output) throws NyARException
+	private static void PCA_x_by_xt(FLARMat input, FLARMat output) throws FLARException
 	{
-		NyARException.trap("動作未チェック/配列化未チェック");
+		FLARException.trap("動作未チェック/配列化未チェック");
 		int row, clm;
 		// double[][] out;
 		double[] in1, in2;
 
-		NyARException.trap("未チェックのパス");
+		FLARException.trap("未チェックのパス");
 		row = input.row;
 		clm = input.clm;
-		NyARException.trap("未チェックのパス");
+		FLARException.trap("未チェックのパス");
 		if (output.row != row || output.clm != row) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 
 		// out = output.getArray();
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < row; j++) {
 				if (j < i) {
-					NyARException.trap("未チェックのパス");
+					FLARException.trap("未チェックのパス");
 					output._m[i][j] = output._m[j][i];// *out =
 													// output->m[j*row+i];
 				} else {
-					NyARException.trap("未チェックのパス");
+					FLARException.trap("未チェックのパス");
 					in1 = input._m[i];// input.getRowArray(i);//in1 = &(input->m[clm*i]);
 					in2 = input._m[j];// input.getRowArray(j);//in2 = &(input->m[clm*j]);
 					output._m[i][j] = 0;// *out = 0.0;
@@ -398,9 +398,9 @@ public class NyARMatPca extends NyARMat
 	 * 不明
 	 * @param i_output
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private static void PCA_xt_by_x(NyARMat input, NyARMat i_output) throws NyARException
+	private static void PCA_xt_by_x(FLARMat input, FLARMat i_output) throws FLARException
 	{
 		double[] in_;
 		int row, clm;
@@ -408,7 +408,7 @@ public class NyARMatPca extends NyARMat
 		row = input.row;
 		clm = input.clm;
 		if (i_output.row != clm || i_output.clm != clm) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 
 		int k, j;
@@ -434,9 +434,9 @@ public class NyARMatPca extends NyARMat
 	 * 詳細は不明です。
 	 * @param dv
 	 * 不明
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private void PCA_QRM(NyARVec dv) throws NyARException
+	private void PCA_QRM(FLARVec dv) throws FLARException
 	{
 		var w:Number, t:Number, s:Number, x:Number, y:Number, c:Number;
 		var dim:int, iter:int;
@@ -444,17 +444,17 @@ public class NyARMatPca extends NyARMat
 
 		dim = this.row;
 		if (dim != this.clm || dim < 2) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (dv.getClm() != dim) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 
-		var ev:NyARVec = this.wk_PCA_QRM_ev;
+		var ev:FLARVec = this.wk_PCA_QRM_ev;
 		ev.realloc(dim);
 		var ev_array:Vector.<Number> = ev.getArray();
 		if (ev == null) {
-			throw new NyARException();
+			throw new FLARException();
 		}
 		var L_m:Vector.<Vector.<Number>> = this._m;
 		this.vecTridiagonalize(dv, ev, 1);
@@ -503,7 +503,7 @@ public class NyARMatPca extends NyARMat
 					dv_array[k] -= t;// dv->v[k] -= t;
 					dv_array[k + 1] += t;// dv->v[k+1] += t;
 					if (k > j) {
-						NyARException.trap("未チェックパス");
+						FLARException.trap("未チェックパス");
 						{
 							ev_array[k] = c * ev_array[k] - s * y;// ev->v[k]= c *ev->v[k]- s * y;
 						}
@@ -517,7 +517,7 @@ public class NyARMatPca extends NyARMat
 						L_m[k + 1][i] = s * x + c * y;// a->m[(k+1)*dim+i] = s* x + c * y;
 					}
 					if (k < h - 1) {
-						NyARException.trap("未チェックパス");
+						FLARException.trap("未チェックパス");
 						{
 							x = ev_array[k + 1];// x = ev->v[k+1];
 							y = -s * ev_array[k + 2];// y = -s * ev->v[k+2];
@@ -561,8 +561,8 @@ public class NyARMatPca extends NyARMat
 			r2[i] = w;
 		}
 	}
-	private var wk_vecTridiagonalize_vec:NyARVec = new NyARVec(0);
-	private var wk_vecTridiagonalize_vec2:NyARVec  = new NyARVec(0);
+	private var wk_vecTridiagonalize_vec:FLARVec = new FLARVec(0);
+	private var wk_vecTridiagonalize_vec2:FLARVec  = new FLARVec(0);
 
 	/**
 	 * ARToolKitの、arVecTridiagonalize関数と同等な関数です。
@@ -573,23 +573,23 @@ public class NyARMatPca extends NyARMat
 	 * 不明
 	 * @param i_e_start
 	 * 演算開始列(よくわからないけどarVecTridiagonalizeの呼び出し元でなんかしてる)
-	 * @throws NyARException
+	 * @throws FLARException
 	 */
-	private void vecTridiagonalize( d:NyARVec, e:NyARVec , i_e_start:int):void
+	private void vecTridiagonalize( d:FLARVec, e:FLARVec , i_e_start:int):void
 	{
-		var vec:NyARVec = wk_vecTridiagonalize_vec;
+		var vec:FLARVec = wk_vecTridiagonalize_vec;
 		// double[][] a_array=a.getArray();
 		var s:Number, t:Number, p:Number, q:Number;
 		var dim:int;
 
 		if (this.clm != this.row) {// if(a.getClm()!=a.getRow()){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (this.clm != d.getClm()) {// if(a.getClm() != d.clm){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		if (this.clm != e.getClm()) {// if(a.getClm() != e.clm){
-			throw new NyARException();
+			throw new FLARException();
 		}
 		dim = this.getClm();
 
@@ -603,13 +603,13 @@ public class NyARMatPca extends NyARMat
 			a_vec_k = this._m[k];
 			vec.setNewArray(a_vec_k, clm);// vec=this.getRowVec(k);//double[]
 											// vec_array=vec.getArray();
-			NyARException.trap("未チェックパス");
+			FLARException.trap("未チェックパス");
 			d_vec[k] = a_vec_k[k];// d.v[k]=vec.v[k];//d.set(k,v.get(k));
 									// //d->v[k] = v[k];
 
 			// wv1.clm = dim-k-1;
 			// wv1.v = &(v[k+1]);
-			NyARException.trap("未チェックパス");
+			FLARException.trap("未チェックパス");
 			e_vec[k + i_e_start] = vec.vecHousehold(k + 1);// e.v[k+i_e_start]=vec.vecHousehold(k+1);//e->v[k]= arVecHousehold(&wv1);
 			if (e_vec[k + i_e_start] == 0.0) {// if(e.v[k+i_e_start]== 0.0){//if(e.v[k+i_e_start]== 0.0){
 				continue;
@@ -618,14 +618,14 @@ public class NyARMatPca extends NyARMat
 			for (var i:int = k + 1; i < dim; i++) {
 				s = 0.0;
 				for (int j = k + 1; j < i; j++) {
-					NyARException.trap("未チェックのパス");
+					FLARException.trap("未チェックのパス");
 					s += this._m[j][i] * a_vec_k[j];// s += a_array[j][i] *vec.v[j];//s +=a.get(j*dim+i) *v.get(j);//s +=a->m[j*dim+i] * v[j];
 				}
 				for (var j:int = i; j < dim; j++) {
-					NyARException.trap("未チェックのパス");
+					FLARException.trap("未チェックのパス");
 					s += this._m[i][j] * a_vec_k[j];// s += a_array[i][j] *vec.v[j];//s +=a.get(i*dim+j) *v.get(j);//s +=a->m[i*dim+j] * v[j];
 				}
-				NyARException.trap("未チェックのパス");
+				FLARException.trap("未チェックのパス");
 				d_vec[i] = s;// d.v[i]=s;//d->v[i] = s;
 			}
 
@@ -635,15 +635,15 @@ public class NyARMatPca extends NyARMat
 			a_vec_k = this._m[k];
 			vec.setNewArray(a_vec_k, clm);// vec=this.getRowVec(k);
 			// vec_array=vec.getArray();
-			NyARException.trap("未チェックパス");
+			FLARException.trap("未チェックパス");
 			t = vec.vecInnerproduct(d, k + 1) / 2;
 			for (var i:int = dim - 1; i > k; i--) {
-				NyARException.trap("未チェックパス");
+				FLARException.trap("未チェックパス");
 				p = a_vec_k[i];// p = v.get(i);//p = v[i];
 				d_vec[i] -= t * p;
 				q = d_vec[i];// d.v[i]-=t*p;q=d.v[i];//q = d->v[i] -= t*p；
 				for (var j:int = i; j < dim; j++) {
-					NyARException.trap("未チェックパス");
+					FLARException.trap("未チェックパス");
 					this._m[i][j] -= p * (d_vec[j] + q * a_vec_k[j]);// a.m[i][j]-=p*(d.v[j] +q*vec.v[j]);//a->m[i*dim+j] -=p*(d->v[j]) + q*v[j];
 				}
 			}
@@ -657,7 +657,7 @@ public class NyARMatPca extends NyARMat
 		if (dim >= 1) {
 			d_vec[dim - 1] = this._m[dim - 1][dim - 1];// d.v[dim-1]=a_array[dim-1][dim-1];//d->v[dim-1] =a->m[(dim-1)*dim+(dim-1)];
 		}
-		var vec2:NyARVec = this.wk_vecTridiagonalize_vec2;
+		var vec2:FLARVec = this.wk_vecTridiagonalize_vec2;
 		for (var k:int = dim - 1; k >= 0; k--) {
 			a_vec_k = this._m[k];
 			vec.setNewArray(a_vec_k, clm);// vec=this.getRowVec(k);//v =a.getPointer(k*dim);//v = &(a->m[k*dim]);
@@ -670,7 +670,7 @@ public class NyARMatPca extends NyARMat
 
 					t = vec.vecInnerproduct(vec2, k + 1);
 					for (var j:int = k + 1; j < dim; j++) {
-						NyARException.trap("未チェックパス");
+						FLARException.trap("未チェックパス");
 						this._m[i][j] -= t * a_vec_k[j];// a_array[i][j]-=t*vec.v[j];//a.subValue(i*dim+j,t*v.get(j));//a->m[i*dim+j]-= t * v[j];
 					}
 				}

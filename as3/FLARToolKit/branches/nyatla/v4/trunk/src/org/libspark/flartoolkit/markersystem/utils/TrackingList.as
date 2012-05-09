@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import jp.nyatla.as3utils.*;
 
 	/**
@@ -101,7 +101,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		 * [1]に頂点移動距離の合計の二乗値を返します。
 		 * シフト量はthis-i_squareです。1の場合、i_v1[0]とi_v2[1]が対応点になる(shift量1)であることを示します。
 		 */
-		public static function compareVertexSet(i_v1:Vector.<NyARIntPoint2d>,i_v2:Vector.<NyARIntPoint2d>,ret:Vector.<int>):void
+		public static function compareVertexSet(i_v1:Vector.<FLARIntPoint2d>,i_v2:Vector.<FLARIntPoint2d>,ret:Vector.<int>):void
 		{
 			//3-0番目
 			var min_dist:int=int.MAX_VALUE;
@@ -147,7 +147,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 					target.life++;
 					target.sq=top_item.ref_sq;
 					target.sq.rotateVertexL(4-top_item.shift);
-					NyARIntPoint2d.shiftCopy_2(top_item.ref_sq.ob_vertex,target.tl_vertex,4-top_item.shift);
+					FLARIntPoint2d.shiftCopy_2(top_item.ref_sq.ob_vertex,target.tl_vertex,4-top_item.shift);
 					target.tl_center.setValue(top_item.ref_sq.center2d);
 					target.tl_rect_area=top_item.ref_sq.rect_area;
 				}

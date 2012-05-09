@@ -1,6 +1,6 @@
-package jp.nyatla.nyartoolkit.as3.core.match 
+package org.libspark.flartoolkit.core.match 
 {
-	public interface NyARMatchPattDeviationColorData_IRasterDriver
+	public interface FLARMatchPattDeviationColorData_IRasterDriver
 	{
 		/**
 		 * この関数は、参照するラスタの差分画像データを取得する。

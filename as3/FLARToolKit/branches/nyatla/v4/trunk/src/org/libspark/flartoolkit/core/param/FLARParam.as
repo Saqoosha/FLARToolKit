@@ -1,20 +1,20 @@
-package jp.nyatla.nyartoolkit.as3.core.param
+package org.libspark.flartoolkit.core.param
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	import flash.utils.*;
 	
 	/**
 	 * typedef struct { int xsize, ysize; double mat[3][4]; double dist_factor[4]; } ARParam;
-	 * NyARの動作パラメータを格納するクラス
+	 * FLARの動作パラメータを格納するクラス
 	 *
 	 */
-	public class NyARParam
+	public class FLARParam
 	{
-		protected var _screen_size:NyARIntSize=new NyARIntSize();
+		protected var _screen_size:FLARIntSize=new FLARIntSize();
 		private static const SIZE_OF_PARAM_SET:int = 4 + 4 + (3 * 4 * 8) + (4 * 8);
-		private var _dist:NyARCameraDistortionFactor =new NyARCameraDistortionFactor();
-		private var _projection_matrix:NyARPerspectiveProjectionMatrix =new NyARPerspectiveProjectionMatrix();
+		private var _dist:FLARCameraDistortionFactor =new FLARCameraDistortionFactor();
+		private var _projection_matrix:FLARPerspectiveProjectionMatrix =new FLARPerspectiveProjectionMatrix();
 		public function loadDefaultParameter():void
 		{
 			var tmp:Vector.<Number>=Vector.<Number>([318.5,263.5,26.2,1.0127565206658486]);
@@ -37,25 +37,25 @@ package jp.nyatla.nyartoolkit.as3.core.param
 			this._projection_matrix.m32=0.0;
 			this._projection_matrix.m33=1.0;
 		}
-		public function getScreenSize():NyARIntSize
+		public function getScreenSize():FLARIntSize
 		{
 			return this._screen_size;
 		}
 
-		public function getPerspectiveProjectionMatrix():NyARPerspectiveProjectionMatrix 
+		public function getPerspectiveProjectionMatrix():FLARPerspectiveProjectionMatrix 
 		{
 			return this._projection_matrix;
 		}
-		public function getDistortionFactor():NyARCameraDistortionFactor
+		public function getDistortionFactor():FLARCameraDistortionFactor
 		{
 			return this._dist;
 		}
 		/**
 		 * 
 		 * @param i_factor
-		 * NyARCameraDistortionFactorにセットする配列を指定する。要素数は4であること。
+		 * FLARCameraDistortionFactorにセットする配列を指定する。要素数は4であること。
 		 * @param i_projection
-		 * NyARPerspectiveProjectionMatrixセットする配列を指定する。要素数は12であること。
+		 * FLARPerspectiveProjectionMatrixセットする配列を指定する。要素数は12であること。
 		 */
 		public function setValue(i_factor:Vector.<Number>,i_projection:Vector.<Number>):void
 		{
@@ -87,7 +87,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * {@link #changeScreenSize(int, int)のラッパーです。
 		 * @param i_s
 		 */
-		public function changeScreenSize_2(i_s:NyARIntSize):void
+		public function changeScreenSize_2(i_s:FLARIntSize):void
 		{
 			this.changeScreenSize(i_s.w,i_s.h);
 		}
@@ -98,7 +98,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_dist_max
 		 * @param o_frustum
 		 */
-		public function makeCameraFrustumRH(i_dist_min:Number,i_dist_max:Number,o_frustum:NyARDoubleMatrix44):void
+		public function makeCameraFrustumRH(i_dist_min:Number,i_dist_max:Number,o_frustum:FLARDoubleMatrix44):void
 		{
 			this._projection_matrix.makeCameraFrustumRH(this._screen_size.w, this._screen_size.h, i_dist_min, i_dist_max, o_frustum);
 			return;

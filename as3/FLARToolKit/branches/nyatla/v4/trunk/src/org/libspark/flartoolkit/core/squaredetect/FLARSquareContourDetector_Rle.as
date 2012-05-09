@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,46 +28,46 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.labeling.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
 	
-	public class NyARSquareContourDetector_Rle extends NyARSquareContourDetector
+	public class FLARSquareContourDetector_Rle extends FLARSquareContourDetector
 	{
 		private var _labeling:Labeling ; 
-		private var _overlap_checker:NyARLabelOverlapChecker = new NyARLabelOverlapChecker(32) ; 
-		private var _cpickup:NyARContourPickup = new NyARContourPickup();
-		private var _coord2vertex:NyARCoord2SquareVertexIndexes = new NyARCoord2SquareVertexIndexes(); 
-		private var _coord:NyARIntCoordinates ; 
-		public function NyARSquareContourDetector_Rle( i_size:NyARIntSize )
+		private var _overlap_checker:FLARLabelOverlapChecker = new FLARLabelOverlapChecker(32) ; 
+		private var _cpickup:FLARContourPickup = new FLARContourPickup();
+		private var _coord2vertex:FLARCoord2SquareVertexIndexes = new FLARCoord2SquareVertexIndexes(); 
+		private var _coord:FLARIntCoordinates ; 
+		public function FLARSquareContourDetector_Rle( i_size:FLARIntSize )
 		{ 
 			this.setupImageDriver(i_size);
 			//ラベリングのサイズを指定したいときはsetAreaRangeを使ってね。
-			this._coord = new NyARIntCoordinates((i_size.w + i_size.h) * 2);
+			this._coord = new FLARIntCoordinates((i_size.w + i_size.h) * 2);
 			return;
 		}
 		/**
 		 * 画像処理オブジェクトの切り替え関数。切り替える場合は、この関数を上書きすること。
 		 * @param i_size
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function setupImageDriver(i_size:NyARIntSize):void
+		protected function setupImageDriver(i_size:FLARIntSize):void
 		{
 			//特性確認
-			//assert(NyARLabeling_Rle._sf_label_array_safe_reference);
+			//assert(FLARLabeling_Rle._sf_label_array_safe_reference);
 			this._labeling=new Labeling(i_size.w,i_size.h);
-			this._cpickup=new NyARContourPickup();
+			this._cpickup=new FLARContourPickup();
 		}
 		private var __detectMarker_mkvertex:Vector.<int> = new Vector.<int>(4); 
-		public function detectMarker_3( i_raster:INyARGrayscaleRaster , i_area:NyARIntRect , i_th:int,i_cb:NyARSquareContourDetector_CbHandler):void
+		public function detectMarker_3( i_raster:IFLARGrayscaleRaster , i_area:FLARIntRect , i_th:int,i_cb:FLARSquareContourDetector_CbHandler):void
 		{ 
 			//assert( ! (( i_area.w * i_area.h > 0 ) ) );
-			var flagment:NyARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
-			var overlap:NyARLabelOverlapChecker = this._overlap_checker ;
+			var flagment:FLARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
+			var overlap:FLARLabelOverlapChecker = this._overlap_checker ;
 			this._labeling.labeling_2(i_raster , i_area , i_th) ;
 			var label_num:int = flagment.getLength() ;
 			if( label_num < 1 ) {
@@ -75,11 +75,11 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 			}
 			
 			var labels:Vector.<Object> = flagment.getArray() ;
-			var coord:NyARIntCoordinates = this._coord ;
+			var coord:FLARIntCoordinates = this._coord ;
 			var mkvertex:Vector.<int> = this.__detectMarker_mkvertex ;
 			overlap.setMaxLabels(label_num) ;
 			for( var i:int = 0 ; i < label_num ; i++ ) {
-				var label_pt:NyARRleLabelFragmentInfo = NyARRleLabelFragmentInfo(labels[i]);
+				var label_pt:FLARRleLabelFragmentInfo = FLARRleLabelFragmentInfo(labels[i]);
 				if ( !overlap.check(label_pt) )
 				{
 					continue ;
@@ -102,10 +102,10 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 			return  ;
 		}
 		
-		public function detectMarker_2( i_raster:INyARGrayscaleRaster,i_th:int,i_cb:NyARSquareContourDetector_CbHandler):void
+		public function detectMarker_2( i_raster:IFLARGrayscaleRaster,i_th:int,i_cb:FLARSquareContourDetector_CbHandler):void
 		{ 
-			var flagment:NyARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
-			var overlap:NyARLabelOverlapChecker = this._overlap_checker ;
+			var flagment:FLARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
+			var overlap:FLARLabelOverlapChecker = this._overlap_checker ;
 			flagment.clear() ;
 			this._labeling.labeling(i_raster,i_th) ;
 			var label_num:int = flagment.getLength() ;
@@ -115,11 +115,11 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 			
 			flagment.sortByArea() ;
 			var labels:Vector.<Object> = flagment.getArray() ;
-			var coord:NyARIntCoordinates = this._coord ;
+			var coord:FLARIntCoordinates = this._coord ;
 			var mkvertex:Vector.<int> = this.__detectMarker_mkvertex ;
 			overlap.setMaxLabels(label_num) ;
 			for( var i:int = 0 ; i < label_num ; i++ ) {
-				var label_pt:NyARRleLabelFragmentInfo = NyARRleLabelFragmentInfo(labels[i]);
+				var label_pt:FLARRleLabelFragmentInfo = FLARRleLabelFragmentInfo(labels[i]);
 				var label_area:int = label_pt.area ;
 				if( !overlap.check(label_pt) ) {
 					continue ;
@@ -142,40 +142,40 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 
 	}
 }
-import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-import jp.nyatla.nyartoolkit.as3.core.types.*;
+import org.libspark.flartoolkit.core.labeling.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.types.*;
 
-class Labeling extends NyARLabeling_Rle 
+class Labeling extends FLARLabeling_Rle 
 {
-	public var label_stack:NyARRleLabelFragmentInfoPtrStack ; 
+	public var label_stack:FLARRleLabelFragmentInfoPtrStack ; 
 	private var _right:int ; 
 	private var _bottom:int ; 
 	public function Labeling( i_width:int , i_height:int )
 	{ 
 		super( i_width , i_height ) ;
-		this.label_stack = new NyARRleLabelFragmentInfoPtrStack( i_width * i_height * 2048 / ( 320 * 240 ) + 32 ) ;
+		this.label_stack = new FLARRleLabelFragmentInfoPtrStack( i_width * i_height * 2048 / ( 320 * 240 ) + 32 ) ;
 		this._bottom = i_height - 1 ;
 		this._right = i_width - 1 ;
 		return  ;
 	}
-	public override function labeling_2(i_raster:INyARGrayscaleRaster , i_area:NyARIntRect , i_th:int ):void
+	public override function labeling_2(i_raster:IFLARGrayscaleRaster , i_area:FLARIntRect , i_th:int ):void
 	{ 
 		this.label_stack.clear() ;
 		super.labeling_2(i_raster , i_area , i_th) ;
 		this.label_stack.sortByArea() ;
 	}
 	
-	public override function labeling(i_raster:INyARGrayscaleRaster,i_th:int):void
+	public override function labeling(i_raster:IFLARGrayscaleRaster,i_th:int):void
 	{ 
 		this.label_stack.clear() ;
 		super.labeling(i_raster,i_th) ;
 		this.label_stack.sortByArea() ;
 	}
 	
-	protected override function onLabelFound( i_label:NyARRleLabelFragmentInfo ):void
+	protected override function onLabelFound( i_label:FLARRleLabelFragmentInfo ):void
 	{ 
 		if( i_label.clip_l == 0 || i_label.clip_r == this._right ) {
 			return  ;

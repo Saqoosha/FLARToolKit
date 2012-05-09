@@ -1,9 +1,9 @@
-package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
+package org.libspark.flartoolkit.rpf.sampler.lrlabel
 {
 
-	import jp.nyatla.nyartoolkit.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.raster.*;
 
 
 
@@ -31,7 +31,7 @@ package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
 		 * 最低解像度とするRasterのdepth。
 		 * この値は、samplingに渡すLowResolutionLabelingSamplerInに設定した値と同じである必要があります。
 		 * <p>メモ:ラスタ形式の多値化を考えるならアレだ。Impl作成。</p>
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function LowResolutionLabelingSampler(i_width:int, i_height:int, i_pix_size:int)
 		{
@@ -46,9 +46,9 @@ package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
 		 * ラべリングの敷居値です。
 		 * @param o_out
 		 * 出力先のデータです。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function sampling(i_in:NyARGrayscaleRaster,i_th:int ,o_out:LowResolutionLabelingSamplerOut ):void
+		public function sampling(i_in:FLARGrayscaleRaster,i_th:int ,o_out:LowResolutionLabelingSamplerOut ):void
 		{
 			//クラスのパラメータ初期化
 			var lb:Main_Labeling=this._main_labeling;
@@ -65,17 +65,17 @@ package jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel
 	}
 }
 
-import jp.nyatla.nyartoolkit.as3.*;
-import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-import jp.nyatla.nyartoolkit.as3.core.raster.*;
-import jp.nyatla.nyartoolkit.as3.rpf.sampler.lrlabel.*;
+import org.libspark.flartoolkit.*;
+import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
 
 /**
  * 1/n画像のラべリングをするクラス。
  * @author nyatla
  *
  */
-class Main_Labeling extends NyARLabeling_Rle
+class Main_Labeling extends FLARLabeling_Rle
 {
 	private var _pix:int;
 	public var current_th:int;
@@ -88,7 +88,7 @@ class Main_Labeling extends NyARLabeling_Rle
 	/**
 	 * @Override
 	 */
-	protected override function onLabelFound(iRefLabel:NyARRleLabelFragmentInfo):void
+	protected override function onLabelFound(iRefLabel:FLARRleLabelFragmentInfo):void
 	{
 		//widthとheightの計算
 		var w:int=iRefLabel.clip_r-iRefLabel.clip_l;

@@ -1,4 +1,4 @@
-package jp.nyatla.nyartoolkit.as3.rpf.utils 
+package org.libspark.flartoolkit.rpf.utils 
 {
 	public class VecLinearCoordinates
 	{	

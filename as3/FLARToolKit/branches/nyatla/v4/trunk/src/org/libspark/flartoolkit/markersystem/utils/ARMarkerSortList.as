@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * --------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,15 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.markersystem.utils
+package org.libspark.flartoolkit.markersystem.utils
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.utils.*;
 
 	/**
 	 * このクラスは、ARマーカの検出結果をマッピングするためのリストです。
 	 */
-	public class ARMarkerSortList extends NyARLinkList
+	public class ARMarkerSortList extends FLARLinkList
 	{
 		/**
 		 * 指定個数のリンクリストを生成。
@@ -40,7 +40,7 @@ package jp.nyatla.nyartoolkit.as3.markersystem.utils
 		{
 			super(1);
 		}
-		protected override function createElement():NyARLinkList_Item
+		protected override function createElement():FLARLinkList_Item
 		{
 			return new ARMarkerSortList_Item();
 		}

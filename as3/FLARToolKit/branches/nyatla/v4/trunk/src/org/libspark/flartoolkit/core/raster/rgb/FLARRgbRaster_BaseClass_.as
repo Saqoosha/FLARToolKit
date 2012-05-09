@@ -1,25 +1,25 @@
-package jp.nyatla.nyartoolkit.as3.core.raster.rgb 
+package org.libspark.flartoolkit.core.raster.rgb 
 {
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.match.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
 	import jp.nyatla.as3utils.*;
 	
-	public class NyARRgbRaster extends NyARRgbRaster_BasicClass
+	public class FLARRgbRaster extends FLARRgbRaster_BasicClass
 	{
 		protected var _buf:Object;
 		/** ピクセルリーダ*/
-		protected var _rgb_pixel_driver:INyARRgbPixelDriver;
+		protected var _rgb_pixel_driver:IFLARRgbPixelDriver;
 		/**
 		 * バッファオブジェクトがアタッチされていればtrue
 		 */
 		protected var _is_attached_buffer:Boolean;
 
 		
-		public function NyARRgbRaster(...args:Array)
+		public function FLARRgbRaster(...args:Array)
 		{
 			super(NyAS3Const_Inherited);
 			switch(args.length){
@@ -29,16 +29,16 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 				}
 				break;
 			case 2:
-				overload_NyARRgbRaster_2ii(int(args[0]), int(args[1]));
+				overload_FLARRgbRaster_2ii(int(args[0]), int(args[1]));
 				break;
 			case 3:
-				overload_NyARRgbRaster_3iii(int(args[0]), int(args[1]),int(args[2]));
+				overload_FLARRgbRaster_3iii(int(args[0]), int(args[1]),int(args[2]));
 				break;
 			case 4:
-				overload_NyARRgbRaster_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
+				overload_FLARRgbRaster_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 		/**
@@ -48,13 +48,13 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		 * ラスタのサイズ
 		 * @param i_height
 		 * ラスタのサイズ
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARRgbRaster_2ii(i_width:int,i_height:int):void
+		protected function overload_FLARRgbRaster_2ii(i_width:int,i_height:int):void
 		{
-			super.overload_NyARRgbRaster_BasicClass(i_width,i_height,NyARBufferType.INT1D_X8R8G8B8_32);
-			if(!initInstance(this._size,NyARBufferType.INT1D_X8R8G8B8_32,true)){
-				throw new NyARException();
+			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,FLARBufferType.INT1D_X8R8G8B8_32);
+			if(!initInstance(this._size,FLARBufferType.INT1D_X8R8G8B8_32,true)){
+				throw new FLARException();
 			}
 		}		
 		/**
@@ -62,15 +62,15 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		 * @param i_width
 		 * @param i_height
 		 * @param i_raster_type
-		 * NyARBufferTypeに定義された定数値を指定してください。
+		 * FLARBufferTypeに定義された定数値を指定してください。
 		 * @param i_is_alloc
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		protected function overload_NyARRgbRaster_4iiib(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean):void
+		protected function overload_FLARRgbRaster_4iiib(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean):void
 		{
-			super.overload_NyARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
+			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
 			if(!initInstance(this._size,i_raster_type,i_is_alloc)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 		}
 		/**
@@ -78,14 +78,14 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		 * @param i_width
 		 * @param i_height
 		 * @param i_raster_type
-		 * NyARBufferTypeに定義された定数値を指定してください。
-		 * @throws NyARException
+		 * FLARBufferTypeに定義された定数値を指定してください。
+		 * @throws FLARException
 		 */
-		protected function overload_NyARRgbRaster_3iii(i_width:int, i_height:int, i_raster_type:int):void
+		protected function overload_FLARRgbRaster_3iii(i_width:int, i_height:int, i_raster_type:int):void
 		{
-			super.overload_NyARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
+			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
 			if(!initInstance(this._size,i_raster_type,true)){
-				throw new NyARException();
+				throw new FLARException();
 			}
 		}
 		
@@ -97,23 +97,23 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		 * @param i_is_alloc
 		 * @return
 		 */
-		protected function initInstance(i_size:NyARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
+		protected function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
 		{
 			//バッファの構築
 			switch(i_raster_type)
 			{
-				case NyARBufferType.INT1D_X8R8G8B8_32:
+				case FLARBufferType.INT1D_X8R8G8B8_32:
 					this._buf=i_is_alloc?new Vector.<int>(i_size.w*i_size.h):null;
 					break;
 				default:
 					return false;
 			}
 			//readerの構築
-			this._rgb_pixel_driver=NyARRgbPixelDriverFactory.createDriver(this);
+			this._rgb_pixel_driver=FLARRgbPixelDriverFactory.createDriver(this);
 			this._is_attached_buffer=i_is_alloc;
 			return true;
 		}
-		public override function getRgbPixelDriver():INyARRgbPixelDriver
+		public override function getRgbPixelDriver():IFLARRgbPixelDriver
 		{
 			return this._rgb_pixel_driver;
 		}
@@ -134,26 +134,26 @@ package jp.nyatla.nyartoolkit.as3.core.raster.rgb
 		}
 		public override function createInterface(iIid:Class):Object
 		{
-			if(iIid==INyARPerspectiveCopy){
-				return NyARPerspectiveCopyFactory.createDriver(this);
+			if(iIid==IFLARPerspectiveCopy){
+				return FLARPerspectiveCopyFactory.createDriver(this);
 			}
-			if(iIid==NyARMatchPattDeviationColorData_IRasterDriver){
-				return NyARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
+			if(iIid==FLARMatchPattDeviationColorData_IRasterDriver){
+				return FLARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
 			}
-			if(iIid==INyARRgb2GsFilter){
+			if(iIid==IFLARRgb2GsFilter){
 				//デフォルトのインタフェイス
-				return NyARRgb2GsFilterFactory.createRgbAveDriver(this);
-			}else if(iIid==INyARRgb2GsFilterRgbAve){
-				return NyARRgb2GsFilterFactory.createRgbAveDriver(this);
-//			}else if(iIid==INyARRgb2GsFilterRgbCube){
-//				return NyARRgb2GsFilterFactory.createRgbCubeDriver(this);
-//			}else if(iIid==INyARRgb2GsFilterYCbCr){
-//				return NyARRgb2GsFilterFactory.createYCbCrDriver(this);
+				return FLARRgb2GsFilterFactory.createRgbAveDriver(this);
+			}else if(iIid==IFLARRgb2GsFilterRgbAve){
+				return FLARRgb2GsFilterFactory.createRgbAveDriver(this);
+//			}else if(iIid==IFLARRgb2GsFilterRgbCube){
+//				return FLARRgb2GsFilterFactory.createRgbCubeDriver(this);
+//			}else if(iIid==IFLARRgb2GsFilterYCbCr){
+//				return FLARRgb2GsFilterFactory.createYCbCrDriver(this);
 			}
-			if(iIid==INyARRgb2GsFilterArtkTh){
-				return NyARRgb2GsFilterArtkThFactory.createDriver(this);
+			if(iIid==IFLARRgb2GsFilterArtkTh){
+				return FLARRgb2GsFilterArtkThFactory.createDriver(this);
 			}
-			throw new NyARException();
+			throw new FLARException();
 		}		
 	}
 

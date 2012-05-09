@@ -1,29 +1,29 @@
-package jp.nyatla.nyartoolkit.as3.core.rasterdriver 
+package org.libspark.flartoolkit.core.rasterdriver 
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.utils.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.utils.*;
 
 	/**
-	 * このクラスは、INyARPerspectiveCopyの基本機能を実装したベースクラスです。
-	 * {@link #onePixel(int, int, double[], INyARRaster)}と{@link #multiPixel(int, int, double[], int, INyARRaster)}
+	 * このクラスは、IFLARPerspectiveCopyの基本機能を実装したベースクラスです。
+	 * {@link #onePixel(int, int, double[], IFLARRaster)}と{@link #multiPixel(int, int, double[], int, IFLARRaster)}
 	 * を実装して、クラスを完成させます。
 	 * 
 	 */
-	public class NyARPerspectiveCopy_Base implements INyARPerspectiveCopy
+	public class FLARPerspectiveCopy_Base implements IFLARPerspectiveCopy
 	{
 		private static const LOCAL_LT:int=1;
-		protected var _perspective_gen:NyARPerspectiveParamGenerator;
+		protected var _perspective_gen:FLARPerspectiveParamGenerator;
 		protected var __pickFromRaster_cpara:Vector.<Number>=new Vector.<Number>(8);	
-		public function NyARPerspectiveCopy_Base()
+		public function FLARPerspectiveCopy_Base()
 		{
-			this._perspective_gen=new NyARPerspectiveParamGenerator_O1(LOCAL_LT,LOCAL_LT);		
+			this._perspective_gen=new FLARPerspectiveParamGenerator_O1(LOCAL_LT,LOCAL_LT);		
 		}
-		public function copyPatt_3(i_x1:Number,i_y1:Number,i_x2:Number,i_y2:Number,i_x3:Number,i_y3:Number,i_x4:Number,i_y4:Number,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:INyARRgbRaster):Boolean
+		public function copyPatt_3(i_x1:Number,i_y1:Number,i_x2:Number,i_y2:Number,i_x3:Number,i_y3:Number,i_x4:Number,i_y4:Number,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:IFLARRgbRaster):Boolean
 		{
-			var out_size:NyARIntSize=i_out.getSize();
+			var out_size:FLARIntSize=i_out.getSize();
 			var xe:int=out_size.w*i_edge_x/50;
 			var ye:int=out_size.h*i_edge_y/50;
 
@@ -43,21 +43,21 @@ package jp.nyatla.nyartoolkit.as3.core.rasterdriver
 			return true;
 		}
 
-		public function copyPatt_2(i_vertex:Vector.<NyARDoublePoint2d>,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:INyARRgbRaster):Boolean
+		public function copyPatt_2(i_vertex:Vector.<FLARDoublePoint2d>,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:IFLARRgbRaster):Boolean
 		{
 			return this.copyPatt_3(i_vertex[0].x,i_vertex[0].y,i_vertex[1].x,i_vertex[1].y,i_vertex[2].x,i_vertex[2].y,i_vertex[3].x,i_vertex[3].y, i_edge_x, i_edge_y, i_resolution, i_out);
 		}
-		public function copyPatt(i_vertex:Vector.<NyARIntPoint2d>,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:INyARRgbRaster):Boolean
+		public function copyPatt(i_vertex:Vector.<FLARIntPoint2d>,i_edge_x:int,i_edge_y:int,i_resolution:int,i_out:IFLARRgbRaster):Boolean
 		{
 			return this.copyPatt_3(i_vertex[0].x,i_vertex[0].y,i_vertex[1].x,i_vertex[1].y,i_vertex[2].x,i_vertex[2].y,i_vertex[3].x,i_vertex[3].y, i_edge_x, i_edge_y, i_resolution, i_out);
 		}
-		protected function onePixel(pk_l:int, pk_t:int, cpara:Vector.<Number>, o_out:INyARRaster):Boolean
+		protected function onePixel(pk_l:int, pk_t:int, cpara:Vector.<Number>, o_out:IFLARRaster):Boolean
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
-		protected function multiPixel(pk_l:int, pk_t:int, cpara:Vector.<Number>, i_resolution:int, o_out:INyARRaster):Boolean
+		protected function multiPixel(pk_l:int, pk_t:int, cpara:Vector.<Number>, i_resolution:int, o_out:IFLARRaster):Boolean
 		{
-			throw new NyARException();
+			throw new FLARException();
 		}
 	}
 }

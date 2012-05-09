@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,20 +28,20 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.squaredetect 
+package org.libspark.flartoolkit.core.squaredetect 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.labeling.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 	
-	public class NyARContourPickup
+	public class FLARContourPickup
 	{
 
 		/** 最後に処理したラスタ*/
-		private var _ref_last_input_raster:INyARRaster=null;
-		private var _imdriver:NyARContourPickup_IRasterDriver;
+		private var _ref_last_input_raster:IFLARRaster=null;
+		private var _imdriver:FLARContourPickup_IRasterDriver;
 		
 		/**
 		 * この関数は、ラスタの指定点を基点に、輪郭線を抽出します。
@@ -59,14 +59,14 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * 輪郭点を格納する配列を指定します。i_array_sizeよりも大きなサイズの配列が必要です。
 		 * @return
 		 * 輪郭の抽出に成功するとtrueを返します。輪郭抽出に十分なバッファが無いと、falseになります。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function getContour(i_raster:INyARGrayscaleRaster,i_th:int,i_entry_x:int,i_entry_y:int,o_coord:NyARIntCoordinates):Boolean
+		public function getContour(i_raster:IFLARGrayscaleRaster,i_th:int,i_entry_x:int,i_entry_y:int,o_coord:FLARIntCoordinates):Boolean
 		{
-			var s:NyARIntSize=i_raster.getSize();
+			var s:FLARIntSize=i_raster.getSize();
 			//ラスタドライバの切り替え
 			if(i_raster!=this._ref_last_input_raster){
-				this._imdriver=NyARContourPickup_IRasterDriver(i_raster.createInterface(NyARContourPickup_IRasterDriver));
+				this._imdriver=FLARContourPickup_IRasterDriver(i_raster.createInterface(FLARContourPickup_IRasterDriver));
 				this._ref_last_input_raster=i_raster;
 			}
 			return this._imdriver.getContour(0,0,s.w-1,s.h-1,i_entry_x,i_entry_y,i_th,o_coord);
@@ -89,13 +89,13 @@ package jp.nyatla.nyartoolkit.as3.core.squaredetect
 		 * 輪郭点を格納するオブジェクトを指定します。
 		 * @return
 		 * 輪郭線がo_coordの長さを超えた場合、falseを返します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function getContour_2(i_raster:INyARGrayscaleRaster,i_area:NyARIntRect,i_th:int,i_entry_x:int,i_entry_y:int,o_coord:NyARIntCoordinates):Boolean
+		public function getContour_2(i_raster:IFLARGrayscaleRaster,i_area:FLARIntRect,i_th:int,i_entry_x:int,i_entry_y:int,o_coord:FLARIntCoordinates):Boolean
 		{
 			//ラスタドライバの切り替え
 			if(i_raster!=this._ref_last_input_raster){
-				this._imdriver=NyARContourPickup_IRasterDriver(i_raster.createInterface(NyARContourPickup_IRasterDriver));
+				this._imdriver=FLARContourPickup_IRasterDriver(i_raster.createInterface(FLARContourPickup_IRasterDriver));
 				this._ref_last_input_raster=i_raster;
 			}		
 			return this._imdriver.getContour(i_area.x,i_area.y,i_area.x+i_area.w-1,i_area.h+i_area.y-1,i_entry_x,i_entry_y,i_th,o_coord);

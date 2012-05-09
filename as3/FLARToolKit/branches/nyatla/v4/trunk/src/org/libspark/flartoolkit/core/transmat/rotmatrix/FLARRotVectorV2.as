@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkit
+ * PROJECT: FLARToolkit
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2009 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,32 +28,32 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
+package org.libspark.flartoolkit.core.transmat.rotmatrix
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.param.*;
 
 	/**
-	 * このクラスは、{@link NyARRotMatrix}クラスに、ベクトル(直線)から回転行列を計算する機能を追加します。
-	 * 通常、ユーザがこのクラスを使うことはありません。{@link NyARRotMatrix}クラスから使います。
+	 * このクラスは、{@link FLARRotMatrix}クラスに、ベクトル(直線)から回転行列を計算する機能を追加します。
+	 * 通常、ユーザがこのクラスを使うことはありません。{@link FLARRotMatrix}クラスから使います。
 	 */
-	public class NyARRotVectorV2 extends NyARRotVector
+	public class FLARRotVectorV2 extends FLARRotVector
 	{
 		//privateメンバ達	
-		private var _projection_mat_ref:NyARPerspectiveProjectionMatrix;
-		private var _inv_cpara:NyARDoubleMatrix44=new NyARDoubleMatrix44();
+		private var _projection_mat_ref:FLARPerspectiveProjectionMatrix;
+		private var _inv_cpara:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 
 		/**
 		 * コンストラクタです。
 		 * 射影変換オブジェクトの参照値を設定して、インスタンスを作成します。
 		 * @param i_cmat
 		 * 射影変換オブジェクト。この値はインスタンスの生存中は変更しないでください。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function NyARRotVectorV2(i_cmat:NyARPerspectiveProjectionMatrix)
+		public function FLARRotVectorV2(i_cmat:FLARPerspectiveProjectionMatrix)
 		{
 			super();
 			this._inv_cpara.inverse(i_cmat);
@@ -68,10 +68,10 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * @param i_linear2
 		 * 直線２
 		 */
-		public function exteriorProductFromLinear(i_linear1:NyARLinear,i_linear2:NyARLinear):void
+		public function exteriorProductFromLinear(i_linear1:FLARLinear,i_linear2:FLARLinear):void
 		{
 			//1行目
-			var cmat:NyARPerspectiveProjectionMatrix= this._projection_mat_ref;
+			var cmat:FLARPerspectiveProjectionMatrix= this._projection_mat_ref;
 			var w1:Number = i_linear1.a * i_linear2.b - i_linear2.a * i_linear1.b;
 			var w2:Number = i_linear1.b * i_linear2.c - i_linear2.b * i_linear1.c;
 			var w3:Number = i_linear1.c * i_linear2.a - i_linear2.c * i_linear1.a;
@@ -92,12 +92,12 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 		 * 開始位置？
 		 * @param i_end_vertex
 		 * 終了位置？
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function checkVectorByVertex(i_start_vertex:NyARDoublePoint2d, i_end_vertex:NyARDoublePoint2d):void
+		public function checkVectorByVertex(i_start_vertex:FLARDoublePoint2d, i_end_vertex:FLARDoublePoint2d):void
 		{
 			var h:Number;
-			var inv_cpara:NyARDoubleMatrix44 = this._inv_cpara;
+			var inv_cpara:FLARDoubleMatrix44 = this._inv_cpara;
 			//final double[] world = __checkVectorByVertex_world;// [2][3];
 			var world0:Number = inv_cpara.m00 * i_start_vertex.x * 10.0 + inv_cpara.m01 * i_start_vertex.y * 10.0 + inv_cpara.m02 * 10.0;// mat_a->m[0]*st[0]*10.0+
 			var world1:Number = inv_cpara.m10 * i_start_vertex.x * 10.0 + inv_cpara.m11 * i_start_vertex.y * 10.0 + inv_cpara.m12 * 10.0;// mat_a->m[3]*st[0]*10.0+
@@ -107,10 +107,10 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 			var world5:Number = world2 + this.v3;
 			// </Optimize>
 
-			var cmat:NyARPerspectiveProjectionMatrix= this._projection_mat_ref;
+			var cmat:FLARPerspectiveProjectionMatrix= this._projection_mat_ref;
 			h = cmat.m20 * world0 + cmat.m21 * world1 + cmat.m22 * world2;
 			if (h == 0.0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			var camera0:Number = (cmat.m00 * world0 + cmat.m01 * world1 + cmat.m02 * world2) / h;
 			var camera1:Number = (cmat.m10 * world0 + cmat.m11 * world1 + cmat.m12 * world2) / h;
@@ -118,7 +118,7 @@ package jp.nyatla.nyartoolkit.as3.core.transmat.rotmatrix
 			//h = cpara[2 * 4 + 0] * world3 + cpara[2 * 4 + 1] * world4 + cpara[2 * 4 + 2] * world5;
 			h = cmat.m20 * world3 + cmat.m21 * world4 + cmat.m22 * world5;
 			if (h == 0.0) {
-				throw new NyARException();
+				throw new FLARException();
 			}
 			var camera2:Number = (cmat.m00 * world3 + cmat.m01 * world4 + cmat.m02 * world5) / h;
 			var camera3:Number = (cmat.m10 * world3 + cmat.m11 * world4 + cmat.m12 * world5) / h;

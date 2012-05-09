@@ -1,7 +1,7 @@
 /* 
- * PROJECT: NyARToolkit(Extension)
+ * PROJECT: FLARToolkit(Extension)
  * -------------------------------------------------------------------------------
- * The NyARToolkit is Java edition ARToolKit class library.
+ * The FLARToolkit is Java edition ARToolKit class library.
  * Copyright (C)2008-2012 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,25 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.pixeldriver
+package org.libspark.flartoolkit.core.pixeldriver
 {
 
-	import jp.nyatla.nyartoolkit.as3.core.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 
-	public interface INyARGsPixelDriver
+	public interface IFLARGsPixelDriver
 	{
 		/**
 		 * この関数は、ピクセルドライバの参照する画像のサイズを返します。
 		 * @return
 		 * [readonly]
 		 */
-		function getSize():NyARIntSize;
+		function getSize():FLARIntSize;
 		function getPixelSet(i_x:Vector.<int>,i_y:Vector.<int>,i_n:int,o_buf:Vector.<int>,i_st_buf:int):void;
 		function getPixel(i_x:int,i_y:int):int;
-		function switchRaster(i_ref_raster:INyARRaster):void;
-		function isCompatibleRaster(i_raster:INyARRaster):Boolean;
+		function switchRaster(i_ref_raster:IFLARRaster):void;
+		function isCompatibleRaster(i_raster:IFLARRaster):Boolean;
 		/**
 		 * この関数は、RGBデータを指定した座標のピクセルにセットします。 実装クラスでは、バッファにRGB値を書込む処理を実装してください。
 		 * 
@@ -50,7 +50,7 @@ package jp.nyatla.nyartoolkit.as3.core.pixeldriver
 		 * 書込むピクセルの座標。画像の範囲内である事。
 		 * @param i_rgb
 		 * 設定するピクセル値。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		function setPixel(i_x:int,i_y:int,i_gs:int):void;
 		/**
@@ -62,7 +62,7 @@ package jp.nyatla.nyartoolkit.as3.core.pixeldriver
 		 * 書き込むピクセルの座標配列。画像の範囲内である事。
 		 * @param i_intgs
 		 * 設定するピクセル値の数
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		function setPixels(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, i_intgs:Vector.<int>):void;
 	}

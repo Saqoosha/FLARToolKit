@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,14 +28,14 @@
  */
 package org.libspark.flartoolkit.core.raster.rgb
 {
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.match.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.match.*;
 	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 	import flash.display.*;
@@ -45,7 +45,7 @@ package org.libspark.flartoolkit.core.raster.rgb
     /**
      * bitmapと互換性のあるラスタです。
      */
-    public class FLARRgbRaster extends NyARRgbRaster
+    public class FLARRgbRaster extends FLARRgbRaster
     {
 		public function FLARRgbRaster(...args:Array)
 		{
@@ -62,13 +62,13 @@ package org.libspark.flartoolkit.core.raster.rgb
 				overload_FLARRgbRaster_BitmapData_2ii(int(args[0]), int(args[1]));
 				break;
 			case 3:
-				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),NyARBufferType.OBJECT_AS3_BitmapData,Boolean(args[2]));
+				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),FLARBufferType.OBJECT_AS3_BitmapData,Boolean(args[2]));
 				break;
 			case 4:
 				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
 			default:
-				throw new NyARException();
+				throw new FLARException();
 			}			
 		}
 
@@ -81,19 +81,19 @@ package org.libspark.flartoolkit.core.raster.rgb
         /// </param>
         public function override_FLARRgbRaster_BitmapData_1o(i_img:BitmapData):void
 	    {
-			super.overload_NyARRgbRaster_4iiib(i_img.width, i_img.height, NyARBufferType.OBJECT_AS3_BitmapData, false);
+			super.overload_FLARRgbRaster_4iiib(i_img.width, i_img.height, FLARBufferType.OBJECT_AS3_BitmapData, false);
 		    this.wrapBuffer(i_img);
 	    }
         public function overload_FLARRgbRaster_BitmapData_4iiib(i_width:int,i_height:int,i_raster_type:int , i_is_alloc:Boolean):void
 	    {
-			super.overload_NyARRgbRaster_4iiib(i_width, i_height, i_raster_type, i_is_alloc);
+			super.overload_FLARRgbRaster_4iiib(i_width, i_height, i_raster_type, i_is_alloc);
 	    }
         /**
          * インスタンスを生成します。インスタンスは、PixelFormat.Format32bppRgb形式のビットマップをバッファに持ちます。
          */
         public function overload_FLARRgbRaster_BitmapData_2ii(i_width:int,i_height:int):void
         {
-			super.overload_NyARRgbRaster_4iiib(i_width,i_height,NyARBufferType.OBJECT_AS3_BitmapData,true);
+			super.overload_FLARRgbRaster_4iiib(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,true);
         }
         /// <summary>
         /// i_srcからインスタンスにビットマップをコピーします。
@@ -116,13 +116,13 @@ package org.libspark.flartoolkit.core.raster.rgb
          * 初期化が成功すると、trueです。
          * @ 
          */
-        protected override function initInstance(i_size:NyARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
+        protected override function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
         {
             //バッファの構築
             switch (i_raster_type)
             {
-                case NyARBufferType.OBJECT_AS3_BitmapData:
-                    this._rgb_pixel_driver = new NyARRgbPixelDriver_AsBitmap();
+                case FLARBufferType.OBJECT_AS3_BitmapData:
+                    this._rgb_pixel_driver = new FLARRgbPixelDriver_AsBitmap();
                     if (i_is_alloc)
                     {
                         this._buf = new BitmapData(i_size.w, i_size.h,false);
@@ -135,7 +135,7 @@ package org.libspark.flartoolkit.core.raster.rgb
                     this._is_attached_buffer = i_is_alloc;
                     break;
                 default:
-					throw new NyARException();
+					throw new FLARException();
             }
             //readerの構築
             return true;
@@ -154,33 +154,33 @@ package org.libspark.flartoolkit.core.raster.rgb
 
         public override function createInterface(iIid:Class):Object
         {
-            if (iIid == INyARPerspectiveCopy)
+            if (iIid == IFLARPerspectiveCopy)
             {
-                return this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData) ? new PerspectiveCopy_AsBitmap(this) : NyARPerspectiveCopyFactory.createDriver(this);
+                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new PerspectiveCopy_AsBitmap(this) : FLARPerspectiveCopyFactory.createDriver(this);
             }
-            if (iIid == NyARMatchPattDeviationColorData_IRasterDriver)
+            if (iIid == FLARMatchPattDeviationColorData_IRasterDriver)
             {
-                return NyARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
+                return FLARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
             }
-            if (iIid == INyARRgb2GsFilter)
+            if (iIid == IFLARRgb2GsFilter)
             {
-                return this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData) ? new NyARRgb2GsFilterRgbAve_AsBitmap(this) : NyARRgb2GsFilterFactory.createRgbAveDriver(this);
+                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterRgbAve_AsBitmap(this) : FLARRgb2GsFilterFactory.createRgbAveDriver(this);
             }
-            else if (iIid == INyARRgb2GsFilterRgbAve)
+            else if (iIid == IFLARRgb2GsFilterRgbAve)
             {
-                return this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData) ? new NyARRgb2GsFilterRgbAve_AsBitmap(this) : NyARRgb2GsFilterFactory.createRgbAveDriver(this);
+                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterRgbAve_AsBitmap(this) : FLARRgb2GsFilterFactory.createRgbAveDriver(this);
             }
 
-            if (iIid == INyARRgb2GsFilterArtkTh)
+            if (iIid == IFLARRgb2GsFilterArtkTh)
             {
-                return this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData) ? new NyARRgb2GsFilterArtkTh_AsBitmap(this) : NyARRgb2GsFilterArtkThFactory.createDriver(this);
+                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterArtkTh_AsBitmap(this) : FLARRgb2GsFilterArtkThFactory.createDriver(this);
             }
 			if (iIid == FLARRgb2GsFilter) {
-                if (this.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData)) {
+                if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
 					return new FLARRgb2GsFilter(this);
 				}
 			}
-            throw new NyARException();
+            throw new FLARException();
         }
         private var _bm_cache:BitmapData;
 
@@ -196,32 +196,32 @@ package org.libspark.flartoolkit.core.raster.rgb
 }
 
 	import flash.geom.Rectangle;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.*;
 	import jp.nyatla.as3utils.*;
 	import flash.display.*;
 	import flash.media.*;
 	import flash.geom.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import flash.filters.ColorMatrixFilter;
 
-    class NyARRgb2GsFilterRgbAve_AsBitmap implements INyARRgb2GsFilterRgbAve
+    class FLARRgb2GsFilterRgbAve_AsBitmap implements IFLARRgb2GsFilterRgbAve
     {
         private var _ref_raster:FLARRgbRaster;
-        public function NyARRgb2GsFilterRgbAve_AsBitmap(i_ref_raster:FLARRgbRaster)
+        public function FLARRgb2GsFilterRgbAve_AsBitmap(i_ref_raster:FLARRgbRaster)
         {
-            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
             this._ref_raster = i_ref_raster;
         }
-        public function convert(i_raster:INyARGrayscaleRaster):void
+        public function convert(i_raster:IFLARGrayscaleRaster):void
         {
-            var s:NyARIntSize = this._ref_raster.getSize();
+            var s:FLARIntSize = this._ref_raster.getSize();
             this.convertRect(0, 0, s.w, s.h, i_raster);
         }
 		private static const MONO_FILTER:ColorMatrixFilter = new ColorMatrixFilter([
@@ -232,14 +232,14 @@ package org.libspark.flartoolkit.core.raster.rgb
 		]);		
 		private var _dest:Point = new Point(0,0);
 		private var _src:Rectangle = new Rectangle();
-        public function convertRect(l:int,t:int,w:int,h:int,o_raster:INyARGrayscaleRaster):void
+        public function convertRect(l:int,t:int,w:int,h:int,o_raster:IFLARGrayscaleRaster):void
         {
             var bm:BitmapData = this._ref_raster.getBitmapData();
-            var size:NyARIntSize = this._ref_raster.getSize();
+            var size:FLARIntSize = this._ref_raster.getSize();
             var b:int = t + h;
             switch (o_raster.getBufferType())
             {
-			case NyARBufferType.OBJECT_AS3_BitmapData:
+			case FLARBufferType.OBJECT_AS3_BitmapData:
 				var out_buf:BitmapData = BitmapData(BitmapData(o_raster.getBuffer()));
 				var in_buf:BitmapData = BitmapData(this._ref_raster.getBitmapData());
 				this._src.left  =l;
@@ -251,7 +251,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 				out_buf.applyFilter(in_buf,this._src,this._dest, MONO_FILTER);
 				break;
 			default:
-				var out_drv:INyARGsPixelDriver = o_raster.getGsPixelDriver();
+				var out_drv:IFLARGsPixelDriver = o_raster.getGsPixelDriver();
 				var r:int = w+l;
 				for (var y:int = t; y < b; y++)
 				{
@@ -267,7 +267,7 @@ package org.libspark.flartoolkit.core.raster.rgb
     }
 
 
-    class NyARRgb2GsFilterArtkTh_AsBitmap implements INyARRgb2GsFilterArtkTh
+    class FLARRgb2GsFilterArtkTh_AsBitmap implements IFLARRgb2GsFilterArtkTh
     {
 		private static const MONO_FILTER:ColorMatrixFilter = new ColorMatrixFilter([
 			0,0,0, 0, 0,
@@ -276,23 +276,23 @@ package org.libspark.flartoolkit.core.raster.rgb
 			0, 0, 0, 1, 0
 		]);		
         private var _ref_raster:FLARRgbRaster;
-        public function NyARRgb2GsFilterArtkTh_AsBitmap(i_ref_raster:FLARRgbRaster)
+        public function FLARRgb2GsFilterArtkTh_AsBitmap(i_ref_raster:FLARRgbRaster)
         {
-            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
             this._ref_raster = i_ref_raster;
         }		
 		private var _dest:Point = new Point(0,0);
 		private var _src:Rectangle = new Rectangle();
 		private var _tmp:BitmapData;	
-		public function doFilter(i_th:int, i_gsraster:INyARGrayscaleRaster):void
+		public function doFilter(i_th:int, i_gsraster:IFLARGrayscaleRaster):void
 		{
-			var s:NyARIntSize = this._ref_raster.getSize();
+			var s:FLARIntSize = this._ref_raster.getSize();
 			this.doFilter_2(0, 0, s.w, s.h, i_th, i_gsraster);
 			return;
 		}
-		public function doFilter_2(i_l:int,i_t:int,i_w:int,i_h:int,i_th:int,i_gsraster:INyARGrayscaleRaster):void
+		public function doFilter_2(i_l:int,i_t:int,i_w:int,i_h:int,i_th:int,i_gsraster:IFLARGrayscaleRaster):void
         {
-			NyAS3Utils.assert (i_gsraster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));			
+			NyAS3Utils.assert (i_gsraster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));			
 			var out_buf:BitmapData = (BitmapData)(i_gsraster.getBuffer());
 			var in_buf:BitmapData = this._ref_raster.getBitmapData();
 			this._src.left  =i_l;
@@ -312,12 +312,12 @@ package org.libspark.flartoolkit.core.raster.rgb
 			out_buf.threshold(_tmp,this._src,this._dest, '<=', i_th, 0xff0000ff, 0xff);
         }
     }
-    class NyARRgbPixelDriver_AsBitmap implements INyARRgbPixelDriver
+    class FLARRgbPixelDriver_AsBitmap implements IFLARRgbPixelDriver
     {
         /** 参照する外部バッファ */
         private var _ref_raster:FLARRgbRaster;
-        private var _ref_size:NyARIntSize;
-        public function getSize():NyARIntSize
+        private var _ref_size:FLARIntSize;
+        public function getSize():FLARIntSize
         {
             return this._ref_size;
         }
@@ -365,25 +365,25 @@ package org.libspark.flartoolkit.core.raster.rgb
 		
 		public function setPixels(i_x:Vector.<int>, i_y:Vector.<int>, i_num:int, i_intrgb:Vector.<int>):void
 		{
-			NyARException.notImplement();
+			FLARException.notImplement();
 		}
 
-        public function switchRaster( i_raster:INyARRgbRaster):void
+        public function switchRaster( i_raster:IFLARRgbRaster):void
         {
             this._ref_raster = FLARRgbRaster(i_raster);
             this._ref_size = i_raster.getSize();
         }
 
     }
-    class PerspectiveCopy_AsBitmap extends NyARPerspectiveCopy_Base
+    class PerspectiveCopy_AsBitmap extends FLARPerspectiveCopy_Base
     {
         private var _ref_raster:FLARRgbRaster;
         public function PerspectiveCopy_AsBitmap(i_ref_raster:FLARRgbRaster)
         {
-            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(NyARBufferType.OBJECT_AS3_BitmapData));
+            NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
             this._ref_raster = i_ref_raster;
         }
-        protected override function onePixel(pk_l:int,pk_t:int,cpara:Vector.<Number>, o_out:INyARRaster):Boolean
+        protected override function onePixel(pk_l:int,pk_t:int,cpara:Vector.<Number>, o_out:IFLARRaster):Boolean
         {
             var in_bmp:BitmapData = this._ref_raster.getBitmapData();
             var in_w:int = this._ref_raster.getWidth();
@@ -408,7 +408,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 			var d:Number;
             switch (o_out.getBufferType())
             {
-                case NyARBufferType.INT1D_X8R8G8B8_32:
+                case FLARBufferType.INT1D_X8R8G8B8_32:
                     var pat_data:Vector.<int> = Vector.<int>(o_out.getBuffer());
                     p = 0;
                     for (iy= 0; iy < out_h; iy++)
@@ -477,10 +477,10 @@ package org.libspark.flartoolkit.core.raster.rgb
                         }
                         return true;
                     }
-                    else if (o_out is INyARRgbRaster)                    
+                    else if (o_out is IFLARRgbRaster)                    
                     {
                         //ANY to RGBx
-                        var out_reader:INyARRgbPixelDriver = (INyARRgbRaster(o_out)).getRgbPixelDriver();
+                        var out_reader:IFLARRgbPixelDriver = (IFLARRgbRaster(o_out)).getRgbPixelDriver();
                         for (iy = 0; iy < out_h; iy++)
                         {
                             //解像度分の点を取る。
@@ -516,7 +516,7 @@ package org.libspark.flartoolkit.core.raster.rgb
             }
             return false;
         }
-        protected override function multiPixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,i_resolution:int,o_out:INyARRaster):Boolean
+        protected override function multiPixel(pk_l:int,pk_t:int,cpara:Vector.<Number>,i_resolution:int,o_out:IFLARRaster):Boolean
         {
             var in_bmp:BitmapData = this._ref_raster.getBitmapData();
             var in_w:int = this._ref_raster.getWidth();
@@ -586,9 +586,9 @@ package org.libspark.flartoolkit.core.raster.rgb
                 }
                 return true;
             }
-            else if (o_out is INyARRgbRaster)
+            else if (o_out is IFLARRgbRaster)
             {
-                var out_reader:INyARRgbPixelDriver = (INyARRgbRaster(o_out)).getRgbPixelDriver();
+                var out_reader:IFLARRgbPixelDriver = (IFLARRgbRaster(o_out)).getRgbPixelDriver();
                 for (iy = out_h - 1; iy >= 0; iy--)
                 {
                     //解像度分の点を取る。
@@ -632,7 +632,7 @@ package org.libspark.flartoolkit.core.raster.rgb
             }
             else
             {
-                throw new NyARException();
+                throw new FLARException();
             }
         }
     }	

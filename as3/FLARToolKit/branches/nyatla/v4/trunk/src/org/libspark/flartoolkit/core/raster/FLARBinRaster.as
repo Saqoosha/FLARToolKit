@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,28 +28,28 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.utils.*;
+	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.*;
 	import flash.display.*;
-	import jp.nyatla.nyartoolkit.as3.core.pixeldriver.*;
-	import jp.nyatla.nyartoolkit.as3.core.labeling.rlelabeling.*;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.*;	
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;	
 	/**
 	 * このRasterは、明点を0xffffff,暗点を0xff000000であらわします。
 	 */
-	public final class FLARBinRaster extends NyARBinRaster
+	public final class FLARBinRaster extends FLARBinRaster
 	{
 		public function FLARBinRaster(i_width:int,i_height:int)
 		{
-			super(i_width,i_height,NyARBufferType.OBJECT_AS3_BitmapData,true);
+			super(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,true);
 		}
-		protected override function initInstance(i_size:NyARIntSize,i_buf_type:int,i_is_alloc:Boolean):void
+		protected override function initInstance(i_size:FLARIntSize,i_buf_type:int,i_is_alloc:Boolean):void
 		{
-			if (i_buf_type != NyARBufferType.OBJECT_AS3_BitmapData) {
-				throw new NyARException();
+			if (i_buf_type != FLARBufferType.OBJECT_AS3_BitmapData) {
+				throw new FLARException();
 			}
 			this._buf = i_is_alloc?new BitmapData(i_size.w, i_size.h, false):null;
 			this._pixdrv = new FLARGsPixelDriver_AsBitmap();
@@ -63,7 +63,7 @@ package org.libspark.flartoolkit.core.raster
         }
 		public override function createInterface(i_iid:Class):Object
 		{
-			if(i_iid==NyARContourPickup_IRasterDriver){
+			if(i_iid==FLARContourPickup_IRasterDriver){
 				return FLARContourPickupFactory.createDriver(this);
 			}
 			return super.createInterface(i_iid);

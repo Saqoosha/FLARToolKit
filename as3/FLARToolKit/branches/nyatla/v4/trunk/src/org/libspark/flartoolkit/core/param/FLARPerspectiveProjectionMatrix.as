@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,16 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.param
+package org.libspark.flartoolkit.core.param
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.utils.as3.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;	
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.utils.as3.*;
+	import org.libspark.flartoolkit.core.*;	
 
-	final public class NyARPerspectiveProjectionMatrix extends NyARDoubleMatrix44
+	final public class FLARPerspectiveProjectionMatrix extends FLARDoubleMatrix44
 	{
-		public function NyARPerspectiveProjectionMatrix()
+		public function FLARPerspectiveProjectionMatrix()
 		{
 			this.m30=this.m31=this.m32=0;
 			this.m33=1;
@@ -65,7 +65,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 *            戻り引数。3x4のマトリクスを指定すること。
 		 * @return
 		 */
-		public function decompMat(o_cpara:NyARMat,o_trans:NyARMat):void
+		public function decompMat(o_cpara:FLARMat,o_trans:FLARMat):void
 		{
 			var r:Number, c:Number;
 			var rem1:Number, rem2:Number, rem3:Number;
@@ -174,7 +174,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_3dvertex
 		 * @param o_2d
 		 */
-		public function project(i_3dvertex:NyARDoublePoint3d,o_2d:NyARDoublePoint2d):void
+		public function project(i_3dvertex:FLARDoublePoint3d,o_2d:FLARDoublePoint2d):void
 		{
 			var w:Number=1/(i_3dvertex.z*this.m22);
 			o_2d.x=(i_3dvertex.x*this.m00+i_3dvertex.y*this.m01+i_3dvertex.z*this.m02)*w;
@@ -186,7 +186,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_3dvertex
 		 * @param o_2d
 		 */
-		public function project_2(i_x:Number,i_y:Number,i_z:Number,o_2d:NyARDoublePoint2d):void
+		public function project_2(i_x:Number,i_y:Number,i_z:Number,o_2d:FLARDoublePoint2d):void
 		{
 			var w:Number=1/(i_z*this.m22);
 			o_2d.x=(i_x*this.m00+i_y*this.m01+i_z*this.m02)*w;
@@ -198,7 +198,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_3dvertex
 		 * @param o_2d
 		 */
-		public function project_3(i_3dvertex:NyARDoublePoint3d,o_2d:NyARIntPoint2d):void
+		public function project_3(i_3dvertex:FLARDoublePoint3d,o_2d:FLARIntPoint2d):void
 		{
 			var w:Number=1/(i_3dvertex.z*this.m22);
 			o_2d.x=(int)((i_3dvertex.x*this.m00+i_3dvertex.y*this.m01+i_3dvertex.z*this.m02)*w);
@@ -210,7 +210,7 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_3dvertex
 		 * @param o_2d
 		 */
-		public function project_4(i_x:Number,i_y:Number,i_z:Number,o_2d:NyARIntPoint2d):void
+		public function project_4(i_x:Number,i_y:Number,i_z:Number,o_2d:FLARIntPoint2d):void
 		{
 			var w:Number=1/(i_z*this.m22);
 			o_2d.x=(int)((i_x*this.m00+i_y*this.m01+i_z*this.m02)*w);
@@ -226,10 +226,10 @@ package jp.nyatla.nyartoolkit.as3.core.param
 		 * @param i_dist_max
 		 * @param o_frustum
 		 */
-		public function makeCameraFrustumRH(i_screen_width:Number ,i_screen_height:Number,i_dist_min:Number,i_dist_max:Number,o_frustum:NyARDoubleMatrix44):void
+		public function makeCameraFrustumRH(i_screen_width:Number ,i_screen_height:Number,i_dist_min:Number,i_dist_max:Number,o_frustum:FLARDoubleMatrix44):void
 		{
-			var trans_mat:NyARMat = new NyARMat(3, 4);
-			var icpara_mat:NyARMat = new NyARMat(3, 4);
+			var trans_mat:FLARMat = new FLARMat(3, 4);
+			var icpara_mat:FLARMat = new FLARMat(3, 4);
 			var p:Vector.<Vector.<Number>> = ArrayUtils.create2dNumber(3,3);
 			var i:int;
 			

@@ -1,5 +1,5 @@
 /* 
- * PROJECT: NyARToolkitAS3
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
  * This work is based on the original ARToolKit developed by
  *   Hirokazu Kato
@@ -7,7 +7,7 @@
  *   HITLab, University of Washington, Seattle
  * http://www.hitl.washington.edu/artoolkit/
  *
- * The NyARToolkitAS3 is AS3 edition ARToolKit class library.
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
  * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,11 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package jp.nyatla.nyartoolkit.as3.core.types.matrix
+package org.libspark.flartoolkit.core.types.matrix
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	public class NyARDoubleMatrix33 implements INyARDoubleMatrix
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	public class FLARDoubleMatrix33 implements IFLARDoubleMatrix
 	{
 		public var m00:Number;
 		public var m01:Number;
@@ -43,12 +43,12 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		public var m20:Number;
 		public var m21:Number;
 		public var m22:Number;
-		public static function createArray(i_number:int):Vector.<NyARDoubleMatrix33>
+		public static function createArray(i_number:int):Vector.<FLARDoubleMatrix33>
 		{
-			var ret:Vector.<NyARDoubleMatrix33>=new Vector.<NyARDoubleMatrix33>(i_number);
+			var ret:Vector.<FLARDoubleMatrix33>=new Vector.<FLARDoubleMatrix33>(i_number);
 			for(var i:int=0;i<i_number;i++)
 			{
-				ret[i]=new NyARDoubleMatrix33();
+				ret[i]=new FLARDoubleMatrix33();
 			}
 			return ret;
 		}
@@ -68,7 +68,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 			this.m22=i_value[8];
 			return;
 		}
-		public function setValue_2(i_value:NyARDoubleMatrix33):void
+		public function setValue_2(i_value:FLARDoubleMatrix33):void
 		{
 			this.m00=i_value.m00;
 			this.m01=i_value.m01;
@@ -97,7 +97,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 			o_value[8]=this.m22;
 			return;
 		}
-		public function inverse(i_src:NyARDoubleMatrix33):Boolean
+		public function inverse(i_src:FLARDoubleMatrix33):Boolean
 		{
 			var a11:Number,a12:Number,a13:Number,a21:Number,a22:Number,a23:Number,a31:Number,a32:Number,a33:Number;
 			var b11:Number,b12:Number,b13:Number,b21:Number,b22:Number,b23:Number,b31:Number,b32:Number,b33:Number;	
@@ -141,7 +141,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		 * この関数は、0-PIの間で値を返します。
 		 * @param o_out
 		 */
-		public final function getZXYAngle(o_out:NyARDoublePoint3d):void
+		public final function getZXYAngle(o_out:FLARDoublePoint3d):void
 		{
 			var sina:Number = this.m21;
 			if (sina >= 1.0) {
@@ -158,7 +158,7 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 				o_out.y = Math.atan2(-this.m20, this.m22);
 			}
 		}
-		public final function setZXYAngle(i_angle:NyARDoublePoint3d):void
+		public final function setZXYAngle(i_angle:FLARDoublePoint3d):void
 		{
 			setZXYAngle_2(i_angle.x,i_angle.y,i_angle.z);
 			return;
@@ -197,13 +197,13 @@ package jp.nyatla.nyartoolkit.as3.core.types.matrix
 		 * @param i_angle
 		 * @param o_out
 		 */
-		public final function transformVertex(i_position:NyARDoublePoint3d,o_out:NyARDoublePoint3d):void
+		public final function transformVertex(i_position:FLARDoublePoint3d,o_out:FLARDoublePoint3d):void
 		{
 			transformVertex_2(i_position.x,i_position.y,i_position.z,o_out);
 			return;
 		}
 		
-		public final function transformVertex_2(i_x:Number,i_y:Number,i_z:Number,o_out:NyARDoublePoint3d):void
+		public final function transformVertex_2(i_x:Number,i_y:Number,i_z:Number,o_out:FLARDoublePoint3d):void
 		{
 			o_out.x=this.m00*i_x+this.m01*i_y+this.m02*i_z;
 			o_out.y=this.m10*i_x+this.m11*i_y+this.m12*i_z;
