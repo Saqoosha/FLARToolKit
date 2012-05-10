@@ -9,7 +9,7 @@ package sketch
     import flash.utils.*;
 	import jp.nyatla.as3utils.sketch.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.pv3d.*;
@@ -76,7 +76,7 @@ package sketch
 			this._video.attachCamera(webcam);			
 			//FLMarkerSystem
 			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(this.getSketchFile(this._fid[0]),_CAM_W, _CAM_H);//make configlation
-			this._ss = new FLARSensor(new NyARIntSize(_CAM_W, _CAM_H));
+			this._ss = new FLARSensor(new FLARIntSize(_CAM_W, _CAM_H));
 			this._ms = new FLARPV3DMarkerSystem(cf);
 			this.marker_id = this._ms.addARMarker_2(this.getSketchFile(this._fid[1]), 16, 25, 80); //register AR Marker
 			

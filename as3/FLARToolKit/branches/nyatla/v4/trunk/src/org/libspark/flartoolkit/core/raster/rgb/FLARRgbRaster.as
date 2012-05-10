@@ -61,9 +61,6 @@ package org.libspark.flartoolkit.core.raster.rgb
 			case 2:
 				overload_FLARRgbRaster_BitmapData_2ii(int(args[0]), int(args[1]));
 				break;
-			case 3:
-				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),FLARBufferType.OBJECT_AS3_BitmapData,Boolean(args[2]));
-				break;
 			case 4:
 				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
@@ -135,7 +132,7 @@ package org.libspark.flartoolkit.core.raster.rgb
                     this._is_attached_buffer = i_is_alloc;
                     break;
                 default:
-					throw new FLARException();
+					return super.initInstance(i_size, i_raster_type, i_is_alloc);
             }
             //readerの構築
             return true;
