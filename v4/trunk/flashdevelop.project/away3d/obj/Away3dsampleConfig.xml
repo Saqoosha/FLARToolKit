@@ -16,23 +16,22 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2012/05/07'</value>
+      <value>'2012/05/10'</value>
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\flashdevelop.project\away3d\src</path-element>
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\support\away3d.support</path-element>
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\example\away3d.sample</path-element>
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\src</path-element>
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\libs\NyARToolkitAS3</path-element>
+      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\flashdevelop.project\away3d\src</path-element>
+      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\support\away3d.support</path-element>
+      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\example\away3d.sample</path-element>
+      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\libs\Away3d\away3d_3.4.0.swc</path-element>
+      <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\libs\Away3d\away3d_3.4.0.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\example\away3d.sample\sketch\MarkerPlane.as</path-element>
+    <path-element>D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\example\away3d.sample\sketch\MarkerPlane.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

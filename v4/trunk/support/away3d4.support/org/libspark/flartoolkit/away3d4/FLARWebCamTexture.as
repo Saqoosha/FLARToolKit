@@ -40,7 +40,7 @@ package org.libspark.flartoolkit.away3d4
     import flash.utils.*;
 	import jp.nyatla.as3utils.sketch.*;
 	import jp.nyatla.as3utils.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.away3d4.*;

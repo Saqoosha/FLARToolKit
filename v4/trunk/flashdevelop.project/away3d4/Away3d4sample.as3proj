@@ -18,7 +18,6 @@
     <class path="src" />
     <class path="..\..\support\away3d4.support" />
     <class path="..\..\example\away3d4.sample" />
-    <class path="..\..\libs\NyARToolkitAS3" />
     <class path="..\..\src" />
   </classpaths>
   <!-- Build options -->

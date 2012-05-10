@@ -3,13 +3,13 @@ package org.libspark.flartoolkit.away3d
 	import flash.display.BitmapData;
 	import flash.media.Camera;
 	import flash.geom.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.markersystem.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.markersystem.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
 	import away3d.cameras.*;
 	import away3d.cameras.lenses.*;
 	import away3d.core.math.*;
@@ -22,11 +22,11 @@ package org.libspark.flartoolkit.away3d
 		private var _camera:FLARCamera3D;
 		private var _axix_mode:int;
 		
-		public function FLARAway3DMarkerSystem(i_config:INyARMarkerSystemConfig)
+		public function FLARAway3DMarkerSystem(i_config:IFLARMarkerSystemConfig)
 		{
 			super(i_config);
 		}
-		protected override function initInstance(i_config:INyARMarkerSystemConfig):void
+		protected override function initInstance(i_config:IFLARMarkerSystemConfig):void
 		{
 			//super part
 			super.initInstance(i_config);
@@ -54,14 +54,14 @@ package org.libspark.flartoolkit.away3d
 		 */
 		public function getAway3dMarkerMatrix(i_id:int,i_mat3d:MatrixAway3D):void
 		{
-			var r:NyARDoubleMatrix44 = this.getMarkerMatrix(i_id);
+			var r:FLARDoubleMatrix44 = this.getMarkerMatrix(i_id);
 			i_mat3d.sxx =  r.m00; i_mat3d.sxy =  r.m02; i_mat3d.sxz =  r.m01; i_mat3d.tx =  r.m03;
 			i_mat3d.syx = -r.m10; i_mat3d.syy = -r.m12; i_mat3d.syz = -r.m11; i_mat3d.ty = -r.m13;
 			i_mat3d.szx =  r.m20; i_mat3d.szy =  r.m22; i_mat3d.szz =  r.m21; i_mat3d.tz =  r.m23;
 		}
-		public override function getMarkerPlanePos(i_id:int, i_x:int, i_y:int, i_out:NyARDoublePoint3d):NyARDoublePoint3d
+		public override function getMarkerPlanePos(i_id:int, i_x:int, i_y:int, i_out:FLARDoublePoint3d):FLARDoublePoint3d
 		{
-			var p:NyARDoublePoint3d = super.getMarkerPlanePos(i_id, i_x, i_y, i_out);
+			var p:FLARDoublePoint3d = super.getMarkerPlanePos(i_id, i_x, i_y, i_out);
 			var pz:Number = p.z;
 			p.z = p.y;
 			p.y = pz;
