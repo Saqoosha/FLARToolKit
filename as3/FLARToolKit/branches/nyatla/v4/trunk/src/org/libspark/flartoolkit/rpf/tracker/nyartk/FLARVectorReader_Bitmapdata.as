@@ -22,7 +22,7 @@
  *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
-package org.libspark.flartoolkit.rpf
+package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
 	import flash.display.BitmapData;

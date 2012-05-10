@@ -151,33 +151,33 @@ package org.libspark.flartoolkit.core.raster.rgb
 
         public override function createInterface(iIid:Class):Object
         {
-            if (iIid == IFLARPerspectiveCopy)
-            {
-                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new PerspectiveCopy_AsBitmap(this) : FLARPerspectiveCopyFactory.createDriver(this);
-            }
-            if (iIid == FLARMatchPattDeviationColorData_IRasterDriver)
-            {
-                return FLARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
-            }
-            if (iIid == IFLARRgb2GsFilter)
-            {
-                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterRgbAve_AsBitmap(this) : FLARRgb2GsFilterFactory.createRgbAveDriver(this);
-            }
-            else if (iIid == IFLARRgb2GsFilterRgbAve)
-            {
-                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterRgbAve_AsBitmap(this) : FLARRgb2GsFilterFactory.createRgbAveDriver(this);
-            }
+			if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
+				if (iIid == IFLARPerspectiveCopy)
+				{
+					return new PerspectiveCopy_AsBitmap(this);
+				}
+				if (iIid == FLARMatchPattDeviationColorData_IRasterDriver)
+				{
+					return FLARMatchPattDeviationColorData_RasterDriverFactory.createDriver(this);
+				}
+				if (iIid == IFLARRgb2GsFilter)
+				{
+					return new FLARRgb2GsFilterRgbAve_AsBitmap(this);
+				}
+				else if (iIid == IFLARRgb2GsFilterRgbAve)
+				{
+					return new FLARRgb2GsFilterRgbAve_AsBitmap(this);
+				}
 
-            if (iIid == IFLARRgb2GsFilterArtkTh)
-            {
-                return this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData) ? new FLARRgb2GsFilterArtkTh_AsBitmap(this) : FLARRgb2GsFilterArtkThFactory.createDriver(this);
-            }
-			if (iIid == FLARRgb2GsFilter) {
-                if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
+				if (iIid == IFLARRgb2GsFilterArtkTh)
+				{
+					return new FLARRgb2GsFilterArtkTh_AsBitmap(this);
+				}
+				if (iIid == FLARRgb2GsFilter){
 					return new FLARRgb2GsFilter(this);
 				}
 			}
-            throw new FLARException();
+			return super.createInterface(iIid);
         }
         private var _bm_cache:BitmapData;
 
@@ -441,40 +441,38 @@ package org.libspark.flartoolkit.core.raster.rgb
                         cp4_cy_cp5 += cp4;
                     }
                     return true;
-                default:
-                    if (o_out is FLARRgbRaster)
-                    {
-                        var bmr:FLARRgbRaster = FLARRgbRaster(o_out);
-                        var bm:BitmapData = bmr.getBitmapData();
-                        p = 0;
-                        for (iy = 0; iy < out_h; iy++)
-                        {
-                            //解像度分の点を取る。
-                            cp7_cy_1_cp6_cx = cp7_cy_1;
-                            cp1_cy_cp2_cp0_cx = cp1_cy_cp2;
-                            cp4_cy_cp5_cp3_cx = cp4_cy_cp5;
+				case FLARBufferType.OBJECT_AS3_BitmapData:
+					var bmr:FLARRgbRaster = FLARRgbRaster(o_out);
+					var bm:BitmapData = bmr.getBitmapData();
+					p = 0;
+					for (iy = 0; iy < out_h; iy++)
+					{
+						//解像度分の点を取る。
+						cp7_cy_1_cp6_cx = cp7_cy_1;
+						cp1_cy_cp2_cp0_cx = cp1_cy_cp2;
+						cp4_cy_cp5_cp3_cx = cp4_cy_cp5;
 
-                            for (ix = 0; ix < out_w; ix++)
-                            {
-                                //1ピクセルを作成
-                                d = 1 / (cp7_cy_1_cp6_cx);
-                                x = (int)((cp1_cy_cp2_cp0_cx) * d);
-                                y = (int)((cp4_cy_cp5_cp3_cx) * d);
-                                if (x < 0) { x = 0; } else if (x >= in_w) { x = in_w - 1; }
-                                if (y < 0) { y = 0; } else if (y >= in_h) { y = in_h - 1; }
-                                bm.setPixel(ix,iy,in_bmp.getPixel(x,y));
-                                cp7_cy_1_cp6_cx += cp6;
-                                cp1_cy_cp2_cp0_cx += cp0;
-                                cp4_cy_cp5_cp3_cx += cp3;
-                                p++;
-                            }
-                            cp7_cy_1 += cp7;
-                            cp1_cy_cp2 += cp1;
-                            cp4_cy_cp5 += cp4;
-                        }
-                        return true;
-                    }
-                    else if (o_out is IFLARRgbRaster)                    
+						for (ix = 0; ix < out_w; ix++)
+						{
+							//1ピクセルを作成
+							d = 1 / (cp7_cy_1_cp6_cx);
+							x = (int)((cp1_cy_cp2_cp0_cx) * d);
+							y = (int)((cp4_cy_cp5_cp3_cx) * d);
+							if (x < 0) { x = 0; } else if (x >= in_w) { x = in_w - 1; }
+							if (y < 0) { y = 0; } else if (y >= in_h) { y = in_h - 1; }
+							bm.setPixel(ix,iy,in_bmp.getPixel(x,y));
+							cp7_cy_1_cp6_cx += cp6;
+							cp1_cy_cp2_cp0_cx += cp0;
+							cp4_cy_cp5_cp3_cx += cp3;
+							p++;
+						}
+						cp7_cy_1 += cp7;
+						cp1_cy_cp2 += cp1;
+						cp4_cy_cp5 += cp4;
+					}
+					return true;	
+                default:
+                    if (o_out is IFLARRgbRaster)                    
                     {
                         //ANY to RGBx
                         var out_reader:IFLARRgbPixelDriver = (IFLARRgbRaster(o_out)).getRgbPixelDriver();
@@ -538,7 +536,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 			var x:int, y:int;
 			var i2x:int, i2y:int;
 			var cp7_cy_1_cp6_cx_b:Number, cp1_cy_cp2_cp0_cx_b:Number, cp4_cy_cp5_cp3_cx_b:Number, cp7_cy_1_cp6_cx:Number, cp1_cy_cp2_cp0_cx:Number, cp4_cy_cp5_cp3_cx:Number;
-            if (o_out is FLARRgbRaster)
+            if (o_out.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData))
             {
                 var bmr:FLARRgbRaster=FLARRgbRaster(o_out);
                 var bm:BitmapData = bmr.getBitmapData();

@@ -45,7 +45,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 	 * 
 	 *
 	 */
-	public class FLARReality
+	public class FLARReality_BaseClass_
 	{
 		//視野関係のデータ
 		public static const FRASTRAM_ARTK_NEAR:Number=10;
@@ -81,7 +81,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 		private var _tracker:FLARTracker;
 		private var _transmat:IFLARTransMat;
 
-		public function FLARReality(...args:Array)
+		public function FLARReality_BaseClass_(...args:Array)
 		{
 			switch(args.length) {
 			case 1:
