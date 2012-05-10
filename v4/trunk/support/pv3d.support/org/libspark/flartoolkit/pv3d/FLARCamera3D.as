@@ -30,10 +30,9 @@
 
 package org.libspark.flartoolkit.pv3d {
 	
-	import jp.nyatla.nyartoolkit.as3.core.NyARMat;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
 	
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
@@ -44,7 +43,7 @@ package org.libspark.flartoolkit.pv3d {
 		private static const NEAR_CLIP:Number = 10;
 		private static const FAR_CLIP:Number = 10000;
 		
-		public function FLARCamera3D(param:NyARParam=null) {
+		public function FLARCamera3D(param:FLARParam=null) {
 			super();
 			this.z = 0;
 			
@@ -53,16 +52,16 @@ package org.libspark.flartoolkit.pv3d {
 			}
 		}
 		
-		public function setParam (param:NyARParam , i_near:Number = 10, i_far:Number = 10000) :void
+		public function setParam (param:FLARParam , i_near:Number = 10, i_far:Number = 10000) :void
 		{	
 			var m_projection:Array = new Array(16);
-			var trans_mat:NyARMat = new NyARMat(3,4);
-			var icpara_mat:NyARMat = new NyARMat(3,4);
+			var trans_mat:FLARMat = new FLARMat(3,4);
+			var icpara_mat:FLARMat = new FLARMat(3,4);
 			var p:Array = ArrayUtil.createJaggedArray(3, 3);
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:NyARIntSize = param.getScreenSize();
+			const size:FLARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			

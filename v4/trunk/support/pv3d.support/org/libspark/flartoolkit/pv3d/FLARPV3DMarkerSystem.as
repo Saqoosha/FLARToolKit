@@ -3,15 +3,15 @@ package org.libspark.flartoolkit.pv3d
 	import flash.display.BitmapData;
 	import org.papervision3d.core.math.Matrix3D;
 	import flash.media.Camera;
-	import jp.nyatla.nyartoolkit.as3.core.types.matrix.*;
-	import jp.nyatla.nyartoolkit.as3.markersystem.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
+	import org.libspark.flartoolkit.markersystem.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.markersystem.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterdriver.*;
 	import org.papervision3d.core.math.Number2D;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.cameras.*;	
@@ -26,12 +26,12 @@ package org.libspark.flartoolkit.pv3d
 		private var _camera:FLARCamera3D;
 		private var _axix_mode:int;
 		
-		public function FLARPV3DMarkerSystem(i_config:INyARMarkerSystemConfig,i_axis_mode:int=AXIS_MODE_ORIGINAL)
+		public function FLARPV3DMarkerSystem(i_config:IFLARMarkerSystemConfig,i_axis_mode:int=AXIS_MODE_ORIGINAL)
 		{
 			super(i_config);
 			this._axix_mode = i_axis_mode;
 		}
-		protected override function initInstance(i_config:INyARMarkerSystemConfig):void
+		protected override function initInstance(i_config:IFLARMarkerSystemConfig):void
 		{
 			//super part
 			super.initInstance(i_config);
@@ -59,7 +59,7 @@ package org.libspark.flartoolkit.pv3d
 		 */
 		public function getPv3dMarkerMatrix(i_id:int,i_mat3d:org.papervision3d.core.math.Matrix3D):void
 		{
-			var r:NyARDoubleMatrix44 = this.getMarkerMatrix(i_id);
+			var r:FLARDoubleMatrix44 = this.getMarkerMatrix(i_id);
 			switch(this._axix_mode) {
 			case AXIS_MODE_PV3D:
 				i_mat3d.n11 =  r.m00;  i_mat3d.n12 =  r.m01;  i_mat3d.n13 = -r.m02;  i_mat3d.n14 =  r.m03;
@@ -73,9 +73,9 @@ package org.libspark.flartoolkit.pv3d
 				break;
 			}
 		}
-		public override function getMarkerPlanePos(i_id:int, i_x:int, i_y:int, i_out:NyARDoublePoint3d):NyARDoublePoint3d
+		public override function getMarkerPlanePos(i_id:int, i_x:int, i_y:int, i_out:FLARDoublePoint3d):FLARDoublePoint3d
 		{
-			var p:NyARDoublePoint3d = super.getMarkerPlanePos(i_id, i_x, i_y, i_out);
+			var p:FLARDoublePoint3d = super.getMarkerPlanePos(i_id, i_x, i_y, i_out);
 			var px:Number = p.x;
 			p.x = p.y;
 			p.y = px;
