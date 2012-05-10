@@ -34,9 +34,9 @@ package org.libspark.flartoolkit.away3d
 	import away3d.core.math.MatrixAway3D;
 	import away3d.cameras.Camera3D;
 	import away3d.core.math.*;
-	import jp.nyatla.nyartoolkit.as3.core.*;
-	import jp.nyatla.nyartoolkit.as3.core.param.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;	
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.*;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
@@ -44,7 +44,7 @@ package org.libspark.flartoolkit.away3d
 		private static const FAR_CLIP:Number = 10000;		
 		private var _projectionMatrix:MatrixAway3D;
 		
-		public function FLARCamera3D(param:NyARParam=null) {
+		public function FLARCamera3D(param:FLARParam=null) {
 			super();
 			this.lens = new PerspectiveLens();
 			if (param) {
@@ -52,16 +52,16 @@ package org.libspark.flartoolkit.away3d
 			}			
 		}
 
-		public function setParam(param:NyARParam):void
+		public function setParam(param:FLARParam):void
 		{
 			var m_projection:Array = new Array(16);
-			var trans_mat:NyARMat = new NyARMat(3,4);
-			var icpara_mat:NyARMat = new NyARMat(3,4);
+			var trans_mat:FLARMat = new FLARMat(3,4);
+			var icpara_mat:FLARMat = new FLARMat(3,4);
 			var p:Array = ArrayUtil.createJaggedArray(3, 3);
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:NyARIntSize = param.getScreenSize();
+			const size:FLARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
