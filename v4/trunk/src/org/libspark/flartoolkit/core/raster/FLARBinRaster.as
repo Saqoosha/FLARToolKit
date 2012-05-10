@@ -63,8 +63,10 @@ package org.libspark.flartoolkit.core.raster
         }
 		public override function createInterface(i_iid:Class):Object
 		{
-			if(i_iid==FLARContourPickup_IRasterDriver){
-				return FLARContourPickupFactory.createDriver(this);
+			if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
+				if(i_iid==FLARContourPickup_IRasterDriver){
+					return FLARContourPickupFactory.createDriver(this);
+				}
 			}
 			return super.createInterface(i_iid);
 		}	

@@ -101,7 +101,7 @@ package org.libspark.flartoolkit.processor
 
 			// ２値画像バッファを作る
 			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
-			this._gs_raster = new FLARGrayscaleRaster(scr_size.w, scr_size.h,true);
+			this._gs_raster = new FLARGrayscaleRaster(scr_size.w, scr_size.h,FLARBufferType.OBJECT_AS3_BitmapData,true);
 			this._initialized=true;
 			//コールバックハンドラ
 			this._detectmarker=new DetectSquare(i_param);

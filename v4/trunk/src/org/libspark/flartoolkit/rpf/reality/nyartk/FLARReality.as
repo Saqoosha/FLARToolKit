@@ -1,6 +1,6 @@
 package org.libspark.flartoolkit.rpf.reality.nyartk 
 {
-	import org.libspark.flartoolkit.rpf.reality.nyartk.FLARReality;
+	import org.libspark.flartoolkit.rpf.reality.nyartk.*;
 	import jp.nyatla.as3utils.*;
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.param.*;
@@ -10,7 +10,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 	 * ...
 	 * @author 
 	 */
-	public class FLARReality extends FLARReality
+	public class FLARReality extends FLARReality_BaseClass_
 	{
 		
 		public function FLARReality(...args:Array)

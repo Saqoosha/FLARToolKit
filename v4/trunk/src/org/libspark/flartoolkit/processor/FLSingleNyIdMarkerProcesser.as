@@ -88,7 +88,7 @@ package org.libspark.flartoolkit.processor
 			this._transmat = new FLARTransMat(i_param);
 
 			// ２値画像バッファを作る
-			this._gs_raster = new FLARGrayscaleRaster(scr_size.w, scr_size.h,true);
+			this._gs_raster = new FLARGrayscaleRaster(scr_size.w, scr_size.h,FLARBufferType.OBJECT_AS3_BitmapData,true);
 			this._bin_raster = new FLARBinRaster(scr_size.w, scr_size.h);
 			this._histmaker=IFLARHistogramFromRaster(this._gs_raster.createInterface(IFLARHistogramFromRaster));
 			//ワーク用のデータオブジェクトを２個作る
