@@ -40,7 +40,7 @@ package org.libspark.flartoolkit.core;
 		/**マイナバージョン*/
 		public static const VERSION_MINOR:int=0;
 		/**タグ*/
-		public static const VERSION_TAG:int=0;
+		public static const VERSION_TAG:int=1;
 		/**バージョン文字列*/
 		public static const VERSION_STRING:String=MODULE_NAME+"/"+VERSION_MAJOR+"."+VERSION_MINOR+"."+VERSION_TAG;
 	}
