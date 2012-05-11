@@ -53,32 +53,38 @@ package org.libspark.flartoolkit.away3d4
 	public class FLARWebCamTexture extends BitmapTexture
 	{
 		private var _clippingRect:Rectangle;
+		private var _ts:int;
 		public function FLARWebCamTexture(i_w:int, i_h:int)
 		{
 			super(get2PowBitmap(i_w, i_h));
 			this.bitmapData.floodFill(0, 0, 0x00ff00);
 			this._clippingRect = new Rectangle(0, 0, i_w, i_h);
 		}
-		public static function get2PowBitmap(i_w:int, i_h:int ):BitmapData
+		public function get2PowBitmap(i_w:int, i_h:int ):BitmapData
 		{
 			var s:int = i_w>i_h?i_w:i_h;
 			var ts:int = 1;
 			while (ts < s) {
 				ts *= 2;
 			}
+			this._ts = ts;
 			return new BitmapData(ts,ts,false);
 		}
-		public function update(value : Video) : void
+		public function update(value : IBitmapDrawable) : void
 		{
 			bitmapData.lock();
 			var m:Matrix = new Matrix();
-			m.scale(512/320,512/240);
+			if (value is Video) {
+				var v:Video = Video(value);
+				m.scale(this._ts / v.width, this._ts / v.height);
+			}else if (value is Bitmap) {
+				var b:Bitmap = Bitmap(value);
+				m.scale(this._ts / b.width, this._ts / b.height);
+			}
 			bitmapData.draw(value, m, null, null);
 			bitmapData.unlock();
 			invalidateContent();
-		}			
-
-		
+		}
 	}
 
 }
