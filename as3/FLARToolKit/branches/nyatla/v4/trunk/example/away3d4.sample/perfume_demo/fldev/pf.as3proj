@@ -17,7 +17,6 @@
   <classpaths>
     <class path="src" />
     <class path="..\libs" />
-    <class path="..\simple-example" />
     <class path="D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\src" />
     <class path="D:\project.spark\FLARToolkit\branches\nyatla\v4\trunk\support\away3d4.support" />
   </classpaths>
