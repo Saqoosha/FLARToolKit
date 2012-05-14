@@ -26,7 +26,7 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core;
+package org.libspark.flartoolkit.core
 {
 	/**
 	 * このクラスは、FLARToolkitライブラリのバージョン情報を保持します。

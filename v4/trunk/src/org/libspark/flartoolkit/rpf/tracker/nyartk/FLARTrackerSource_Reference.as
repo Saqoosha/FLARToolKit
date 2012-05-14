@@ -29,7 +29,6 @@
 package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
-import sketch.*;
 	import flash.display.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.core.param.*;
