@@ -53,7 +53,7 @@ package org.libspark.flartoolkit.markersystem
 				if (args[0] is NyAS3Const_Inherited) {
 					break;
 					//blank
-				}else {
+				} else {
 					FLARMarkerSystemConfig_1o(FLARParam(args[0]));
 					break;
 				}

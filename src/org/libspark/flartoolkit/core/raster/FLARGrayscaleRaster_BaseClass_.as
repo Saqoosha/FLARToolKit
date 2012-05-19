@@ -85,7 +85,7 @@ package org.libspark.flartoolkit.core.raster
 		 */
 		public function isEqualBufferType(i_type_value:int):Boolean
 		{
-			return this._buffer_type==i_type_value;
+			return (this._buffer_type==i_type_value);
 		}
 		public function getGsPixelDriver():IFLARGsPixelDriver
 		{
@@ -235,7 +235,7 @@ package org.libspark.flartoolkit.core.raster
 		 */
 		public function hasBuffer():Boolean
 		{
-			return this._buf != null;
+			return (this._buf != null);
 		}
 		/**
 		 * この関数は、ラスタに外部参照バッファをセットします。
