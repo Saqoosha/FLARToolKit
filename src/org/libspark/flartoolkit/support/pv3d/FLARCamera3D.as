@@ -28,11 +28,12 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.pv3d {
+package org.libspark.flartoolkit.support.pv3d
+{
 	
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
 	
-	import org.libspark.flartoolkit.core.FLARMat;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
@@ -52,7 +53,8 @@ package org.libspark.flartoolkit.support.pv3d {
 			}
 		}
 		
-		public function setParam (param:FLARParam) :void {	
+		public function setParam (param:FLARParam , i_near:Number = 10, i_far:Number = 10000) :void
+		{	
 			var m_projection:Array = new Array(16);
 			var trans_mat:FLARMat = new FLARMat(3,4);
 			var icpara_mat:FLARMat = new FLARMat(3,4);
@@ -60,7 +62,7 @@ package org.libspark.flartoolkit.support.pv3d {
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:NyARIntSize = param.getScreenSize();
+			const size:FLARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
@@ -89,8 +91,8 @@ package org.libspark.flartoolkit.support.pv3d {
 			
 			q[2][0] = 0.0;
 			q[2][1] = 0.0;
-			q[2][2] = -(FAR_CLIP + NEAR_CLIP) / (NEAR_CLIP - FAR_CLIP);
-			q[2][3] = 2.0 * FAR_CLIP * NEAR_CLIP / (NEAR_CLIP - FAR_CLIP);
+			q[2][2] = -(i_far + i_near) / (i_near - i_far);
+			q[2][3] = 2.0 * i_far * i_near / (i_near - i_far);
 			
 			q[3][0] = 0.0;
 			q[3][1] = 0.0;
