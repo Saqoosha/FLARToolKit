@@ -136,6 +136,7 @@ Each license adjusts to the included library.
  Development environment
 ----------------------------------------------------------------------
  * Adobe FLASH CS4 Professional (version 10.0.2)
+   (Flex SDK 4.5.0)
  * Adobe Flash Builder 4.5 Standard (Version 4.5)
    (Flex SDK 4.5.1)
  * FlashDevelop 4.0.1 + Flex SDK 4.6
@@ -153,9 +154,12 @@ Prof. Mark Billinghurst
  Change Log
 ----------------------------------------------------------------------
 4.0.0 alpha 1
- *
- *
- *
+ * Updated base library to NyARToolkit4.
+ * NyARToolkitAS3 is merged the to FLARToolKit. package jp.nyatla.nyartoolkit.as3 is deleted.
+ * Add old FLARToolKit patches. 
+ * Delete unused classes.
+ * All samples are updated by the sketch and Marker-system.
+ * old samples are deleted.
 
 2.5.5 
  * Modify analytical size restriction function

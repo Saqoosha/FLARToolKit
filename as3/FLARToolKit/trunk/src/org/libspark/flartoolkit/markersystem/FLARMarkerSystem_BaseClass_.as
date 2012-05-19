@@ -39,11 +39,7 @@ package org.libspark.flartoolkit.markersystem
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.types.matrix.*;
 	import org.libspark.flartoolkit.markersystem.utils.*;
-
-
-
-
-
+	
 	/**
 	 * このクラスは、マーカベースARの制御クラスです。
 	 * 複数のARマーカとNyIDの検出情報の管理機能、撮影画像の取得機能を提供します。
@@ -52,26 +48,39 @@ package org.libspark.flartoolkit.markersystem
 	 */
 	public class FLARMarkerSystem_BaseClass_
 	{
-		/**　定数値。自動敷居値を示す値です。　*/
-		public const THLESHOLD_AUTO:int=0xffffffff;
-		/** 定数値。視錐台のFARパラメータの初期値[mm]です。*/
+		/**
+		 * 定数値。
+		 * 自動敷居値を示す値です。
+		 */
+		public const THLESHOLD_AUTO:Number=0xffffffff;
+		/**
+		 * 定数値。
+		 * 視錐台のFARパラメータの初期値[mm]です。
+		 */
 		public const FRUSTUM_DEFAULT_FAR_CLIP:Number=10000;
-		/** 定数値。視錐台のNEARパラメータの初期値[mm]です。*/
+		
+		/**
+		 * 定数値。
+		 * 視錐台のNEARパラメータの初期値[mm]です。
+		 */
 		public const FRUSTUM_DEFAULT_NEAR_CLIP:Number=10;
-		/** マーカ消失時の、消失までのﾃﾞｨﾚｲ(フレーム数)の初期値です。*/
+		
+		/**
+		 * マーカ消失時の、消失までのﾃﾞｨﾚｲ(フレーム数)の初期値です。
+		 */
 		public const LOST_DELAY_DEFAULT:int=5;
 		
 		
-		private const MASK_IDTYPE:int=0xfffff000;
-		private const MASK_IDNUM:int =0x00000fff;
-		private const IDTYPE_ARTK:int=0x00000000;
-		private const IDTYPE_NYID:int=0x00001000;
+		private const MASK_IDTYPE:Number=0xfffff000;
+		private const MASK_IDNUM:Number =0x00000fff;
+		private const IDTYPE_ARTK:Number=0x00000000;
+		private const IDTYPE_NYID:Number=0x00001000;
 
 		protected var _sqdetect:IFLARMarkerSystemSquareDetect;
 		protected var _ref_param:FLARParam;
 		protected var _frustum:FLARFrustum;
 		private var _last_gs_th:int;
-		private var _bin_threshold:int=THLESHOLD_AUTO;
+		private var _bin_threshold:Number=THLESHOLD_AUTO;
 
 		private var _tracking_list:TrackingList;
 		private var _armk_list:ARMarkerList;
@@ -604,123 +613,3 @@ package org.libspark.flartoolkit.markersystem
 	}
 
 }
-
-import org.libspark.flartoolkit.core.*;
-import org.libspark.flartoolkit.core.analyzer.histogram.*;
-import org.libspark.flartoolkit.core.param.*;
-import org.libspark.flartoolkit.core.raster.*;
-import org.libspark.flartoolkit.core.raster.rgb.*;
-import org.libspark.flartoolkit.core.rasterdriver.*;
-import org.libspark.flartoolkit.core.squaredetect.*;
-import org.libspark.flartoolkit.core.transmat.*;
-import org.libspark.flartoolkit.core.types.*;
-import org.libspark.flartoolkit.core.types.matrix.*;
-import org.libspark.flartoolkit.markersystem.utils.*;
-import org.libspark.flartoolkit.markersystem.*;
-
-
-/**
- * コールバック関数の隠蔽用クラス。
- * このクラスは、{@link FLARMarkerSystem}からプライベートに使います。
- */
-class OnSquareDetect implements FLARSquareContourDetector_CbHandler
-{
-	private var _ref_tracking_list:TrackingList;
-	private var _ref_armk_list:ARMarkerList;
-	private var _ref_idmk_list:NyIdList;
-	private var _ref_sq_stack:SquareStack;
-	public var _ref_input_rfb:IFLARPerspectiveCopy;
-	public var _ref_input_gs:IFLARGrayscaleRaster;	
-	
-	private var _coordline:FLARCoord2Linear;
-	public function OnSquareDetect(i_config:IFLARMarkerSystemConfig,i_armk_list:ARMarkerList,i_idmk_list:NyIdList,i_tracking_list:TrackingList ,i_ref_sq_stack:SquareStack)
-	{
-		this._coordline=new FLARCoord2Linear(i_config.getFLARParam().getScreenSize(),i_config.getFLARParam().getDistortionFactor());
-		this._ref_armk_list=i_armk_list;
-		this._ref_idmk_list=i_idmk_list;
-		this._ref_tracking_list=i_tracking_list;
-		//同時に判定待ちにできる矩形の数
-		this._ref_sq_stack=i_ref_sq_stack;
-	}
-	public function detectMarkerCallback(i_coord:FLARIntCoordinates,i_vertex_index:Vector.<int>):void
-	{
-		var i2:int;
-		//とりあえずSquareスタックを予約
-		var sq_tmp:SquareStack_Item=SquareStack_Item(this._ref_sq_stack.prePush());
-		//観測座標点の記録
-		for(i2=0;i2<4;i2++){
-			sq_tmp.ob_vertex[i2].setValue(i_coord.items[i_vertex_index[i2]]);
-		}
-		//頂点分布を計算
-		sq_tmp.vertex_area.setAreaRect_2(sq_tmp.ob_vertex,4);
-		//頂点座標の中心を計算
-		sq_tmp.center2d.setCenterPos(sq_tmp.ob_vertex,4);
-		//矩形面積
-		sq_tmp.rect_area=sq_tmp.vertex_area.w*sq_tmp.vertex_area.h;
-
-		var is_target_marker:Boolean=false;
-		for(;;){
-			//トラッキング対象か確認する。
-			if(this._ref_tracking_list.update(sq_tmp)){
-				//トラッキング対象ならブレーク
-				is_target_marker=true;
-				break;
-			}
-			//@todo 複数マーカ時に、トラッキング済のarmarkerを探索対象外に出来ない？
-			
-			//nyIdマーカの特定(IDマーカの特定はここで完結する。)
-			if(this._ref_idmk_list.size()>0){
-				if(this._ref_idmk_list.update(this._ref_input_gs,sq_tmp)){
-					is_target_marker=true;
-					break;//idマーカを特定
-				}
-			}
-			//ARマーカの特定
-			if(this._ref_armk_list.size()>0){
-				if(this._ref_armk_list.update(this._ref_input_rfb,sq_tmp)){
-					is_target_marker=true;
-					break;
-				}
-			}
-			break;
-		}
-		//この矩形が検出対象なら、矩形情報を精密に再計算
-		if(is_target_marker){
-			//矩形は検出対象にマークされている。
-			for(i2=0;i2<4;i2++){
-				this._coordline.coord2Line(i_vertex_index[i2],i_vertex_index[(i2+1)%4],i_coord,sq_tmp.line[i2]);
-			}
-			for (i2 = 0; i2 < 4; i2++) {
-				//直線同士の交点計算
-				if(!sq_tmp.line[i2].crossPos(sq_tmp.line[(i2 + 3) % 4],sq_tmp.sqvertex[i2])){
-					throw new FLARException();//まずない。ありえない。
-				}
-			}
-		}else{
-			//この矩形は検出対象にマークされなかったので、解除
-			this._ref_sq_stack.pop();
-		}
-	}
-}
-
-
-
-
-class SquareDetect implements IFLARMarkerSystemSquareDetect
-{
-	private var _sd:FLARSquareContourDetector_Rle;
-	public function SquareDetect(i_config:IFLARMarkerSystemConfig)
-	{
-		this._sd=new FLARSquareContourDetector_Rle(i_config.getScreenSize());
-	}
-	public function detectMarkerCb(i_sensor:FLARSensor,i_th:int,i_handler:FLARSquareContourDetector_CbHandler):void
-	{
-		this._sd.detectMarker_2(i_sensor.getGsImage(), i_th,i_handler);
-	}
-}
-
-
-
-
-
-

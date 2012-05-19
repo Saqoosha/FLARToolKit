@@ -163,19 +163,3 @@ package org.libspark.flartoolkit.core.labeling.fllabeling
 		}
 	}
 }
-import org.libspark.flartoolkit.core.types.stack.*;
-import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
-
-class FLLabelInfoStack extends FLARObjectStack
-{
-	public function FLLabelInfoStack(i_length:int)
-	{
-		super();
-		super.initInstance(i_length);
-		return;
-	}
-	protected override function createElement():Object
-	{
-		return new FLARRleLabelFragmentInfo();
-	}
-}
