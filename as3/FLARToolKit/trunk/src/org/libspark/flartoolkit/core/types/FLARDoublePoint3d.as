@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -26,17 +26,62 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core.types 
+package org.libspark.flartoolkit.core.types
 {
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	public class FLARDoublePoint3d extends NyARDoublePoint3d
-	{
-		
-		public function FLARDoublePoint3d() 
-		{
-			super();
-		}
-		
-	}
 
+	public class FLARDoublePoint3d
+	{
+		public var x:Number;
+		public var y:Number;
+		public var z:Number;
+		/**
+		 * 配列ファクトリ
+		 * @param i_number
+		 * @return
+		 */
+		public static function createArray(i_number:int):Vector.<FLARDoublePoint3d>
+		{
+			var ret:Vector.<FLARDoublePoint3d>=new Vector.<FLARDoublePoint3d>(i_number);
+			for(var i:int=0;i<i_number;i++)
+			{
+				ret[i]=new FLARDoublePoint3d();
+			}
+			return ret;
+		}
+		public function setValue(i_in:FLARDoublePoint3d):void
+		{
+			this.x=i_in.x;
+			this.y=i_in.y;
+			this.z=i_in.z;
+			return;
+		}
+		/**
+		 * p2-p1間の距離の二乗値を計算します。
+		 * @param i_p1
+		 * @return
+		 */	
+		public function sqDist(i_p1:FLARDoublePoint3d):Number
+		{
+			var x:Number,y:Number,z:Number;
+			x=this.x-i_p1.x;
+			y=this.y-i_p1.y;
+			z=this.z-i_p1.z;
+			return x*x+y*y+z*z;
+		}
+		/**
+		 * この関数は、頂点を移動します。
+		 * @param i_tx
+		 * 移動する距離x
+		 * @param i_ty
+		 * 移動する距離y
+		 * @param i_tz
+		 * 移動する距離z
+		 */
+		public function translate(i_tx:Number,i_ty:Number,i_tz:Number):void
+		{
+			this.x+=i_tx;
+			this.y+=i_ty;
+			this.z+=i_tz;
+		}
+	}
 }

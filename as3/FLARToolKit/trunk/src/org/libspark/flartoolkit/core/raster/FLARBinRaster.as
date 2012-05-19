@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,25 +28,48 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.nyartoolkit.as3.core.raster.*;
-	import jp.nyatla.nyartoolkit.as3.core.rasterreader.*;
-	import jp.nyatla.nyartoolkit.as3.core.types.*;
-	import jp.nyatla.nyartoolkit.as3.utils.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.utils.*;
+	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.*;
-	import flash.display.BitmapData;
-	public final class FLARBinRaster extends NyARBinRaster
+	import flash.display.*;
+	import org.libspark.flartoolkit.core.pixeldriver.*;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;	
+	/**
+	 * このRasterは、明点を0xffffff,暗点を0xff000000であらわします。
+	 */
+	public final class FLARBinRaster extends FLARBinRaster_BaseClass_
 	{
 		public function FLARBinRaster(i_width:int,i_height:int)
 		{
-			super(i_width,i_height,NyARBufferType.OBJECT_AS3_BitmapData,true);
+			super(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,true);
 		}
-		protected override function initInstance(i_size:NyARIntSize,i_buf_type:int,i_is_alloc:Boolean):Boolean
+		protected override function initInstance(i_size:FLARIntSize,i_buf_type:int,i_is_alloc:Boolean):void
 		{
-			if (i_buf_type != NyARBufferType.OBJECT_AS3_BitmapData) {
+			if (i_buf_type != FLARBufferType.OBJECT_AS3_BitmapData) {
 				throw new FLARException();
 			}
-			this._buf = i_is_alloc?new BitmapData(i_size.w,i_size.h,false):null;
-			return true;
+			this._buf = i_is_alloc?new BitmapData(i_size.w, i_size.h, false):null;
+			this._pixdrv = new FLARGsPixelDriver_AsBitmap();
+			this._pixdrv.switchRaster(this);
+			this._is_attached_buffer = i_is_alloc;
+			return;
 		}
+        public function getBitmapData():BitmapData
+        {
+            return BitmapData(this._buf);
+        }
+		public override function createInterface(i_iid:Class):Object
+		{
+			if (this.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData)) {
+				if(i_iid==FLARContourPickup_IRasterDriver){
+					return FLARContourPickupFactory.createDriver(this);
+				}
+			}
+			return super.createInterface(i_iid);
+		}	
+		
 	}
 }

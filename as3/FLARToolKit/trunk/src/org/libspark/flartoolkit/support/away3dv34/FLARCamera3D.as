@@ -28,26 +28,28 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.away3d {
-	
-	import away3d.cameras.Camera3D;
+package org.libspark.flartoolkit.away3d
+{
 	import away3d.cameras.lenses.PerspectiveLens;
 	import away3d.core.math.MatrixAway3D;
-	
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
-	
-	import org.libspark.flartoolkit.core.FLARMat;
-	import org.libspark.flartoolkit.core.param.FLARParam;
+	import away3d.cameras.Camera3D;
+	import away3d.core.math.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.*;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
-		
+		private static const NEAR_CLIP:Number = 10;
+		private static const FAR_CLIP:Number = 10000;		
 		private var _projectionMatrix:MatrixAway3D;
 		
-		public function FLARCamera3D(init:Object = null) {
-			super(init);
-			
-			lens = new PerspectiveLens();
+		public function FLARCamera3D(param:FLARParam=null) {
+			super();
+			this.lens = new PerspectiveLens();
+			if (param) {
+				this.setParam(param);
+			}			
 		}
 
 		public function setParam(param:FLARParam):void
@@ -59,7 +61,7 @@ package org.libspark.flartoolkit.support.away3d {
 			var q:Array = ArrayUtil.createJaggedArray(4, 4);
 			var i:int;
 			var j:int;
-			const size:NyARIntSize = param.getScreenSize();
+			const size:FLARIntSize = param.getScreenSize();
 			const width:int  = size.w;
 			const height:int = size.h;
 			
@@ -76,9 +78,29 @@ package org.libspark.flartoolkit.support.away3d {
 					p[i][j] = icpara[i][j] / icpara[2][2];
 				}
 			}
+			/*
+			q[0][0] = (2.0 * p[0][0] / (width - 1));
+			q[0][1] = (2.0 * p[0][1] / (width - 1));
+			q[0][2] = -((2.0 * p[0][2] / (width - 1))  - 1.0);
+			q[0][3] = 0.0;
 			
+			q[1][0] = 0.0;
+			q[1][1] = (2.0 * p[1][1] / (height - 1));
+			q[1][2] = -((2.0 * p[1][2] / (height - 1)) - 1.0);
+			q[1][3] = 0.0;
+			
+			q[2][0] = 0.0;
+			q[2][1] = 0.0;
+			q[2][2] = -(FAR_CLIP + NEAR_CLIP) / (NEAR_CLIP - FAR_CLIP);
+			q[2][3] = 2.0 * FAR_CLIP * NEAR_CLIP / (NEAR_CLIP - FAR_CLIP);
+			
+			q[3][0] = 0.0;
+			q[3][1] = 0.0;
+			q[3][2] = 1.0;
+			q[3][3] = 0.0;*/
+//			zoom = 1;
+//			focus = 1;
 			var div:Number = zoom*focus;
-			
 			q[0][0] = 2.0 * p[0][0]/div;
 			q[0][1] = 2.0 * p[0][1]/div;
 			q[0][2] = -(2.0 * p[0][2]  - (width - 1))/div;
@@ -98,7 +120,6 @@ package org.libspark.flartoolkit.support.away3d {
 			q[3][1] = 0.0;
 			q[3][2] = 0.0;
 			q[3][3] = 1.0;
-			
 			for (i = 0; i < 4; i++) { // Row.
 				// First 3 columns of the current row.
 				for (j = 0; j < 3; j++) { // Column.
@@ -107,8 +128,7 @@ package org.libspark.flartoolkit.support.away3d {
 				// Fourth column of the current row.
 				m_projection[i*4 + 3] = q[i][0] * trans[0][3] + q[i][1] * trans[1][3] + q[i][2] * trans[2][3] + q[i][3];
 			}
-			
-			var m:MatrixAway3D = _projectionMatrix = new MatrixAway3D();
+			var m:MatrixAway3D=this._projectionMatrix = new MatrixAway3D();
 			m.sxx =  m_projection[0];
 			m.sxy =  m_projection[1];
 			m.sxz =  m_projection[2];
@@ -125,11 +145,11 @@ package org.libspark.flartoolkit.support.away3d {
 			m.swy =  m_projection[13];
 			m.swz =  m_projection[14];
 			m.tw  =  m_projection[15];
+			invViewMatrix.inverse(_projectionMatrix)
 		}
 		
 		public override function get viewMatrix():MatrixAway3D
 		{
-			invViewMatrix.inverse(_projectionMatrix)
 			return _projectionMatrix;
 		}
 	}

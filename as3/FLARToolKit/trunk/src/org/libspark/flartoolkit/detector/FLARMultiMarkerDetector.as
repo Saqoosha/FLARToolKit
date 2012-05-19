@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,44 +28,31 @@
  */
 package org.libspark.flartoolkit.detector
 {
-	import flash.display.BitmapData;
-	import flash.geom.Point;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.pickup.*;
+	import org.libspark.flartoolkit.core.param.*;
 	
-	import jp.nyatla.nyartoolkit.as3.NyARException;
-	import jp.nyatla.nyartoolkit.as3.core.pickup.NyARColorPatt_Perspective_O2;
-	import jp.nyatla.nyartoolkit.as3.core.rasterfilter.rgb2bin.INyARRasterFilter_Rgb2Bin;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARSquare;
-	import jp.nyatla.nyartoolkit.as3.core.squaredetect.NyARSquareContourDetector;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.INyARTransMat;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARRectOffset;
-	import jp.nyatla.nyartoolkit.as3.core.transmat.NyARTransMat;
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
-	
-	import org.libspark.flartoolkit.core.FLARCode;
-	import org.libspark.flartoolkit.core.labeling.fllabeling.FLARLabeling;
-	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.raster.FLARBinRaster;
-	import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster_BitmapData;
-	import org.libspark.flartoolkit.core.rasterfilter.rgb2bin.FLARRasterFilter_Threshold;
-	import org.libspark.flartoolkit.core.squaredetect.FLARSquareContourDetector;
-	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
-	
-	/**
-	 * 複数のマーカーを検出し、それぞれに最も一致するARコードを、コンストラクタで登録したARコードから 探すクラスです。最大300個を認識しますが、ゴミラベルを認識したりするので100個程度が限界です。
-	 * 
-	 */
+	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.squaredetect.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.raster.rgb.*;
+
+
 	public class FLARMultiMarkerDetector
 	{
-
-		private var _detect_cb:MultiDetectSquareCB;
-		public static const AR_SQUARE_MAX:int = 300;
 		private var _is_continue:Boolean = false;
-		private var _square_detect:FLARSquareContourDetector;
-		protected var _transmat:INyARTransMat;
-		private var _offset:Vector.<NyARRectOffset>;
+		private var _square_detect:FLDetector;
+		protected var _transmat:IFLARTransMat;
+		private var _offset:Vector.<FLARRectOffset>;
 
-		// import が消える現象回避用
-		private var _flarcode:FLARCode;
 
 		/**
 		 * 複数のマーカーを検出し、最も一致するARCodeをi_codeから検索するオブジェクトを作ります。
@@ -80,7 +67,9 @@ package org.libspark.flartoolkit.detector
 		 * i_codeのマーカーサイズをミリメートルで指定した配列を指定します。 先頭からi_number_of_code個の要素には、有効な値を指定する必要があります。
 		 * @param i_number_of_code
 		 * i_codeに含まれる、ARCodeの数を指定します。
-		 * @throws NyARException
+		 * @param i_input_raster_type
+		 * 入力ラスタのピクセルタイプを指定します。この値は、IFLARBufferReaderインタフェイスのgetBufferTypeの戻り値を指定します。
+		 * @throws FLARException
 		 */
 		public function FLARMultiMarkerDetector(i_param:FLARParam, i_code:Vector.<FLARCode>, i_marker_width:Vector.<Number>, i_number_of_code:int)
 		{
@@ -93,39 +82,18 @@ package org.libspark.flartoolkit.detector
 			i_marker_width:Vector.<Number>,
 			i_number_of_code:int):void
 		{
-			var scr_size:NyARIntSize=i_ref_param.getScreenSize();
-			// @todo この部分にマーカーの幅や高さ、枠線の割合がすべて一致するかのチェックを入れる
-			// もしくは、FLARCodeの生成時に強制的に同一の数値を入力する事
-			
+
+			var scr_size:FLARIntSize=i_ref_param.getScreenSize();
 			// 解析オブジェクトを作る
 			var cw:int = i_ref_code[0].getWidth();
 			var ch:int = i_ref_code[0].getHeight();
-			
-			// 枠線の割合(ARToolKit標準と同じなら、25 -> 1.0系と数値の扱いが異なるので注意！)
-			var markerWidthByDec:Number = (100 - i_ref_code[0].markerPercentWidth) / 2;
-			var markerHeightByDec:Number = (100 - i_ref_code[0].markerPercentHeight) / 2;
-			
-			//評価パターンのホルダを作成
-			// NyARColorPatt_Perspective_O2のパラメータ
-			// 第1,2パラ…縦横の解像度(patデータ作ったときの分割数)
-			// 第3パラ…1ピクセルあたりの縦横サンプリング数。2なら2x2=4ポイントをサンプリングする。 
-			//       1,2,4,任意の数値のいずれか。値が大きいほど一致率ＵＰ、フレームレート低下。
-			//       解像度16、サンプリング数4がデフォルト。解像度が大きい場合は、サンプリング数を下げることでフレームレートの低下を回避できる。
-			// 第4パラ…エッジ幅の割合(ARToolKit標準と同じなら、25)->1.0系と数値の扱いが異なるので注意！
-			var patt:NyARColorPatt_Perspective_O2 = new NyARColorPatt_Perspective_O2(cw, ch, 4, markerWidthByDec);
-			// 縦横のエッジの割合が異なる場合にも対応できます。
-			patt.setEdgeSizeByPercent(markerWidthByDec, markerHeightByDec, 4);
-//			trace('w:'+markerWidthByDec+'/h:'+markerHeightByDec);
-			//detectMarkerのコールバック関数
-			this._detect_cb=new MultiDetectSquareCB(patt,i_ref_code,i_number_of_code,i_ref_param);
-			
-			this._transmat = new NyARTransMat(i_ref_param);
-			//NyARToolkitプロファイル
-			this._square_detect =new FLARSquareContourDetector(i_ref_param.getScreenSize());
-			this._tobin_filter=new FLARRasterFilter_Threshold(100);
+
+			this._transmat = new FLARTransMat(i_ref_param);
+			//FLARToolkitプロファイル
+			this._square_detect =new FLDetector(new FLARColorPatt_Perspective(cw, ch,4,25),i_ref_code,i_number_of_code,i_ref_param);
 
 			//実サイズ保存
-			this._offset = NyARRectOffset.createArray(i_number_of_code);
+			this._offset = FLARRectOffset.createArray(i_number_of_code);
 			for(var i:int=0;i<i_number_of_code;i++){
 				this._offset[i].setSquare(i_marker_width[i]);
 			}
@@ -136,8 +104,8 @@ package org.libspark.flartoolkit.detector
 		
 		private var _bin_raster:FLARBinRaster;
 
-		private var _tobin_filter:INyARRasterFilter_Rgb2Bin;
-
+		private var _tobin_filter:IFLARRgb2GsFilterArtkTh;
+		private var _last_input_raster:IFLARRgbRaster=null;
 		/**
 		 * i_imageにマーカー検出処理を実行し、結果を記録します。
 		 * 
@@ -146,36 +114,25 @@ package org.libspark.flartoolkit.detector
 		 * @param i_thresh
 		 * 検出閾値を指定します。0～255の範囲で指定してください。 通常は100～130くらいを指定します。
 		 * @return 見つかったマーカーの数を返します。 マーカーが見つからない場合は0を返します。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function detectMarkerLite(i_raster:FLARRgbRaster_BitmapData,i_threshold:int):int
+		public function detectMarkerLite(i_raster:IFLARRgbRaster,i_threshold:int):int
 		{
 			// サイズチェック
-			if (!this._bin_raster.getSize().isEqualSize_NyARIntSize(i_raster.getSize())) {
-				throw new NyARException();
+			if (!this._bin_raster.getSize().isEqualSize_2(i_raster.getSize())) {
+				throw new FLARException();
 			}
-
-			// ラスタを２値イメージに変換する.
-			// SOC: threshold incoming image according to brightness.
-			//		passing -1 for threshold allows developers to apply custom thresholding algorithms
-			//		prior to passing source image to FLARToolkit.
-			if (i_threshold != -1) {
-				// apply FLARToolkit thresholding
-				(FLARRasterFilter_Threshold(this._tobin_filter)).setThreshold(i_threshold);
-				this._tobin_filter.doFilter(i_raster, this._bin_raster);
-			} else {
-				// copy source BitmapData as-is, without applying FLARToolkit thresholding
-				var srcBitmapData:BitmapData = BitmapData(i_raster.getBuffer());
-				var dstBitmapData:BitmapData = BitmapData(FLARBinRaster(this._bin_raster).getBuffer());
-				dstBitmapData.copyPixels(srcBitmapData, srcBitmapData.rect, new Point());
+			if(this._last_input_raster!=i_raster){
+				this._tobin_filter=IFLARRgb2GsFilterArtkTh(i_raster.createInterface(IFLARRgb2GsFilterArtkTh));
+				this._last_input_raster=i_raster;
 			}
-
+			this._tobin_filter.doFilter(i_threshold,this._bin_raster);
 			//detect
-			this._detect_cb.init(i_raster);
-			this._square_detect.detectMarkerCB(this._bin_raster,this._detect_cb);
+			this._square_detect.init(i_raster);
+			this._square_detect.detectMarker(this._bin_raster,this._square_detect);
 
 			//見付かった数を返す。
-			return this._detect_cb.result_stack.getLength();
+			return this._square_detect.result_stack.getLength();
 		}
 
 		/**
@@ -185,14 +142,14 @@ package org.libspark.flartoolkit.detector
 		 * マーカーのインデックス番号を指定します。 直前に実行したdetectMarkerLiteの戻り値未満かつ0以上である必要があります。
 		 * @param o_result
 		 * 結果値を受け取るオブジェクトを指定してください。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
-		public function getTransformMatrix(i_index:int, o_result:FLARTransMatResult):void
+		public function getTransformMatrix(i_index:int,o_result:FLARTransMatResult):void
 		{
-			var result:FLARDetectMarkerResult = this._detect_cb.result_stack.getItem(i_index);
+			var result:FLARDetectMarkerResult = FLARDetectMarkerResult(this._square_detect.result_stack.getItem(i_index));
 			// 一番一致したマーカーの位置とかその辺を計算
 			if (_is_continue) {
-				_transmat.transMatContinue(result.square, this._offset[result.arcode_id], o_result);
+				_transmat.transMatContinue(result.square, this._offset[result.arcode_id], o_result,o_result);
 			} else {
 				_transmat.transMat(result.square, this._offset[result.arcode_id], o_result);
 			}
@@ -205,11 +162,11 @@ package org.libspark.flartoolkit.detector
 		 * @param i_index
 		 * マーカーのインデックス番号を指定します。 直前に実行したdetectMarkerLiteの戻り値未満かつ0以上である必要があります。
 		 * @return マーカーの一致度を返します。0～1までの値をとります。 一致度が低い場合には、誤認識の可能性が高くなります。
-		 * @throws NyARException
+		 * @throws FLARException
 		 */
 		public function getConfidence(i_index:int):Number
 		{
-			return this._detect_cb.result_stack.getItem(i_index).confidence;
+			return this._square_detect.result_stack.getItem(i_index).confidence;
 		}
 		/**
 		 * i_indexのマーカーのARCodeインデックスを返します。
@@ -220,29 +177,9 @@ package org.libspark.flartoolkit.detector
 		 */
 		public function getARCodeIndex(i_index:int):int
 		{
-			return this._detect_cb.result_stack.getItem(i_index).arcode_id;
+			return this._square_detect.result_stack.getItem(i_index).arcode_id;
 		}
 
-		/**
-		 * 検出したマーカーの方位を返します。
-		 * 0,1,2,3の何れかを返します。
-		 * 
-		 * @return Returns whether any of 0,1,2,3.
-		 */
-		public function getDirection(i_index:int):int
-		{
-			return this._detect_cb.result_stack.getItem(i_index).direction;
-		}
-		
-		/**
-		 * 検出した FLARSquare 1 個返す。検出できなかったら null。
-		 * @return Total return detected FLARSquare 1. Detection Dekinakattara null.
-		 */
-		public function getSquare(i_index:int):NyARSquare
-		{
-			return this._detect_cb.result_stack.getItem(i_index).square;
-		}
-		
 		/**
 		 * getTransmationMatrixの計算モードを設定します。
 		 * 
@@ -253,43 +190,153 @@ package org.libspark.flartoolkit.detector
 		{
 			this._is_continue = i_is_continue;
 		}
-		
-		/**
-		 * 白領域の検査対象サイズ
-		 *  最大サイズは 一辺約320px、最小サイズは 一辺約 8px まで解析対象としている
-		 *  解析画像中で上記範囲内であれば解析対象となるが、最小サイズは小さすぎて意味をなさない。
-		 *  マーカー内部の判別には一辺30px～230pxとするのが妥当。
-		 *  640x480で取り込む場合は、i_maxを縦サイズの二乗を設定する。
-		 *  なお、0 を指定した場合は FLARLabeling.AR_AREA_MAX、FLARLabeling.AR_AREA_MINが適応されます。
-		 *  
-		 * @param i_max 解析対象とする白領域の最大pixel数(一辺の二乗) default: 100000
-		 * @param i_min 解析対象とする白領域の最小pixel数(一辺の二乗) default: 70
-		 */
-		public function setAreaRange(i_max:int=100000, i_min:int=70):void
-		{
-			if ( i_max<0 ) { i_max = FLARLabeling.AR_AREA_MAX; }
-			if ( i_min<0 ) { i_min = FLARLabeling.AR_AREA_MIN; }
-			if (i_max < i_min) {
-				var tmp:int = i_max;
-				i_max = i_min;
-				i_min = tmp;
+	}
+
+}
+
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.*;
+import org.libspark.flartoolkit.core.transmat.*;
+import org.libspark.flartoolkit.core.types.stack.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.pickup.*;
+import org.libspark.flartoolkit.core.match.*;
+import org.libspark.flartoolkit.core.param.*;
+import org.libspark.flartoolkit.core.transmat.*;
+
+
+import org.libspark.flartoolkit.core.raster.*;
+import org.libspark.flartoolkit.core.squaredetect.*;
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.*;
+import org.libspark.flartoolkit.core.raster.rgb.*;
+
+
+class FLARDetectMarkerResult
+{
+	public var arcode_id:int;
+	public var confidence:Number;
+	public var square:FLARSquare=new FLARSquare();
+}
+
+
+class FLARDetectMarkerResultStack extends FLARObjectStack
+{
+	public function FLARDetectMarkerResultStack(i_length:int)
+	{
+		super();
+		this.initInstance(i_length);
+		return;
+	}
+	protected override function createElement():Object
+	{
+		return new FLARDetectMarkerResult();
+	}	
+}	
+	
+class FLDetector extends FLARSquareContourDetector_FlaFill implements FLARSquareContourDetector_CbHandler
+{
+		private static const AR_SQUARE_MAX:int = 300;
+	
+	//公開プロパティ
+	public var result_stack:FLARDetectMarkerResultStack=new FLARDetectMarkerResultStack(AR_SQUARE_MAX);
+	//参照インスタンス
+	public var _ref_raster:IFLARRgbRaster;
+	//所有インスタンス
+	private var _inst_patt:IFLARColorPatt;
+	private var _deviation_data:FLARMatchPattDeviationColorData;
+	private var _match_patt:Vector.<FLARMatchPatt_Color_WITHOUT_PCA>;
+	private var __detectMarkerLite_mr:FLARMatchPattResult=new FLARMatchPattResult();
+	private var _coordline:FLARCoord2Linear;
+
+	public function FLDetector(i_inst_patt:IFLARColorPatt,i_ref_code:Vector.<FLARCode>,i_num_of_code:int,i_param:FLARParam)
+	{
+		super(i_param.getScreenSize());
+		var cw:int = i_ref_code[0].getWidth();
+		var ch:int = i_ref_code[0].getHeight();
+		//FLARMatchPatt_Color_WITHOUT_PCA[]の作成
+		this._match_patt=new Vector.<FLARMatchPatt_Color_WITHOUT_PCA>(i_num_of_code);
+		this._match_patt[0]=new FLARMatchPatt_Color_WITHOUT_PCA(i_ref_code[0]);
+		for (var i:int = 1; i < i_num_of_code; i++){
+			//解像度チェック
+			if (cw != i_ref_code[i].getWidth() || ch != i_ref_code[i].getHeight()) {
+				throw new FLARException();
 			}
-			this._square_detect.setAreaRange( i_max, i_min);
+			this._match_patt[i]=new FLARMatchPatt_Color_WITHOUT_PCA(i_ref_code[i]);
 		}
-		
-		/**
-		 * 2値化した画像を返却します。
-		 * 
-		 * @return 画像情報を返却します
-		 */
-		public function get thresholdedBitmapData() :BitmapData
-		{
-			try {
-				return BitmapData(FLARBinRaster(this._bin_raster).getBuffer());
-			} catch (e:Error) {
-				return null;
+		this._inst_patt=i_inst_patt;
+		this._coordline=new FLARCoord2Linear(i_param.getScreenSize(),i_param.getDistortionFactor());
+		this._deviation_data=new FLARMatchPattDeviationColorData(cw,ch);
+		return;
+	}
+	private var __ref_vertex:Vector.<FLARIntPoint2d> = FLARIntPoint2d.createArray(4);
+	/**
+	 * 矩形が見付かるたびに呼び出されます。
+	 * 発見した矩形のパターンを検査して、方位を考慮した頂点データを確保します。
+	 */
+	public function detectMarkerCallback(i_coord:FLARIntCoordinates, i_vertex_index:Vector.<int>):void
+	{
+		var mr:FLARMatchPattResult=this.__detectMarkerLite_mr;
+		//輪郭座標から頂点リストに変換
+		var vertex:Vector.<FLARIntPoint2d>=this.__ref_vertex;
+		vertex[0]=i_coord.items[i_vertex_index[0]];
+		vertex[1]=i_coord.items[i_vertex_index[1]];
+		vertex[2]=i_coord.items[i_vertex_index[2]];
+		vertex[3]=i_coord.items[i_vertex_index[3]];
+	
+		//画像を取得
+		if (!this._inst_patt.pickFromRaster(this._ref_raster,vertex)){
+			return;
+		}
+		//取得パターンをカラー差分データに変換して評価する。
+		this._deviation_data.setRaster(this._inst_patt);
+
+		//最も一致するパターンを割り当てる。
+		var square_index:int,direction:int;
+		var confidence:Number;
+		this._match_patt[0].evaluate(this._deviation_data,mr);
+		square_index=0;
+		direction=mr.direction;
+		confidence = mr.confidence;
+		var i:int;
+		//2番目以降
+		for(i=1;i<this._match_patt.length;i++){
+			this._match_patt[i].evaluate(this._deviation_data,mr);
+			if (confidence > mr.confidence) {
+				continue;
 			}
-			return null;
+			// もっと一致するマーカーがあったぽい
+			square_index = i;
+			direction = mr.direction;
+			confidence = mr.confidence;
+		}
+		//最も一致したマーカ情報を、この矩形の情報として記録する。
+		var result:FLARDetectMarkerResult = FLARDetectMarkerResult(this.result_stack.prePush());
+		result.arcode_id = square_index;
+		result.confidence = confidence;
+
+		var sq:FLARSquare=result.square;
+		//directionを考慮して、squareを更新する。
+		for(i=0;i<4;i++){
+			var idx:int=(i+4 - direction) % 4;
+			this._coordline.coord2Line(i_vertex_index[idx],i_vertex_index[(idx+1)%4],i_coord,sq.line[i]);
+		}
+		for (i = 0; i < 4; i++) {
+			//直線同士の交点計算
+			if(!sq.line[i].crossPos(sq.line[(i + 3) % 4],sq.sqvertex[i])){
+				throw new FLARException();//ここのエラー復帰するならダブルバッファにすればOK
+			}
 		}
 	}
+	public function init(i_raster:IFLARRgbRaster):void
+	{
+		this._ref_raster=i_raster;
+		this.result_stack.clear();
+		
+	}
 }
+		
