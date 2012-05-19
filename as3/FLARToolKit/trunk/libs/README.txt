@@ -10,6 +10,10 @@ FLARToolKit External library Readme
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
 
+
+----------------------------------------------------------------------
+ Other library
+----------------------------------------------------------------------
 [Away3D 3.4.0]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
@@ -19,10 +23,7 @@ FLARToolKit External library Readme
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
  License : Apache License, Version 2.0
-
-----------------------------------------------------------------------
- Other library
-----------------------------------------------------------------------
+ 
 [Sandy3D]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
