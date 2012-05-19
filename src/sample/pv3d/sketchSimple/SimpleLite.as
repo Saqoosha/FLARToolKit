@@ -1,4 +1,4 @@
-package sample.pv3d.sketch 
+package sample.pv3d.sketchSimple 
 {
 	import flash.media.*;
 	import flash.geom.*;
@@ -8,7 +8,6 @@ package sample.pv3d.sketch
     import flash.events.*;
     import flash.utils.*;
 	import jp.nyatla.as3utils.sketch.*;
-	import jp.nyatla.as3utils.*;
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
@@ -23,20 +22,17 @@ package sample.pv3d.sketch
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.scenes.*;
 	/**
-	 * MarkerSystemの、マーカ平面画像取得のデモです。
-	 * 撮影画像から、マーカパターンを取得します。
-	 * マーカには、FLARLogoマーカを使います。
+	 * MarkerSystemを使ったSimpleLiteの実装です。
 	 * このサンプルは、FLSketchを使用したプログラムです。
 	 * PV3Dの初期化、Flashオブジェクトの配置などを省略せずに実装しています。
 	 */
-	public class ImagePickup extends FLSketch
+	public class SimpleLite extends FLSketch
 	{
 		private static const _CAM_W:int = 640;
 		private static const _CAM_H:int = 480;
 		private var _ss:FLARSensor;
 		private var _ms:FLARPV3DMarkerSystem;
 		public var bitmap:Bitmap = new Bitmap(new BitmapData(_CAM_W,_CAM_H));
-		public var patt:Bitmap = new Bitmap(new BitmapData(64,64));
 
 		private var _video:Video;
 		private var _render:LazyRenderEngine;
@@ -44,17 +40,14 @@ package sample.pv3d.sketch
 		private var marker_id:int;
 		private var marker_node:DisplayObject3D;
 		
-		public function ImagePickup()
+		public function SimpleLite()
 		{
 			//setup UI
 			this.bitmap.x = 0;
 			this.bitmap.y = 0;
 			this.bitmap.width = _CAM_W;
 			this.bitmap.height = _CAM_H;
-            this.addChild(this.bitmap);
-			this.patt.x = 0;
-			this.patt.y = 0;
-            this.addChild(this.patt);
+            this.addChild(bitmap);
 		}
 		private var _fid:Vector.<int>=new Vector.<int>(3);
 		public override function setup():void
@@ -91,7 +84,7 @@ package sample.pv3d.sketch
 			viewport3d.x = -4; // 4pix ???
 			this.addChild(viewport3d);
 			//3d object
-			this.marker_node = PV3DHelper.createFLText("detect", 80, 0.5, 0xff0000);
+			this.marker_node = PV3DHelper.createFLARCube(light,80,0xff22aa, 0x75104e);
 			this.marker_node.visible = false;
 			//scene
 			var s:Scene3D = new Scene3D();
@@ -109,18 +102,14 @@ package sample.pv3d.sketch
 		{
 			this._ss.update_2(this._video);//update sensor status
 			this._ms.update(this._ss);//update markersystem status
-			if (this._ms.isExistMarker(marker_id)) {
+			if (this._ms.isExistMarker(marker_id)){
 				this.marker_node.visible = true;
-				this.patt.visible = true;
 				this._ms.getPv3dMarkerMatrix(this.marker_id, this.marker_node.transform);
-				this._ms.getMarkerPlaneImage_4(this.marker_id, this._ss, -40, -40, 80, 80, this.patt.bitmapData);
 			}else {
 				this.marker_node.visible = false;
-				this.patt.visible = false;
 			}
 			this.bitmap.bitmapData.draw(this._video);
 			this._render.render();
 		}
 	}
-
 }

@@ -1,36 +1,35 @@
-package sample.pv3d.sketch 
+package sample.pv3d.sketchSimple 
 {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.geom.*;
 	import flash.media.*;
+	import flash.geom.*;
 	import flash.net.*;
 	import flash.text.*;
-	import flash.utils.*;
-	
-	import jp.nyatla.as3utils.*;
+    import flash.display.*; 
+    import flash.events.*;
+    import flash.utils.*;
 	import jp.nyatla.as3utils.sketch.*;
-	
-	import org.libspark.flartoolkit.core.*;
+	import jp.nyatla.as3utils.*;
 	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.support.pv3d.*;
+	import org.papervision3d.core.math.Matrix3D;
+	import org.papervision3d.render.*;
+	import org.papervision3d.view.*;
+	import org.papervision3d.objects.*;
 	import org.papervision3d.lights.*;
 	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.utils.*;
-	import org.papervision3d.objects.*;
+	import org.papervision3d.materials.shadematerials.*;
 	import org.papervision3d.objects.primitives.*;
-	import org.papervision3d.render.LazyRenderEngine;
-	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.view.*;
-
+	import org.papervision3d.materials.utils.*;
+	import org.papervision3d.scenes.*;
 	/**
-	 * MarkerSystemを使ったIdマーカ認識の実装です。
-	 * 0番のマーカを1つ認識します。SimpleLiteとの差異は、マーカの登録部分と、表示部分です。
+	 * マーカ平面とスクリーン座標の相互変換デモです。マウスカーソルの位置をマーカ平面へ変換します。
+	 * マーカはFLARLogoマーカを使います。
 	 * このサンプルは、FLSketchを使用したプログラムです。
 	 * PV3Dの初期化、Flashオブジェクトの配置などを省略せずに実装しています。
 	 */
-	public class IdMarker extends FLSketch
+	public class MarkerPlane extends FLSketch
 	{
 		private static const _CAM_W:int = 640;
 		private static const _CAM_H:int = 480;
@@ -44,7 +43,7 @@ package sample.pv3d.sketch
 		private var marker_id:int;
 		private var marker_node:DisplayObject3D;
 		
-		public function IdMarker()
+		public function MarkerPlane()
 		{
 			//setup UI
 			this.bitmap.x = 0;
@@ -58,6 +57,7 @@ package sample.pv3d.sketch
 		{
 			//setup content files...
 			this._fid[0]=this.setSketchFile("./resources/camera_param/camera_para.dat", URLLoaderDataFormat.BINARY);//0
+			this._fid[1]=this.setSketchFile("./resources/marker/flarlogo.pat", URLLoaderDataFormat.TEXT);//1
 		}
 
 		public override function main():void
@@ -71,11 +71,10 @@ package sample.pv3d.sketch
 			this._video = new Video(_CAM_W, _CAM_H);
 			this._video.attachCamera(webcam);			
 			//FLMarkerSystem
-			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(_CAM_W, _CAM_H);//make configlation
+			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(this.getSketchFile(this._fid[0]),_CAM_W, _CAM_H);//make configlation
 			this._ss = new FLARSensor(new FLARIntSize(_CAM_W, _CAM_H));
 			this._ms = new FLARPV3DMarkerSystem(cf);
-			//register AR Marker
-			this.marker_id = this._ms.addNyIdMarker( 1, 80);
+			this.marker_id = this._ms.addARMarker_2(this.getSketchFile(this._fid[1]), 16, 25, 80); //register AR Marker
 			
 			//setup PV3d
 			var light:PointLight3D = new PointLight3D();
@@ -88,13 +87,12 @@ package sample.pv3d.sketch
 			viewport3d.x = -4; // 4pix ???
 			this.addChild(viewport3d);
 			//3d object
-			this.marker_node = PV3DHelper.createFLText("0", 80, 0.5, 0xff0000);
-			this.marker_node.visible = false;
+			this.marker_node = PV3DHelper.createFLARCube(light,80,0xff22aa, 0x75104e);
+			this.marker_node.visible = true;
 			//scene
 			var s:Scene3D = new Scene3D();
 			s.addChild(this.marker_node);
-			this._render=new LazyRenderEngine(s,this._ms.getPV3DCamera(),viewport3d);
-			
+			this._render=new LazyRenderEngine(s,this._ms.getPV3DCamera(),viewport3d);			
 			//start camera
 			this.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 		}
@@ -106,14 +104,22 @@ package sample.pv3d.sketch
 		{
 			this._ss.update_2(this._video);//update sensor status
 			this._ms.update(this._ss);//update markersystem status
-			if (this._ms.isExistMarker(marker_id)){
-				this.marker_node.visible = true;
-				this._ms.getPv3dMarkerMatrix(this.marker_id, this.marker_node.transform);
+			if (this._ms.isExistMarker(marker_id)) {
+				var p:FLARDoublePoint3d = new FLARDoublePoint3d();
+				this._ms.getMarkerPlanePos(this.marker_id,this.bitmap.mouseX,this.bitmap.mouseY,p);
+				this.marker_node.transform.reset();
+				this.marker_node.transform.n14 = p.x;
+				this.marker_node.transform.n24 = p.y;
+				this.marker_node.transform.n34 = p.z;
+				var mat:org.papervision3d.core.math.Matrix3D=new org.papervision3d.core.math.Matrix3D();
+				this._ms.getPv3dMarkerMatrix(this.marker_id, mat);
+				this.marker_node.transform.calculateMultiply(mat,this.marker_node.transform);
 			}else {
-				this.marker_node.visible = false;
+//				this.marker_node.visible = false;
 			}
 			this.bitmap.bitmapData.draw(this._video);
 			this._render.render();
 		}
 	}
 }
+

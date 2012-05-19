@@ -1,34 +1,36 @@
-package sample.pv3d.sketch 
+package sample.pv3d.sketchSimple 
 {
-	import flash.media.*;
+	import flash.display.*;
+	import flash.events.*;
 	import flash.geom.*;
+	import flash.media.*;
 	import flash.net.*;
 	import flash.text.*;
-    import flash.display.*; 
-    import flash.events.*;
-    import flash.utils.*;
-	import jp.nyatla.as3utils.sketch.*;
+	import flash.utils.*;
+	
 	import jp.nyatla.as3utils.*;
-	import org.libspark.flartoolkit.core.types.*;
+	import jp.nyatla.as3utils.sketch.*;
+	
 	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.support.pv3d.*;
-	import org.papervision3d.render.*;
-	import org.papervision3d.view.*;
-	import org.papervision3d.objects.*;
 	import org.papervision3d.lights.*;
 	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.shadematerials.*;
-	import org.papervision3d.objects.primitives.*;
 	import org.papervision3d.materials.utils.*;
-	import org.papervision3d.scenes.*;
+	import org.papervision3d.objects.*;
+	import org.papervision3d.objects.primitives.*;
+	import org.papervision3d.render.LazyRenderEngine;
+	import org.papervision3d.scenes.Scene3D;
+	import org.papervision3d.view.*;
+
 	/**
-	 * MarkerSystemを使ったSimpleLiteの実装です。
-	 * Webcamの画像の変わりに、既にあるJpeg画像を使います。
+	 * MarkerSystemを使ったIdマーカ認識の実装です。
+	 * 0番のマーカを1つ認識します。SimpleLiteとの差異は、マーカの登録部分と、表示部分です。
 	 * このサンプルは、FLSketchを使用したプログラムです。
 	 * PV3Dの初期化、Flashオブジェクトの配置などを省略せずに実装しています。
 	 */
-	public class JpegInput extends FLSketch
+	public class IdMarker extends FLSketch
 	{
 		private static const _CAM_W:int = 640;
 		private static const _CAM_H:int = 480;
@@ -42,7 +44,7 @@ package sample.pv3d.sketch
 		private var marker_id:int;
 		private var marker_node:DisplayObject3D;
 		
-		public function JpegInput()
+		public function IdMarker()
 		{
 			//setup UI
 			this.bitmap.x = 0;
@@ -55,22 +57,25 @@ package sample.pv3d.sketch
 		public override function setup():void
 		{
 			//setup content files...
-			this._fid[0] = this.setSketchFile("./resources/camera_param/camera_para.dat", URLLoaderDataFormat.BINARY);//0
-			this._fid[1] = this.setSketchFile("./resources/marker/hiro.pat",URLLoaderDataFormat.TEXT);//1
-			this._fid[2] = this.setSketchFile("./resources/Data/320x240ABGR.jpg","AS_OBJECT");//2
+			this._fid[0]=this.setSketchFile("./resources/camera_param/camera_para.dat", URLLoaderDataFormat.BINARY);//0
 		}
-		private var _patt:Bitmap;
 
 		public override function main():void
 		{
-			//image
-			var ld:Loader = new Loader();
-			this._patt = this.getSketchFile(this._fid[2]);
+			//webcam
+			var webcam:Camera = Camera.getCamera();
+			if (!webcam) {
+				throw new Error('No webcam!!!!');
+			}
+			webcam.setMode(_CAM_W, _CAM_H, 30);
+			this._video = new Video(_CAM_W, _CAM_H);
+			this._video.attachCamera(webcam);			
 			//FLMarkerSystem
-			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(this.getSketchFile(this._fid[0]),_CAM_W, _CAM_H);//make configlation
+			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(_CAM_W, _CAM_H);//make configlation
 			this._ss = new FLARSensor(new FLARIntSize(_CAM_W, _CAM_H));
 			this._ms = new FLARPV3DMarkerSystem(cf);
-			this.marker_id = this._ms.addARMarker_2(this.getSketchFile(this._fid[1]), 16, 25, 80); //register AR Marker
+			//register AR Marker
+			this.marker_id = this._ms.addNyIdMarker( 1, 80);
 			
 			//setup PV3d
 			var light:PointLight3D = new PointLight3D();
@@ -83,23 +88,23 @@ package sample.pv3d.sketch
 			viewport3d.x = -4; // 4pix ???
 			this.addChild(viewport3d);
 			//3d object
-			this.marker_node = PV3DHelper.createFLARCube(light,80,0xff22aa, 0x75104e);
+			this.marker_node = PV3DHelper.createFLText("0", 80, 0.5, 0xff0000);
 			this.marker_node.visible = false;
 			//scene
 			var s:Scene3D = new Scene3D();
 			s.addChild(this.marker_node);
 			this._render=new LazyRenderEngine(s,this._ms.getPV3DCamera(),viewport3d);
 			
-			update();// 1 st not effective...??
-			update();
+			//start camera
+			this.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 		}
 		/**
 		 * MainLoop
 		 * @param	e
 		 */
-		private function update():void
+		private function _onEnterFrame(e:Event = null):void
 		{
-			this._ss.update_2(this._patt);//update sensor status
+			this._ss.update_2(this._video);//update sensor status
 			this._ms.update(this._ss);//update markersystem status
 			if (this._ms.isExistMarker(marker_id)){
 				this.marker_node.visible = true;
@@ -107,7 +112,7 @@ package sample.pv3d.sketch
 			}else {
 				this.marker_node.visible = false;
 			}
-			this.bitmap.bitmapData.draw(this._patt);
+			this.bitmap.bitmapData.draw(this._video);
 			this._render.render();
 		}
 	}

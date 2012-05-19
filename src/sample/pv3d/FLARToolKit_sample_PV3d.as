@@ -29,7 +29,7 @@ package sample.pv3d
 {
 	import flash.display.Sprite;
 	
-	import sample.pv3d.sketch.*;
+	import sample.pv3d.sketchSimple.*;
 	
 	[SWF(width=640, height=480, backgroundColor=0x808080, frameRate=30)]
 	public class FLARToolKit_sample_PV3d extends Sprite
