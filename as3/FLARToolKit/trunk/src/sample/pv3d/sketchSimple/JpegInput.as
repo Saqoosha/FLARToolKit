@@ -1,4 +1,4 @@
-package sample.pv3d.sketch 
+package sample.pv3d.sketchSimple 
 {
 	import flash.media.*;
 	import flash.geom.*;
@@ -13,7 +13,6 @@ package sample.pv3d.sketch
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.support.pv3d.*;
-	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.render.*;
 	import org.papervision3d.view.*;
 	import org.papervision3d.objects.*;
@@ -24,12 +23,12 @@ package sample.pv3d.sketch
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.scenes.*;
 	/**
-	 * マーカ平面とスクリーン座標の相互変換デモです。マウスカーソルの位置をマーカ平面へ変換します。
-	 * マーカはFLARLogoマーカを使います。
+	 * MarkerSystemを使ったSimpleLiteの実装です。
+	 * Webcamの画像の変わりに、既にあるJpeg画像を使います。
 	 * このサンプルは、FLSketchを使用したプログラムです。
 	 * PV3Dの初期化、Flashオブジェクトの配置などを省略せずに実装しています。
 	 */
-	public class MarkerPlane extends FLSketch
+	public class JpegInput extends FLSketch
 	{
 		private static const _CAM_W:int = 640;
 		private static const _CAM_H:int = 480;
@@ -43,7 +42,7 @@ package sample.pv3d.sketch
 		private var marker_id:int;
 		private var marker_node:DisplayObject3D;
 		
-		public function MarkerPlane()
+		public function JpegInput()
 		{
 			//setup UI
 			this.bitmap.x = 0;
@@ -56,20 +55,17 @@ package sample.pv3d.sketch
 		public override function setup():void
 		{
 			//setup content files...
-			this._fid[0]=this.setSketchFile("./resources/camera_param/camera_para.dat", URLLoaderDataFormat.BINARY);//0
-			this._fid[1]=this.setSketchFile("./resources/marker/flarlogo.pat", URLLoaderDataFormat.TEXT);//1
+			this._fid[0] = this.setSketchFile("./resources/camera_param/camera_para.dat", URLLoaderDataFormat.BINARY);//0
+			this._fid[1] = this.setSketchFile("./resources/marker/hiro.pat",URLLoaderDataFormat.TEXT);//1
+			this._fid[2] = this.setSketchFile("./resources/Data/320x240ABGR.jpg","AS_OBJECT");//2
 		}
+		private var _patt:Bitmap;
 
 		public override function main():void
 		{
-			//webcam
-			var webcam:Camera = Camera.getCamera();
-			if (!webcam) {
-				throw new Error('No webcam!!!!');
-			}
-			webcam.setMode(_CAM_W, _CAM_H, 30);
-			this._video = new Video(_CAM_W, _CAM_H);
-			this._video.attachCamera(webcam);			
+			//image
+			var ld:Loader = new Loader();
+			this._patt = this.getSketchFile(this._fid[2]);
 			//FLMarkerSystem
 			var cf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(this.getSketchFile(this._fid[0]),_CAM_W, _CAM_H);//make configlation
 			this._ss = new FLARSensor(new FLARIntSize(_CAM_W, _CAM_H));
@@ -88,38 +84,31 @@ package sample.pv3d.sketch
 			this.addChild(viewport3d);
 			//3d object
 			this.marker_node = PV3DHelper.createFLARCube(light,80,0xff22aa, 0x75104e);
-			this.marker_node.visible = true;
+			this.marker_node.visible = false;
 			//scene
 			var s:Scene3D = new Scene3D();
 			s.addChild(this.marker_node);
-			this._render=new LazyRenderEngine(s,this._ms.getPV3DCamera(),viewport3d);			
-			//start camera
-			this.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
+			this._render=new LazyRenderEngine(s,this._ms.getPV3DCamera(),viewport3d);
+			
+			update();// 1 st not effective...??
+			update();
 		}
 		/**
 		 * MainLoop
 		 * @param	e
 		 */
-		private function _onEnterFrame(e:Event = null):void
+		private function update():void
 		{
-			this._ss.update_2(this._video);//update sensor status
+			this._ss.update_2(this._patt);//update sensor status
 			this._ms.update(this._ss);//update markersystem status
-			if (this._ms.isExistMarker(marker_id)) {
-				var p:FLARDoublePoint3d = new FLARDoublePoint3d();
-				this._ms.getMarkerPlanePos(this.marker_id,this.bitmap.mouseX,this.bitmap.mouseY,p);
-				this.marker_node.transform.reset();
-				this.marker_node.transform.n14 = p.x;
-				this.marker_node.transform.n24 = p.y;
-				this.marker_node.transform.n34 = p.z;
-				var mat:org.papervision3d.core.math.Matrix3D=new org.papervision3d.core.math.Matrix3D();
-				this._ms.getPv3dMarkerMatrix(this.marker_id, mat);
-				this.marker_node.transform.calculateMultiply(mat,this.marker_node.transform);
+			if (this._ms.isExistMarker(marker_id)){
+				this.marker_node.visible = true;
+				this._ms.getPv3dMarkerMatrix(this.marker_id, this.marker_node.transform);
 			}else {
-//				this.marker_node.visible = false;
+				this.marker_node.visible = false;
 			}
-			this.bitmap.bitmapData.draw(this._video);
+			this.bitmap.bitmapData.draw(this._patt);
 			this._render.render();
 		}
 	}
 }
-

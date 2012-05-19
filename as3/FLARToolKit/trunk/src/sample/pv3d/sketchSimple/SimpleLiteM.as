@@ -1,4 +1,4 @@
-package sample.pv3d.sketch 
+package sample.pv3d.sketchSimple 
 {
 	import flash.media.*;
 	import flash.geom.*;
