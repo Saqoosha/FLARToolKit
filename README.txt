@@ -1,10 +1,10 @@
 ======================================================================
 FLARToolKit
- version 2.5.5
+ version 4.0.0
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
-Copyright (C)2010 Saqoosha, R.Iizuka(nyatla)
+Copyright (C)2010-2012 Saqoosha, R.Iizuka(nyatla)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ contributors
    カメラ位置を計算するとこまでをやってくれます。
  * 3D グラフィックスとの合成などは各自で実装する必要があります。
  * ただし簡単に合成できるようにヘルパー的なものはついてます。
-   (Papervision3D, Away3D, Away3D Lite, Sandy3D, Alternativa3D)
+   (Papervision3D)
 
  # AS3 ported version of ARToolKit.
  # Flash player 10 only
@@ -54,7 +54,7 @@ contributors
    and calculate its orientation and position in 3D world.
  # You should draw 3D graphics by your own.
  # But helper classes for major flash 3D engines
-   (Papervision3D, Away3D, Sandy3D, Alternativa3D)
+   (Papervision3D)
 
 ----------------------------------------------------------------------
  FLARToolKit License
@@ -109,6 +109,9 @@ Each license adjusts to the included library.
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
 
+----------------------------------------------------------------------
+ External library
+----------------------------------------------------------------------
 [Away3D 3.4.0]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
@@ -119,9 +122,6 @@ Each license adjusts to the included library.
  URL     : http://away3d.com/
  License : Apache License, Version 2.0
 
-----------------------------------------------------------------------
- External library
-----------------------------------------------------------------------
 [Sandy3D]
  Realtime 3D engine for Flash
  URL     : http://away3d.com/
@@ -136,11 +136,9 @@ Each license adjusts to the included library.
  Development environment
 ----------------------------------------------------------------------
  * Adobe FLASH CS4 Professional (version 10.0.2)
- * Adobe Flex Builder 3 Standard (build 3.0.2)
-   (Eclipse Version: 3.4.2 + Flex Builder 3.0 + Flex SDK 3.4, 3.5)
- * Adobe Flash Builder 4 Standard (Version 4.0 : build 272416)
-   (Flex SDK 4.0)
- * FlashDevelop + Flex SDK 3.4, 3.5
+ * Adobe Flash Builder 4.5 Standard (Version 4.5)
+   (Flex SDK 4.5.1)
+ * FlashDevelop 4.0.1 + Flex SDK 4.6
  
 ----------------------------------------------------------------------
  Special thanks
@@ -154,6 +152,11 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+4.0.0 alpha 1
+ *
+ *
+ *
+
 2.5.5 
  * Modify analytical size restriction function
  * Bugfix Papervision3D QuadrantRenderEngine memory leak

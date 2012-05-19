@@ -39,17 +39,17 @@ package sample.pv3d
 			// Markersystem Single marker sample
 			this.addChild(new SimpleLite());
 			// Markersystem Multi-Marker sample
-			this.addChild(new SimpleLiteM());
+//			this.addChild(new SimpleLiteM());
 			//  マーカ平面とスクリーン座標の相互変換のサンプル
-			this.addChild(new MarkerPlane());
+//			this.addChild(new MarkerPlane());
 			// MarkerSystemの、マーカ平面画像取得のサンプル
-			this.addChild(new ImagePickup());
+//			this.addChild(new ImagePickup());
 			// Webcameraの代わりに画像を入力として使用するサンプル
-			this.addChild(new JpegInput());
+//			this.addChild(new JpegInput());
 			// Marker pattern file の代わりに 画像を使用するサンプル
-			this.addChild(new PngMarker());
+//			this.addChild(new PngMarker());
 			// ID-Marker のサンプル
-			this.addChild(new IdMarker());
+//			this.addChild(new IdMarker());
 		}
 	}
 }
