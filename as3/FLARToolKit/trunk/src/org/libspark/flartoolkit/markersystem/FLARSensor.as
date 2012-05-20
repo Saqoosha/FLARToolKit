@@ -31,16 +31,16 @@ package org.libspark.flartoolkit.markersystem
 
 
 	import flash.display.*;
+	import flash.geom.Matrix;
+	
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.rasterdriver.*;
+	import org.libspark.flartoolkit.core.rasterfilter.*;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.markersystem.FLARSensor;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.raster.rgb.*;
-	import org.libspark.flartoolkit.core.rasterfilter.*;
 
 
 
@@ -96,10 +96,20 @@ package org.libspark.flartoolkit.markersystem
 			}
 			return this._bin_raster;
 		}
+		
 		public function update_2(i_bmp:IBitmapDrawable):void
 		{
 			this._raster.getBitmapData().draw(i_bmp);
 			this.updateTimeStamp();
-		}		
+		}
+		
+		/**
+		 * scaleRatio で設定したサイズに拡縮して raster化する
+		 */
+		public function update_3(i_bmp:IBitmapDrawable, scaleRatio:Matrix):void
+		{
+			this._raster.getBitmapData().draw(i_bmp, scaleRatio);
+			this.updateTimeStamp();
+		}
 	}
 }
