@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 4.0.0
+ version 4.0.0-fp10(flash player 10)
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -47,7 +47,7 @@ contributors
    (Papervision3D)
 
  # AS3 ported version of ARToolKit.
- # Flash player 10 only
+ # Flash player 10 or 11
  # This is a library collection that succeeded the interface of
    FLARToolKit v1.x based on NyARToolkit for AS3(NOT Alchemy version).
  # FLARToolKit recognize the marker from input image.
@@ -117,21 +117,6 @@ Each license adjusts to the included library.
  URL     : http://away3d.com/
  License : Apache License, Version 2.0
 
-[Away3D Lite 1.0.0]
- Realtime 3D engine for Flash
- URL     : http://away3d.com/
- License : Apache License, Version 2.0
-
-[Sandy3D]
- Realtime 3D engine for Flash
- URL     : http://away3d.com/
- License : MOZILLA PUBLIC LICENSE, Version 1.1
-
-[Alternativa3D]
- browser 3D-engine based on Adobe Flash
- URL     : http://www.flashsandy.org/
- License : Commercial licence / Free non-commercial licence
-
 ----------------------------------------------------------------------
  Development environment
 ----------------------------------------------------------------------
@@ -139,7 +124,8 @@ Each license adjusts to the included library.
    (Flex SDK 4.5.0)
  * Adobe Flash Builder 4.5 Standard (Version 4.5)
    (Flex SDK 4.5.1)
- * FlashDevelop 4.0.1 + Flex SDK 4.6
+ * FlashDevelop 4.0.1 RTM
+   (Flex SDK 4.6)
  
 ----------------------------------------------------------------------
  Special thanks
@@ -153,11 +139,21 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
-4.0.0 alpha 1
+4.0.0-fp10
+ svn trunk of FLToolKit supports a higher version FlashPlayer 11.
+ FLToolKit to support FP10 is managed by the branch.
+ * Away3D v3.4 is not officially supported. Library is always experimental.
+   (Away3D v4.x support in FLARToolKit v4.0.0-fp11)
+ * Add ARAppBase sample.
+ * Add FlashDevelop project file
+ * Update FlashBuilder project and Flash project.
+ 
+4.0.0 alpha 1(nyatla-branch version)
  * Updated base library to NyARToolkit4.
  * NyARToolkitAS3 is merged the to FLARToolKit. package jp.nyatla.nyartoolkit.as3 is deleted.
  * Add old FLARToolKit patches. 
  * Delete unused classes.
+ * Remove away3dlite, sandy and alternativa3d support libraries.
  * All samples are updated by the sketch and Marker-system.
  * old samples are deleted.
 
@@ -165,6 +161,7 @@ Prof. Mark Billinghurst
  * Modify analytical size restriction function
  * Bugfix Papervision3D QuadrantRenderEngine memory leak
    http://forum.papervision3d.org/viewtopic.php?f=15&t=1701
+
 2.5.4 (2010-Jul-10)
  * Add NyID Marker Detector
    + Single Id Marker Detector
