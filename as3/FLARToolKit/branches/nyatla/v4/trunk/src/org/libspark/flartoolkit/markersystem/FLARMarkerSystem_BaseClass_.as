@@ -53,7 +53,7 @@ package org.libspark.flartoolkit.markersystem
 	public class FLARMarkerSystem_BaseClass_
 	{
 		/**　定数値。自動敷居値を示す値です。　*/
-		public const THLESHOLD_AUTO:int=0xffffffff;
+		public const THLESHOLD_AUTO:int=0x7fffffff;
 		/** 定数値。視錐台のFARパラメータの初期値[mm]です。*/
 		public const FRUSTUM_DEFAULT_FAR_CLIP:Number=10000;
 		/** 定数値。視錐台のNEARパラメータの初期値[mm]です。*/
@@ -62,7 +62,7 @@ package org.libspark.flartoolkit.markersystem
 		public const LOST_DELAY_DEFAULT:int=5;
 		
 		
-		private const MASK_IDTYPE:int=0xfffff000;
+		private const MASK_IDTYPE:int=0x7ffff000;
 		private const MASK_IDNUM:int =0x00000fff;
 		private const IDTYPE_ARTK:int=0x00000000;
 		private const IDTYPE_NYID:int=0x00001000;

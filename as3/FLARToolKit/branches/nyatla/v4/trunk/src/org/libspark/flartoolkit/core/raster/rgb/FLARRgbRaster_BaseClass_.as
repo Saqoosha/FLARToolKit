@@ -81,9 +81,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 		protected function overload_FLARRgbRaster_2ii(i_width:int,i_height:int):void
 		{
 			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,FLARBufferType.INT1D_X8R8G8B8_32);
-			if(!initInstance(this._size,FLARBufferType.INT1D_X8R8G8B8_32,true)){
-				throw new FLARException();
-			}
+			this.initInstance(this._size, FLARBufferType.INT1D_X8R8G8B8_32, true);
 		}		
 		/**
 		 * 
@@ -97,9 +95,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 		protected function overload_FLARRgbRaster_4iiib(i_width:int,i_height:int,i_raster_type:int,i_is_alloc:Boolean):void
 		{
 			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
-			if(!initInstance(this._size,i_raster_type,i_is_alloc)){
-				throw new FLARException();
-			}
+			this.initInstance(this._size, i_raster_type, i_is_alloc);
 		}
 		/**
 		 * 
@@ -112,9 +108,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 		protected function overload_FLARRgbRaster_3iii(i_width:int, i_height:int, i_raster_type:int):void
 		{
 			super.overload_FLARRgbRaster_BasicClass(i_width,i_height,i_raster_type);
-			if(!initInstance(this._size,i_raster_type,true)){
-				throw new FLARException();
-			}
+			this.initInstance(this._size, i_raster_type, true);
 		}
 		
 		/**
@@ -125,7 +119,7 @@ package org.libspark.flartoolkit.core.raster.rgb
 		 * @param i_is_alloc
 		 * @return
 		 */
-		protected function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
+		protected function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):void
 		{
 			//バッファの構築
 			switch(i_raster_type)
@@ -134,12 +128,12 @@ package org.libspark.flartoolkit.core.raster.rgb
 					this._buf=i_is_alloc?new Vector.<int>(i_size.w*i_size.h):null;
 					break;
 				default:
-					return false;
+					throw new FLARException();
 			}
 			//readerの構築
 			this._rgb_pixel_driver=FLARRgbPixelDriverFactory.createDriver(this);
 			this._is_attached_buffer=i_is_alloc;
-			return true;
+			return;
 		}
 		public override function getRgbPixelDriver():IFLARRgbPixelDriver
 		{

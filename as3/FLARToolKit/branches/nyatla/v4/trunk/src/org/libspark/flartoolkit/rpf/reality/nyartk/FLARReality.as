@@ -28,7 +28,7 @@
  */
 package org.libspark.flartoolkit.rpf.reality.nyartk 
 {
-	import org.libspark.flartoolkit.rpf.reality.nyartk.*;
+	import org.libspark.flartoolkit.rpf.reality.nyartk.FLARReality;
 	import jp.nyatla.as3utils.*;
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.param.*;

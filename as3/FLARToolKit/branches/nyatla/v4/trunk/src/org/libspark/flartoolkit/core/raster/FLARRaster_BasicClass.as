@@ -28,12 +28,11 @@
  */
 package org.libspark.flartoolkit.core.raster
 {
-	import jp.nyatla.as3utils.*;
-	
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.FLARException;
 	import org.libspark.flartoolkit.core.raster.*;
+	import org.libspark.flartoolkit.core.rasterreader.*;
 	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.*;
+	import jp.nyatla.as3utils.*;
 
 	public class FLARRaster_BasicClass implements IFLARRaster
 	{
@@ -79,12 +78,10 @@ package org.libspark.flartoolkit.core.raster
 		{
 			return this._size;
 		}
-		
 		final public function getBufferType():int
 		{
 			return _buffer_type;
 		}
-		
 		final public function isEqualBufferType(i_type_value:int):Boolean
 		{
 			return this._buffer_type==i_type_value;
@@ -94,20 +91,20 @@ package org.libspark.flartoolkit.core.raster
 		{
 			throw new FLARException();
 		}
-		
 		public function hasBuffer():Boolean
 		{
 			throw new FLARException();
-		}
-		
+		}		
 		public function wrapBuffer(i_ref_buf:Object):void
 		{
 			throw new FLARException();
 		}
+		public function getBuffer():Object{}
+		public function hasBuffer():Boolean{}
+		public function wrapBuffer(i_ref_buf:Object):void{}
+		public function createInterface(i_iid:Class):Object{}
 		
-		public function createInterface(i_iid:Class):Object
-		{
-			return null;
-		}
+
+		
 	}
 }

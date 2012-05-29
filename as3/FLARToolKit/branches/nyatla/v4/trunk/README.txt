@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 4.0.1
+ version 4.0.3
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
