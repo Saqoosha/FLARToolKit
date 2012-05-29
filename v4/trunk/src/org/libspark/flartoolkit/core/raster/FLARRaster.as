@@ -28,12 +28,10 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import jp.nyatla.as3utils.*;
-	
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.rasterreader.*;
 	import org.libspark.flartoolkit.core.types.*;
-
+	import org.libspark.flartoolkit.core.*;
+	import jp.nyatla.as3utils.*;
 	/**このクラスは、単機能のFLARRasterです。
 	 *
 	 */
@@ -123,7 +121,7 @@ package org.libspark.flartoolkit.core.raster
 			NyAS3Utils.assert(!this._is_attached_buffer);//バッファがアタッチされていたら機能しない。
 			this._buf=i_ref_buf;
 		}
-		public override function createInterface(i_iid:Class):Object
+		public override createInterface(iIid:Class):Object
 		{
 			// TODO Auto-generated method stub
 			return null;

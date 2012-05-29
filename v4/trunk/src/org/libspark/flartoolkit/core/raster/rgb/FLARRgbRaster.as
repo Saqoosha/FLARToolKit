@@ -59,8 +59,11 @@ package org.libspark.flartoolkit.core.raster.rgb
 				}
 				break;
 			case 2:
-				overload_FLARRgbRaster_BitmapData_2ii(int(args[0]), int(args[1]));
+				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),FLARBufferType.OBJECT_AS3_BitmapData,true);
 				break;
+			case 3:
+				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),true);
+				break;				
 			case 4:
 				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
@@ -85,13 +88,6 @@ package org.libspark.flartoolkit.core.raster.rgb
 	    {
 			super.overload_FLARRgbRaster_4iiib(i_width, i_height, i_raster_type, i_is_alloc);
 	    }
-        /**
-         * インスタンスを生成します。インスタンスは、PixelFormat.Format32bppRgb形式のビットマップをバッファに持ちます。
-         */
-        public function overload_FLARRgbRaster_BitmapData_2ii(i_width:int,i_height:int):void
-        {
-			super.overload_FLARRgbRaster_4iiib(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,true);
-        }
         /// <summary>
         /// i_srcからインスタンスにビットマップをコピーします。
         /// </summary>
@@ -113,7 +109,7 @@ package org.libspark.flartoolkit.core.raster.rgb
          * 初期化が成功すると、trueです。
          * @ 
          */
-        protected override function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
+        protected override function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):void
         {
             //バッファの構築
             switch (i_raster_type)
@@ -132,10 +128,10 @@ package org.libspark.flartoolkit.core.raster.rgb
                     this._is_attached_buffer = i_is_alloc;
                     break;
                 default:
-					return super.initInstance(i_size, i_raster_type, i_is_alloc);
+					super.initInstance(i_size, i_raster_type, i_is_alloc);
             }
             //readerの構築
-            return true;
+			return;
         }
         /**
          * この関数は、ラスタに外部参照バッファをセットします。
@@ -442,37 +438,37 @@ package org.libspark.flartoolkit.core.raster.rgb
                     }
                     return true;
 				case FLARBufferType.OBJECT_AS3_BitmapData:
-					var bmr:FLARRgbRaster = FLARRgbRaster(o_out);
-					var bm:BitmapData = bmr.getBitmapData();
-					p = 0;
-					for (iy = 0; iy < out_h; iy++)
-					{
-						//解像度分の点を取る。
-						cp7_cy_1_cp6_cx = cp7_cy_1;
-						cp1_cy_cp2_cp0_cx = cp1_cy_cp2;
-						cp4_cy_cp5_cp3_cx = cp4_cy_cp5;
+                    var bmr:FLARRgbRaster = FLARRgbRaster(o_out);
+                    var bm:BitmapData = bmr.getBitmapData();
+                    p = 0;
+                    for (iy = 0; iy < out_h; iy++)
+                    {
+                        //解像度分の点を取る。
+                        cp7_cy_1_cp6_cx = cp7_cy_1;
+                        cp1_cy_cp2_cp0_cx = cp1_cy_cp2;
+                        cp4_cy_cp5_cp3_cx = cp4_cy_cp5;
 
-						for (ix = 0; ix < out_w; ix++)
-						{
-							//1ピクセルを作成
-							d = 1 / (cp7_cy_1_cp6_cx);
-							x = (int)((cp1_cy_cp2_cp0_cx) * d);
-							y = (int)((cp4_cy_cp5_cp3_cx) * d);
-							if (x < 0) { x = 0; } else if (x >= in_w) { x = in_w - 1; }
-							if (y < 0) { y = 0; } else if (y >= in_h) { y = in_h - 1; }
-							bm.setPixel(ix,iy,in_bmp.getPixel(x,y));
-							cp7_cy_1_cp6_cx += cp6;
-							cp1_cy_cp2_cp0_cx += cp0;
-							cp4_cy_cp5_cp3_cx += cp3;
-							p++;
-						}
-						cp7_cy_1 += cp7;
-						cp1_cy_cp2 += cp1;
-						cp4_cy_cp5 += cp4;
-					}
-					return true;	
-                default:
-                    if (o_out is IFLARRgbRaster)                    
+                        for (ix = 0; ix < out_w; ix++)
+                        {
+                            //1ピクセルを作成
+                            d = 1 / (cp7_cy_1_cp6_cx);
+                            x = (int)((cp1_cy_cp2_cp0_cx) * d);
+                            y = (int)((cp4_cy_cp5_cp3_cx) * d);
+                            if (x < 0) { x = 0; } else if (x >= in_w) { x = in_w - 1; }
+                            if (y < 0) { y = 0; } else if (y >= in_h) { y = in_h - 1; }
+                            bm.setPixel(ix,iy,in_bmp.getPixel(x,y));
+                            cp7_cy_1_cp6_cx += cp6;
+                            cp1_cy_cp2_cp0_cx += cp0;
+                            cp4_cy_cp5_cp3_cx += cp3;
+                            p++;
+                        }
+                        cp7_cy_1 += cp7;
+                        cp1_cy_cp2 += cp1;
+                        cp4_cy_cp5 += cp4;
+                    }
+                    return true;
+				default:
+                    if (o_out is FLARRgbRaster)
                     {
                         //ANY to RGBx
                         var out_reader:IFLARRgbPixelDriver = (IFLARRgbRaster(o_out)).getRgbPixelDriver();
