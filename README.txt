@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 4.0.0
+ version 4.0.0-fp11(flash player 11)
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -37,24 +37,24 @@ contributors
  About FLARToolKit
 ----------------------------------------------------------------------
  * ARToolKit の AS3 版です。
- * Flash player 10 用
+ * Flash player 11 or later
  * A虎＠(nyatla)氏の NyARToolkit for AS3 を基盤にFLARToolKit v1.xの
    インターフェースを引き継いだライブラリ集です。
  * FLARToolKit は入力画像からマーカーを認識して、3 次元空間での
    カメラ位置を計算するとこまでをやってくれます。
  * 3D グラフィックスとの合成などは各自で実装する必要があります。
  * ただし簡単に合成できるようにヘルパー的なものはついてます。
-   (Papervision3D)
+   (Papervision3D, away3d v4.0.x)
 
  # AS3 ported version of ARToolKit.
- # Flash player 10 only
+ # Flash player 11 or later
  # This is a library collection that succeeded the interface of
    FLARToolKit v1.x based on NyARToolkit for AS3(NOT Alchemy version).
  # FLARToolKit recognize the marker from input image.
    and calculate its orientation and position in 3D world.
  # You should draw 3D graphics by your own.
  # But helper classes for major flash 3D engines
-   (Papervision3D)
+   (Papervision3D, away3d v4.0.x)
 
 ----------------------------------------------------------------------
  FLARToolKit License
@@ -109,24 +109,14 @@ Each license adjusts to the included library.
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
 
+[Away3D 4.0.0beta]
+ Realtime 3D engine for Flash
+ URL     : http://away3d.com/
+ License : Apache License, Version 2.0
+
 ----------------------------------------------------------------------
  External library
 ----------------------------------------------------------------------
-[Away3D 3.4.0]
- Realtime 3D engine for Flash
- URL     : http://away3d.com/
- License : Apache License, Version 2.0
-
-[Away3D Lite 1.0.0]
- Realtime 3D engine for Flash
- URL     : http://away3d.com/
- License : Apache License, Version 2.0
-
-[Sandy3D]
- Realtime 3D engine for Flash
- URL     : http://away3d.com/
- License : MOZILLA PUBLIC LICENSE, Version 1.1
-
 [Alternativa3D]
  browser 3D-engine based on Adobe Flash
  URL     : http://www.flashsandy.org/
@@ -136,10 +126,10 @@ Each license adjusts to the included library.
  Development environment
 ----------------------------------------------------------------------
  * Adobe FLASH CS4 Professional (version 10.0.2)
-   (Flex SDK 4.5.0)
+   (Flex SDK 4.6.0)
  * Adobe Flash Builder 4.5 Standard (Version 4.5)
-   (Flex SDK 4.5.1)
- * FlashDevelop 4.0.1 + Flex SDK 4.6
+   (Flex SDK 4.6.0)
+ * FlashDevelop 4.0.1 + Flex SDK 4.6.0
  
 ----------------------------------------------------------------------
  Special thanks
@@ -153,6 +143,21 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+4.0.0-fp11 alpha 2
+ * FLARToolKit core v4.0.3
+ * Add Away3D v4.0.0beta library and sample application.
+ * Delete Away3d v3.4.0 libraries and samples.
+ * Flash Player 10 version move to a branch
+ 
+4.0.0-fp10 alpha 1
+ svn trunk of FLToolKit supports a higher version FlashPlayer 11.
+ FLToolKit to support FP10 is managed by the branch.
+ * Away3D v3.4 is not officially supported. Library is always experimental.
+   (Away3D v4.x support in FLARToolKit v4.0.0-fp11)
+ * Add ARAppBase sample.
+ * Add FlashDevelop project file
+ * Update FlashBuilder project and Flash project.
+ 
 4.0.0 alpha 1
  * Updated base library to NyARToolkit4.
  * NyARToolkitAS3 is merged the to FLARToolKit. package jp.nyatla.nyartoolkit.as3 is deleted.
