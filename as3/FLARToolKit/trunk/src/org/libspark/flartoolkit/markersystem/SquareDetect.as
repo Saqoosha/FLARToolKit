@@ -34,12 +34,10 @@ package org.libspark.flartoolkit.markersystem
 	internal class SquareDetect implements IFLARMarkerSystemSquareDetect
 	{
 		private var _sd:FLARSquareContourDetector_Rle;
-		
 		public function SquareDetect(i_config:IFLARMarkerSystemConfig)
 		{
 			this._sd=new FLARSquareContourDetector_Rle(i_config.getScreenSize());
 		}
-		
 		public function detectMarkerCb(i_sensor:FLARSensor,i_th:int,i_handler:FLARSquareContourDetector_CbHandler):void
 		{
 			this._sd.detectMarker_2(i_sensor.getGsImage(), i_th,i_handler);

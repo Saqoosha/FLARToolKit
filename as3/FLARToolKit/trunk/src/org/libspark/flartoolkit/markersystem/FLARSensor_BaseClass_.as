@@ -73,7 +73,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		protected function initResource(s:FLARIntSize):void
 		{
-			this._gs_raster=new FLARGrayscaleRaster(s.w,s.h,FLARBufferType.INT1D_GRAY_8,true);
+			this._gs_raster=new FLARGrayscaleRaster(s.w,s.h,FLARBufferType.INT1D_GRAY_8);
 		}
 		/**
 		 * 
