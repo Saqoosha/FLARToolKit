@@ -51,6 +51,7 @@ package org.libspark.flartoolkit.core.types
 			
 			var v:Number = 0;
 			var mult:Number = 0;
+			
 			if(elem0>elem1 && elem0>elem2 && elem0>elem3){
 				v    = Math.sqrt(elem0) * 0.5;
 				mult = 0.25 / v;

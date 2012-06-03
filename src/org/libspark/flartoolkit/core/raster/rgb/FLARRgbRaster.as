@@ -59,8 +59,11 @@ package org.libspark.flartoolkit.core.raster.rgb
 				}
 				break;
 			case 2:
-				overload_FLARRgbRaster_BitmapData_2ii(int(args[0]), int(args[1]));
+				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),FLARBufferType.OBJECT_AS3_BitmapData,true);
 				break;
+			case 3:
+				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),true);
+				break;				
 			case 4:
 				overload_FLARRgbRaster_BitmapData_4iiib(int(args[0]), int(args[1]),int(args[2]),Boolean(args[3]));
 				break;
@@ -85,13 +88,6 @@ package org.libspark.flartoolkit.core.raster.rgb
 	    {
 			super.overload_FLARRgbRaster_4iiib(i_width, i_height, i_raster_type, i_is_alloc);
 	    }
-        /**
-         * インスタンスを生成します。インスタンスは、PixelFormat.Format32bppRgb形式のビットマップをバッファに持ちます。
-         */
-        public function overload_FLARRgbRaster_BitmapData_2ii(i_width:int,i_height:int):void
-        {
-			super.overload_FLARRgbRaster_4iiib(i_width,i_height,FLARBufferType.OBJECT_AS3_BitmapData,true);
-        }
         /// <summary>
         /// i_srcからインスタンスにビットマップをコピーします。
         /// </summary>
@@ -113,7 +109,7 @@ package org.libspark.flartoolkit.core.raster.rgb
          * 初期化が成功すると、trueです。
          * @ 
          */
-        protected override function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):Boolean
+        protected override function initInstance(i_size:FLARIntSize,i_raster_type:int,i_is_alloc:Boolean):void
         {
             //バッファの構築
             switch (i_raster_type)
@@ -132,10 +128,10 @@ package org.libspark.flartoolkit.core.raster.rgb
                     this._is_attached_buffer = i_is_alloc;
                     break;
                 default:
-					return super.initInstance(i_size, i_raster_type, i_is_alloc);
+					super.initInstance(i_size, i_raster_type, i_is_alloc);
             }
             //readerの構築
-            return true;
+			return;
         }
         /**
          * この関数は、ラスタに外部参照バッファをセットします。

@@ -116,11 +116,6 @@ package org.libspark.flartoolkit.core.types
 			return ( i_size.w <= this.w && i_size.h <= this.h ) ;
 		}
 		
-		public function isInnerSize_3( i_point:FLARDoublePoint2d ):Boolean
-		{ 
-			return ( i_point.x < this.w && i_point.y < this.h && 0 <= i_point.x && 0 <= i_point.y ) ;
-		}
-		
 		public function isInnerPoint( i_x:int , i_y:int ):Boolean
 		{ 
 			return ( i_x < this.w && i_y < this.h && 0 <= i_x && 0 <= i_y ) ;
