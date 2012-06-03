@@ -66,7 +66,10 @@ package org.libspark.flartoolkit.core.squaredetect
 			//assert( ! (( i_area.w * i_area.h > 0 ) ) );
 			var flagment:FLARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
 			var overlap:FLARLabelOverlapChecker = this._overlap_checker ;
-			this._labeling.labeling_2(i_raster , i_area , i_th) ;
+			//ラベルの生成エラーならここまで
+			if(!this._labeling.labeling_2(i_raster, i_area, i_th)){
+				return;
+			}
 			var label_num:int = flagment.getLength() ;
 			if( label_num < 1 ) {
 				return  ;
@@ -105,7 +108,10 @@ package org.libspark.flartoolkit.core.squaredetect
 			var flagment:FLARRleLabelFragmentInfoPtrStack = this._labeling.label_stack ;
 			var overlap:FLARLabelOverlapChecker = this._overlap_checker ;
 			flagment.clear() ;
-			this._labeling.labeling(i_raster,i_th) ;
+			//ラベルの生成エラーならここまで
+			if(!this._labeling.labeling(i_raster, i_th)){
+				return;
+			}
 			var label_num:int = flagment.getLength() ;
 			if( label_num < 1 ) {
 				return  ;
@@ -159,18 +165,20 @@ class Labeling extends FLARLabeling_Rle
 		this._right = i_width - 1 ;
 		return  ;
 	}
-	public override function labeling_2(i_raster:IFLARGrayscaleRaster , i_area:FLARIntRect , i_th:int ):void
+	public override function labeling_2(i_raster:IFLARGrayscaleRaster , i_area:FLARIntRect , i_th:int ):Boolean
 	{ 
 		this.label_stack.clear() ;
-		super.labeling_2(i_raster , i_area , i_th) ;
+		var ret:Boolean=super.labeling_2(i_raster , i_area , i_th) ;
 		this.label_stack.sortByArea() ;
+		return ret;
 	}
 	
-	public override function labeling(i_raster:IFLARGrayscaleRaster,i_th:int):void
+	public override function labeling(i_raster:IFLARGrayscaleRaster,i_th:int):Boolean
 	{ 
 		this.label_stack.clear() ;
-		super.labeling(i_raster,i_th) ;
+		var ret:Boolean=super.labeling(i_raster,i_th) ;
 		this.label_stack.sortByArea() ;
+		return ret;
 	}
 	
 	protected override function onLabelFound( i_label:FLARRleLabelFragmentInfo ):void

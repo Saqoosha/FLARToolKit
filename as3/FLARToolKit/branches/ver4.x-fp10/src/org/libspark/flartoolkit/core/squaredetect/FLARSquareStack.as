@@ -33,6 +33,7 @@ package org.libspark.flartoolkit.core.squaredetect
 	{
 		public function FLARSquareStack(i_length:int)
 		{
+			super();
 			super.initInstance(i_length);
 		}
 		protected function createArray(i_length:int):Vector.<Object>

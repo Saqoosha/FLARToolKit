@@ -85,7 +85,7 @@ package org.libspark.flartoolkit.core.raster
 		 */
 		public function isEqualBufferType(i_type_value:int):Boolean
 		{
-			return (this._buffer_type==i_type_value);
+			return this._buffer_type==i_type_value;
 		}
 		public function getGsPixelDriver():IFLARGsPixelDriver
 		{

@@ -54,6 +54,6 @@ package sample.pv3d
 			
 			// Markersystem Single marker sample
 //			this.addChild(new Simple());
-}
+		}
 	}
 }
