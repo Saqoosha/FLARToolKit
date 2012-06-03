@@ -28,7 +28,7 @@ package jp.nyatla.as3utils.sketch
 		}
 		public function setup():void
 		{
-			throw new Error("Must be ovgerride main()!");
+			throw new Error("Must be ovgerride setup()!");
 		}
 		/**
 		 * この関数はsetup関数の中で実行します。

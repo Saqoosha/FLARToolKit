@@ -53,7 +53,7 @@ package org.libspark.flartoolkit.core.raster
 		}
 		protected override function initInstance(i_size:FLARIntSize, i_raster_type:int, i_is_alloc:Boolean):void
 		{
-			if (i_raster_type != FLARBufferType.OBJECT_AS3_BitmapData) {
+			if (i_raster_type != FLARBufferType.OBJECT_AS3_BitmapData){
 				throw new FLARException();
 			}
 			this._buf = i_is_alloc?new BitmapData(i_size.w, i_size.h, false):null;

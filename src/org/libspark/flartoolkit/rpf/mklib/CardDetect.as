@@ -28,9 +28,8 @@
  */
 package org.libspark.flartoolkit.rpf.mklib 
 {
-	import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
-	import org.libspark.flartoolkit.rpf.reality.nyartk.FLARRealityTarget;
-
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.rpf.reality.nyartk.*;
 	/**
 	 * 未知の矩形を認識するサンプル。
 	 * 絶対的な寸法は求められないので、矩形の辺比率を推定して返します。
@@ -115,13 +114,12 @@ package org.libspark.flartoolkit.rpf.mklib
 		}
 		/**
 		 * p1->p2とp2->p3の作る角のsin値の絶対値を得ます。
-		 * final method.
 		 * @param p1
 		 * @param p2
 		 * @param p3
 		 * @return
 		 */
-		public static function getAbsSin(p1:FLARDoublePoint2d,p2:FLARDoublePoint2d,p3:FLARDoublePoint2d):Number
+		public final static function getAbsSin(p1:FLARDoublePoint2d,p2:FLARDoublePoint2d,p3:FLARDoublePoint2d):Number
 		{
 			var cp:Number=FLARDoublePoint2d.crossProduct3Point(p1,p2,p3);
 			cp/=(Math.sqrt(p1.sqDist(p2))*Math.sqrt(p2.sqDist(p3)));
@@ -129,7 +127,6 @@ package org.libspark.flartoolkit.rpf.mklib
 		}	
 	}
 }
-import org.libspark.flartoolkit.rpf.reality.nyartk.FLARRealityTarget;
 
 class UnknownRectInfo
 {
