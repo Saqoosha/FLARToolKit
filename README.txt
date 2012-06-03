@@ -37,7 +37,7 @@ contributors
  About FLARToolKit
 ----------------------------------------------------------------------
  * ARToolKit の AS3 版です。
- * Flash player 10 用
+ * Flash player 10 or later
  * A虎＠(nyatla)氏の NyARToolkit for AS3 を基盤にFLARToolKit v1.xの
    インターフェースを引き継いだライブラリ集です。
  * FLARToolKit は入力画像からマーカーを認識して、3 次元空間での
@@ -47,7 +47,7 @@ contributors
    (Papervision3D)
 
  # AS3 ported version of ARToolKit.
- # Flash player 10 or 11
+ # Flash player 10 or later
  # This is a library collection that succeeded the interface of
    FLARToolKit v1.x based on NyARToolkit for AS3(NOT Alchemy version).
  # FLARToolKit recognize the marker from input image.
@@ -139,7 +139,10 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
-4.0.0-fp10
+4.0.0-fp10 alpha 2
+ * FLARToolKit core v4.0.3
+ 
+4.0.0-fp10 alpha 1
  svn trunk of FLToolKit supports a higher version FlashPlayer 11.
  FLToolKit to support FP10 is managed by the branch.
  * Away3D v3.4 is not officially supported. Library is always experimental.
