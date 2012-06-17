@@ -227,8 +227,8 @@ package sample.pv3d.sketch
 			// 解析中のにちか画像を確認するための処理
 			if (isShowBinRaster) {
 				this.addChild(new Bitmap(arSensor.getBinImage(markerSys.getCurrentThreshold()).getBitmapData()));
-				renderer.render();
 			}
+			renderer.render();
 		}
 
 	}

@@ -29,6 +29,8 @@ package sample.away3d_4x
 {
 	import flash.display.Sprite;
 	
+	import sample.away3d_4x.sketch.Simple;
+	import sample.away3d_4x.sketch.SimpleModel;
 	import sample.away3d_4x.sketchSimple.*;
 	
 	[SWF(width=640, height=480, backgroundColor=0x808080, frameRate=30)]
@@ -36,7 +38,9 @@ package sample.away3d_4x
 	{
 		public function FLARToolKit_sample_Away3D()
 		{
-			this.addChild(new SimpleLite());
+//			this.addChild(new Simple());
+			this.addChild(new SimpleModel());
+//			this.addChild(new SimpleLite());
 //			this.addChild(new MarkerPlane());
 		}
 	}
