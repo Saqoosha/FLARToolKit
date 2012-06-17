@@ -6,9 +6,10 @@
 
 package
 {
-	import sample.pv3d.FLARToolKit_sample_PV3d;
+	import sample.away3d_4x.FLARToolKit_sample_Away3D;
+	//import sample.pv3d.FLARToolKit_sample_PV3d;
 	
-	public class Main extends FLARToolKit_sample_PV3d
+	public class Main extends FLARToolKit_sample_Away3D //FLARToolKit_sample_PV3d
 	{
 		public function Main()
 		{
