@@ -1,10 +1,18 @@
-package sample.pv3d.sketch
+package sample.away3d_4x.sketch
 {
+	import away3d.containers.ObjectContainer3D;
+	import away3d.containers.Scene3D;
+	import away3d.containers.View3D;
+	import away3d.core.partition.LightNode;
+	import away3d.lights.DirectionalLight;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
 	import flash.media.Camera;
 	import flash.media.Video;
 	
@@ -14,14 +22,8 @@ package sample.pv3d.sketch
 	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	import org.libspark.flartoolkit.markersystem.FLARMarkerSystemConfig;
 	import org.libspark.flartoolkit.markersystem.FLARSensor;
-	import org.libspark.flartoolkit.support.pv3d.FLARPV3DMarkerSystem;
-	import org.papervision3d.lights.PointLight3D;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.render.LazyRenderEngine;
-	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.view.Viewport3D;
-	
-	import sample.pv3d.sketchSimple.PV3DHelper;
+	import org.libspark.flartoolkit.support.away3dv40.FLARAway3DMarkerSystem;
+	import org.libspark.flartoolkit.support.away3dv40.FLARWebCamTexture;
 	
 	public class ARAppBase extends FLSketch
 	{
@@ -72,7 +74,7 @@ package sample.pv3d.sketch
 		/**
 		 * Marker System
 		 */
-		protected var markerSys:FLARPV3DMarkerSystem;
+		protected var markerSys:FLARAway3DMarkerSystem;
 		
 		/**
 		 * fileID 管理用
@@ -87,13 +89,12 @@ package sample.pv3d.sketch
 		/**
 		 * 表示モデルを一括して押し込めるコンテナ
 		 */
-		protected var container:DisplayObject3D;
+		protected var container:ObjectContainer3D;
 		
 		/**
 		 * 3D Renderer
-		 * @see org.papervision3d.render.LazyRenderEngine
 		 */
-		protected var renderer:LazyRenderEngine;
+		protected var view3d:View3D;
 		
 		/**
 		 * 二値化画像を表示するためのフラグ
@@ -142,33 +143,34 @@ package sample.pv3d.sketch
 		 */
 		public function supportLibsInit(): void
 		{
-			var light:PointLight3D = new PointLight3D();
-			light.x = 0;
-			light.y = 1000;
-			light.z = -1000;			
-			var viewport3d:Viewport3D = new Viewport3D(canvasWidth, canvasHeight);
+			// View3d初期化
+			view3d = new View3D(new Scene3D(), markerSys.getAway3DCamera());
+			// 起点
+			view3d.x = 0;
+			view3d.y = 0;
+			// サイズ
+			view3d.width  = stage.width;
+			view3d.height = stage.height;
 			
-			viewport3d.scaleX = canvasWidth / captureWidth;
-			viewport3d.scaleY = canvasHeight / captureHeight;
-			// ズレが生じるため調整。ズレる理由は不明。
-			viewport3d.x = -4;
-			addChild(viewport3d);
+			view3d.scaleX = canvasWidth / captureWidth;
+			view3d.scaleY = canvasHeight / captureHeight;
+			
+			view3d.background = new FLARWebCamTexture(captureWidth, captureHeight);
 			
 			//3d object
 			container = createObject();
 			container.visible = false;
 			
-			//scene
-			var s:Scene3D = new Scene3D();
-			s.addChild(container);
-			renderer = new LazyRenderEngine(s, markerSys.getPV3DCamera(), viewport3d);
+			view3d.scene.addChild(container);
 			
+			// Add View
+			addChild(view3d);
 		}
 		
 		/**
 		 * 3Dオブジェクト生成
 		 */
-		protected function createObject():DisplayObject3D
+		protected function createObject():ObjectContainer3D
 		{
 			throw new FLARException();
 		}
@@ -188,18 +190,16 @@ package sample.pv3d.sketch
 			video.clear();
 			video.attachCamera(webcam);
 			
-			// キャプチャーしている内容を addChild
-			addChild(video);
-			
 			// FLMarkerSystem
 			// make configlation
 			var markerSysConf:FLARMarkerSystemConfig = new FLARMarkerSystemConfig(getSketchFile(fileId[0]), rasterWidth, rasterHeight);
 			arSensor  = new FLARSensor(new FLARIntSize(rasterWidth, rasterHeight));
-			markerSys = new FLARPV3DMarkerSystem(markerSysConf);
+			markerSys = new FLARAway3DMarkerSystem(markerSysConf);
+			
 			//register AR Marker
 			marker_id = this.markerSys.addARMarker_2(getSketchFile(fileId[1]), 16, 25, 80);
 			
-			//setup PV3d
+			//setup Away3d
 			supportLibsInit();
 			
 			//start camera
@@ -218,18 +218,32 @@ package sample.pv3d.sketch
 			// update markersystem status
 			markerSys.update(arSensor);
 			
+			FLARWebCamTexture(view3d.background).update(video);
+			
 			if (markerSys.isExistMarker(marker_id)){
 				container.visible = true;
-				markerSys.getPv3dMarkerMatrix(marker_id, container.transform);
+				var resultMat:Matrix3D = new Matrix3D();
+				markerSys.getAway3dMarkerMatrix(marker_id, resultMat);
+				container.transform = resultMat;
+				_objectTransform(container);
+				
 			}else {
 				container.visible = false;
 			}
 			// 解析中のにちか画像を確認するための処理
 			if (isShowBinRaster) {
 				this.addChild(new Bitmap(arSensor.getBinImage(markerSys.getCurrentThreshold()).getBitmapData()));
-				renderer.render();
 			}
+			// 
+			view3d.render();
 		}
-
+		
+		/**
+		 * transmatを適応後に何かする場合はオーバーライドして実装すること。
+		 */
+		protected function _objectTransform(_container:ObjectContainer3D):void
+		{
+			// 何もしない
+		}
 	}
 }
