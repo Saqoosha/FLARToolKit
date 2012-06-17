@@ -125,6 +125,7 @@ Each license adjusts to the included library.
 ----------------------------------------------------------------------
  Development environment
 ----------------------------------------------------------------------
+ * Adobe FLASH Professional CS6(Version 12.0.0.481)
  * Adobe Flash Builder 4.5 Standard (Version 4.5)
    (Flex SDK 4.6.0)
  * FlashDevelop 4.0.1 + Flex SDK 4.6.0
@@ -146,6 +147,7 @@ Prof. Mark Billinghurst
  * Add Away3D v4.0.0beta library and sample application.
  * Delete Away3d v3.4.0 libraries and samples.
  * Flash Player 10 version move to a branch
+ * Change to FLASH CS6 from FLASH CS4
  
 4.0.0-fp10 alpha 1
  svn trunk of FLToolKit supports a higher version FlashPlayer 11.
