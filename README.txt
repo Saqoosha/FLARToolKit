@@ -125,8 +125,6 @@ Each license adjusts to the included library.
 ----------------------------------------------------------------------
  Development environment
 ----------------------------------------------------------------------
- * Adobe FLASH CS4 Professional (version 10.0.2)
-   (Flex SDK 4.6.0)
  * Adobe Flash Builder 4.5 Standard (Version 4.5)
    (Flex SDK 4.6.0)
  * FlashDevelop 4.0.1 + Flex SDK 4.6.0
