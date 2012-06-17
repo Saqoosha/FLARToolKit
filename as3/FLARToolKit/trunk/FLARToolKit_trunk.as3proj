@@ -8,7 +8,7 @@
     <movie fps="30" />
     <movie width="640" />
     <movie height="480" />
-    <movie version="10" />
+    <movie version="11" />
     <movie minorVersion="1" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
@@ -51,6 +51,7 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="libs\Papervision3D\Papervision3D_2.1.932.swc" />
+    <element path="libs\Away3d_4_0_0\away3d-core-fp11_4_0_0_beta.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
