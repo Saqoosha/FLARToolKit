@@ -36,7 +36,7 @@ package org.libspark.flartoolkit.markersystem.utils
 	/**
 	 * このクラスは、ARマーカの検出結果を保存するデータクラスです。
 	 */
-	public class MarkerInfoARMarker extends TMarkerData
+	public class ARMarkerList_Item extends TMarkerData
 	{
 		/** MK_ARの情報。比較のための、ARToolKitマーカを格納します。*/
 		public var matchpatt:FLARMatchPatt_Color_WITHOUT_PCA;
@@ -47,7 +47,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		/** MK_ARの情報。パターンのエッジ割合。*/
 		public var patt_edge_percentage:int;
 		/** */
-		public function MarkerInfoARMarker(i_patt:FLARCode,i_patt_edge_percentage:int,i_patt_size:Number)
+		public function ARMarkerList_Item(i_patt:FLARCode,i_patt_edge_percentage:int,i_patt_size:Number)
 		{
 			super();
 			this.matchpatt=new FLARMatchPatt_Color_WITHOUT_PCA(i_patt);

@@ -26,19 +26,36 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.markersystem.utils 
+package org.libspark.flartoolkit.markersystem.utils
 {
-	import org.libspark.flartoolkit.core.utils.*;
-	/**
-	 * ...
-	 * @author nyatla
-	 */
-	public class ARMarkerSortList_Item extends FLARLinkList_Item
-	{
-		public var marker:ARMarkerList_Item;
-		public var cf:Number;
-		public var dir:int;
-		public var ref_sq:SquareStack_Item;		
-	}
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.types.FLARIntPoint2d;
+	import org.libspark.flartoolkit.psarplaycard.PsARPlayCardPickup;
 
+	public class ARPlayCardList_Item extends TMarkerData
+	{
+		/** Idの情報。 反応するidの開始レンジ*/
+		public var nyid_range_s:int;
+		/** Idの情報。 反応するidの終了レンジ*/
+		public var nyid_range_e:int;
+		/** Idの情報。 実際のid値*/
+		public var id:int;
+		public var dir:int;
+		/**
+		 * コンストラクタです。初期値から、Idマーカのインスタンスを生成します。
+		 * @param i_range_s
+		 * @param i_range_e
+		 * @param i_patt_size
+		 * @throws FLARException
+		 */
+		public function ARPlayCardList_Item(i_id_range_s:int,i_id_range_e:int,i_patt_size:Number)
+		{
+			super();
+			this.marker_offset.setSquare(i_patt_size);
+			this.nyid_range_s=i_id_range_s;
+			this.nyid_range_e=i_id_range_e;
+			return;
+		}		
+	}
 }

@@ -26,6 +26,7 @@
  *	<saq(at)saqoosha.net>
  * 
  */
+ 
 package org.libspark.flartoolkit.markersystem.utils
 {
 
@@ -34,7 +35,7 @@ package org.libspark.flartoolkit.markersystem.utils
 	/**
 	 * このクラスは、NyIdマーカの検出結果を保存するデータクラスです。
 	 */
-	public class MarkerInfoNyId extends TMarkerData
+	public class NyIdList_Item extends TMarkerData
 	{
 		/** MK_NyIdの情報。 反応するidの開始レンジ*/
 		public var nyid_range_s:Number;
@@ -50,7 +51,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		 * @param i_patt_size
 		 * @throws FLARException
 		 */
-		public function MarkerInfoNyId(i_nyid_range_s:Number,i_nyid_range_e:Number,i_patt_size:Number)
+		public function NyIdList_Item(i_nyid_range_s:Number,i_nyid_range_e:Number,i_patt_size:Number)
 		{
 			super();
 			this.marker_offset.setSquare(i_patt_size);

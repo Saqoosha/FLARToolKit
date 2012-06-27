@@ -54,7 +54,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		/**
 		 * このAdd以外使わないでね。
 		 */
-		public function add_2(i_e:MarkerInfoARMarker):Boolean
+		public function add_2(i_e:ARMarkerList_Item):Boolean
 		{
 			//マッチテーブルのサイズを調整
 			var s:int=this.size()+1;
@@ -83,7 +83,7 @@ package org.libspark.flartoolkit.markersystem.utils
 			//sq_tmpに値を生成したかのフラグ
 			var is_ganalated_sq:Boolean=false;
 			for(var i:int=this.size()-1;i>=0;i--){
-				var target:MarkerInfoARMarker=MarkerInfoARMarker(this.getItem(i));
+				var target:ARMarkerList_Item=ARMarkerList_Item(this.getItem(i));
 				//解像度に一致する画像を取得
 				var diff:FLARMatchPattDeviationColorData=this._mpickup.getDeviationColorData(target, i_pix_drv,i_sq.ob_vertex);
 				//マーカのパターン解像度に一致したサンプリング画像と比較する。
@@ -121,7 +121,7 @@ package org.libspark.flartoolkit.markersystem.utils
 			
 			//検出のために初期値設定
 			for(var i:int=this.size()-1;i>=0;i--){
-				var target:MarkerInfoARMarker=MarkerInfoARMarker(this.getItem(i));
+				var target:ARMarkerList_Item=ARMarkerList_Item(this.getItem(i));
 				if(target.life>0){
 					target.lost_count++;
 				}
@@ -134,7 +134,7 @@ package org.libspark.flartoolkit.markersystem.utils
 			//アイテムを検出できなくなるまで、一致率が高い順にアイテムを得る。
 			while(top_item!=null){
 				//検出したアイテムのARmarkerIndexのデータをセット
-				var target:MarkerInfoARMarker=top_item.marker;
+				var target:ARMarkerList_Item=top_item.marker;
 				if(target.lost_count>0){
 					//未割当のマーカのみ検出操作を実行。
 					target.cf=top_item.cf;

@@ -1,12 +1,14 @@
 /* 
- * PROJECT: FLARToolKit
+ * PROJECT: FLARToolkitAS3
  * --------------------------------------------------------------------------------
- * This work is based on the FLARToolKit developed by
- *   R.Iizuka (nyatla)
- * http://nyatla.jp/nyatoolkit/
+ * This work is based on the original ARToolKit developed by
+ *   Hirokazu Kato
+ *   Mark Billinghurst
+ *   HITLab, University of Washington, Seattle
+ * http://www.hitl.washington.edu/artoolkit/
  *
- * The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
- * Copyright (C)2008 Saqoosha
+ * The FLARToolkitAS3 is AS3 edition ARToolKit class library.
+ * Copyright (C)2010 Ryo Iizuka
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +24,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * For further information please contact.
- *	http://www.libspark.org/wiki/saqoosha/FLARToolKit
- *	<saq(at)saqoosha.net>
+ *	http://nyatla.jp/nyatoolkit/
+ *	<airmail(at)ebony.plala.or.jp> or <nyatla(at)nyatla.jp>
  * 
  */
 package org.libspark.flartoolkit.nyidmarker 
@@ -781,8 +783,8 @@ class PerspectivePixelReader
 				ref_y[pt]=yy=(int)((cpx3_0+cpy0_45)/d);
 				if(xx<0 || xx>=raster_width || yy<0 || yy>=raster_height)
 				{
-					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:raster_width);
-					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:raster_height);
+					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:xx);
+					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:yy);
 				}
 				pt++;
 
@@ -791,8 +793,8 @@ class PerspectivePixelReader
 				ref_y[pt]=yy=(int)((cpx3_0+cpy1_45)/d);
 				if(xx<0 || xx>=raster_width || yy<0 || yy>=raster_height)
 				{
-					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:raster_width);
-					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:raster_height);
+					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:xx);
+					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:yy);
 				}
 				pt++;
 
@@ -801,8 +803,8 @@ class PerspectivePixelReader
 				ref_y[pt]=yy=(int)((cpx3_1+cpy0_45)/d);
 				if(xx<0 || xx>=raster_width || yy<0 || yy>=raster_height)
 				{
-					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:raster_width);
-					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:raster_height);
+					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:xx);
+					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:yy);
 				}
 				pt++;
 
@@ -811,8 +813,8 @@ class PerspectivePixelReader
 				ref_y[pt]=yy=(int)((cpx3_1+cpy1_45)/d);
 				if(xx<0 || xx>=raster_width || yy<0 || yy>=raster_height)
 				{
-					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:raster_width);
-					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:raster_height);
+					ref_x[pt]=xx<0?0:(xx>=raster_width?raster_width-1:xx);
+					ref_y[pt]=yy<0?0:(yy>=raster_height?raster_height-1:yy);
 				}
 				pt++;
 			}
