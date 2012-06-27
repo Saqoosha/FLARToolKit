@@ -29,31 +29,27 @@
 package org.libspark.flartoolkit.markersystem.utils
 {
 	import jp.nyatla.as3utils.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.nyidmarker.*;
-	import org.libspark.flartoolkit.nyidmarker.data.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.types.FLARIntPoint2d;
+	import org.libspark.flartoolkit.psarplaycard.*;
 
 	/**
-	 * このクラスは、NyIdの検出結果をマッピングします。
+	 * このクラスは、ARプレイカードの検出結果をマッピングします。
 	 */
-	public class NyIdList extends NyAS3ArrayList
+	public class ARPlayCardList extends NyAS3ArrayList
 	{
 		/**輪郭推定器*/
-		private var _id_pickup:NyIdMarkerPickup;
-		private var _id_patt:NyIdMarkerPattern=new NyIdMarkerPattern();
-		private var _id_param:NyIdMarkerParam=new NyIdMarkerParam();
-		private var _id_encoder:NyIdMarkerDataEncoder_RawBitId=new NyIdMarkerDataEncoder_RawBitId();
-		private var _id_data:NyIdMarkerData_RawBitId=new NyIdMarkerData_RawBitId();
-		public function NyIdList()
+		private var _pickup:PsARPlayCardPickup;
+		private var _id_param:PsARPlayCardPickup_PsArIdParam =new PsARPlayCardPickup_PsArIdParam();
+		public function ARPlayCardList()
 		{
-			this._id_pickup = new NyIdMarkerPickup();
+			this._pickup = new PsARPlayCardPickup();
 		}
 		public function prepare():void
 		{
 			for(var i:int=this.size()-1;i>=0;i--){
-				var target:NyIdList_Item=NyIdList_Item(this.getItem(i));//get(i);
+				var target:ARPlayCardList_Item=ARPlayCardList_Item(this.getItem(i));
 				if(target.life>0){
 					target.lost_count++;
 				}
@@ -62,17 +58,14 @@ package org.libspark.flartoolkit.markersystem.utils
 		}
 		public function update(i_raster:IFLARGrayscaleRaster,i_sq:SquareStack_Item):Boolean
 		{
-			if(!this._id_pickup.pickFromRaster_2(i_raster.getGsPixelDriver(),i_sq.ob_vertex, this._id_patt, this._id_param))
+			if(!this._pickup.getARPlayCardId(i_raster.getGsPixelDriver(),i_sq.ob_vertex,this._id_param))
 			{
 				return false;
 			}
-			if(!this._id_encoder.encode(this._id_patt,this._id_data)){
-				return false;
-			}
 			//IDを検出
-			var s:Number=this._id_data.marker_id;
+			var s:int=this._id_param.id;
 			for(var i:int=this.size()-1;i>=0;i--){
-				var target:NyIdList_Item=NyIdList_Item(this.getItem(i));
+				var target:ARPlayCardList_Item=ARPlayCardList_Item(this.getItem(i));
 				if(target.nyid_range_s>s || s>target.nyid_range_e)
 				{
 					continue;
@@ -82,7 +75,7 @@ package org.libspark.flartoolkit.markersystem.utils
 					continue;
 				}
 				//一致したよー。
-				target.nyid=s;
+				target.id=s;
 				target.dir=this._id_param.direction;
 				target.sq=i_sq;
 				return true;
@@ -93,7 +86,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		{
 			for(var i:int=this.size()-1;i>=0;i--)
 			{
-				var target:NyIdList_Item=NyIdList_Item(this.getItem(i));
+				var target:ARPlayCardList_Item=ARPlayCardList_Item(this.getItem(i));
 				if(target.sq==null){
 					continue;
 				}

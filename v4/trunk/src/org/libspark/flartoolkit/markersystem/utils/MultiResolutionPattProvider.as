@@ -51,7 +51,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		 * [readonly]マーカにマッチした{@link FLARMatchPattDeviationColorData}インスタンスを得る。
 		 * @throws FLARException 
 		 */
-		public function getDeviationColorData(i_marker:MarkerInfoARMarker,i_pix_drv:IFLARPerspectiveCopy,i_vertex:Vector.<FLARIntPoint2d>):FLARMatchPattDeviationColorData
+		public function getDeviationColorData(i_marker:ARMarkerList_Item,i_pix_drv:IFLARPerspectiveCopy,i_vertex:Vector.<FLARIntPoint2d>):FLARMatchPattDeviationColorData
 		{
 			var mk_edge:int=i_marker.patt_edge_percentage;
 			for(var i:int=this.items.length-1;i>=0;i--)
