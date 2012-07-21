@@ -19,7 +19,7 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="libs/Papervision3D/Papervision3D_2.1.932.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="libs/Away3d_4_0_0/away3d-core-fp11_4_0_0_beta.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="libs/Away3d_4_0_0/away3d-core-fp11_4_0_7_gold.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
