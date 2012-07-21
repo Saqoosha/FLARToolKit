@@ -142,6 +142,9 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+4.0.0-fp11
+ * Away3D update to v4.0.7 Gold from v4.0.0 beta.
+
 4.0.0-fp11 alpha 2
  * FLARToolKit core v4.0.3
  * Add Away3D v4.0.0beta library and sample application.
