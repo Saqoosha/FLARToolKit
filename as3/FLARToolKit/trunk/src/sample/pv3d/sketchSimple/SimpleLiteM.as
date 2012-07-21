@@ -1,27 +1,31 @@
 package sample.pv3d.sketchSimple 
 {
-	import flash.media.*;
+	import flash.display.*;
+	import flash.events.*;
 	import flash.geom.*;
+	import flash.media.*;
 	import flash.net.*;
 	import flash.text.*;
-    import flash.display.*; 
-    import flash.events.*;
-    import flash.utils.*;
-	import jp.nyatla.as3utils.sketch.*;
+	import flash.utils.*;
+	
 	import jp.nyatla.as3utils.*;
-	import org.libspark.flartoolkit.core.types.*;
+	import jp.nyatla.as3utils.sketch.*;
+	
 	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.markersystem.*;
 	import org.libspark.flartoolkit.support.pv3d.*;
-	import org.papervision3d.render.*;
-	import org.papervision3d.view.*;
-	import org.papervision3d.objects.*;
 	import org.papervision3d.lights.*;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shadematerials.*;
-	import org.papervision3d.objects.primitives.*;
 	import org.papervision3d.materials.utils.*;
+	import org.papervision3d.objects.*;
+	import org.papervision3d.objects.parsers.DAE;
+	import org.papervision3d.objects.primitives.*;
+	import org.papervision3d.render.*;
 	import org.papervision3d.scenes.*;
+	import org.papervision3d.view.*;
+
 	/**
 	 * MarkerSystemを使ったSimpleLiteMの実装です。
 	 * hiroマーカ、FLARLogoマーカの２つを同時に認識します。
@@ -92,8 +96,20 @@ package sample.pv3d.sketchSimple
 			//3d object
 			this.marker1_node = PV3DHelper.createFLARCube(light,80,0x00ff00, 0x0);
 			this.marker1_node.visible = false;
-			this.marker2_node = PV3DHelper.createFLARCube(light,80,0xff0000, 0x0);
+			
+			// marker 2 - cube
+//			this.marker2_node = PV3DHelper.createFLARCube(light,80,0xff0000, 0x0);
+//			this.marker2_node.visible = false;
+			
+			// marker 2 - model
+			var earth:DAE = new DAE();
+			earth.load("./resources/model/earth.dae");
+			earth.scale = 10;
+			
+			this.marker2_node = new DisplayObject3D();
+			this.marker2_node.addChild(earth);
 			this.marker2_node.visible = false;
+			
 			//scene
 			var s:Scene3D = new Scene3D();
 			s.addChild(this.marker1_node);
