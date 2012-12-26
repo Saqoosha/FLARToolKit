@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -30,10 +30,10 @@
 
 package org.libspark.flartoolkit.pv3d {
 	
+	import org.libspark.flartoolkit.core.FLARMat;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.core.param.FLARParam;
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.math.Matrix3D;

@@ -33,8 +33,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 	import org.libspark.flartoolkit.core.IFLARDisposable;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.squaredetect.FLARSquare;
-	import org.libspark.flartoolkit.core.transmat.FLARRectOffset;
-	import org.libspark.flartoolkit.core.transmat.FLARTransMatResult;
+	import org.libspark.flartoolkit.core.transmat.*;
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.types.matrix.FLARDoubleMatrix44;
 	import org.libspark.flartoolkit.core.utils.FLARManagedObject;
@@ -104,8 +103,9 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 
 		/** 内部向けの公開メンバ変数です。{@link #getSerialId}を使ってください。*/
 		public var _serial:Number;
-		/** 内部向けの公開メンバ変数です。{@link #refTransformMatrix}を使ってください。*/
-		public var _transform_matrix:FLARTransMatResult=new FLARTransMatResult();
+		/** 内部向けのメンバ変数です。{@link #refTransformMatrix}を使ってください。*/
+		public var _transform_matrix:FLARDoubleMatrix44=new FLARDoubleMatrix44();
+		public var _result_param:FLARTransMatResultParam=new FLARTransMatResultParam();
 
 		/** ターゲットの種類。未知のターゲット。*/
 		public static const RT_UNKNOWN:int   =0;
@@ -133,7 +133,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 		 * この値は変更しないでください。（編集するときは、コピーを作ってください。）
 		 * @return
 		 */
-		public function refTransformMatrix():FLARTransMatResult
+		public function refTransformMatrix():FLARDoubleMatrix44
 		{
 			//assert(this._target_type==RT_KNOWN);
 			return this._transform_matrix;

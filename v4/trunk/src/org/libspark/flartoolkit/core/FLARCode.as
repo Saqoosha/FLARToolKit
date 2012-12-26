@@ -42,7 +42,14 @@ package org.libspark.flartoolkit.core
 		private var _bw_pat:Vector.<FLARMatchPattDeviationBlackWhiteData>=new Vector.<FLARMatchPattDeviationBlackWhiteData>(4);
 		private var _width:int;
 		private var _height:int;
-		
+	
+		public static function createFromARPattFile(i_stream:String,i_width:int,i_height:int):FLARCode
+		{
+			//ラスタにパターンをロードする。
+			var ret:FLARCode=new FLARCode(i_width,i_height);
+			FLARCodeFileReader.loadFromARToolKitFormFile(i_stream,ret);
+			return ret;
+		}		
 		public function getColorData(i_index:int):FLARMatchPattDeviationColorData
 		{
 			return this._color_pat[i_index];
@@ -69,11 +76,6 @@ package org.libspark.flartoolkit.core
 				this._color_pat[i]=new FLARMatchPattDeviationColorData(i_width,i_height);
 				this._bw_pat[i]=new FLARMatchPattDeviationBlackWhiteData(i_width,i_height);
 			}
-			return;
-		}
-		public function loadARPatt(i_stream:String):void
-		{
-			FLARCodeFileReader.loadFromARToolKitFormFile(i_stream,this);
 			return;
 		}
 		/**

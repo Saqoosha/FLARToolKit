@@ -49,6 +49,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		public function ARMarkerList()
 		{
 			this._mkmap=new ARMarkerSortList();//初期値1マーカ
+			//sqはtrackingでnull初期化済み
 			return;
 		}
 		/**

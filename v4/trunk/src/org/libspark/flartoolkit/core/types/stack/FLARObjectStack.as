@@ -134,7 +134,7 @@ package org.libspark.flartoolkit.core.types.stack
 				//要素をシフト
 				super.remove(i_index);
 				//外したオブジェクトを末端に取り付ける
-				this._items[i_index]=item;
+				this._items[this._length]=item;
 			}
 			this._length--;
 		}

@@ -51,14 +51,10 @@ package org.libspark.flartoolkit.markersystem
 	 * このクラスは、ARToolKit固有の座標系を出力します。他の座標系を出力するときには、継承クラスで変換してください。
 	 * レンダリングシステム毎にクラスを派生させて使います。Javaの場合には、OpenGL用の{@link FLARGlMarkerSystem}クラスがあります。
 	 */
-	public class FLARMarkerSystem_BaseClass_
+	public class FLARMarkerSystem_BaseClass_ extends FLARSingleCameraSystem
 	{
 		/**　定数値。自動敷居値を示す値です。　*/
 		public const THLESHOLD_AUTO:int=0x7fffffff;
-		/** 定数値。視錐台のFARパラメータの初期値[mm]です。*/
-		public const FRUSTUM_DEFAULT_FAR_CLIP:Number=10000;
-		/** 定数値。視錐台のNEARパラメータの初期値[mm]です。*/
-		public const FRUSTUM_DEFAULT_NEAR_CLIP:Number=10;
 		/** マーカ消失時の、消失までのﾃﾞｨﾚｲ(フレーム数)の初期値です。*/
 		public const LOST_DELAY_DEFAULT:int=5;
 		
@@ -70,8 +66,6 @@ package org.libspark.flartoolkit.markersystem
 		private const IDTYPE_PSID:int=0x00002000;
 
 		protected var _sqdetect:IFLARMarkerSystemSquareDetect;
-		protected var _ref_param:FLARParam;
-		protected var _frustum:FLARFrustum;
 		private var _last_gs_th:int;
 		private var _bin_threshold:int=THLESHOLD_AUTO;
 
@@ -92,10 +86,8 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		public function FLARMarkerSystem_BaseClass_(i_config:IFLARMarkerSystemConfig)
 		{
-			this._ref_param=i_config.getFLARParam();
-			this._frustum=new FLARFrustum();
+			super(i_config.getFLARParam());			
 			this.initInstance(i_config);
-			this.setProjectionMatrixClipping(FRUSTUM_DEFAULT_NEAR_CLIP, FRUSTUM_DEFAULT_FAR_CLIP);
 			
 			this._armk_list=new ARMarkerList();
 			this._idmk_list = new NyIdList();
@@ -104,43 +96,12 @@ package org.libspark.flartoolkit.markersystem
 			
 			this._transmat=i_config.createTransmatAlgorism();
 			//同時に判定待ちにできる矩形の数
-			this._sq_stack=new SquareStack(INITIAL_MARKER_STACK_SIZE);			
-			this._on_sq_handler=new OnSquareDetect(i_config,this._armk_list,this._idmk_list,this._psmk_list,this._tracking_list,this._sq_stack);
+			this._on_sq_handler = new OnSquareDetect(i_config, this._armk_list, this._idmk_list, this._psmk_list, this._tracking_list, INITIAL_MARKER_STACK_SIZE);
 		}
 		protected function initInstance(i_ref_config:IFLARMarkerSystemConfig):void
 		{
 			this._sqdetect=new SquareDetect(i_ref_config);
 			this._hist_th=i_ref_config.createAutoThresholdArgorism();
-		}
-		/**
-		 * 現在のフラスタムオブジェクトを返します。
-		 * @return
-		 * [readonly]
-		 */
-		public function getFrustum():FLARFrustum
-		{
-			return this._frustum;
-		}
-		/**
-		 * 現在のカメラパラメータオブジェクトを返します。
-		 * @return
-		 * [readonly]
-		 */
-		public function getARParam():FLARParam
-		{
-			return this._ref_param;
-		}	
-		/**
-		 * 視錐台パラメータを設定します。
-		 * @param i_near
-		 * 新しいNEARパラメータ
-		 * @param i_far
-		 * 新しいFARパラメータ
-		 */
-		public function setProjectionMatrixClipping(i_near:Number,i_far:Number):void
-		{
-			var s:FLARIntSize=this._ref_param.getScreenSize();
-			this._frustum.setValue_2(this._ref_param.getPerspectiveProjectionMatrix(),s.w,s.h,i_near,i_far);
 		}
 		/**
 		 * この関数は、1個のIdマーカをシステムに登録して、検出可能にします。
@@ -179,6 +140,7 @@ package org.libspark.flartoolkit.markersystem
 				throw new FLARException();
 			}
 			this._tracking_list.add(target);
+			this._on_sq_handler.setMaxDetectMarkerCapacity(this._tracking_list.size());
 			return (this._idmk_list.size()-1)|IDTYPE_NYID;
 		}
 		/**
@@ -205,6 +167,7 @@ package org.libspark.flartoolkit.markersystem
 				throw new FLARException();
 			}
 			this._tracking_list.add(target);
+			this._on_sq_handler.setMaxDetectMarkerCapacity(this._tracking_list.size());
 			return (this._psmk_list.size()-1)|IDTYPE_PSID;
 		}
 		/**
@@ -241,6 +204,7 @@ package org.libspark.flartoolkit.markersystem
 				throw new FLARException();
 			}
 			this._tracking_list.add(target);
+			this._on_sq_handler.setMaxDetectMarkerCapacity(this._tracking_list.size());
 			return (this._armk_list.size()-1)| IDTYPE_ARTK;
 		}
 		/**
@@ -257,8 +221,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		public function addARMarker_2(i_stream:String,i_patt_resolution:int,i_patt_edge_percentage:int,i_marker_size:Number):int
 		{
-			var c:FLARCode=new FLARCode(i_patt_resolution,i_patt_resolution);
-			c.loadARPatt(i_stream);
+			var c:FLARCode=FLARCode.createFromARPattFile(i_stream,i_patt_resolution,i_patt_resolution);			
 			return this.addARMarker(c, i_patt_edge_percentage, i_marker_size);
 		}
 		/**
@@ -280,6 +243,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		public function addARMarker_3(i_raster:IFLARRgbRaster, i_patt_resolution:int, i_patt_edge_percentage:int, i_marker_size:Number):int
 		{
+			
 			var c:FLARCode=new FLARCode(i_patt_resolution,i_patt_resolution);
 			var s:FLARIntSize=i_raster.getSize();
 			//ラスタからマーカパターンを切り出す。
@@ -288,8 +252,7 @@ package org.libspark.flartoolkit.markersystem
 			pc.copyPatt_3(0,0,s.w,0,s.w,s.h,0,s.h,i_patt_edge_percentage, i_patt_edge_percentage,4, tr);
 			//切り出したパターンをセット
 			c.setRaster_2(tr);
-			this.addARMarker(c,i_patt_edge_percentage,i_marker_size);
-			return 0;
+			return this.addARMarker(c, i_patt_edge_percentage, i_marker_size);
 		}
 		
 		
@@ -613,16 +576,14 @@ package org.libspark.flartoolkit.markersystem
 			}
 			var th:int=this._bin_threshold==THLESHOLD_AUTO?this._hist_th.getThreshold(i_sensor.getGsHistogram()):this._bin_threshold;
 
-			this._sq_stack.clear();//矩形情報の保持スタック初期化		
 			//解析
 			this._tracking_list.prepare();
 			this._idmk_list.prepare();
 			this._armk_list.prepare();
 			this._psmk_list.prepare();
-			//検出処理
-			this._on_sq_handler._ref_input_rfb=i_sensor.getPerspectiveCopy();
-			this._on_sq_handler._ref_input_gs = i_sensor.getGsImage();
+
 			//検出
+			this._on_sq_handler.prepare(i_sensor.getPerspectiveCopy(),i_sensor.getGsImage(),th);
 			this._sqdetect.detectMarkerCb(i_sensor,th,this._on_sq_handler);
 
 			//検出結果の反映処理
@@ -635,7 +596,16 @@ package org.libspark.flartoolkit.markersystem
 			for(i=this._tracking_list.size()-1;i>=0;i--){
 				var item:TMarkerData=TMarkerData(this._tracking_list.getItem(i));
 				if(item.lost_count>this.lost_th){
+					//連続で検出できなかった場合
 					item.life=0;//活性off
+				}else if(item.sq!=null){
+					//直前のsqを検出できた場合
+					if(!this._transmat.transMatContinue(item.sq,item.marker_offset,item.tmat,item.last_param.last_error,item.tmat,item.last_param))
+					{
+						if(!this._transmat.transMat(item.sq,item.marker_offset,item.tmat,item.last_param)){
+							item.life=0;//活性off
+						}
+					}
 				}
 			}
 			//各ターゲットの更新
@@ -643,21 +613,33 @@ package org.libspark.flartoolkit.markersystem
 				var target1:TMarkerData=TMarkerData(this._armk_list.getItem(i));
 				if(target1.lost_count==0){
 					target1.time_stamp=time_stamp;
-					this._transmat.transMatContinue(target1.sq,target1.marker_offset,target1.tmat,target1.tmat);
+					//lifeが1(開始時検出のときのみ)
+					if(target1.life!=1){
+						continue;
+					}
+					this._transmat.transMat(target1.sq,target1.marker_offset,target1.tmat,target1.last_param);
 				}
 			}
 			for(i=this._idmk_list.size()-1;i>=0;i--){
 				var target2:TMarkerData=TMarkerData(this._idmk_list.getItem(i));
 				if(target2.lost_count==0){
 					target2.time_stamp=time_stamp;
-					this._transmat.transMatContinue(target2.sq,target2.marker_offset,target2.tmat,target2.tmat);
+					//lifeが1(開始時検出のときのみ)
+					if(target2.life!=1){
+						continue;
+					}
+					this._transmat.transMat(target2.sq,target2.marker_offset,target2.tmat,target2.last_param);
 				}
 			}
 			for(i=this._psmk_list.size()-1;i>=0;i--){
 				var target3:TMarkerData =TMarkerData(this._psmk_list.getItem(i));
 				if(target3.lost_count==0){
 					target3.time_stamp=time_stamp;
-					this._transmat.transMatContinue(target3.sq,target3.marker_offset,target3.tmat,target3.tmat);
+					//lifeが1(開始時検出のときのみ)
+					if(target3.life!=1){
+						continue;
+					}
+					this._transmat.transMat(target3.sq,target3.marker_offset,target3.tmat,target3.last_param);
 				}
 			}
 			//タイムスタンプを更新
@@ -693,14 +675,14 @@ class OnSquareDetect implements FLARSquareContourDetector_CbHandler
 	private var _ref_armk_list:ARMarkerList;
 	private var _ref_idmk_list:NyIdList;
 	private var _ref_psmk_list:ARPlayCardList;
-	private var _ref_sq_stack:SquareStack;
+	public var _sq_stack:SquareStack;
 	public var _ref_input_rfb:IFLARPerspectiveCopy;
 	public var _ref_input_gs:IFLARGrayscaleRaster;	
-	
+	public var _ref_th:int;	
 	private var _coordline:FLARCoord2Linear;
 	public function OnSquareDetect(i_config:IFLARMarkerSystemConfig,
 		i_armk_list:ARMarkerList, i_idmk_list:NyIdList, i_psmk_list:ARPlayCardList,
-		i_tracking_list:TrackingList ,i_ref_sq_stack:SquareStack)
+		i_tracking_list:TrackingList, i_initial_stack_size:int)
 	{
 		this._coordline=new FLARCoord2Linear(i_config.getFLARParam().getScreenSize(),i_config.getFLARParam().getDistortionFactor());
 		this._ref_armk_list=i_armk_list;
@@ -708,13 +690,46 @@ class OnSquareDetect implements FLARSquareContourDetector_CbHandler
 		this._ref_psmk_list=i_psmk_list;
 		this._ref_tracking_list=i_tracking_list;
 		//同時に判定待ちにできる矩形の数
-		this._ref_sq_stack=i_ref_sq_stack;
+		this._sq_stack=new SquareStack(i_initial_stack_size);
 	}
+	/**
+	 * 同時に検出するマーカの最大数を設定します。
+	 * 関数は、少なくともi_max_number_of_marker以上のマーカを同時に検出できるようにインスタンスを設定します。
+	 * @throws FLARException 
+	 */
+	public function setMaxDetectMarkerCapacity(i_max_number_of_marker:int):void
+	{
+		//prepare enough stack size.
+		if(this._sq_stack.getArraySize()<i_max_number_of_marker){
+			this._sq_stack=new SquareStack(i_max_number_of_marker+5);
+		}
+		return;
+	}
+	/**
+	 * {@link #detectMarkerCallback}コール前に1度だけ呼び出してください。
+	 * @param i_max_detect_marker
+	 * @param i_pcopy
+	 * @param i_gs
+	 * @param th
+	 * @throws FLARException
+	 */
+	public function prepare(i_pcopy:IFLARPerspectiveCopy,i_gs:IFLARGrayscaleRaster,th:int):void
+	{
+		this._ref_input_rfb=i_pcopy;
+		this._ref_input_gs=i_gs;
+		this._ref_th=th;
+		// initialize square stack
+		this._sq_stack.clear();		
+	}	
 	public function detectMarkerCallback(i_coord:FLARIntCoordinates,i_vertex_index:Vector.<int>):void
 	{
-		var i2:int;
 		//とりあえずSquareスタックを予約
-		var sq_tmp:SquareStack_Item=SquareStack_Item(this._ref_sq_stack.prePush());
+		var sq_tmp:SquareStack_Item=SquareStack_Item(this._sq_stack.prePush());
+		//確保できない(1つのdetectorが複数の候補を得る場合(同じARマーカが多くある場合など)に発生することがある。)
+		if(sq_tmp==null){
+			return;
+		}		
+		var i2:int;
 		//観測座標点の記録
 		for(i2=0;i2<4;i2++){
 			sq_tmp.ob_vertex[i2].setValue(i_coord.items[i_vertex_index[i2]]);
@@ -774,7 +789,7 @@ class OnSquareDetect implements FLARSquareContourDetector_CbHandler
 			}
 		}else{
 			//この矩形は検出対象にマークされなかったので、解除
-			this._ref_sq_stack.pop();
+			this._sq_stack.pop();
 		}
 	}
 }

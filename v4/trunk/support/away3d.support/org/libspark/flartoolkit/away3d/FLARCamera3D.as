@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -36,7 +36,7 @@ package org.libspark.flartoolkit.away3d
 	import away3d.core.math.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.types.*;	
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {

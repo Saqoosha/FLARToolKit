@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -33,7 +33,7 @@ package org.libspark.flartoolkit.alternativa3d
 	import alternativa.engine3d.core.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.types.*;	
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
@@ -43,21 +43,21 @@ package org.libspark.flartoolkit.alternativa3d
 		public function FLARCamera3D(param:FLARParam = null)
 		{
 			super(NEAR_CLIP, FAR_CLIP);
-			if (param) {
+			if (!param) {
 				this.setParam(param,NEAR_CLIP,FAR_CLIP);
 			}else {
-				this.setParam(this._ref_param, NEAR_CLIP, FAR_CLIP);
+				this.setParam(FLARParam.createDefaultParameter(), NEAR_CLIP, FAR_CLIP);
 			}
 			this.x = 0;
 			this.y = 0;
 			this.z = 0;
 		}
-		private var _ref_param:FLARParam = new FLARParam();
+		private var _ref_param:FLARParam;
 		private var _frustum:FLARFrustum = new FLARFrustum();
 		public function setParam(param:FLARParam,i_near:int,i_far:int):void
 		{
-			var s:FLARIntSize = this._ref_param.getScreenSize();
-			this._frustum.setValue_2(this._ref_param.getPerspectiveProjectionMatrix(), s.w, s.h,i_near,i_far);
+			var s:FLARIntSize = param.getScreenSize();
+			this._frustum.setValue_2(param.getPerspectiveProjectionMatrix(), s.w, s.h,i_near,i_far);
 			var ap:FLARFrustum_PerspectiveParam = this._frustum.getPerspectiveParam(new FLARFrustum_PerspectiveParam());
 			this._ref_param = param;
 			this.nearClipping = i_near;

@@ -32,7 +32,7 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
 	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup;
 	import org.libspark.flartoolkit.core.types.*;
@@ -58,11 +58,13 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 		 * エッジ探索用のROB画像
 		 * @param 
 		 */
-		public function FLARVectorReader_Bitmapdata(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:FLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster)
+		public function FLARVectorReader_Bitmapdata(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:IFLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster)
 		{
 			super(i_ref_raster,i_ref_raster_distortion,i_ref_rob_raster,new FLARContourPickup());
 			//assert (i_ref_raster.getBufferType() == FLARBufferType.INT1D_GRAY_8);
 		}
+		private var __tmp:FLARDoublePoint2d=new FLARDoublePoint2d();
+		
 		/**
 		 * RECT範囲内の画素ベクトルの合計値と、ベクトルのエッジ中心を取得します。 320*240の場合、
 		 * RECTの範囲は(x>=0 && x<319 x+w>=0 && x+w<319),(y>=0 && y<239 x+w>=0 && x+w<319)となります。
@@ -134,7 +136,9 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 			}
 			//必要なら歪みを解除
 			if(this._factor!=null){
-				this._factor.observ2Ideal_2(xx, yy, o_posvec);
+				this._factor.observ2Ideal_3(xx, yy,this.__tmp);
+				o_posvec.x=this.__tmp.x;
+				o_posvec.y=this.__tmp.y;
 			}else{
 				o_posvec.x=xx;
 				o_posvec.y=yy;
@@ -201,7 +205,9 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 			}
 			//必要なら歪みを解除
 			if(this._factor!=null){
-				this._factor.observ2Ideal_2(xx, yy, o_posvec);
+				this._factor.observ2Ideal_3(xx, yy,this.__tmp);
+				o_posvec.x=this.__tmp.x;
+				o_posvec.y=this.__tmp.y;
 			}else{
 				o_posvec.x=xx;
 				o_posvec.y=yy;

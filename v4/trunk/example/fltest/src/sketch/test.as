@@ -40,11 +40,9 @@ package sketch
 		}
 		public override function main():void
 		{
-			param = new FLARParam();
-			param.loadARParam(this.getSketchFile(0));
+			param = FLARParam.createFromARParamFile(this.getSketchFile(0));
 			param.changeScreenSize(320, 240);
-			code=new FLARCode(16, 16);
-			code.loadARPatt(this.getSketchFile(1));
+			code=FLARCode.createFromARPattFile(this.getSketchFile(1),16, 16);
 			
 			var b:BitmapData;
 			var data:ByteArray;
@@ -65,7 +63,7 @@ package sketch
 					b.setPixel(i%320,i/320,data.readInt());
 				}
 			}
-			var mat:FLARTransMatResult=new FLARTransMatResult();
+			var mat:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 			var ang:FLARDoublePoint3d = new FLARDoublePoint3d();
 			msg(
 			"FLARToolKit check program.\n"+
@@ -149,7 +147,7 @@ package sketch
 		
 		private function testFLARSingleDetectMarker():void
 		{
-			var mat:FLARTransMatResult=new FLARTransMatResult();
+			var mat:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 			var ang:FLARDoublePoint3d = new FLARDoublePoint3d();
 			var d:FLARSingleMarkerDetector=new FLARSingleMarkerDetector(this.param, this.code, 80.0);
 			d.detectMarkerLite(arimg,100);
@@ -178,7 +176,7 @@ package sketch
 		}
 		private function testFLARDetectMarker():void
 		{
-			var mat:FLARTransMatResult=new FLARTransMatResult();
+			var mat:FLARDoubleMatrix44=new FLARDoubleMatrix44();
 			var ang:FLARDoublePoint3d = new FLARDoublePoint3d();
 			var codes:Vector.<FLARCode>=new Vector.<FLARCode>();
 			var codes_width:Vector.<Number>=new Vector.<Number>();
@@ -251,6 +249,7 @@ import org.libspark.flartoolkit.core.raster.*;
 import org.libspark.flartoolkit.core.raster.rgb.*;
 import org.libspark.flartoolkit.core.param.*;
 import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.types.matrix.*;
 import org.libspark.flartoolkit.core.transmat.*;
 import org.libspark.flartoolkit.detector.*;
 import org.libspark.flartoolkit.processor.*;
@@ -262,7 +261,7 @@ import sketch.*;
 
 class SingleProcessor extends FLSingleARMarkerProcesser
 {
-	public var transmat:FLARTransMatResult=null;
+	public var transmat:FLARDoubleMatrix44=null;
 	public var current_code:int=-1;
 	private var _parent:test;
 	public function SingleProcessor(i_cparam:FLARParam,i_parent:test)
@@ -282,7 +281,7 @@ class SingleProcessor extends FLSingleARMarkerProcesser
 	{
 	}
 
-	protected override function onUpdateHandler(i_square:FLARSquare,result:FLARTransMatResult):void
+	protected override function onUpdateHandler(i_square:FLARSquare, result:FLARDoubleMatrix44):void
 	{
 		_parent.msg("onUpdateHandler:" + current_code);
 		_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);
@@ -294,7 +293,7 @@ class SingleProcessor extends FLSingleARMarkerProcesser
 
 class IdMarkerProcessor extends FLSingleNyIdMarkerProcesser
 {	
-	public var transmat:FLARTransMatResult=null;
+	public var transmat:FLARDoubleMatrix44=null;
 	public var current_id:int=-1;
 	private var _parent:test;
 	private var _encoder:NyIdMarkerDataEncoder_RawBit;
@@ -343,7 +342,7 @@ class IdMarkerProcessor extends FLSingleNyIdMarkerProcesser
 	/**
 	 * アプリケーションフレームワークのハンドラ（マーカ更新）
 	 */
-	protected override function onUpdateHandler(i_square:FLARSquare,result:FLARTransMatResult):void
+	protected override function onUpdateHandler(i_square:FLARSquare, result:FLARDoubleMatrix44):void
 	{
 		_parent.msg("onUpdateHandler:"+this.current_id);
 		_parent.msg(result.m00 + "," + result.m01 + "," + result.m02 + "," + result.m03);

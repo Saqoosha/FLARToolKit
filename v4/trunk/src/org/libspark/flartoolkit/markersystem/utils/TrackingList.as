@@ -47,6 +47,16 @@ package org.libspark.flartoolkit.markersystem.utils
 		{
 			//トラッキングリストをリセット
 			this._tracking_list.reset();
+			//検出のために初期値設定
+			for(var i:int=this.size()-1;i>=0;i--){
+				var target:TMarkerData=TMarkerData(this.getItem(i));
+				//直前のsqのリセット
+				target.sq=null;
+				//消失カウンタのインクリメント
+				if(target.life>0){
+					target.lost_count++;
+				}
+			}
 		}
 		private var __ret:Vector.<int> = new Vector.<int>(2);
 		public function update(i_new_sq:SquareStack_Item):Boolean

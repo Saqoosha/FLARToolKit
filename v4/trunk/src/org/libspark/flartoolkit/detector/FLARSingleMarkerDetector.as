@@ -191,6 +191,9 @@ package org.libspark.flartoolkit.detector
 			}
 			return true;
 		}
+		private var _last_input_mat:FLARDoubleMatrix44;
+		private var _last_result_param:FLARTransMatResultParam=new FLARTransMatResultParam();
+		
 		/**
 		 * 検出したマーカーの変換行列を計算して、o_resultへ値を返します。
 		 * 直前に実行したdetectMarkerLiteが成功していないと使えません。
@@ -199,15 +202,22 @@ package org.libspark.flartoolkit.detector
 		 * 変換行列を受け取るオブジェクトを指定します。
 		 * @throws FLARException
 		 */
-		public function getTransformMatrix(o_result:FLARTransMatResult):void
+		public function getTransformMatrix(o_result:FLARDoubleMatrix44):void
 		{
 			// 一番一致したマーカーの位置とかその辺を計算
-			if (this._is_continue) {
-				this._transmat.transMatContinue(this._square,this._offset,o_result, o_result);
-			} else {
-				this._transmat.transMat(this._square,this._offset, o_result);
+			if (this._is_continue){
+				//履歴が使えそうか判定
+				if(this._last_input_mat==o_result){
+					if(this._transmat.transMatContinue(this._square,this._offset,o_result, this._last_result_param.last_error,o_result, this._last_result_param)){
+						return;
+					}
+				}
 			}
+			//履歴使えないor継続認識失敗
+			this._transmat.transMat(this._square,this._offset,o_result,this._last_result_param);
+			this._last_input_mat=o_result;
 			return;
+
 		}
 		/**
 		 * 現在の矩形を返します。
