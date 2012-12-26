@@ -26,22 +26,17 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core
+package org.libspark.flartoolkit.core.transmat
 {
-	/**
-	 * このクラスは、FLARToolkitライブラリのバージョン情報を保持します。
-	 */
-	public class FLARVersion
+
+	public class FLARTransMatResultParam
 	{
-		/**モジュール名*/
-		public static const MODULE_NAME:String="FLARToolkit";
-		/**メジャーバージョン*/
-		public static const VERSION_MAJOR:int= 4;
-		/**マイナバージョン*/
-		public static const VERSION_MINOR:int=1;
-		/**タグ*/
-		public static const VERSION_TAG:int=1;
-		/**バージョン文字列*/
-		public static const VERSION_STRING:String=MODULE_NAME+"/"+VERSION_MAJOR+"."+VERSION_MINOR+"."+VERSION_TAG;
+		/**
+		 * 観測値とのずれを示すエラーレート値です。{@link IFLARTransMat}が更新します。
+		 * エラーレートの意味は、実装クラスごとに異なることに注意してください。
+		 * ユーザからは読出し専用です。
+		 * {@link #has_value}がtrueの時に使用可能です。
+		 */
+		public var last_error:Number;
 	}
 }

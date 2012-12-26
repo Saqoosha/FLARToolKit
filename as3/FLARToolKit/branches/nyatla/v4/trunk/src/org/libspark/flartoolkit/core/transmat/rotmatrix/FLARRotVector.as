@@ -51,7 +51,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 		 * @throws FLARException
 		 */
 
-		public static function checkRotation(io_vec1:FLARRotVector,io_vec2:FLARRotVector):void
+		public static function checkRotation(io_vec1:FLARRotVector,io_vec2:FLARRotVector):Boolean
 		{
 			var w:Number;
 			var f:int;
@@ -68,7 +68,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 			var vec32:Number = vec10 * vec21 - vec11 * vec20;
 			w = Math.sqrt(vec30 * vec30 + vec31 * vec31 + vec32 * vec32);
 			if (w == 0.0) {
-				throw new FLARException();
+				return false;
 			}
 			vec30 /= w;
 			vec31 /= w;
@@ -94,7 +94,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 				}
 			}
 			if (vec31 * vec10 - vec11 * vec30 == 0.0) {
-				throw new FLARException();
+				return false;
 			}
 			
 			var k1:Number,k2:Number,k3:Number,k4:Number;
@@ -116,7 +116,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 
 			d = b * b - a * c;
 			if (d < 0) {
-				throw new FLARException();
+				return false;
 			}
 			r1 = (-b + Math.sqrt(d)) / a;
 			p1 = k1 * r1 + k2;
@@ -153,7 +153,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 				}
 			}
 			if (vec31 * vec20 - vec21 * vec30 == 0.0) {
-				throw new FLARException();
+				return false;
 			}
 			k1 = (vec21 * vec32 - vec31 * vec22) / (vec31 * vec20 - vec21 * vec30);
 			k2 = (vec31 * ca) / (vec31 * vec20 - vec21 * vec30);
@@ -166,7 +166,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 
 			d = b * b - a * c;
 			if (d < 0) {
-				throw new FLARException();
+				return false;
 			}
 			r3 = (-b + Math.sqrt(d)) / a;
 			p3 = k1 * r3 + k2;
@@ -274,7 +274,7 @@ package org.libspark.flartoolkit.core.transmat.rotmatrix
 					}
 				}
 			}
-			return;
+			return true;
 		}	
 	}
 }

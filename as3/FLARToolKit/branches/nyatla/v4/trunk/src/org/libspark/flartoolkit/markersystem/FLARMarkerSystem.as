@@ -67,11 +67,8 @@ package org.libspark.flartoolkit.markersystem
 		public function FLARMarkerSystem(i_config:IFLARMarkerSystemConfig)
 		{
 			super(i_config);
-		}
-		protected override function initInstance(i_ref_config:IFLARMarkerSystemConfig):void
-		{
-			this._sqdetect=new FLDetector(i_ref_config);
-			this._hist_th=i_ref_config.createAutoThresholdArgorism();
+			this._sqdetect=new FLDetector(i_config);
+			this._hist_th=i_config.createAutoThresholdArgorism();
 		}
 		/**
 		 * BitmapDataを元にARマーカを登録します。

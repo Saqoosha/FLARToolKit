@@ -26,7 +26,6 @@
  *	<saq(at)saqoosha.net>
  * 
  */
- 
 package org.libspark.flartoolkit.markersystem.utils
 {
 

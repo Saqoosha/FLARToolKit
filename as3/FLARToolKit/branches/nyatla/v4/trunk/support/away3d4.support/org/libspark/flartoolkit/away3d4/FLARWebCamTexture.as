@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -84,7 +84,9 @@ package org.libspark.flartoolkit.away3d4
 			bitmapData.draw(value, m, null, null);
 			bitmapData.unlock();
 			invalidateContent();
-		}
+		}			
+
+		
 	}
 
 }

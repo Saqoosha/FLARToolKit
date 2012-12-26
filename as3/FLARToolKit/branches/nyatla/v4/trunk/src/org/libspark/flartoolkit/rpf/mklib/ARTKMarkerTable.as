@@ -155,8 +155,7 @@ package org.libspark.flartoolkit.rpf.mklib
 			if(d==null){
 				return false;
 			}
-			var c:FLARCode=new FLARCode(this._resolution_width,this._resolution_height);
-			c.loadARPatt(i_stream);
+			var c:FLARCode=FLARCode.createFromARPattFile(i_stream,this._resolution_width,this._resolution_height);			c.loadARPatt(i_stream);
 			d.setValue(c,i_id,i_name,i_width,i_height);
 			return true;
 		}	

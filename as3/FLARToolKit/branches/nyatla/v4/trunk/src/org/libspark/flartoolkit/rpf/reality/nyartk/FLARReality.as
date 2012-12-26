@@ -53,9 +53,9 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 				}
 				break;
 			case 7:
-				if ((args[0] is FLARIntSize) && (args[1] is Number) && (args[2] is Number) && (args[3] is FLARPerspectiveProjectionMatrix) && ((args[4] is FLARCameraDistortionFactor) || (args[4] == null)) && (args[5] is int) && (args[6] is int))
+				if ((args[0] is FLARIntSize) && (args[1] is Number) && (args[2] is Number) && (args[3] is FLARPerspectiveProjectionMatrix) && ((args[4] is IFLARCameraDistortionFactor) || (args[4] == null)) && (args[5] is int) && (args[6] is int))
 				{
-					override_FLARReality_2(FLARIntSize(args[0]), Number(args[1]), Number(args[2]), FLARPerspectiveProjectionMatrix(args[3]), FLARCameraDistortionFactor(args[4]), int(args[5]), int(args[6]));
+					override_FLARReality_2(FLARIntSize(args[0]), Number(args[1]), Number(args[2]), FLARPerspectiveProjectionMatrix(args[3]), IFLARCameraDistortionFactor(args[4]), int(args[5]), int(args[6]));
 					return;
 				}
 			default:

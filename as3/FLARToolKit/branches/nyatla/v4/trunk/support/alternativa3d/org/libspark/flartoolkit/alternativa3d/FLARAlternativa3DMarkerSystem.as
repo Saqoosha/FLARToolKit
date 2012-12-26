@@ -23,13 +23,8 @@ package org.libspark.flartoolkit.alternativa3d
 		public function FLARAlternativa3DMarkerSystem(i_config:IFLARMarkerSystemConfig)
 		{
 			super(i_config);
-		}
-		protected override function initInstance(i_config:IFLARMarkerSystemConfig):void
-		{
-			//super part
-			super.initInstance(i_config);
-			//next part
 			this._camera = new FLARCamera3D(this._ref_param);
+			this.addObserver(new Observer(this._camera));
 		}
 		/**
 		 * AR映像向けにセットしたPaperVision3Dカメラを返します。
@@ -38,11 +33,6 @@ package org.libspark.flartoolkit.alternativa3d
 		public function getAlternativa3DCamera():FLARCamera3D
 		{
 			return this._camera;
-		}
-		public override function setProjectionMatrixClipping(i_near:Number,i_far:Number):void
-		{
-			super.setProjectionMatrixClipping(i_near, i_far);
-			this._camera.setParam(this._ref_param, i_near, i_far);
 		}
 		/**
 		 * この関数は、i_idの姿勢変換行列をi_3d_objectへセットします。
@@ -75,5 +65,20 @@ package org.libspark.flartoolkit.alternativa3d
 			p.y = p.y;
 			return p;
 		}
+	}
+}
+import org.libspark.flartoolkit.markersystem.*;
+import org.libspark.flartoolkit.alternativa3d.*;
+import org.libspark.flartoolkit.core.param.*;
+class Observer implements IFLARSingleCameraSystemObserver
+{
+	private var _ref_camera:FLARCamera3D;
+	public function Observer(i_ref_camera:FLARCamera3D)
+	{
+		this._ref_camera = i_ref_camera;
+	}
+	public function onUpdateCameraParametor(i_param:FLARParam, i_near:Number, i_far:Number):void	
+	{
+		this._ref_camera.setParam(i_param, i_near, i_far);
 	}
 }

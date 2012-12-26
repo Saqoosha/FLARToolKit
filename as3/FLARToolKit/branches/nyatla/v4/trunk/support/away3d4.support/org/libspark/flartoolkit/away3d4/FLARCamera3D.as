@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -37,7 +37,7 @@ package org.libspark.flartoolkit.away3d4
 	import away3d.core.math.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.types.*;	
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
@@ -70,16 +70,13 @@ import org.libspark.flartoolkit.utils.ArrayUtil;
 import away3d.core.math.Matrix3DUtils;
 class ARLens extends LensBase
 {
-	private var _ref_param:FLARParam=new FLARParam();
+	private var _ref_param:FLARParam;
 	public function ARLens()
 	{
 		super();
 	}
 	public function setParam(i_param:FLARParam,i_near:int,i_far:int):void
 	{
-		if (this._ref_param == i_param) {
-			return;
-		}
 		this._near =i_near;
 		this._far = i_far;
 		this._ref_param = i_param;

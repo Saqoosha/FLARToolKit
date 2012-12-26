@@ -26,22 +26,20 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core
+package org.libspark.flartoolkit.markersystem 
 {
+	import org.libspark.flartoolkit.core.param.*;
 	/**
-	 * このクラスは、FLARToolkitライブラリのバージョン情報を保持します。
+	 * 管理システムの発行するイベントを処理するインタフェイスです。
 	 */
-	public class FLARVersion
+	public interface IFLARSingleCameraSystemObserver
 	{
-		/**モジュール名*/
-		public static const MODULE_NAME:String="FLARToolkit";
-		/**メジャーバージョン*/
-		public static const VERSION_MAJOR:int= 4;
-		/**マイナバージョン*/
-		public static const VERSION_MINOR:int=1;
-		/**タグ*/
-		public static const VERSION_TAG:int=1;
-		/**バージョン文字列*/
-		public static const VERSION_STRING:String=MODULE_NAME+"/"+VERSION_MAJOR+"."+VERSION_MINOR+"."+VERSION_TAG;
+		/**
+		 * カメラパラメータが更新されたことを通知します。
+		 * @param i_param
+		 * @param i_near
+		 * @param i_far
+		 */
+		function onUpdateCameraParametor(i_param:FLARParam,i_near:Number,i_far:Number):void
 	}
 }

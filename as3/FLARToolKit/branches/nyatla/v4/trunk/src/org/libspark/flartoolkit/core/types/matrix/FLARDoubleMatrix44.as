@@ -240,7 +240,35 @@ package org.libspark.flartoolkit.core.types.matrix
 			this.m33=b44*det_1;
 			
 			return true;
-		}	
+		}
+	/**
+	 * この関数は、平行移動量と回転行列をセットして、インスタンスのパラメータを更新します。
+	 * 拡大率は1倍にセットします。
+	 * @param i_rot
+	 * 設定する回転行列
+	 * @param i_trans
+	 * 設定する平行移動量
+	 */
+		public function setValue_3(i_rot:FLARDoubleMatrix33,i_trans:FLARDoublePoint3d):void 
+		{
+			this.m00=i_rot.m00;
+			this.m01=i_rot.m01;
+			this.m02=i_rot.m02;
+			this.m03=i_trans.x;
+
+			this.m10 =i_rot.m10;
+			this.m11 =i_rot.m11;
+			this.m12 =i_rot.m12;
+			this.m13 =i_trans.y;
+
+			this.m20 = i_rot.m20;
+			this.m21 = i_rot.m21;
+			this.m22 = i_rot.m22;
+			this.m23 = i_trans.z;
+			this.m30=this.m31=this.m32=0;
+			this.m33=1.0;
+			return;
+		}
 		public function transform3d( i_x:Number , i_y:Number , i_z:Number , o_out:FLARDoublePoint3d ):void
 		{ 
 			o_out.x = this.m00 * i_x + this.m01 * i_y + this.m02 * i_z + this.m03 ;

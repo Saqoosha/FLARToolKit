@@ -26,22 +26,31 @@
  *	<saq(at)saqoosha.net>
  * 
  */
-package org.libspark.flartoolkit.core
+package org.libspark.flartoolkit.core.utils 
 {
-	/**
-	 * このクラスは、FLARToolkitライブラリのバージョン情報を保持します。
-	 */
-	public class FLARVersion
+	import jp.nyatla.as3utils.*;
+	import org.libspark.flartoolkit.core.transmat.rotmatrix.FLARRotVector;
+	import org.libspark.flartoolkit.core.*;
+
+	public class FLARLCGsRandomizer
 	{
-		/**モジュール名*/
-		public static const MODULE_NAME:String="FLARToolkit";
-		/**メジャーバージョン*/
-		public static const VERSION_MAJOR:int= 4;
-		/**マイナバージョン*/
-		public static const VERSION_MINOR:int=1;
-		/**タグ*/
-		public static const VERSION_TAG:int=1;
-		/**バージョン文字列*/
-		public static const VERSION_STRING:String=MODULE_NAME+"/"+VERSION_MAJOR+"."+VERSION_MINOR+"."+VERSION_TAG;
+		protected var _rand_val:Number;
+		protected var _seed:int;
+		public function FLARLCGsRandomizer(i_seed:int)
+		{
+			this._seed=i_seed;
+			this._rand_val=i_seed;
+		}
+		public function setSeed(i_seed:int):void
+		{
+			this._rand_val=i_seed;
+		}
+		public function rand():int
+		{
+			this._rand_val = (this._rand_val * 214013 + 2531011);
+			return int((this._rand_val /65536) & RAND_MAX);
+			
+		}
+		public static const RAND_MAX:int=0x7fff;
 	}
 }
