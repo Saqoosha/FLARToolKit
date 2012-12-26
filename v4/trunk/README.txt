@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 4.0.3
+ version 4.1.1
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -155,6 +155,14 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+4.1.1
+ * Update NyARToolkitAS/4.1.1
+   +Support ARToolkitVersion4 camera parameter.
+   +Support OpenCV style camera parameter.
+   +Change constructor of NyARCode and NyARParam to static.
+   +Support PsARMarker. 
+   +Bugfix.
+
 4.0.0
  * Update NyARToolkitAS/4.0.0
  * Add Markersystem.
