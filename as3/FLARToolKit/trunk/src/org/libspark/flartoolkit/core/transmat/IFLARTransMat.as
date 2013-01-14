@@ -29,6 +29,7 @@
 package org.libspark.flartoolkit.core.transmat
 {
 	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	import org.libspark.flartoolkit.core.squaredetect.*;
 	/**
 	 * This class calculates ARMatrix from square information. -- 変換行列を計算するクラス。
@@ -43,7 +44,7 @@ package org.libspark.flartoolkit.core.transmat
 		 * @param o_result
 		 * @throws FLARException
 		 */
-		function transMat(i_square:FLARSquare,i_offset:FLARRectOffset,o_result:FLARTransMatResult):Boolean;
+		function transMat(i_square:FLARSquare, i_offset:FLARRectOffset, o_result:FLARDoubleMatrix44, o_param:FLARTransMatResultParam):Boolean;
 		/**
 		 * 理想座標系の四角系から、i_offsetのパラメタで示される矩形を(0,0,0)の点から移動するための行列式を計算し、o_resultへ格納します。
 		 * i_prev_resultにある過去の情報を参照するため、変移が少ない場合はより高精度な値を返します。
@@ -55,6 +56,6 @@ package org.libspark.flartoolkit.core.transmat
 		 * 結果を格納するオブジェクトです。
 		 * @throws FLARException
 		 */
-		function transMatContinue(i_square:FLARSquare,i_offset:FLARRectOffset,i_prev_result:FLARTransMatResult,o_result:FLARTransMatResult):Boolean;
+		function transMatContinue(i_square:FLARSquare, i_offset:FLARRectOffset, i_prev_result:FLARDoubleMatrix44, i_prev_err:Number, o_result:FLARDoubleMatrix44, o_param:FLARTransMatResultParam):Boolean;
 	}
 }

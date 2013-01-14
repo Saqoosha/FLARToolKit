@@ -30,10 +30,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 {
 
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
-	import org.libspark.flartoolkit.core.param.FLARFrustum;
-	import org.libspark.flartoolkit.core.param.FLARParam;
-	import org.libspark.flartoolkit.core.param.FLARPerspectiveProjectionMatrix;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	import org.libspark.flartoolkit.core.squaredetect.FLARSquare;
 	import org.libspark.flartoolkit.core.transmat.IFLARTransMat;
@@ -125,9 +122,9 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 				}
 				break;
 			case 7:
-				if ((args[0] is FLARIntSize) && (args[1] is Number) && (args[2] is Number) && (args[3] is FLARPerspectiveProjectionMatrix) && ((args[4] is FLARCameraDistortionFactor) || (args[4] == null)) && (args[5] is int) && (args[6] is int))
+				if ((args[0] is FLARIntSize) && (args[1] is Number) && (args[2] is Number) && (args[3] is FLARPerspectiveProjectionMatrix) && ((args[4] is IFLARCameraDistortionFactor) || (args[4] == null)) && (args[5] is int) && (args[6] is int))
 				{
-					override_FLARReality_2(FLARIntSize(args[0]), Number(args[1]), Number(args[2]), FLARPerspectiveProjectionMatrix(args[3]), FLARCameraDistortionFactor(args[4]), int(args[5]), int(args[6]));
+					override_FLARReality_2(FLARIntSize(args[0]), Number(args[1]), Number(args[2]), FLARPerspectiveProjectionMatrix(args[3]), IFLARCameraDistortionFactor(args[4]), int(args[5]), int(args[6]));
 					return;
 				}
 			default:
@@ -179,7 +176,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 		 * {@link #FLARReality(FLARParam i_param,double i_near,double i_far,int i_max_known_target,int i_max_unknown_target)}を参照
 		 * @throws FLARException
 		 */
-		protected function override_FLARReality_2(i_screen:FLARIntSize,i_near:Number,i_far:Number,i_prjmat:FLARPerspectiveProjectionMatrix,i_dist_factor:FLARCameraDistortionFactor,i_max_known_target:int,i_max_unknown_target:int):void
+		protected function override_FLARReality_2(i_screen:FLARIntSize,i_near:Number,i_far:Number,i_prjmat:FLARPerspectiveProjectionMatrix,i_dist_factor:IFLARCameraDistortionFactor,i_max_known_target:int,i_max_unknown_target:int):void
 		{
 			this.MAX_LIMIT_KNOWN=i_max_known_target;
 			this.MAX_LIMIT_UNKNOWN=i_max_unknown_target;
@@ -191,7 +188,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 		 * @param i_prjmat
 		 * @throws FLARException
 		 */
-		protected function initInstance(i_screen:FLARIntSize,i_near:Number,i_far:Number,i_prjmat:FLARPerspectiveProjectionMatrix,i_dist_factor:FLARCameraDistortionFactor):void
+		protected function initInstance(i_screen:FLARIntSize,i_near:Number,i_far:Number,i_prjmat:FLARPerspectiveProjectionMatrix,i_dist_factor:IFLARCameraDistortionFactor):void
 		{
 			var number_of_reality_target:int=this.MAX_LIMIT_KNOWN+this.MAX_LIMIT_UNKNOWN;
 			//演算インスタンス
@@ -291,7 +288,7 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 						setSquare(((FLARRectTargetStatus)(tar._ref_tracktarget._ref_status)).vertex,tar._screen_square);
 						//3d座標計算
 	//					this._transmat.transMat(tar._screen_square,tar._offset,tar._transform_matrix);
-						this._transmat.transMatContinue(tar._screen_square,tar._offset,tar._transform_matrix,tar._transform_matrix);
+						this._transmat.transMatContinue(tar._screen_square,tar._offset,tar._transform_matrix,tar._result_param.last_error,tar._transform_matrix,tar._result_param);
 						continue;
 					case FLARRealityTarget.RT_UNKNOWN:
 						continue;
@@ -464,8 +461,9 @@ package org.libspark.flartoolkit.rpf.reality.nyartk
 				i_item._screen_square.line[i].makeLinearWithNormalize_2(vx[i],vx[(i+1)%4]);
 			}
 			//3d座標計算
-			this._transmat.transMat(i_item._screen_square,i_item._offset,i_item._transform_matrix);
-			
+			if(!this._transmat.transMat(i_item._screen_square,i_item._offset,i_item._transform_matrix,i_item._result_param)){
+				return false;
+			}
 			//数の調整
 			this._number_of_unknown--;
 			this._number_of_known++;

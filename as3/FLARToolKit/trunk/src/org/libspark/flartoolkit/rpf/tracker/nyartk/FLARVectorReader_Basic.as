@@ -30,7 +30,7 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
 	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup;
 	import org.libspark.flartoolkit.core.types.*;
@@ -48,18 +48,18 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 		private var _rob_resolution:int;
 		protected var _ref_base_raster:FLARGrayscaleRaster;
 		private var _ref_rob_raster:FLARGrayscaleRaster;
-		protected var _factor:FLARCameraDistortionFactor;
+		protected var _factor:IFLARCameraDistortionFactor;
 		/**
 		 * 
 		 * @param i_ref_raster
 		 * 基本画像
-		 * @param i_ref_raster_distortion
+		 * @param i_ref_raster
 		 * 歪み解除オブジェクト(nullの場合歪み解除を省略)
 		 * @param i_ref_rob_raster
 		 * エッジ探索用のROB画像
 		 * @param 
 		 */
-		public function FLARVectorReader_Basic(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:FLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster,i_contur_pickup:FLARContourPickup)
+		public function FLARVectorReader_Basic(i_ref_raster:FLARGrayscaleRaster,i_ref_raster_distortion:IFLARCameraDistortionFactor,i_ref_rob_raster:FLARGrayscaleRaster,i_contur_pickup:FLARContourPickup)
 		{
 			this._rob_resolution=i_ref_raster.getWidth()/i_ref_rob_raster.getWidth();
 			this._ref_rob_raster=i_ref_rob_raster;

@@ -28,7 +28,7 @@
  */
 package org.libspark.flartoolkit.core.squaredetect 
 {
-	import org.libspark.flartoolkit.core.types.FLARIntCoordinates;
+	import org.libspark.flartoolkit.core.types.*;
 
 	public interface IFLARSquareContourDetectorHandler 
 	{

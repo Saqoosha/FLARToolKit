@@ -73,9 +73,9 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 		 * trueの場合、バッファは内部に確保され、{@link #wrapBuffer}関数が使用できなくなります。
 		 * @throws FLARException
 		 */
-		public function FLARTrackerSource_Reference(i_number_of_sample:int, i_ref_raster_distortion:FLARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
+		public function FLARTrackerSource_Reference(i_number_of_sample:int, i_ref_raster_distortion:IFLARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
 		{
-			super((int)(Math.pow(2,i_depth)));
+			super(int(Math.pow(2,i_depth)));
 			//		assert(i_depth>0);
 			var div:int=this._rob_resolution;
 			//主GSラスタ
@@ -84,7 +84,7 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 			//Roberts変換ラスタ
 			this._rb_source=new FLARGrayscaleRaster(i_width/div,i_height/div,FLARBufferType.OBJECT_AS3_BitmapData, true);
 			//Robertsラスタは最も解像度の低いラスタと同じ
-			this._rbraster=new FLARGrayscaleRaster(i_width/div,i_height/div,FLARBufferType.OBJECT_AS3_BitmapData,true);
+			this._rbraster=new FLARGrayscaleRaster(i_width/div,i_height/div,FLARBufferType.OBJECT_AS3_BitmapData, true);
 			this._vec_reader=new FLARVectorReader_Bitmapdata(FLARGrayscaleRaster(this._base_raster),i_ref_raster_distortion,this._rbraster);
 			//samplerとsampleout
 			this._sampler=new FLARLowResolutionLabelingSampler(i_width, i_height,(int)(Math.pow(2,i_depth)));

@@ -93,8 +93,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		protected function FLARMarkerSystemConfig_3oii(i_ar_param_stream:ByteArray,i_width:int,i_height:int):void
 		{
-			this._param=new FLARParam();
-			this._param.loadARParam(i_ar_param_stream);
+			this._param=FLARParam.createFromARParamFile(i_ar_param_stream);			
 			this._param.changeScreenSize(i_width,i_height);
 		}
 		/**
@@ -108,8 +107,7 @@ package org.libspark.flartoolkit.markersystem
 		 */
 		protected function FLARMarkerSystemConfig_2ii(i_width:int,i_height:int):void
 		{
-			this._param=new FLARParam();
-			this._param.loadDefaultParameter();
+			this._param=FLARParam.createDefaultParameter();
 			this._param.changeScreenSize(i_width,i_height);		
 		}
 		/**

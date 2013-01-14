@@ -42,6 +42,7 @@ package org.libspark.flartoolkit.detector
 	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
 	import org.libspark.flartoolkit.core.squaredetect.*;
 	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	import org.libspark.flartoolkit.core.rasterdriver.*;
 	
 	/**
@@ -87,6 +88,8 @@ package org.libspark.flartoolkit.detector
 		{
 			this._is_continue = i_is_continue;
 		}
+		private var _last_input_mat:FLARDoubleMatrix44;
+		private var _last_result_param:FLARTransMatResultParam=new FLARTransMatResultParam();
 		/**
 		 * この関数は、検出したマーカーの変換行列を計算して、o_resultへ値を返します。
 		 * 直前に実行した{@link #detectMarkerLite}が成功していないと使えません。
@@ -94,21 +97,27 @@ package org.libspark.flartoolkit.detector
 		 * 変換行列を受け取るオブジェクト。
 		 * @throws FLARException
 		 */
-		public function getTransmat(o_result:FLARTransMatResult):void
+		public function getTransmat(o_result:FLARDoubleMatrix44):void
 		{
 			// 一番一致したマーカーの位置とかその辺を計算
-			if (this._is_continue) {
-				this._transmat.transMatContinue(this._square,this._offset,o_result, o_result);
-			} else {
-				this._transmat.transMat(this._square,this._offset, o_result);
+			if (this._is_continue){
+				//履歴が使えそうか判定
+				if(this._last_input_mat==o_result){
+					if(this._transmat.transMatContinue(this._square,this._offset,o_result, this._last_result_param.last_error,o_result, this._last_result_param)){
+						return;
+					}
+				}
 			}
+			//履歴使えないor継続認識失敗
+			this._transmat.transMat(this._square,this._offset,o_result,this._last_result_param);
+			this._last_input_mat=o_result;
 			return;
 		}
 		/**
 		 * @deprecated
 		 * {@link #getTransmat}
 		 */
-		public function getTransmationMatrix(o_result:FLARTransMatResult):void
+		public function getTransmationMatrix(o_result:FLARDoubleMatrix44):void
 		{
 			this.getTransmat(o_result);
 			return;

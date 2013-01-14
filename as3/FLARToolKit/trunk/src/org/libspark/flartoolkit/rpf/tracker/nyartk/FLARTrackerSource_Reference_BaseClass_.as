@@ -30,7 +30,7 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 {
 
 	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.core.param.FLARCameraDistortionFactor;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.FLARGrayscaleRaster;
 	import org.libspark.flartoolkit.core.types.FLARBufferType;
 	import org.libspark.flartoolkit.rpf.sampler.lrlabel.*;
@@ -67,7 +67,7 @@ package org.libspark.flartoolkit.rpf.tracker.nyartk
 		 * trueの場合、バッファは内部に確保され、{@link #wrapBuffer}関数が使用できなくなります。
 		 * @throws FLARException
 		 */
-		public function FLARTrackerSource_Reference_BaseClass_(i_number_of_sample:int, i_ref_raster_distortion:FLARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
+		public function FLARTrackerSource_Reference_BaseClass_(i_number_of_sample:int, i_ref_raster_distortion:IFLARCameraDistortionFactor, i_width:int, i_height:int, i_depth:int, i_is_alloc:Boolean)
 		{
 			super((int)(Math.pow(2,i_depth)));
 			//		assert(i_depth>0);

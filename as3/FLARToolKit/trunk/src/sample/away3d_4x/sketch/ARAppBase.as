@@ -144,7 +144,7 @@ package sample.away3d_4x.sketch
 		public function supportLibsInit(): void
 		{
 			// View3d初期化
-			view3d = new View3D(new Scene3D(), markerSys.getAway3DCamera());
+			view3d = new View3D();
 			// 起点
 			view3d.x = 0;
 			view3d.y = 0;
@@ -156,7 +156,7 @@ package sample.away3d_4x.sketch
 			view3d.scaleY = canvasHeight / captureHeight;
 			
 			view3d.background = new FLARWebCamTexture(captureWidth, captureHeight);
-			
+			view3d.camera = markerSys.getAway3DCamera();
 			//3d object
 			container = createObject();
 			container.visible = false;

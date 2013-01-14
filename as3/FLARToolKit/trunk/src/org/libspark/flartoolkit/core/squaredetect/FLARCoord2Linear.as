@@ -48,7 +48,7 @@ package org.libspark.flartoolkit.core.squaredetect
 		 * カメラ歪みを補正する場合のパラメータを指定します。
 		 * nullの場合、補正マップを使用しません。
 		 */
-		public function FLARCoord2Linear(i_size:FLARIntSize,i_distfactor:FLARCameraDistortionFactor)
+		public function FLARCoord2Linear(i_size:FLARIntSize,i_distfactor:IFLARCameraDistortionFactor)
 		{
 			if(i_distfactor!=null){
 				this._dist_factor = new FLARObserv2IdealMap(i_distfactor,i_size);

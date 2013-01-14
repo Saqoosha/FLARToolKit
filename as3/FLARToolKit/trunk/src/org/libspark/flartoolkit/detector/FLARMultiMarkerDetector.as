@@ -38,6 +38,7 @@ package org.libspark.flartoolkit.detector
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.pickup.*;
 	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.matrix.*;
 	
 	import org.libspark.flartoolkit.core.raster.*;
 	import org.libspark.flartoolkit.core.squaredetect.*;
@@ -144,15 +145,21 @@ package org.libspark.flartoolkit.detector
 		 * 結果値を受け取るオブジェクトを指定してください。
 		 * @throws FLARException
 		 */
-		public function getTransformMatrix(i_index:int,o_result:FLARTransMatResult):void
+		public function getTransformMatrix(i_index:int,o_result:FLARDoubleMatrix44):void
 		{
 			var result:FLARDetectMarkerResult = FLARDetectMarkerResult(this._square_detect.result_stack.getItem(i_index));
 			// 一番一致したマーカーの位置とかその辺を計算
-			if (_is_continue) {
-				_transmat.transMatContinue(result.square, this._offset[result.arcode_id], o_result,o_result);
-			} else {
-				_transmat.transMat(result.square, this._offset[result.arcode_id], o_result);
+			if (this._is_continue){
+				//履歴が使えそうか判定
+				if(result.ref_last_input_matrix==o_result){
+					if(this._transmat.transMatContinue(result.square, this._offset[result.arcode_id],o_result, result.last_result_param.last_error,o_result, result.last_result_param)){
+						return;
+					}
+				}
 			}
+			//履歴使えないor継続認識失敗
+			this._transmat.transMat(result.square, this._offset[result.arcode_id],o_result,result.last_result_param);
+			result.ref_last_input_matrix=o_result;
 			return;
 		}
 
@@ -203,6 +210,7 @@ import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
 import org.libspark.flartoolkit.core.raster.*;
 import org.libspark.flartoolkit.core.raster.rgb.*;
 import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.types.matrix.*;
 import org.libspark.flartoolkit.core.pickup.*;
 import org.libspark.flartoolkit.core.match.*;
 import org.libspark.flartoolkit.core.param.*;
@@ -220,6 +228,8 @@ class FLARDetectMarkerResult
 {
 	public var arcode_id:int;
 	public var confidence:Number;
+	public var ref_last_input_matrix:FLARDoubleMatrix44;
+	public var last_result_param:FLARTransMatResultParam=new FLARTransMatResultParam();
 	public var square:FLARSquare=new FLARSquare();
 }
 
