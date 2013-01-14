@@ -1,7 +1,7 @@
 /* 
  * PROJECT: FLARToolKit
  * --------------------------------------------------------------------------------
- * This work is based on the NyARToolKit developed by
+ * This work is based on the FLARToolKit developed by
  *   R.Iizuka (nyatla)
  * http://nyatla.jp/nyatoolkit/
  *
@@ -28,44 +28,54 @@
  * 
  */
 
-package org.libspark.flartoolkit.support.alternativa3d {
-	
-	import alternativa.engine3d.core.Camera3D;
-	import alternativa.types.Matrix3D;
-	
-	import jp.nyatla.nyartoolkit.as3.core.types.NyARIntSize;
-	
-	import org.libspark.flartoolkit.core.FLARMat;
-	import org.libspark.flartoolkit.core.param.FLARParam;
+package org.libspark.flartoolkit.support.alternativa3d
+{
+	import alternativa.engine3d.core.*;
+	import org.libspark.flartoolkit.core.*;
+	import org.libspark.flartoolkit.core.param.*;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 	import org.libspark.flartoolkit.utils.ArrayUtil;
 
 	public class FLARCamera3D extends Camera3D {
+		private static const NEAR_CLIP:Number = 10;
+		private static const FAR_CLIP:Number = 10000;		
 		
-		private var _projectionMatrix:Matrix3D;
-		
-		public function FLARCamera3D(name:String=null)
+		public function FLARCamera3D(param:FLARParam = null)
 		{
-			super(name);
+			super(NEAR_CLIP, FAR_CLIP);
+			if (!param) {
+				this.setParam(param,NEAR_CLIP,FAR_CLIP);
+			}else {
+				this.setParam(FLARParam.createDefaultParameter(), NEAR_CLIP, FAR_CLIP);
+			}
+			this.x = 0;
+			this.y = 0;
+			this.z = 0;
 		}
-
-		public function setParam(param:FLARParam):void
+		private var _ref_param:FLARParam;
+		private var _frustum:FLARFrustum = new FLARFrustum();
+		public function setParam(param:FLARParam,i_near:int,i_far:int):void
 		{
+			var s:FLARIntSize = param.getScreenSize();
+			this._frustum.setValue_2(param.getPerspectiveProjectionMatrix(), s.w, s.h,i_near,i_far);
+			var ap:FLARFrustum_PerspectiveParam = this._frustum.getPerspectiveParam(new FLARFrustum_PerspectiveParam());
+			this._ref_param = param;
+			this.nearClipping = i_near;
+			this.farClipping = i_far;
+			this.fov = 2 *ap.fovy;
+		}
+		public function createBackgroundPanel(i_backbuffer_size:int=512):FLARBackgroundPanel
+		{
+			var bgp:FLARBackgroundPanel = new FLARBackgroundPanel(1,1,i_backbuffer_size);
 			
-			const size:NyARIntSize = param.getScreenSize ();
-			const tMat:FLARMat = new FLARMat (3, 4);
-			const iMat:FLARMat = new FLARMat (3, 4);
-			param.getPerspectiveProjectionMatrix ().decompMat (iMat, tMat);
-			const i:Vector.<Vector.<Number>> = iMat.getArray ();
-			const t:Vector.<Vector.<Number>> = tMat.getArray ();
-			const h1:Number = size.h - 1;
-			const p11:Number = (h1 * i[2][1] - i[1][1]) / i[2][2];
-			const p12:Number = (h1 * i[2][2] - i[1][2]) / i[2][2];
-			const q11:Number = -(2 * p11 / h1);
-			const q12:Number = -(2 * p12 / h1) + 1.0;
-			const mp5:Number = q11 * t[1][1] + q12 * t[2][1];
-			const tan:Number = 1 / mp5 * Math.sqrt (size.w * size.w + size.h * size.h) / size.h;
-
-			this.fov = 2 * Math.atan (tan);
+			var fp:FLARFrustum_FrustumParam=this._frustum.getFrustumParam(new FLARFrustum_FrustumParam());
+			var bg_pos:Number = fp.far-0.1;
+			bgp.z=bg_pos;
+			var b:Number=bg_pos/fp.near;// 10?
+			bgp.scaleX = -((fp.right - fp.left) * b);
+			bgp.scaleY = -((fp.top - fp.bottom) * b);
+			return bgp;
 		}
+		
 	}
 }

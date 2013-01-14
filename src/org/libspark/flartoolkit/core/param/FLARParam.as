@@ -41,29 +41,39 @@ package org.libspark.flartoolkit.core.param
 	{
 		protected var _screen_size:FLARIntSize=new FLARIntSize();
 		private static const SIZE_OF_PARAM_SET:int = 4 + 4 + (3 * 4 * 8) + (4 * 8);
-		private var _dist:FLARCameraDistortionFactor =new FLARCameraDistortionFactor();
+		private var _dist:IFLARCameraDistortionFactor;
 		private var _projection_matrix:FLARPerspectiveProjectionMatrix =new FLARPerspectiveProjectionMatrix();
-		public function loadDefaultParameter():void
+		/**
+		 * テストパラメータを格納したインスタンスを生成します。
+		 * @return
+		 */
+		public static function createDefaultParameter():FLARParam
 		{
-			var tmp:Vector.<Number>=Vector.<Number>([318.5,263.5,26.2,1.0127565206658486]);
-			this._screen_size.setValue(640,480);
-			this._dist.setValue(tmp);
-			this._projection_matrix.m00=700.9514702992245;
-			this._projection_matrix.m01=0;
-			this._projection_matrix.m02=316.5;
-			this._projection_matrix.m03=0;
-			this._projection_matrix.m10=0;
-			this._projection_matrix.m11=726.0941816535367;
-			this._projection_matrix.m12=241.5;
-			this._projection_matrix.m13=0.0;
-			this._projection_matrix.m20=0.0;
-			this._projection_matrix.m21=0.0;
-			this._projection_matrix.m22=1.0;
-			this._projection_matrix.m23=0.0;
-			this._projection_matrix.m30=0.0;
-			this._projection_matrix.m31=0.0;
-			this._projection_matrix.m32=0.0;
-			this._projection_matrix.m33=1.0;
+			var pm:ParamLoader=new ParamLoader();
+			return new FLARParam(pm.size, pm.pmat, pm.dist_factor);
+		}
+		
+		/**
+		 * i_streamからARToolkitのカメラパラメータを読み出して、格納したインスタンスを生成します。
+		 * @param i_stream
+		 * @return
+		 * @throws FLARException
+		 */
+		public static function createFromARParamFile(i_stream:ByteArray):FLARParam
+		{
+			var pm:ParamLoader=new ParamLoader(i_stream);
+			return new FLARParam(pm.size, pm.pmat, pm.dist_factor);
+		}
+		public static function createFromCvCalibrateCamera2Result(i_w:int,i_h:int,i_intrinsic_matrix:Vector.<Number>,i_distortion_coeffs:Vector.<Number>):FLARParam
+		{
+			var pm:ParamLoader=new ParamLoader(i_w,i_h,i_intrinsic_matrix,i_distortion_coeffs);
+			return new FLARParam(pm.size,pm.pmat,pm.dist_factor);
+		}
+		public function FLARParam(i_screen_size:FLARIntSize,i_projection_mat:FLARPerspectiveProjectionMatrix,i_dist_factor:IFLARCameraDistortionFactor)
+		{
+			this._screen_size=new FLARIntSize(i_screen_size);
+			this._dist=i_dist_factor;
+			this._projection_matrix=i_projection_mat;
 		}
 		public function getScreenSize():FLARIntSize
 		{
@@ -74,7 +84,7 @@ package org.libspark.flartoolkit.core.param
 		{
 			return this._projection_matrix;
 		}
-		public function getDistortionFactor():FLARCameraDistortionFactor
+		public function getDistortionFactor():IFLARCameraDistortionFactor
 		{
 			return this._dist;
 		}
@@ -102,13 +112,15 @@ package org.libspark.flartoolkit.core.param
 		 */
 		public function changeScreenSize(i_xsize:int,i_ysize:int):void
 		{
-			var scale:Number = Number(i_xsize) / Number(this._screen_size.w);// scale = (double)xsize / (double)(source->xsize);
+			var x_scale:Number = Number(i_xsize) / Number(this._screen_size.w);// scale = (double)xsize / (double)(source->xsize);
+			var y_scale:Number = Number(i_ysize) / Number(this._screen_size.h);// scale = (double)xsize / (double)(source->xsize);
 			//スケールを変更
-			this._dist.changeScale(scale);
-			this._projection_matrix.changeScale(scale);
+			this._dist.changeScale(x_scale,y_scale);
+			this._projection_matrix.changeScale(x_scale,y_scale);
 			this._screen_size.w = i_xsize;// newparam->xsize = xsize;
 			this._screen_size.h = i_ysize;// newparam->ysize = ysize;
 			return;
+
 		}
 		/**
 		 * この関数は、現在のスクリーンサイズを変更します。
@@ -131,31 +143,144 @@ package org.libspark.flartoolkit.core.param
 			this._projection_matrix.makeCameraFrustumRH(this._screen_size.w, this._screen_size.h, i_dist_min, i_dist_max, o_frustum);
 			return;
 		}
-		public function loadARParam(i_stream:ByteArray):void
-		{
-			var tmp:Vector.<Number> = new Vector.<Number>(16);//new double[12];
+	}
+}
+import org.libspark.flartoolkit.core.*;
+import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.utils.*;
+import org.libspark.flartoolkit.core.types.matrix.*;
+import org.libspark.flartoolkit.core.param.*;
+import flash.utils.*;
 
-			i_stream.endian = Endian.BIG_ENDIAN;
-			this._screen_size.w = i_stream.readInt();//bb.getInt();
-			this._screen_size.h = i_stream.readInt();//bb.getInt();
-			//double値を12個読み込む
+/**
+ * パラメータローダーです。
+ */
+class ParamLoader
+{
+	public var size:FLARIntSize;
+	public var pmat:FLARPerspectiveProjectionMatrix;
+	public var dist_factor:IFLARCameraDistortionFactor;
+	public function ParamLoader(...args:Array)
+	{
+		switch(args.length) {
+		case 0:
+			this.ParamLoader_0();
+			break;
+		case 1:
+			this.ParamLoader_1o(ByteArray(args[0]));
+			break;
+		case 4:
+			this.ParamLoader_4iioo(int(args[0]), int(args[1]),Vector.<Number>(args[2]),Vector.<Number>(args[3]));
+			break;
+		default:
+			throw new FLARException();
+		}		
+	}
+	/**
+	 * intrinsic_matrixとdistortion_coeffsからインスタンスを初期化する。
+	 * @param i_w
+	 * カメラパラメータ生成時の画面サイズ
+	 * @param i_h
+	 * カメラパラメータ生成時の画面サイズ
+	 * @param i_intrinsic_matrix 3x3 matrix このパラメータは、OpenCVのcvCalibrateCamera2関数が出力するintrinsic_matrixの値と合致します。
+	 * @param i_distortion_coeffs 4x1 vector このパラメータは、OpenCVのcvCalibrateCamera2関数が出力するdistortion_coeffsの値と合致します。
+	 */
+	public function ParamLoader_4iioo(i_w:int,i_h:int,i_intrinsic_matrix:Vector.<Number>,i_distortion_coeffs:Vector.<Number>):void
+	{
+		this.size=new FLARIntSize(i_w,i_h);
+		//dist factor
+		var v4dist:FLARCameraDistortionFactorV4=new FLARCameraDistortionFactorV4();
+		v4dist.setValue_2(this.size,i_intrinsic_matrix,i_distortion_coeffs);
+		var s:Number=v4dist.getS();
+		this.dist_factor=v4dist;
+		//projection matrix
+		this.pmat=new FLARPerspectiveProjectionMatrix();
+		var r:FLARDoubleMatrix33=new FLARDoubleMatrix33();
+		r.setValue(i_intrinsic_matrix);
+		r.m00 /= s;
+		r.m01 /= s;
+		r.m10 /= s;
+		r.m11 /= s;
+		this.pmat.setValue_3(r, new FLARDoublePoint3d());
+	}
+	/**
+	 * 標準パラメータでインスタンスを初期化します。
+	 * @throws FLARException
+	 */
+	public function ParamLoader_0():void
+	{
+		var df:Vector.<Number>= Vector.<Number>([318.5,263.5,26.2,1.0127565206658486]);
+		var pj:Vector.<Number>=Vector.<Number>([700.9514702992245,0,316.5,0,
+						0,726.0941816535367,241.5,0.0,
+						0.0,0.0,1.0,0.0,
+						0.0,0.0,0.0,1.0]);
+		this.size=new FLARIntSize(640,480);
+		this.pmat=new FLARPerspectiveProjectionMatrix();
+		this.pmat.setValue(pj);
+		this.dist_factor=new FLARCameraDistortionFactorV2();
+		this.dist_factor.setValue(df);
+	}
+	/**
+	 * ストリームから読み出したデータでインスタンスを初期化します。
+	 * @param i_stream
+	 * @throws FLARException
+	 */
+	public function ParamLoader_1o(i_stream:ByteArray):void
+	{
+		try {
 			var i:int;
-			for(i = 0; i < 12; i++){
-				tmp[i] = i_stream.readDouble();//bb.getDouble();
+			//読み出し
+			var bis:ByteBufferedInputStream=new ByteBufferedInputStream(i_stream);
+			var s:int=i_stream.length;
+			bis.order(ByteBufferedInputStream.ENDIAN_BIG);
+			//読み出したサイズでバージョンを決定
+			var version_table:Vector.<int>=Vector.<int>([136,144,152,176]);
+			var version:int=-1;
+			for(i=0;i<version_table.length;i++){
+				if(s%version_table[i]==0){
+					version=i+1;
+					break;
+				}
 			}
-			//パディング
-			tmp[12]=tmp[13]=tmp[14]=0;
-			tmp[15]=1;			
-			//Projectionオブジェクトにセット
-			this._projection_matrix.setValue(tmp);
-			//double値を4個読み込む
-			for (i = 0; i < 4; i++) {
-				tmp[i] = i_stream.readDouble();//bb.getDouble();
+			//一致しなければ無し
+			if(version==-1){
+				throw new FLARException();
 			}
-			//Factorオブジェクトにセット
-			this._dist.setValue(tmp);
+			//size
+			this.size=new FLARIntSize();
+			this.size.setValue(bis.getInt(),bis.getInt());
 
-			return;
-		}
+			//projection matrix
+			this.pmat=new FLARPerspectiveProjectionMatrix();
+			var pjv:Vector.<Number> = new Vector.<Number>(16);
+			for (i=0; i < 12; i++) {
+				pjv[i]=bis.getDouble();
+			}			
+			pjv[12]=pjv[13]=pjv[14]=0;
+			pjv[15]=1;
+			this.pmat.setValue(pjv);
+			
+			//dist factor
+			var df:Vector.<Number>;
+			switch(version)
+			{
+			case 1://Version1
+				df=new Vector.<Number>(FLARCameraDistortionFactorV2.NUM_OF_FACTOR);
+				this.dist_factor=new FLARCameraDistortionFactorV2();
+				break;
+			case 4://Version4
+				df=new Vector.<Number>(FLARCameraDistortionFactorV4.NUM_OF_FACTOR);
+				this.dist_factor=new FLARCameraDistortionFactorV4();
+				break;
+			default:
+				throw new FLARException();
+			}
+			for(i=0;i<df.length;i++){
+				df[i]=bis.getDouble();
+			}
+			this.dist_factor.setValue(df);
+		} catch (e:Error) {
+			throw new FLARException(e.getStackTrace());
+		}			
 	}
 }

@@ -52,13 +52,8 @@ package org.libspark.flartoolkit.markersystem.utils
 		}
 		public function prepare():void
 		{
-			for(var i:int=this.size()-1;i>=0;i--){
-				var target:MarkerInfoNyId=MarkerInfoNyId(this.getItem(i));//get(i);
-				if(target.life>0){
-					target.lost_count++;
-				}
-				target.sq=null;
-			}
+			//nothing to do
+			//sqはtrackingでnull初期化済み
 		}
 		public function update(i_raster:IFLARGrayscaleRaster,i_sq:SquareStack_Item):Boolean
 		{
@@ -72,7 +67,7 @@ package org.libspark.flartoolkit.markersystem.utils
 			//IDを検出
 			var s:Number=this._id_data.marker_id;
 			for(var i:int=this.size()-1;i>=0;i--){
-				var target:MarkerInfoNyId=MarkerInfoNyId(this.getItem(i));
+				var target:NyIdList_Item=NyIdList_Item(this.getItem(i));
 				if(target.nyid_range_s>s || s>target.nyid_range_e)
 				{
 					continue;
@@ -93,7 +88,7 @@ package org.libspark.flartoolkit.markersystem.utils
 		{
 			for(var i:int=this.size()-1;i>=0;i--)
 			{
-				var target:MarkerInfoNyId=MarkerInfoNyId(this.getItem(i));
+				var target:NyIdList_Item=NyIdList_Item(this.getItem(i));
 				if(target.sq==null){
 					continue;
 				}

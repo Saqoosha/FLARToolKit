@@ -15,7 +15,7 @@ package sample.away3d_4x.sketchSimple
 	import org.libspark.flartoolkit.core.types.*;
 	import org.libspark.flartoolkit.core.*;
 	import org.libspark.flartoolkit.markersystem.*;
-	import org.libspark.flartoolkit.support.away3d4.*;
+	import org.libspark.flartoolkit.support.away3dv40.*;
 	import away3d.lights.*;
 	import away3d.materials.*;
 	import away3d.materials.lightpickers.*;

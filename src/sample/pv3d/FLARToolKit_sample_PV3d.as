@@ -38,9 +38,9 @@ package sample.pv3d
 		public function FLARToolKit_sample_PV3d()
 		{
 			// Markersystem Single marker sample
-			this.addChild(new SimpleLite());
+//			this.addChild(new SimpleLite());
 			// Markersystem Multi-Marker sample
-//			this.addChild(new SimpleLiteM());
+			this.addChild(new SimpleLiteM());
 			//  マーカ平面とスクリーン座標の相互変換のサンプル
 //			this.addChild(new MarkerPlane());
 			// MarkerSystemの、マーカ平面画像取得のサンプル

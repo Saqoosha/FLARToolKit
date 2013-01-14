@@ -1,6 +1,6 @@
 ======================================================================
 FLARToolKit
- version 4.0.0-fp11(flash player 11)
+ version 4.1.0-fp11(flash player 11)
 ======================================================================
 
 The FLARToolKit is ActionScript 3.0 version ARToolkit class library.
@@ -40,7 +40,7 @@ contributors
  * Flash player 11 or later
  * A虎＠(nyatla)氏の NyARToolkit for AS3 を基盤にFLARToolKit v1.xの
    インターフェースを引き継いだライブラリ集です。
- * FLARToolKit は入力画像からマーカーを認識して、3 次元空間での
+ * FLARToolKit は入力画像からマーカーを認識して、 3次元空間での
    カメラ位置を計算するとこまでをやってくれます。
  * 3D グラフィックスとの合成などは各自で実装する必要があります。
  * ただし簡単に合成できるようにヘルパー的なものはついてます。
@@ -105,22 +105,16 @@ Each license adjusts to the included library.
  Include External library
 ----------------------------------------------------------------------
 [papervision3d 2.1.920]
- Open Source realtime 3D engine for Flash
  URL     : http://code.google.com/p/papervision3d/
  License : MIT License
 
-[Away3D 4.0.0beta]
- Realtime 3D engine for Flash
+[Away3D 4.0.7]
  URL     : http://away3d.com/
  License : Apache License, Version 2.0
 
-----------------------------------------------------------------------
- External library
-----------------------------------------------------------------------
 [Alternativa3D]
- browser 3D-engine based on Adobe Flash
- URL     : http://www.flashsandy.org/
- License : Commercial licence / Free non-commercial licence
+ URL     : http://alternativaplatform.com/en/technologies/alternativa3d/
+ License : Mozilla Public License Version 2.0
 
 ----------------------------------------------------------------------
  Development environment
@@ -142,6 +136,10 @@ Prof. Mark Billinghurst
 ----------------------------------------------------------------------
  Change Log
 ----------------------------------------------------------------------
+4.1.0-fp11
+ * Updated base library to NyARToolkitAS 4.1.1.
+ * Add Alternativa3D library and sample application.
+
 4.0.0-fp11
  * Away3D update to v4.0.7 Gold from v4.0.0 beta.
 

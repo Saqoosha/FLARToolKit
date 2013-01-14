@@ -28,11 +28,11 @@
  */
 package org.libspark.flartoolkit.utils
 {
-	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.pickup.*;
+	import org.libspark.flartoolkit.core.types.*;
+	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.core.raster.rgb.*;
 	import org.libspark.flartoolkit.core.transmat.*;
-	import org.libspark.flartoolkit.core.types.*;
 	/**
 	 * マーカの周辺領域からビットマップを取得する方法を提供します。
 	 * 比較的負荷が大きいので、連続してパターンを取得し続ける用途には向いていません。

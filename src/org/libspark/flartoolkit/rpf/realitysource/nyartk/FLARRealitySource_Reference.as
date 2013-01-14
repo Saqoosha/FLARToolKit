@@ -59,7 +59,7 @@ package org.libspark.flartoolkit.rpf.realitysource.nyartk
 		 * ラスタタイプ
 		 * @throws FLARException
 		 */
-		public function FLARRealitySource_Reference(i_width:int, i_height:int , i_ref_raster_distortion:FLARCameraDistortionFactor , i_depth:int , i_number_of_sample:int , i_raster_type:int )
+		public function FLARRealitySource_Reference(i_width:int, i_height:int , i_ref_raster_distortion:IFLARCameraDistortionFactor , i_depth:int , i_number_of_sample:int , i_raster_type:int )
 		{
 			this._rgb_source = new FLARRgbRaster(i_width, i_height, i_raster_type);
 			this._filter=IFLARRgb2GsFilter(this._rgb_source.createInterface(IFLARRgb2GsFilter));

@@ -31,6 +31,8 @@ package org.libspark.flartoolkit.core.utils
 	import org.libspark.flartoolkit.core.types.*;
 	public class FLARMath
 	{
+		public static const DBL_EPSILON:Number=2.2204460492503131e-016;
+		
 		public static const SQ_40:int=40*40;
 		public static const SQ_20:int=20*20;
 		public static const SQ_10:int=10*10;

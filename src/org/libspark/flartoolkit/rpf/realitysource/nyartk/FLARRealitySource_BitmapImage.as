@@ -34,6 +34,7 @@ package org.libspark.flartoolkit.rpf.realitysource.nyartk
 	import org.libspark.flartoolkit.core.param.*;
 	import org.libspark.flartoolkit.rpf.realitysource.nyartk.*;
 	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
+	import org.libspark.flartoolkit.rpf.tracker.nyartk.*;
 	import org.libspark.flartoolkit.rpf.*;
 	import jp.nyatla.as3utils.*;
 	import org.libspark.flartoolkit.core.rasterfilter.rgb2gs.*;
@@ -65,7 +66,7 @@ package org.libspark.flartoolkit.rpf.realitysource.nyartk
 		 * アタッチするビットマップデータを指定します。nullを指定した場合は、後でsetImageで有効なビットマップに切り替えられます。
 		 * @throws FLARException
 		 */
-		public function FLARRealitySource_BitmapImage(i_width:int,i_height:int,i_ref_raster_distortion:FLARCameraDistortionFactor,i_depth:int,i_number_of_sample:int,i_attach_bitmap:BitmapData)
+		public function FLARRealitySource_BitmapImage(i_width:int,i_height:int,i_ref_raster_distortion:IFLARCameraDistortionFactor,i_depth:int,i_number_of_sample:int,i_attach_bitmap:BitmapData)
 		{
 			this._rgb_source = i_attach_bitmap == null
 				?new FLARRgbRaster(i_width, i_height, false)
