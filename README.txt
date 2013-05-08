@@ -37,7 +37,7 @@ contributors
  About FLARToolKit
 ----------------------------------------------------------------------
  * ARToolKit の AS3 版です。
- * Flash player 11 or later
+ * Flash player 11.1 or later
  * A虎＠(nyatla)氏の NyARToolkit for AS3 を基盤にFLARToolKit v1.xの
    インターフェースを引き継いだライブラリ集です。
  * FLARToolKit は入力画像からマーカーを認識して、 3次元空間での
@@ -47,7 +47,7 @@ contributors
    (Papervision3D, away3d v4.0.x)
 
  # AS3 ported version of ARToolKit.
- # Flash player 11 or later
+ # Flash player 11.1 or later
  # This is a library collection that succeeded the interface of
    FLARToolKit v1.x based on NyARToolkit for AS3(NOT Alchemy version).
  # FLARToolKit recognize the marker from input image.
@@ -120,8 +120,8 @@ Each license adjusts to the included library.
  Development environment
 ----------------------------------------------------------------------
  * Adobe FLASH Professional CS6(Version 12.0.0.481)
- * Adobe Flash Builder 4.5 Standard (Version 4.5)
-   (Flex SDK 4.6.0)
+ * Adobe Flash Builder 4.7 Standard
+ * Adobe Flash Builder 4.5 Standard + Flex SDK 4.6.0
  * FlashDevelop 4.0.1 + Flex SDK 4.6.0
  
 ----------------------------------------------------------------------

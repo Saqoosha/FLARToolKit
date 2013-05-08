@@ -47,27 +47,22 @@ package org.libspark.flartoolkit.core.raster.rgb
 			0,0,0, 0, 0,
 			1/3,1/3,1/3, 0,
 			0, 0, 0, 1, 0
-		]);
-		
+		]);		
 		private var _ref_raster:FLARRgbRaster;
-		
 		public function FLARRgb2GsFilterArtkTh_AsBitmap(i_ref_raster:FLARRgbRaster)
 		{
 			NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));
 			this._ref_raster = i_ref_raster;
-		}
-		
+		}		
 		private var _dest:Point = new Point(0,0);
 		private var _src:Rectangle = new Rectangle();
-		private var _tmp:BitmapData;
-		
+		private var _tmp:BitmapData;	
 		public function doFilter(i_th:int, i_gsraster:IFLARGrayscaleRaster):void
 		{
 			var s:FLARIntSize = this._ref_raster.getSize();
 			this.doFilter_2(0, 0, s.w, s.h, i_th, i_gsraster);
 			return;
 		}
-		
 		public function doFilter_2(i_l:int,i_t:int,i_w:int,i_h:int,i_th:int,i_gsraster:IFLARGrayscaleRaster):void
 		{
 			NyAS3Utils.assert (i_gsraster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));			

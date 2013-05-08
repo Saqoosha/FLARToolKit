@@ -28,12 +28,11 @@
  */
 package org.libspark.flartoolkit.core.raster.rgb 
 {
+	import jp.nyatla.as3utils.NyAS3Const_Inherited;
+	
 	import org.libspark.flartoolkit.core.FLARException;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.pixeldriver.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.*;
-	import jp.nyatla.as3utils.*;
+	import org.libspark.flartoolkit.core.pixeldriver.IFLARRgbPixelDriver;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 
 	/**
 	 * FLARRasterインタフェイスの基本関数/メンバを実装したクラス

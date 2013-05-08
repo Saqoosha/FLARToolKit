@@ -28,15 +28,12 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.utils.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.*;
-	import flash.display.*;
-	import org.libspark.flartoolkit.core.pixeldriver.*;
-	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
-	import org.libspark.flartoolkit.core.squaredetect.*;	
+	import flash.display.BitmapData;
+	
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup_IRasterDriver;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;	
 	/**
 	 * このRasterは、明点を0xffffff,暗点を0xff000000であらわします。
 	 */

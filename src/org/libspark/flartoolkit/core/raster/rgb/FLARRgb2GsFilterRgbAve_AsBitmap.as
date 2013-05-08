@@ -43,7 +43,6 @@ package org.libspark.flartoolkit.core.raster.rgb
 	internal class FLARRgb2GsFilterRgbAve_AsBitmap implements IFLARRgb2GsFilterRgbAve
 	{
 		private var _ref_raster:FLARRgbRaster;
-		
 		public function FLARRgb2GsFilterRgbAve_AsBitmap(i_ref_raster:FLARRgbRaster)
 		{
 			NyAS3Utils.assert(i_ref_raster.isEqualBufferType(FLARBufferType.OBJECT_AS3_BitmapData));

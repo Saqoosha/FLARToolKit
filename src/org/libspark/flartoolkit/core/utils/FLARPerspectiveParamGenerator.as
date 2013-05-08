@@ -28,9 +28,10 @@
  */
 package org.libspark.flartoolkit.core.utils 
 {
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.*;
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.types.FLARDoublePoint2d;
+	import org.libspark.flartoolkit.core.types.FLARIntPoint2d;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	/**
 	 * 遠近法を用いたPerspectiveパラメータを計算するクラスのテンプレートです。
 	 * 任意頂点四角系と矩形から、遠近法の変形パラメータを計算します。
