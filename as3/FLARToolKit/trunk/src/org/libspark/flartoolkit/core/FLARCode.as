@@ -28,10 +28,11 @@
  */
 package org.libspark.flartoolkit.core
 {
-	import org.libspark.flartoolkit.core.match.*;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.raster.rgb.*;
-	import jp.nyatla.as3utils.*;
+	import jp.nyatla.as3utils.NyAS3Utils;
+	
+	import org.libspark.flartoolkit.core.match.FLARMatchPattDeviationBlackWhiteData;
+	import org.libspark.flartoolkit.core.match.FLARMatchPattDeviationColorData;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
 	/**
 	 * ARToolKitのマーカーコードを1個保持します。
 	 * 
@@ -112,12 +113,10 @@ package org.libspark.flartoolkit.core
 	}
 }
 
-import org.libspark.flartoolkit.core.raster.*;
-import org.libspark.flartoolkit.core.*;
-import org.libspark.flartoolkit.*;
-import org.libspark.flartoolkit.core.raster.*;
-import org.libspark.flartoolkit.core.raster.rgb.*;
-import org.libspark.flartoolkit.core.types.*;
+import org.libspark.flartoolkit.core.FLARCode;
+import org.libspark.flartoolkit.core.FLARException;
+import org.libspark.flartoolkit.core.raster.rgb.FLARRgbRaster;
+import org.libspark.flartoolkit.core.types.FLARBufferType;
 	
 class FLARCodeFileReader
 {

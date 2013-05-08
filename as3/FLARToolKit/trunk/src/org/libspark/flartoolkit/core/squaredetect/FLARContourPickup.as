@@ -28,11 +28,11 @@
  */
 package org.libspark.flartoolkit.core.squaredetect 
 {
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.labeling.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.*;
-	import jp.nyatla.as3utils.*;
+	import org.libspark.flartoolkit.core.raster.IFLARGrayscaleRaster;
+	import org.libspark.flartoolkit.core.raster.IFLARRaster;
+	import org.libspark.flartoolkit.core.types.FLARIntCoordinates;
+	import org.libspark.flartoolkit.core.types.FLARIntRect;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	
 	public class FLARContourPickup
 	{

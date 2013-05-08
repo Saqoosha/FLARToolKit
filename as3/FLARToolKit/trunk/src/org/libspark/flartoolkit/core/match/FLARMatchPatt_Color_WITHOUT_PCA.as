@@ -28,9 +28,10 @@
  */
 package org.libspark.flartoolkit.core.match
 {
-	import org.libspark.flartoolkit.core.*;
-	import org.libspark.flartoolkit.*;
-	import jp.nyatla.as3utils.*;
+	import jp.nyatla.as3utils.NyAS3Utils;
+	
+	import org.libspark.flartoolkit.core.FLARCode;
+	import org.libspark.flartoolkit.core.FLARException;
 
 	public class FLARMatchPatt_Color_WITHOUT_PCA implements IFLARMatchPatt
 	{

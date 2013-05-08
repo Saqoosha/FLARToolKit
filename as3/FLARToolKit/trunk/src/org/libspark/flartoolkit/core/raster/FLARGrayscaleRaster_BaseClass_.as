@@ -28,19 +28,20 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.utils.as3.*;
-	import org.libspark.flartoolkit.core.rasterdriver.*;
-	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
-	import org.libspark.flartoolkit.core.pixeldriver.*;
-	import org.libspark.flartoolkit.core.squaredetect.*;
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.*;
-	import jp.nyatla.as3utils.*;
-
+	import jp.nyatla.as3utils.NyAS3Const_Inherited;
+	import jp.nyatla.as3utils.NyAS3Utils;
 	
-	
-	
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.FLARLabeling_Rle_IRasterDriver;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.FLARLabeling_Rle_RasterDriverFactory;
+	import org.libspark.flartoolkit.core.pixeldriver.FLARGsPixelDriverFactory;
+	import org.libspark.flartoolkit.core.pixeldriver.IFLARGsPixelDriver;
+	import org.libspark.flartoolkit.core.rasterdriver.FLARHistogramFromRasterFactory;
+	import org.libspark.flartoolkit.core.rasterdriver.IFLARHistogramFromRaster;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup_IRasterDriver;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup_ImageDriverFactory;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	
 	/**
 	 * このクラスは、グレースケース画像を格納するラスタクラスです。

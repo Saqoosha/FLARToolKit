@@ -136,9 +136,9 @@ package org.libspark.flartoolkit.core.raster.rgb
 						cp1_cy_cp2 += cp1;
 						cp4_cy_cp5 += cp4;
 					}
-					return true;	
+					return true;
 				default:
-					if (o_out is IFLARRgbRaster)
+					if (o_out is FLARRgbRaster)
 					{
 						//ANY to RGBx
 						var out_reader:IFLARRgbPixelDriver = (IFLARRgbRaster(o_out)).getRgbPixelDriver();
@@ -298,3 +298,4 @@ package org.libspark.flartoolkit.core.raster.rgb
 		}
 	}
 }
+

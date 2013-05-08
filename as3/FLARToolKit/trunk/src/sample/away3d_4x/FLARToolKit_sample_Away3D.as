@@ -40,6 +40,7 @@ package sample.away3d_4x
 		{
 //			this.addChild(new Simple());
 			this.addChild(new SimpleModel());
+			
 //			this.addChild(new SimpleLite());
 //			this.addChild(new MarkerPlane());
 		}

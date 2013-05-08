@@ -28,11 +28,7 @@
  */
 package org.libspark.flartoolkit.core.transmat.rotmatrix
 {
-	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.core.types.matrix.*;
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.*;
+	
 	public class FLARRotVector
 	{
 		//publicメンバ達

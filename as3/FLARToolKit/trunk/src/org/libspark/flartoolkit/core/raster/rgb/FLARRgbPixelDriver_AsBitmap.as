@@ -67,5 +67,6 @@ package org.libspark.flartoolkit.core.raster.rgb
 			this._ref_raster = FLARRgbRaster(i_raster);
 			this._ref_size = i_raster.getSize();
 		}
+		
 	}
 }

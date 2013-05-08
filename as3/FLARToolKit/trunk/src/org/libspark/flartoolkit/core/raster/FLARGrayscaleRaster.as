@@ -28,20 +28,15 @@
  */
 package org.libspark.flartoolkit.core.raster 
 {
-	import org.libspark.flartoolkit.utils.as3.*;
-	import org.libspark.flartoolkit.core.rasterdriver.*;
-	import org.libspark.flartoolkit.core.labeling.rlelabeling.*;
-	import org.libspark.flartoolkit.core.pixeldriver.*;
-	import org.libspark.flartoolkit.core.squaredetect.*;
-	import org.libspark.flartoolkit.core.*;
-	import jp.nyatla.as3utils.*;
-	import org.libspark.flartoolkit.core.raster.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.utils.*;
-	import org.libspark.flartoolkit.*;
-	import org.libspark.flartoolkit.core.rasterfilter.*;
-	import flash.display.*;
-	import flash.geom.*;
+	import flash.display.BitmapData;
+	
+	import org.libspark.flartoolkit.core.FLARException;
+	import org.libspark.flartoolkit.core.labeling.rlelabeling.FLARLabeling_Rle_IRasterDriver;
+	import org.libspark.flartoolkit.core.rasterdriver.IFLARHistogramFromRaster;
+	import org.libspark.flartoolkit.core.rasterfilter.FLARGs2BinFilter;
+	import org.libspark.flartoolkit.core.squaredetect.FLARContourPickup_IRasterDriver;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.FLARIntSize;
 	/**
 	 * このクラスは、BitmapDataをバッファ荷物グレースケールラスタです。
 	 */
