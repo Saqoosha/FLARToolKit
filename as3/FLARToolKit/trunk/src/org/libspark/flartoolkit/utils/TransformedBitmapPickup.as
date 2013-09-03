@@ -28,11 +28,13 @@
  */
 package org.libspark.flartoolkit.utils
 {
-	import org.libspark.flartoolkit.core.pickup.*;
-	import org.libspark.flartoolkit.core.types.*;
-	import org.libspark.flartoolkit.core.param.*;
-	import org.libspark.flartoolkit.core.raster.rgb.*;
-	import org.libspark.flartoolkit.core.transmat.*;
+	import org.libspark.flartoolkit.core.param.FLARPerspectiveProjectionMatrix;
+	import org.libspark.flartoolkit.core.pickup.FLARColorPatt_Perspective;
+	import org.libspark.flartoolkit.core.raster.rgb.IFLARRgbRaster;
+	import org.libspark.flartoolkit.core.types.FLARBufferType;
+	import org.libspark.flartoolkit.core.types.FLARIntPoint2d;
+	import org.libspark.flartoolkit.core.types.matrix.FLARDoubleMatrix44;
+
 	/**
 	 * マーカの周辺領域からビットマップを取得する方法を提供します。
 	 * 比較的負荷が大きいので、連続してパターンを取得し続ける用途には向いていません。
@@ -80,7 +82,7 @@ package org.libspark.flartoolkit.utils
 		 * @param i_base_mat
 		 * @return 画像の取得の成否を返す。
 		 */
-		public function pickupImage2d(i_src_imege:IFLARRgbRaster,i_l:Number,i_t:Number,i_r:Number,i_b:Number,i_base_mat:FLARTransMatResult):Boolean
+		public function pickupImage2d(i_src_imege:IFLARRgbRaster,i_l:Number,i_t:Number,i_r:Number,i_b:Number,i_base_mat:FLARDoubleMatrix44):Boolean
 		{
 			var cp00:Number, cp01:Number, cp02:Number, cp11:Number, cp12:Number;
 			cp00 = this._ref_perspective.m00;
