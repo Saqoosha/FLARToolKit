@@ -53,7 +53,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="..\..\libs\Away3d4beta\away3d-core-fp11_4_0_0_beta.swc" />
+    <element path="..\..\libs\Away3d4\away3d-core-fp11_4_1_4.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
@@ -73,7 +73,7 @@
   </library>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
-    <compile path="..\..\example\away3d4.sample\sketch\MarkerPlane.as" />
+    <compile path="..\..\example\away3d4.sample\sketch\SimpleLite.as" />
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>

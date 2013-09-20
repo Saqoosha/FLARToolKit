@@ -68,6 +68,8 @@ import jp.nyatla.as3utils.*;
 import org.libspark.flartoolkit.utils.as3.*;
 import org.libspark.flartoolkit.utils.ArrayUtil;
 import away3d.core.math.Matrix3DUtils;
+import flash.geom.Vector3D;
+
 class ARLens extends LensBase
 {
 	private var _ref_param:FLARParam;
@@ -81,6 +83,17 @@ class ARLens extends LensBase
 		this._far = i_far;
 		this._ref_param = i_param;
 		invalidateMatrix();
+	}
+	public override function unproject(nX:Number, nY:Number, sZ:Number):Vector3D
+	{
+		var v : Vector3D = new Vector3D(nX, -nY, sZ, 1.0);
+		v = unprojectionMatrix.transformVector(v);
+		var inv : Number = 1/v.w;
+		v.x *= inv;
+		v.y *= inv;
+		v.z *= inv;
+		v.w = 1.0;
+		return v;
 	}
 	/**
 	 * @inheritDoc
